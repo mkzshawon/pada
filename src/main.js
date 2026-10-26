@@ -23,6 +23,21 @@
   ];
   const TOOL_BY_KEY = Object.fromEntries(TOOLS.map((t) => [t.key, t.id]));
 
+  // Inline SVG icons (24x24 grid, stroke uses currentColor so they follow the button state)
+  const ICONS = {
+    select: '<path d="M5 3l14 8-6 2-2 6z"/>',
+    hand: '<path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5V4a1.5 1.5 0 0 1 3 0v6m0-4.5a1.5 1.5 0 0 1 3 0V11m0-3a1.5 1.5 0 0 1 3 0v5a7 7 0 0 1-7 7h-.5a6 6 0 0 1-4.6-2.2L4.3 14.6a1.5 1.5 0 0 1 2.1-2.1L8 14"/>',
+    rect: '<rect x="4" y="5" width="16" height="14" rx="2"/>',
+    diamond: '<path d="M12 3l9 9-9 9-9-9z"/>',
+    ellipse: '<circle cx="12" cy="12" r="8"/>',
+    arrow: '<path d="M4 12h15m-5-6l6 6-6 6"/>',
+    line: '<path d="M4 20L20 4"/>',
+    pencil: '<path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/>',
+    text: '<path d="M5 20L12 4l7 16M8 14h8"/>',
+    note: '<path d="M4 4h16v11l-5 5H4z"/><path d="M15 20v-5h5"/>',
+    eraser: '<path d="M4 15l8-9 7 6-5 5H8z"/><path d="M9 19h11"/>',
+  };
+
   // Each board (tab) keeps its own shapes and camera
   const boards = [
     { name: "Tab 01", shapes: [], camera: { x: 0, y: 0, zoom: 1 } },
@@ -311,7 +326,9 @@
       btn.title = `${t.label} (${t.key.toUpperCase()})`;
       btn.setAttribute("aria-label", t.label);
       btn.setAttribute("aria-pressed", String(t.id === tool));
-      btn.textContent = t.label[0];
+      btn.innerHTML =
+        `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ` +
+        `stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[t.id]}</svg>`;
       const kbd = document.createElement("kbd");
       kbd.textContent = t.key.toUpperCase();
       btn.appendChild(kbd);

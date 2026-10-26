@@ -108,6 +108,12 @@ body {
   place-items: center;
 }
 
+.tool svg {
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+}
+
 .tool:hover {
   background: #f3f1fb;
 }
