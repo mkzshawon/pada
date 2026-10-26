@@ -1,0 +1,10 @@
+{
+  "name": "pada",
+  "version": "0.1.0",
+  "description": "PADA - Play Anything, Draw Anything: a browser whiteboard inspired by Excalidraw",
+  "private": true,
+  "scripts": {
+    "start": "npx --yes serve ."
+  },
+  "license": "MIT"
+}

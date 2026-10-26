@@ -1,0 +1,155 @@
+:root {
+  --paper: #ffffff;
+  --ink: #1d1b2e;
+  --tab: #5ff7ff;
+  --tab-active: #5ff7ff;
+  --accent: #e3dfff;
+  --accent-ink: #2b2470;
+  --muted: #8d8aa6;
+  --chrome: #ffffff;
+  --shadow: 0 2px 10px rgba(29, 27, 46, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Board canvas fills the window */
+#board {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  touch-action: none;
+}
+
+/* Tabs (top-left) */
+#tabs {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 2;
+}
+
+.tab {
+  border: 0;
+  background: var(--tab);
+  color: #000;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 7px 12px;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  opacity: 0.55;
+}
+
+.tab[aria-selected="true"] {
+  opacity: 1;
+}
+
+.tab-add {
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--tab);
+  color: #000;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Toolbar (bottom-center) */
+#toolbar {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px;
+  background: var(--chrome);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  z-index: 2;
+}
+
+.tool {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.tool:hover {
+  background: #f3f1fb;
+}
+
+.tool[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.tool:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 2px;
+}
+
+.tool kbd {
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  font-family: inherit;
+  font-size: 9px;
+  line-height: 1;
+  color: var(--muted);
+}
+
+.sep {
+  width: 1px;
+  height: 24px;
+  background: #e6e4f0;
+  margin: 0 6px;
+}
+
+.hint {
+  position: fixed;
+  left: 12px;
+  bottom: 16px;
+  font-size: 12px;
+  color: var(--muted);
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
