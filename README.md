@@ -37,7 +37,7 @@ pada/
 ## Roadmap
 
 - [x] **Step 1:** canvas, tabs, toolbar, pan/zoom, basic shapes, eraser, undo
-- [ ] **Step 2:** select and move/resize/delete shapes, multi-select
+- [x] **Step 2:** select, move, resize, delete, multi-select (click, Shift+click, drag-select, Ctrl/Cmd+A)
 - [ ] **Step 3:** text tool and sticky notes
 - [ ] **Step 4:** arrows that connect to shapes, colors, stroke width, fill
 - [ ] **Step 5:** redo, keyboard nudges, copy/paste
