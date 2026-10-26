@@ -372,8 +372,12 @@
     editor.addEventListener("blur", finishEditing);
 
     positionEditor();
-    editor.focus();
     render();
+    // Focus after the current pointer event finishes; focusing during pointerdown
+    // lets the browser's mousedown focus change blur the editor immediately.
+    requestAnimationFrame(() => {
+      if (editor) editor.focus();
+    });
   }
 
   // Ends the current edit: saves the text, removes the shape if it is empty, records undo history
