@@ -237,6 +237,171 @@
     render();
   }
 
+  /* ---------- Text & sticky notes ---------- */
+
+  const TEXT_SIZE = 20;
+  const LINE_H = Math.round(TEXT_SIZE * 1.35);
+  const FONT_FAMILY = '"Nirmala UI", "Segoe UI", system-ui, sans-serif';
+  const NOTE_FILL = "#fff1a8";
+  const NOTE_STROKE = "#d9c34a";
+  const NOTE_W = 200;
+  const NOTE_H = 160;
+  const NOTE_PAD = 12;
+
+  let editingId = null; // id of the shape whose text is being edited
+  let editBefore = null; // snapshot to record in undo history when editing ends
+  let editor = null; // the textarea overlay
+
+  function setTextFont() {
+    ctx.font = `${TEXT_SIZE}px ${FONT_FAMILY}`;
+    ctx.textBaseline = "top";
+  }
+
+  // Wraps text to maxWidth. Breaks by character, so Bangla and English both wrap.
+  function wrapText(text, maxWidth) {
+    const lines = [];
+    for (const para of String(text).split("\n")) {
+      let line = "";
+      for (const ch of para) {
+        const next = line + ch;
+        if (line && ctx.measureText(next).width > maxWidth) {
+          lines.push(line);
+          line = ch;
+        } else {
+          line = next;
+        }
+      }
+      lines.push(line);
+    }
+    return lines;
+  }
+
+  function drawBoxText(s) {
+    const b = bounds(s);
+    ctx.save();
+    if (s.type === "note") {
+      ctx.fillStyle = NOTE_FILL;
+      ctx.strokeStyle = NOTE_STROKE;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.roundRect(b.x1, b.y1, b.x2 - b.x1, b.y2 - b.y1, 4);
+      ctx.fill();
+      ctx.stroke();
+    }
+    // The shape being edited is shown by the textarea instead
+    if (s.id !== editingId && s.text) {
+      setTextFont();
+      ctx.fillStyle = "#1d1b2e";
+      if (s.type === "note") {
+        const maxW = Math.max(10, b.x2 - b.x1 - 2 * NOTE_PAD);
+        wrapText(s.text, maxW).forEach((ln, i) => ctx.fillText(ln, b.x1 + NOTE_PAD, b.y1 + NOTE_PAD + i * LINE_H));
+      } else {
+        String(s.text)
+          .split("\n")
+          .forEach((ln, i) => ctx.fillText(ln, b.x1, b.y1 + i * LINE_H));
+      }
+    }
+    ctx.restore();
+  }
+
+  // A text shape grows to fit its lines. Notes keep the size the user gave them.
+  function fitTextBox(s) {
+    setTextFont();
+    const b = bounds(s);
+    const lines = String(s.text).split("\n");
+    const w = Math.max(8, ...lines.map((l) => ctx.measureText(l).width));
+    s.x0 = b.x1;
+    s.y0 = b.y1;
+    s.x1 = b.x1 + w;
+    s.y1 = b.y1 + lines.length * LINE_H;
+  }
+
+  function startTextAt(p) {
+    const before = snapshot();
+    const s = { id: newId(), type: "text", text: "", x0: p.x, y0: p.y, x1: p.x, y1: p.y + LINE_H };
+    shapesOf().push(s);
+    beginEdit(s, before);
+  }
+
+  // Places the textarea over the shape, in screen coordinates
+  function positionEditor() {
+    const s = shapesOf().find((x) => x.id === editingId);
+    if (!editor || !s) return;
+    const cam = board().camera;
+    const z = cam.zoom;
+    const r = canvas.getBoundingClientRect();
+    const b = bounds(s);
+    const isNote = s.type === "note";
+    const pad = isNote ? NOTE_PAD : 0;
+    const boxW = b.x2 - b.x1 - 2 * pad;
+
+    editor.style.left = r.left + cam.x + (b.x1 + pad) * z + "px";
+    editor.style.top = r.top + cam.y + (b.y1 + pad) * z + "px";
+    editor.style.width = Math.max(isNote ? 10 : 120, boxW * z + (isNote ? 0 : 12)) + "px";
+    editor.style.fontSize = TEXT_SIZE * z + "px";
+    editor.style.lineHeight = LINE_H * z + "px";
+    editor.style.whiteSpace = isNote ? "pre-wrap" : "pre";
+    editor.style.height = "auto";
+    editor.style.height = Math.max(LINE_H * z, editor.scrollHeight) + "px";
+  }
+
+  function beginEdit(s, before) {
+    editingId = s.id;
+    editBefore = before;
+
+    editor = document.createElement("textarea");
+    editor.className = "editor";
+    editor.value = s.text || "";
+    editor.spellcheck = false;
+    document.body.appendChild(editor);
+
+    editor.addEventListener("input", () => {
+      const cur = shapesOf().find((x) => x.id === editingId);
+      if (!cur) return;
+      cur.text = editor.value;
+      if (cur.type === "text") fitTextBox(cur);
+      positionEditor();
+      render();
+    });
+    editor.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        finishEditing();
+      }
+    });
+    editor.addEventListener("blur", finishEditing);
+
+    positionEditor();
+    editor.focus();
+    render();
+  }
+
+  // Ends the current edit: saves the text, removes the shape if it is empty, records undo history
+  function finishEditing() {
+    if (!editor) return;
+    const ed = editor;
+    const id = editingId;
+    const before = editBefore;
+    editor = null;
+    editingId = null;
+    editBefore = null;
+    ed.remove();
+
+    const s = shapesOf().find((x) => x.id === id);
+    if (s) {
+      s.text = ed.value;
+      if (!s.text.trim()) {
+        board().shapes = shapesOf().filter((x) => x !== s);
+        selected.delete(id);
+      } else {
+        if (s.type === "text") fitTextBox(s);
+        selected = new Set([id]);
+      }
+    }
+    if (before !== undefined) commit(before);
+    render();
+  }
+
   /* ---------- Rendering ---------- */
 
   function resize() {
@@ -267,9 +432,14 @@
     if (drawing) drawShape(drawing);
     drawSelection(z);
     drawMarquee(z);
+    if (editor) positionEditor();
   }
 
   function drawShape(s) {
+    if (s.type === "text" || s.type === "note") {
+      drawBoxText(s);
+      return;
+    }
     const x = Math.min(s.x0, s.x1);
     const y = Math.min(s.y0, s.y1);
     const w = Math.abs(s.x1 - s.x0);
@@ -404,6 +574,7 @@
   }
 
   function switchBoard(index) {
+    finishEditing();
     active = index;
     selected = new Set();
     gesture = null;
@@ -416,6 +587,7 @@
 
   canvas.addEventListener("pointerdown", (e) => {
     canvas.setPointerCapture(e.pointerId);
+    finishEditing();
     const p = eventToWorld(e);
     const before = snapshot();
 
@@ -462,11 +634,14 @@
       return;
     }
 
-    // Not implemented yet (later steps)
-    if (tool === "text" || tool === "note") return;
+    // Text: click to place and start typing
+    if (tool === "text") {
+      startTextAt(p);
+      return;
+    }
 
-    // Shape tools
-    drawing = { id: null, type: tool, x0: p.x, y0: p.y, x1: p.x, y1: p.y, points: [p] };
+    // Shape tools (rect, diamond, ellipse, arrow, line, pencil) and Note (drag to size)
+    drawing = { id: null, type: tool, x0: p.x, y0: p.y, x1: p.x, y1: p.y, points: [p], text: "" };
     gesture = { type: "draw", before };
     render();
   });
@@ -536,21 +711,45 @@
   });
 
   function endGesture() {
+    let created = null;
     if (drawing) {
-      const big = Math.hypot(drawing.x1 - drawing.x0, drawing.y1 - drawing.y0) > 2;
+      let big = Math.hypot(drawing.x1 - drawing.x0, drawing.y1 - drawing.y0) > 2;
+      if (drawing.type === "note" && !big) {
+        drawing.x1 = drawing.x0 + NOTE_W;
+        drawing.y1 = drawing.y0 + NOTE_H;
+        big = true;
+      }
       if (big || drawing.type === "pencil") {
         drawing.id = newId();
         shapesOf().push(drawing);
+        created = drawing;
       }
       drawing = null;
     }
-    if (gesture && gesture.before !== undefined) commit(gesture.before);
+    const before = gesture && gesture.before;
     gesture = null;
     updateCursor();
+
+    // A new note opens straight into editing; the edit records the undo step
+    if (created && created.type === "note") {
+      beginEdit(created, before);
+      return;
+    }
+    if (before !== undefined) commit(before);
     render();
   }
   canvas.addEventListener("pointerup", endGesture);
   canvas.addEventListener("pointercancel", endGesture);
+
+  // Double-click a text or note with the Select tool to edit it
+  canvas.addEventListener("dblclick", (e) => {
+    if (tool !== "select") return;
+    const hit = topmostAt(eventToWorld(e));
+    if (hit && (hit.type === "text" || hit.type === "note")) {
+      selected = new Set([hit.id]);
+      beginEdit(hit, snapshot());
+    }
+  });
 
   // Wheel: pan. Ctrl/Cmd + wheel (or trackpad pinch): zoom around the cursor.
   canvas.addEventListener(
