@@ -160,6 +160,108 @@ body {
   z-index: 2;
 }
 
+/* Style panel: color, stroke width and fill for the selection or the next shape */
+#style {
+  position: fixed;
+  left: 50%;
+  bottom: 84px;
+  transform: translateX(-50%);
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  background: var(--chrome);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  z-index: 2;
+}
+
+#style button {
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  background: transparent;
+}
+
+.sw {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.wd {
+  width: 30px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.wd i {
+  display: block;
+  width: 16px;
+  background: var(--ink);
+  border-radius: 2px;
+}
+
+.fl {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px #d6d3e6;
+}
+
+.fl[data-fill="none"] {
+  background-image: linear-gradient(to top right, transparent calc(50% - 1px), #e03131 50%, transparent calc(50% + 1px));
+}
+
+#style {
+  flex-wrap: wrap;
+  max-width: calc(100vw - 24px);
+  justify-content: center;
+}
+
+.grp {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lbl {
+  font-size: 12px;
+  color: var(--muted);
+  margin-right: 2px;
+  white-space: nowrap;
+}
+
+.bar {
+  display: flex;
+  gap: 5px;
+}
+
+.pick {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.rng {
+  width: 110px;
+  accent-color: var(--accent-ink);
+  cursor: pointer;
+}
+
+.sw.on,
+.wd.on,
+.fl.on {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 2px;
+}
+
 /* Inline text editor shown over a text or note shape while typing */
 .editor {
   position: fixed;

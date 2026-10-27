@@ -70,6 +70,121 @@
   const shapesOf = () => board().shapes;
   const newId = () => ++idCounter;
 
+  /* ---------- Style: color, stroke width, fill ---------- */
+
+  // Line color bar (PALETTE) and fill color bar (FILLS); the native picker allows any color
+  const PALETTE = ["#1d1b2e", "#868e96", "#e03131", "#f76707", "#f59f00", "#2f9e44", "#1971c2", "#7048e8"];
+  const FILLS = [null, "#ffc9c9", "#ffe8cc", "#fff3bf", "#d3f9d8", "#c5f6fa", "#d0ebff", "#eebefa"];
+  const WIDTHS = [1, 2, 4];
+  const CLOSED = new Set(["rect", "diamond", "ellipse"]); // shapes that can be filled
+  const SHAPE_TOOLS = new Set(["rect", "diamond", "ellipse", "arrow", "line", "pencil", "text", "note"]);
+
+  // Style used for the next shape you draw.
+  // transparency (0-100) fades the fill only; blur (0-10) softens the whole shape.
+  const currentStyle = { stroke: PALETTE[0], width: 2, fill: null, transparency: 0, blur: 0 };
+
+  // "#rrggbb" plus alpha (0-1) to "rgba(...)"
+  function withAlpha(hex, alpha) {
+    const n = parseInt(hex.slice(1), 16);
+    return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
+  }
+
+  // A pencil stroke that comes back to its starting point counts as a closed shape
+  function isClosedPencil(s) {
+    if (s.type !== "pencil" || s.points.length < 4) return false;
+    const a = s.points[0];
+    const b = s.points[s.points.length - 1];
+    const xs = s.points.map((p) => p.x);
+    const ys = s.points.map((p) => p.y);
+    const span = Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys));
+    return Math.hypot(a.x - b.x, a.y - b.y) < 15 && span > 30;
+  }
+  let styleEl = null;
+
+  // Applies a style change to the selection (and to the next shape)
+  // record=false is used while a slider is dragged; the whole drag is recorded once when it ends
+  function applyStyle(patch, record = true) {
+    Object.assign(currentStyle, patch);
+    const before = record ? snapshot() : null;
+    board().shapes = shapesOf().map((s) => (selected.has(s.id) ? { ...s, ...patch } : s));
+    if (record) commit(before);
+    render();
+  }
+
+  // Updates the panel's selected states and values; the layout itself is built once
+  function renderStyle() {
+    if (!styleEl) return;
+    const sel = shapesOf().filter((s) => selected.has(s.id));
+    const visible = sel.length > 0 || SHAPE_TOOLS.has(tool);
+    styleEl.style.display = visible ? "flex" : "none";
+    if (!visible) return;
+
+    const cur = sel.length ? sel[0] : currentStyle;
+    const fillName = cur.fill || "none";
+    styleEl.querySelectorAll("[data-stroke]").forEach((b) => b.classList.toggle("on", b.dataset.stroke === cur.stroke));
+    styleEl.querySelectorAll("[data-fill]").forEach((b) => b.classList.toggle("on", b.dataset.fill === fillName));
+    styleEl.querySelectorAll("[data-width]").forEach((b) => b.classList.toggle("on", Number(b.dataset.width) === cur.width));
+    styleEl.querySelector('input[data-kind="stroke"]').value = cur.stroke || PALETTE[0];
+    styleEl.querySelector('input[data-kind="fill"]').value = cur.fill || "#ffffff";
+    styleEl.querySelector('input[data-kind="transparency"]').value = cur.transparency ?? 0;
+    styleEl.querySelector('input[data-kind="blur"]').value = cur.blur ?? 0;
+  }
+
+  let sliderBefore = null; // snapshot taken when a slider or picker starts changing
+
+  function onStyleInput(e) {
+    const t = e.target;
+    const kind = t.dataset.kind;
+    if (!kind) return;
+    if (sliderBefore === null) sliderBefore = snapshot();
+    const numeric = kind === "transparency" || kind === "blur";
+    applyStyle({ [kind]: numeric ? Number(t.value) : t.value }, false);
+  }
+
+  function onStyleChange(e) {
+    if (!e.target.dataset.kind || sliderBefore === null) return;
+    commit(sliderBefore);
+    sliderBefore = null;
+  }
+
+  function buildStylePanel() {
+    const lineSwatches = PALETTE.map(
+      (c) => `<button class="sw" data-stroke="${c}" style="background:${c}" aria-label="Line color"></button>`
+    ).join("");
+    const fillSwatches = FILLS.map(
+      (f) =>
+        `<button class="sw fl" data-fill="${f || "none"}"${f ? ` style="background:${f}"` : ""} aria-label="Fill"></button>`
+    ).join("");
+    const widths = WIDTHS.map(
+      (w) => `<button class="wd" data-width="${w}" aria-label="Width ${w}"><i style="height:${w * 2}px"></i></button>`
+    ).join("");
+
+    styleEl = document.createElement("div");
+    styleEl.id = "style";
+    styleEl.innerHTML = `
+      <div class="grp"><span class="lbl">Line</span><div class="bar">${lineSwatches}</div>
+        <input type="color" class="pick" data-kind="stroke" aria-label="Custom line color" /></div>
+      <div class="grp"><span class="lbl">Width</span>${widths}</div>
+      <div class="grp"><span class="lbl">Fill</span><div class="bar">${fillSwatches}</div>
+        <input type="color" class="pick" data-kind="fill" aria-label="Custom fill color" /></div>
+      <div class="grp"><span class="lbl">Transparency</span>
+        <input type="range" class="rng" min="0" max="100" step="1" data-kind="transparency" aria-label="Background transparency" /></div>
+      <div class="grp"><span class="lbl">Blur</span>
+        <input type="range" class="rng" min="0" max="10" step="1" data-kind="blur" aria-label="Blur" /></div>`;
+
+    styleEl.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      const d = b.dataset;
+      if (d.stroke !== undefined) applyStyle({ stroke: d.stroke });
+      else if (d.fill !== undefined) applyStyle({ fill: d.fill === "none" ? null : d.fill });
+      else if (d.width !== undefined) applyStyle({ width: Number(d.width) });
+    });
+    styleEl.addEventListener("input", onStyleInput);
+    styleEl.addEventListener("change", onStyleChange);
+    document.body.appendChild(styleEl);
+  }
+
   /* ---------- Coordinates ---------- */
 
   function screenToWorld(sx, sy) {
@@ -291,7 +406,7 @@
     // The shape being edited is shown by the textarea instead
     if (s.id !== editingId && s.text) {
       setTextFont();
-      ctx.fillStyle = "#1d1b2e";
+      ctx.fillStyle = s.stroke || PALETTE[0];
       if (s.type === "note") {
         const maxW = Math.max(10, b.x2 - b.x1 - 2 * NOTE_PAD);
         wrapText(s.text, maxW).forEach((ln, i) => ctx.fillText(ln, b.x1 + NOTE_PAD, b.y1 + NOTE_PAD + i * LINE_H));
@@ -318,7 +433,18 @@
 
   function startTextAt(p) {
     const before = snapshot();
-    const s = { id: newId(), type: "text", text: "", x0: p.x, y0: p.y, x1: p.x, y1: p.y + LINE_H };
+    const s = {
+      id: newId(),
+      type: "text",
+      text: "",
+      x0: p.x,
+      y0: p.y,
+      x1: p.x,
+      y1: p.y + LINE_H,
+      stroke: currentStyle.stroke,
+      transparency: currentStyle.transparency,
+      blur: currentStyle.blur,
+    };
     shapesOf().push(s);
     beginEdit(s, before);
   }
@@ -341,6 +467,7 @@
     editor.style.fontSize = TEXT_SIZE * z + "px";
     editor.style.lineHeight = LINE_H * z + "px";
     editor.style.whiteSpace = isNote ? "pre-wrap" : "pre";
+    editor.style.color = s.stroke || PALETTE[0];
     editor.style.height = "auto";
     editor.style.height = Math.max(LINE_H * z, editor.scrollHeight) + "px";
   }
@@ -432,11 +559,20 @@
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
 
-    for (const s of shapesOf()) drawShape(s);
-    if (drawing) drawShape(drawing);
+    for (const s of shapesOf()) drawWithStyle(s);
+    if (drawing) drawWithStyle(drawing);
     drawSelection(z);
     drawMarquee(z);
     if (editor) positionEditor();
+    renderStyle();
+  }
+
+  // Applies the shape's opacity and blur around its normal drawing
+  function drawWithStyle(s) {
+    ctx.save();
+    ctx.filter = s.blur ? `blur(${s.blur}px)` : "none";
+    drawShape(s);
+    ctx.restore();
   }
 
   function drawShape(s) {
@@ -444,6 +580,8 @@
       drawBoxText(s);
       return;
     }
+    ctx.strokeStyle = s.stroke || PALETTE[0];
+    ctx.lineWidth = s.width || 2;
     const x = Math.min(s.x0, s.x1);
     const y = Math.min(s.y0, s.y1);
     const w = Math.abs(s.x1 - s.x0);
@@ -480,7 +618,12 @@
       }
       case "pencil":
         s.points.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)));
+        if (isClosedPencil(s)) ctx.closePath();
         break;
+    }
+    if (s.fill && (CLOSED.has(s.type) || isClosedPencil(s))) {
+      ctx.fillStyle = withAlpha(s.fill, 1 - (s.transparency ?? 0) / 100);
+      ctx.fill();
     }
     ctx.stroke();
   }
@@ -533,6 +676,7 @@
       btn.setAttribute("aria-pressed", String(btn.dataset.tool === id));
     }
     updateCursor();
+    renderStyle();
   }
 
   function updateCursor() {
@@ -645,7 +789,14 @@
     }
 
     // Shape tools (rect, diamond, ellipse, arrow, line, pencil) and Note (drag to size)
-    drawing = { id: null, type: tool, x0: p.x, y0: p.y, x1: p.x, y1: p.y, points: [p], text: "" };
+    drawing = { id: null, type: tool, x0: p.x, y0: p.y, x1: p.x, y1: p.y, points: [p],
+      text: "",
+      stroke: currentStyle.stroke,
+      width: currentStyle.width,
+      fill: currentStyle.fill,
+      transparency: currentStyle.transparency,
+      blur: currentStyle.blur,
+    };
     gesture = { type: "draw", before };
     render();
   });
@@ -725,6 +876,9 @@
       }
       if (big || drawing.type === "pencil") {
         drawing.id = newId();
+        if (isClosedPencil(drawing)) {
+          drawing.points[drawing.points.length - 1] = { ...drawing.points[0] };
+        }
         shapesOf().push(drawing);
         created = drawing;
       }
@@ -880,6 +1034,7 @@
   renderToolbar();
   renderTabs();
   setTool("select");
+  buildStylePanel();
   resize();
 
   // Canvas text is drawn once the font is ready, so redraw after it loads
