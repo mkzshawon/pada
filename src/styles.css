@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "Virgil";
+  src: url("fonts/Virgil.woff2") format("woff2");
+  font-display: block;
+}
+
 :root {
   --paper: #ffffff;
   --ink: #1d1b2e;
@@ -166,7 +172,7 @@ body {
   overflow: hidden;
   background: transparent;
   color: var(--ink);
-  font-family: "Nirmala UI", "Segoe UI", system-ui, sans-serif;
+  font-family: "Virgil", "Nirmala UI", "Segoe UI", system-ui, sans-serif;
   caret-color: var(--accent-ink);
   -webkit-user-select: text;
   user-select: text;

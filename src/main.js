@@ -241,7 +241,7 @@
 
   const TEXT_SIZE = 20;
   const LINE_H = Math.round(TEXT_SIZE * 1.35);
-  const FONT_FAMILY = '"Nirmala UI", "Segoe UI", system-ui, sans-serif';
+  const FONT_FAMILY = '"Virgil", "Nirmala UI", "Segoe UI", system-ui, sans-serif';
   const NOTE_FILL = "#fff1a8";
   const NOTE_STROKE = "#d9c34a";
   const NOTE_W = 200;
@@ -881,4 +881,9 @@
   renderTabs();
   setTool("select");
   resize();
+
+  // Canvas text is drawn once the font is ready, so redraw after it loads
+  if (document.fonts) {
+    document.fonts.load(`${TEXT_SIZE}px Virgil`).then(render).catch(() => {});
+  }
 })();
