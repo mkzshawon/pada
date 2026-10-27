@@ -9,6 +9,7 @@
 
   const ACCENT = "#4f46e5";
   const MAX_HISTORY = 100;
+  const TEXT_SIZE = 12; // default font size for text and notes
 
   // Tool list: id, label, shortcut key
   const TOOLS = [
@@ -77,6 +78,7 @@
   const PALETTE = ["#1d1b2e", "#868e96", "#e03131", "#f76707", "#f59f00", "#2f9e44", "#1971c2", "#7048e8"];
   const FILLS = [null, "#ffc9c9", "#ffe8cc", "#fff3bf", "#d3f9d8", "#c5f6fa", "#d0ebff", "#eebefa"];
   const WIDTHS = [1, 2, 4];
+  const FONT_SIZES = [12, 14, 16, 18, 20, 24, 28, 32, 40, 48];
   const CLOSED = new Set(["rect", "diamond", "ellipse", "triangle"]); // shapes that can be filled
   const SHAPE_TOOLS = new Set(["rect", "diamond", "triangle", "ellipse", "arrow", "line", "pencil", "text", "note"]);
 
@@ -150,7 +152,7 @@
     group("width").hidden = textOnly;
     group("font").hidden = !hasText;
     styleEl.querySelector('[data-role="line-label"]').textContent = textOnly ? "Color" : "Line";
-    styleEl.querySelector('input[data-kind="fontSize"]').value = cur.fontSize ?? TEXT_SIZE;
+    styleEl.querySelector('select[data-kind="fontSize"]').value = String(cur.fontSize ?? TEXT_SIZE);
 
     const fillName = cur.fill || "none";
     styleEl.querySelectorAll("[data-stroke]").forEach((b) => b.classList.toggle("on", b.dataset.stroke === cur.stroke));
@@ -170,6 +172,7 @@
     if (!kind) return;
     if (sliderBefore === null) sliderBefore = snapshot();
     const numeric = kind === "transparency" || kind === "blur" || kind === "fontSize";
+    // (fontSize comes from the dropdown as text and is converted here)
     applyStyle({ [kind]: numeric ? Number(t.value) : t.value }, false);
   }
 
@@ -204,7 +207,7 @@
       <div class="grp"><span class="lbl">Blur</span>
         <input type="range" class="rng" min="0" max="10" step="1" data-kind="blur" aria-label="Blur" /></div>
       <div class="grp" data-group="font"><span class="lbl">Font size</span>
-        <input type="range" class="rng" min="12" max="48" step="2" data-kind="fontSize" aria-label="Font size" /></div>
+        <select class="fsel" data-kind="fontSize" aria-label="Font size">${FONT_SIZES.map((n) => `<option value="${n}">${n}</option>`).join("")}</select></div>
       <div class="grp"><span class="lbl">Layer</span>
         <button class="tx" data-layer="up" aria-label="Bring forward">&#8593; Up</button>
         <button class="tx" data-layer="down" aria-label="Send backward">&#8595; Down</button></div>`;
@@ -392,7 +395,6 @@
 
   /* ---------- Text & sticky notes ---------- */
 
-  const TEXT_SIZE = 20;
   const FONT_FAMILY = '"Virgil", "Nirmala UI", "Segoe UI", system-ui, sans-serif';
   const NOTE_FILL = "#fff1a8";
   const NOTE_STROKE = "#d9c34a";
@@ -405,6 +407,12 @@
   let editor = null; // the textarea overlay
 
   const sizeOf = (s) => s.fontSize || TEXT_SIZE;
+
+  // Narrowest width a text box can have: its longest word, since wrapping never splits a word
+  function minTextWidth(s) {
+    setTextFont(sizeOf(s));
+    return Math.max(8, ...String(s.text).split(/\s+/).map((w) => ctx.measureText(w).width));
+  }
   const lineHeightOf = (size) => Math.round(size * 1.35);
 
   function setTextFont(size = TEXT_SIZE) {
@@ -452,9 +460,8 @@
         const maxW = Math.max(10, b.x2 - b.x1 - 2 * NOTE_PAD);
         wrapText(s.text, maxW).forEach((ln, i) => ctx.fillText(ln, b.x1 + NOTE_PAD, b.y1 + NOTE_PAD + i * lh));
       } else {
-        String(s.text)
-          .split("\n")
-          .forEach((ln, i) => ctx.fillText(ln, b.x1, b.y1 + i * lh));
+        const lines = s.autoW === false ? wrapText(s.text, b.x2 - b.x1) : String(s.text).split("\n");
+        lines.forEach((ln, i) => ctx.fillText(ln, b.x1, b.y1 + i * lh));
       }
     }
     ctx.restore();
@@ -464,12 +471,29 @@
   function fitTextBox(s) {
     setTextFont(sizeOf(s));
     const b = bounds(s);
-    const lines = String(s.text).split("\n");
-    const w = Math.max(8, ...lines.map((l) => ctx.measureText(l).width));
+    const minW = minTextWidth(s);
+    let w;
+    let lines;
+    if (s.autoW === false) {
+      w = Math.max(minW, b.x2 - b.x1);
+      lines = wrapText(s.text, w);
+    } else {
+      lines = String(s.text).split("\n");
+      w = Math.max(8, ...lines.map((l) => ctx.measureText(l).width));
+    }
     s.x0 = b.x1;
     s.y0 = b.y1;
     s.x1 = b.x1 + w;
-    s.y1 = b.y1 + lines.length * lineHeightOf(sizeOf(s));
+    s.y1 = b.y1 + Math.max(1, lines.length) * lineHeightOf(sizeOf(s));
+  }
+
+  // After a resize, text shapes keep their new width (no longer auto-sized) and wrap to it
+  function refitTexts() {
+    for (const s of shapesOf()) {
+      if (s.type !== "text" || !selected.has(s.id)) continue;
+      s.autoW = false;
+      fitTextBox(s);
+    }
   }
 
   function startTextAt(p) {
@@ -505,11 +529,12 @@
 
     editor.style.left = r.left + cam.x + (b.x1 + pad) * z + "px";
     editor.style.top = r.top + cam.y + (b.y1 + pad) * z + "px";
-    editor.style.width = Math.max(isNote ? 10 : 120, boxW * z + (isNote ? 0 : 12)) + "px";
+    const fixedText = !isNote && s.autoW === false;
+    editor.style.width = (fixedText ? boxW * z : Math.max(isNote ? 10 : 120, boxW * z + (isNote ? 0 : 12))) + "px";
     const size = sizeOf(s);
     editor.style.fontSize = size * z + "px";
     editor.style.lineHeight = lineHeightOf(size) * z + "px";
-    editor.style.whiteSpace = isNote ? "pre-wrap" : "pre";
+    editor.style.whiteSpace = isNote || s.autoW === false ? "pre-wrap" : "pre";
     editor.style.color = s.stroke || PALETTE[0];
     editor.style.height = "auto";
     editor.style.height = Math.max(lineHeightOf(size) * z, editor.scrollHeight) + "px";
@@ -726,7 +751,7 @@
     }
     updateCursor();
     renderStyle();
-    showToolbar();
+    showStyle();
     eraserMenuOpen = false;
     renderEraserMenu();
   }
@@ -809,7 +834,8 @@
     finishEditing();
     const p = eventToWorld(e);
     const before = snapshot();
-    if (tool !== "select" || !topmostAt(p)) hideToolbar();
+    if (tool !== "select" || !topmostAt(p)) hideStyle();
+    else showStyle();
     eraserMenuOpen = false;
     renderEraserMenu();
 
@@ -908,6 +934,13 @@
         if (h.includes("n")) y1 = p.y;
         if (h.includes("s")) y2 = p.y;
 
+        // Text shapes resize sideways only; their height comes from the wrapped lines
+        const textOnly = [...gesture.orig.values()].every((s) => s.type === "text");
+        if (textOnly) {
+          y1 = r.y1;
+          y2 = r.y2;
+        }
+
         const nx = Math.min(x1, x2);
         const ny = Math.min(y1, y2);
         const nw = Math.max(1, Math.abs(x2 - x1));
@@ -918,6 +951,7 @@
         const sy = oh >= 1 ? nh / oh : 1;
 
         applyToSelected(gesture.orig, (x, y) => ({ x: nx + (x - r.x1) * sx, y: ny + (y - r.y1) * sy }));
+        if (textOnly) refitTexts();
         break;
       }
       case "marquee": {
@@ -1057,7 +1091,7 @@
   });
 
   window.addEventListener("pointermove", (e) => {
-    if (e.clientY > window.innerHeight - 110) showToolbar();
+    if (e.clientY > window.innerHeight - 110) showStyle();
   });
 
   window.addEventListener("resize", resize);
@@ -1067,13 +1101,14 @@
   let eraserMenuEl = null;
   let eraserMenuOpen = false;
 
-  // The toolbar hides while drawing or clicking empty canvas, and returns when the pointer nears the bottom
-  function hideToolbar() {
-    document.body.classList.add("tb-hidden");
+  // The style panel hides while drawing or clicking empty canvas, and returns when a shape is clicked,
+  // a tool is chosen, or the pointer nears the bottom. The toolbar never hides.
+  function hideStyle() {
+    document.body.classList.add("sp-hidden");
   }
 
-  function showToolbar() {
-    document.body.classList.remove("tb-hidden");
+  function showStyle() {
+    document.body.classList.remove("sp-hidden");
   }
 
   function renderEraserMenu() {

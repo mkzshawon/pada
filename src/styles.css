@@ -287,6 +287,18 @@ body {
   gap: 5px;
 }
 
+.fsel {
+  height: 28px;
+  padding: 0 6px;
+  border: 1px solid #d6d3e6;
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
 .pick {
   width: 26px;
   height: 26px;
@@ -313,15 +325,15 @@ body {
   display: none !important;
 }
 
-/* Toolbar slides away while drawing or clicking empty canvas */
-#toolbar {
+/* Style panel slides away while drawing or clicking empty canvas; the toolbar stays */
+#style {
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-body.tb-hidden #toolbar {
+body.sp-hidden #style {
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, 24px);
+  transform: translate(-50%, 16px);
 }
 
 /* Eraser menu: Erase / Erase All, shown above the toolbar */
