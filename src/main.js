@@ -361,6 +361,91 @@
     board().shapes = shapesOf().map((s) => (origMap.has(s.id) ? mapShape(origMap.get(s.id), f) : s));
   }
 
+  /* ---------- Connecting lines & arrows to shapes ---------- */
+
+  const BIND_DIST = 16; // screen px: how close a line end must be to a shape to connect to it
+
+  // The midpoint of one side of a box: n (top), e (right), s (bottom), w (left)
+  function sidePoint(b, side) {
+    const mx = (b.x1 + b.x2) / 2;
+    const my = (b.y1 + b.y2) / 2;
+    if (side === "n") return { x: mx, y: b.y1 };
+    if (side === "s") return { x: mx, y: b.y2 };
+    if (side === "w") return { x: b.x1, y: my };
+    return { x: b.x2, y: my };
+  }
+
+  // The shape a line end would connect to, if the point is on it or close enough
+  function bindTarget(p) {
+    const d = BIND_DIST / board().camera.zoom;
+    const arr = shapesOf();
+    for (let i = arr.length - 1; i >= 0; i--) {
+      const s = arr[i];
+      if (s.type === "line" || s.type === "arrow" || s.type === "pencil") continue;
+      const b = bounds(s);
+      if (p.x >= b.x1 - d && p.x <= b.x2 + d && p.y >= b.y1 - d && p.y <= b.y2 + d) return s;
+    }
+    return null;
+  }
+
+  // The side midpoint closest to a point
+  function nearestSide(s, p) {
+    const b = bounds(s);
+    let best = "n";
+    let bestDist = Infinity;
+    for (const side of ["n", "e", "s", "w"]) {
+      const q = sidePoint(b, side);
+      const dist = Math.hypot(q.x - p.x, q.y - p.y);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = side;
+      }
+    }
+    return best;
+  }
+
+  // Keeps connected line ends on their shapes, so moving or resizing a shape drags its arrows along
+  function syncBindings() {
+    const byId = new Map(shapesOf().map((s) => [s.id, s]));
+    for (const s of shapesOf()) {
+      if (s.bindStart && byId.has(s.bindStart)) {
+        const p = sidePoint(bounds(byId.get(s.bindStart)), s.bindStartSide);
+        s.x0 = p.x;
+        s.y0 = p.y;
+      }
+      if (s.bindEnd && byId.has(s.bindEnd)) {
+        const p = sidePoint(bounds(byId.get(s.bindEnd)), s.bindEndSide);
+        s.x1 = p.x;
+        s.y1 = p.y;
+      }
+    }
+  }
+
+  // Moving or resizing a selected line or arrow by hand detaches it from its shapes
+  function detachSelectedLines() {
+    for (const s of shapesOf()) {
+      if (!selected.has(s.id) || (s.type !== "line" && s.type !== "arrow")) continue;
+      delete s.bindStart;
+      delete s.bindStartSide;
+      delete s.bindEnd;
+      delete s.bindEndSide;
+    }
+  }
+
+  // While drawing an arrow or line, outline the shape its end would connect to
+  function drawBindHint(z) {
+    if (!drawing || (drawing.type !== "arrow" && drawing.type !== "line")) return;
+    const t = bindTarget({ x: drawing.x1, y: drawing.y1 });
+    if (!t) return;
+    const b = bounds(t);
+    const pad = 4 / z;
+    ctx.save();
+    ctx.strokeStyle = ACCENT;
+    ctx.lineWidth = 2 / z;
+    ctx.strokeRect(b.x1 - pad, b.y1 - pad, b.x2 - b.x1 + 2 * pad, b.y2 - b.y1 + 2 * pad);
+    ctx.restore();
+  }
+
   /* ---------- Undo history ---------- */
 
   function snapshot() {
@@ -611,6 +696,7 @@
   }
 
   function render() {
+    syncBindings();
     const dpr = window.devicePixelRatio || 1;
     const cam = board().camera;
     const z = cam.zoom;
@@ -631,6 +717,7 @@
     if (drawing) drawWithStyle(drawing);
     drawSelection(z);
     drawMarquee(z);
+    drawBindHint(z);
     if (editor) positionEditor();
     renderStyle();
   }
@@ -857,6 +944,7 @@
     if (tool === "select") {
       const h = handleAt(p);
       if (h) {
+        detachSelectedLines();
         gesture = { type: "resize", handle: h, box: selectionBox(), orig: cloneSelected(), before };
         return;
       }
@@ -869,6 +957,7 @@
           selected = new Set([hit.id]);
         }
         if (selected.has(hit.id)) {
+          detachSelectedLines();
           gesture = { type: "move", start: p, orig: cloneSelected(), before };
         }
         render();
@@ -898,6 +987,16 @@
       blur: currentStyle.blur,
     };
     gesture = { type: "draw", before };
+    if (tool === "arrow" || tool === "line") {
+      const t = bindTarget(p);
+      if (t) {
+        drawing.bindStart = t.id;
+        drawing.bindStartSide = nearestSide(t, p);
+        const q = sidePoint(bounds(t), drawing.bindStartSide);
+        drawing.x0 = q.x;
+        drawing.y0 = q.y;
+      }
+    }
     render();
   });
 
@@ -984,6 +1083,16 @@
       }
       if (big || drawing.type === "pencil") {
         drawing.id = newId();
+        if (drawing.type === "arrow" || drawing.type === "line") {
+          const t = bindTarget({ x: drawing.x1, y: drawing.y1 });
+          if (t) {
+            drawing.bindEnd = t.id;
+            drawing.bindEndSide = nearestSide(t, { x: drawing.x1, y: drawing.y1 });
+            const q = sidePoint(bounds(t), drawing.bindEndSide);
+            drawing.x1 = q.x;
+            drawing.y1 = q.y;
+          }
+        }
         if (isClosedPencil(drawing)) {
           drawing.points[drawing.points.length - 1] = { ...drawing.points[0] };
         }
