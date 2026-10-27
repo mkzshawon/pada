@@ -264,7 +264,8 @@
   }
 
   // Lines and pencil strokes are hit near the stroke; closed shapes by their box
-  function hitShape(s, p, m) {
+  function hitShape(s, p0, m) {
+    const p = s.angle ? rotatePt(p0, centerOf(s), -s.angle) : p0;
     if (s.type === "line" || s.type === "arrow") {
       return distToSegment(p, { x: s.x0, y: s.y0 }, { x: s.x1, y: s.y1 }) <= m;
     }
@@ -325,7 +326,7 @@
     const box = selectionBox();
     if (!box) return null;
     const tol = 10 / board().camera.zoom;
-    const hp = handlePoints(box);
+    const hp = frameHandles(box);
     for (const k of Object.keys(hp)) {
       if (Math.abs(p.x - hp[k].x) <= tol && Math.abs(p.y - hp[k].y) <= tol) return k;
     }
@@ -394,7 +395,7 @@
     let best = "n";
     let bestDist = Infinity;
     for (const side of ["n", "e", "s", "w"]) {
-      const q = sidePoint(b, side);
+      const q = anchorOf(s, side);
       const dist = Math.hypot(q.x - p.x, q.y - p.y);
       if (dist < bestDist) {
         bestDist = dist;
@@ -409,12 +410,12 @@
     const byId = new Map(shapesOf().map((s) => [s.id, s]));
     for (const s of shapesOf()) {
       if (s.bindStart && byId.has(s.bindStart)) {
-        const p = sidePoint(bounds(byId.get(s.bindStart)), s.bindStartSide);
+        const p = anchorOf(byId.get(s.bindStart), s.bindStartSide);
         s.x0 = p.x;
         s.y0 = p.y;
       }
       if (s.bindEnd && byId.has(s.bindEnd)) {
-        const p = sidePoint(bounds(byId.get(s.bindEnd)), s.bindEndSide);
+        const p = anchorOf(byId.get(s.bindEnd), s.bindEndSide);
         s.x1 = p.x;
         s.y1 = p.y;
       }
@@ -443,6 +444,94 @@
     ctx.strokeStyle = ACCENT;
     ctx.lineWidth = 2 / z;
     ctx.strokeRect(b.x1 - pad, b.y1 - pad, b.x2 - b.x1 + 2 * pad, b.y2 - b.y1 + 2 * pad);
+    ctx.restore();
+  }
+
+  /* ---------- Rotation ---------- */
+
+  const ROT_OFFSET = 28; // screen px above the selection's top edge
+  const ROT_ZONE = 36; // screen px: the pointer must be this close to show or grab the rotate button
+  let rotHover = false;
+
+  // Rotates point p around c by angle a (radians, clockwise on screen)
+  function rotatePt(p, c, a) {
+    const cs = Math.cos(a);
+    const sn = Math.sin(a);
+    const dx = p.x - c.x;
+    const dy = p.y - c.y;
+    return { x: c.x + dx * cs - dy * sn, y: c.y + dx * sn + dy * cs };
+  }
+
+  function centerOf(s) {
+    const b = bounds(s);
+    return { x: (b.x1 + b.x2) / 2, y: (b.y1 + b.y2) / 2 };
+  }
+
+  // Connection point on one side of a shape, following the shape's rotation
+  function anchorOf(s, side) {
+    const p = sidePoint(bounds(s), side);
+    return s.angle ? rotatePt(p, centerOf(s), s.angle) : p;
+  }
+
+  // The selection frame follows a single shape's angle; a group frame stays level
+  function frameAngle() {
+    const sel = shapesOf().filter((s) => selected.has(s.id));
+    return sel.length === 1 ? sel[0].angle || 0 : 0;
+  }
+
+  function frameHandles(b) {
+    const a = frameAngle();
+    const hp = handlePoints(b);
+    if (!a) return hp;
+    const c = { x: (b.x1 + b.x2) / 2, y: (b.y1 + b.y2) / 2 };
+    const out = {};
+    for (const k of Object.keys(hp)) out[k] = rotatePt(hp[k], c, a);
+    return out;
+  }
+
+  // The rotate button sits above the top edge of the selection frame
+  function rotButtonPos() {
+    const box = selectionBox();
+    if (!box) return null;
+    const z = board().camera.zoom;
+    const a = frameAngle();
+    const c = { x: (box.x1 + box.x2) / 2, y: (box.y1 + box.y2) / 2 };
+    const top = { x: c.x, y: box.y1 - ROT_OFFSET / z };
+    return a ? rotatePt(top, c, a) : top;
+  }
+
+  function nearRotButton(p) {
+    const pos = rotButtonPos();
+    if (!pos) return false;
+    return Math.hypot(p.x - pos.x, p.y - pos.y) <= ROT_ZONE / board().camera.zoom;
+  }
+
+  function drawRotateButton(z) {
+    const pos = rotButtonPos();
+    if (!pos || !(rotHover || (gesture && gesture.type === "rotate"))) return;
+    const box = selectionBox();
+    const a = frameAngle();
+    const c = { x: (box.x1 + box.x2) / 2, y: (box.y1 + box.y2) / 2 };
+    const edge = a ? rotatePt({ x: c.x, y: box.y1 }, c, a) : { x: c.x, y: box.y1 };
+    const r = 11 / z;
+
+    ctx.save();
+    ctx.setLineDash([]);
+    ctx.strokeStyle = ACCENT;
+    ctx.lineWidth = 1 / z;
+    ctx.beginPath();
+    ctx.moveTo(edge.x, edge.y);
+    ctx.lineTo(pos.x, pos.y + r);
+    ctx.stroke();
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.lineWidth = 1.6 / z;
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, r * 0.55, -0.6, Math.PI * 1.4);
+    ctx.stroke();
     ctx.restore();
   }
 
@@ -718,6 +807,7 @@
     drawSelection(z);
     drawMarquee(z);
     drawBindHint(z);
+    drawRotateButton(z);
     if (editor) positionEditor();
     renderStyle();
   }
@@ -725,6 +815,12 @@
   // Applies the shape's opacity and blur around its normal drawing
   function drawWithStyle(s) {
     ctx.save();
+    if (s.angle) {
+      const c = centerOf(s);
+      ctx.translate(c.x, c.y);
+      ctx.rotate(s.angle);
+      ctx.translate(-c.x, -c.y);
+    }
     ctx.filter = s.blur ? `blur(${s.blur}px)` : "none";
     drawShape(s);
     ctx.restore();
@@ -800,7 +896,15 @@
     const pad = 4 / z;
     for (const s of sel) {
       const b = bounds(s);
+      const c = centerOf(s);
+      ctx.save();
+      if (s.angle) {
+        ctx.translate(c.x, c.y);
+        ctx.rotate(s.angle);
+        ctx.translate(-c.x, -c.y);
+      }
       ctx.strokeRect(b.x1 - pad, b.y1 - pad, b.x2 - b.x1 + 2 * pad, b.y2 - b.y1 + 2 * pad);
+      ctx.restore();
     }
 
     ctx.setLineDash([]);
@@ -808,7 +912,7 @@
     if (box) {
       const hs = 8 / z;
       ctx.fillStyle = "#ffffff";
-      for (const pt of Object.values(handlePoints(box))) {
+      for (const pt of Object.values(frameHandles(box))) {
         ctx.fillRect(pt.x - hs / 2, pt.y - hs / 2, hs, hs);
         ctx.strokeRect(pt.x - hs / 2, pt.y - hs / 2, hs, hs);
       }
@@ -942,10 +1046,24 @@
 
     // Select tool
     if (tool === "select") {
+      if (selected.size && nearRotButton(p)) {
+        const box = selectionBox();
+        const c = { x: (box.x1 + box.x2) / 2, y: (box.y1 + box.y2) / 2 };
+        detachSelectedLines();
+        gesture = {
+          type: "rotate",
+          center: c,
+          startAng: Math.atan2(p.y - c.y, p.x - c.x),
+          orig: cloneSelected(),
+          before,
+        };
+        render();
+        return;
+      }
       const h = handleAt(p);
       if (h) {
         detachSelectedLines();
-        gesture = { type: "resize", handle: h, box: selectionBox(), orig: cloneSelected(), before };
+        gesture = { type: "resize", handle: h, box: selectionBox(), angle: frameAngle(), orig: cloneSelected(), before };
         return;
       }
       const hit = topmostAt(p);
@@ -992,7 +1110,7 @@
       if (t) {
         drawing.bindStart = t.id;
         drawing.bindStartSide = nearestSide(t, p);
-        const q = sidePoint(bounds(t), drawing.bindStartSide);
+        const q = anchorOf(t, drawing.bindStartSide);
         drawing.x0 = q.x;
         drawing.y0 = q.y;
       }
@@ -1004,7 +1122,12 @@
     const p = eventToWorld(e);
 
     if (!gesture) {
-      if (tool === "select") hoverCursor(p);
+      if (tool === "select") {
+        const was = rotHover;
+        rotHover = selected.size > 0 && nearRotButton(p);
+        if (rotHover !== was) render();
+        hoverCursor(p);
+      }
       return;
     }
 
@@ -1024,32 +1147,55 @@
       case "resize": {
         const r = gesture.box;
         const h = gesture.handle;
-        let x1 = r.x1;
-        let y1 = r.y1;
-        let x2 = r.x2;
-        let y2 = r.y2;
-        if (h.includes("w")) x1 = p.x;
-        if (h.includes("e")) x2 = p.x;
-        if (h.includes("n")) y1 = p.y;
-        if (h.includes("s")) y2 = p.y;
+        const ang = gesture.angle || 0;
+        const cs = Math.cos(ang);
+        const sn = Math.sin(ang);
+        const C = { x: (r.x1 + r.x2) / 2, y: (r.y1 + r.y2) / 2 };
+        const ow = r.x2 - r.x1;
+        const oh = r.y2 - r.y1;
+
+        // Pointer relative to the centre, in the frame's own axes
+        const dx = p.x - C.x;
+        const dy = p.y - C.y;
+        const rel = { x: dx * cs + dy * sn, y: -dx * sn + dy * cs };
+
+        // Edges relative to the centre; the edge opposite the dragged handle stays put
+        let xA = -ow / 2;
+        let xB = ow / 2;
+        let yA = -oh / 2;
+        let yB = oh / 2;
+        if (h.includes("w")) xA = rel.x;
+        if (h.includes("e")) xB = rel.x;
+        if (h.includes("n")) yA = rel.y;
+        if (h.includes("s")) yB = rel.y;
 
         // Text shapes resize sideways only; their height comes from the wrapped lines
         const textOnly = [...gesture.orig.values()].every((s) => s.type === "text");
         if (textOnly) {
-          y1 = r.y1;
-          y2 = r.y2;
+          yA = -oh / 2;
+          yB = oh / 2;
         }
 
-        const nx = Math.min(x1, x2);
-        const ny = Math.min(y1, y2);
-        const nw = Math.max(1, Math.abs(x2 - x1));
-        const nh = Math.max(1, Math.abs(y2 - y1));
-        const ow = r.x2 - r.x1;
-        const oh = r.y2 - r.y1;
+        const lx1 = Math.min(xA, xB);
+        const lx2 = Math.max(xA, xB);
+        const ly1 = Math.min(yA, yB);
+        const ly2 = Math.max(yA, yB);
+        const nw = Math.max(1, lx2 - lx1);
+        const nh = Math.max(1, ly2 - ly1);
         const sx = ow >= 1 ? nw / ow : 1;
         const sy = oh >= 1 ? nh / oh : 1;
 
-        applyToSelected(gesture.orig, (x, y) => ({ x: nx + (x - r.x1) * sx, y: ny + (y - r.y1) * sy }));
+        // New centre of the frame, in world coordinates
+        const nc = { x: (lx1 + lx2) / 2, y: (ly1 + ly2) / 2 };
+        const C1 = { x: C.x + nc.x * cs - nc.y * sn, y: C.y + nc.x * sn + nc.y * cs };
+
+        applyToSelected(gesture.orig, (x, y) => {
+          const ex = x - C.x;
+          const ey = y - C.y;
+          const ux = (ex * cs + ey * sn) * sx;
+          const uy = (-ex * sn + ey * cs) * sy;
+          return { x: C1.x + ux * cs - uy * sn, y: C1.y + ux * sn + uy * cs };
+        });
         if (textOnly) refitTexts();
         break;
       }
@@ -1057,6 +1203,15 @@
         gesture.rect.x2 = p.x;
         gesture.rect.y2 = p.y;
         selectInRect(gesture.base);
+        break;
+      }
+      case "rotate": {
+        let d = Math.atan2(p.y - gesture.center.y, p.x - gesture.center.x) - gesture.startAng;
+        if (e.shiftKey) d = Math.round(d / (Math.PI / 12)) * (Math.PI / 12);
+        board().shapes = shapesOf().map((s) => {
+          const o = gesture.orig.get(s.id);
+          return o ? { ...o, angle: (o.angle || 0) + d } : s;
+        });
         break;
       }
       case "erase":
@@ -1088,7 +1243,7 @@
           if (t) {
             drawing.bindEnd = t.id;
             drawing.bindEndSide = nearestSide(t, { x: drawing.x1, y: drawing.y1 });
-            const q = sidePoint(bounds(t), drawing.bindEndSide);
+            const q = anchorOf(t, drawing.bindEndSide);
             drawing.x1 = q.x;
             drawing.y1 = q.y;
           }
