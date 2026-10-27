@@ -393,6 +393,25 @@ body.sp-hidden #style {
   opacity: 1;
 }
 
+.tab {
+  color: var(--tab-fg, #000000);
+}
+
+.tab-rename {
+  width: 110px;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid #5ff7ff;
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 12px;
+  outline: none;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
 .tab-x,
 .tab-menu-btn {
   position: absolute;
@@ -464,6 +483,51 @@ body.sp-hidden #style {
 #tab-menu button:disabled {
   color: var(--muted);
   cursor: default;
+}
+
+#tab-menu hr {
+  width: 100%;
+  margin: 4px 0;
+  border: 0;
+  border-top: 1px solid #ececf4;
+}
+
+/* Items with a sub-menu open it on hover (or on tap) */
+.tm-item {
+  position: relative;
+}
+
+.tm-label {
+  height: 30px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: var(--ink);
+  border-radius: 6px;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.tm-item:hover > .tm-label {
+  background: #f3f1fb;
+}
+
+.tm-sub {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: -4px;
+  flex-direction: column;
+  min-width: 120px;
+  padding: 4px;
+  background: var(--chrome);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.tm-item:hover > .tm-sub {
+  display: flex;
 }
 
 /* Inline text editor shown over a text or note shape while typing */

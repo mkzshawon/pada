@@ -915,8 +915,16 @@
 
     // Clear in screen space
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    const bg = board().bg;
+    const transparent = bg === "transparent";
+    if (transparent) {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    } else {
+      ctx.fillStyle = bg || "#ffffff";
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    }
+    document.documentElement.style.background = transparent ? "transparent" : "";
+    document.body.style.background = transparent ? "transparent" : "";
 
     // Draw in world space
     ctx.setTransform(dpr * z, 0, 0, dpr * z, dpr * cam.x, dpr * cam.y);
@@ -1583,15 +1591,21 @@
           <button data-act="file" data-accept="image/*">Image</button>
           <button data-act="file" data-accept=".doc,.docx">Word</button>
         </div></div>
-      <div class="tm-item"><div class="tm-label">Open Program &#9656;</div>
+      <div class="tm-item"><div class="tm-label">Tab bg &#9656;</div>
         <div class="tm-sub">
-          <button data-act="program" data-url="https://zoom.us/">Zoom</button>
-          <button data-act="program" data-url="https://zoom.us/webinar">Webinar</button>
+          <button data-act="bg" data-bg="transparent">Transparent</button>
+          <button data-act="bg" data-bg="#ffffff" style="border-left:10px solid #ffffff">White</button>
+          <button data-act="bg" data-bg="#ffe3e3" style="border-left:10px solid #ffe3e3">Rose</button>
+          <button data-act="bg" data-bg="#fff3bf" style="border-left:10px solid #fff3bf">Lemon</button>
+          <button data-act="bg" data-bg="#d3f9d8" style="border-left:10px solid #d3f9d8">Mint</button>
+          <button data-act="bg" data-bg="#d0ebff" style="border-left:10px solid #d0ebff">Sky</button>
+          <button data-act="bg" data-bg="#eebefa" style="border-left:10px solid #eebefa">Lilac</button>
+          <button data-act="bg" data-bg="#000000" style="border-left:10px solid #000000">Black</button>
         </div></div>
       <div class="tm-item"><div class="tm-label">Save as &#9656;</div>
         <div class="tm-sub">
-          <button data-act="save-image">Image</button>
           <button data-act="save-pdf">PDF</button>
+          <button data-act="save-image">Image</button>
         </div></div>
       <hr />
       <button data-act="rename">Rename</button>
@@ -1604,9 +1618,11 @@
       const act = b.dataset.act;
       closeTabMenu();
       if (act === "file") openFilePicker(b.dataset.accept);
-      else if (act === "program") window.open(b.dataset.url, "_blank", "noopener");
-      else if (act === "save-image") saveBoardAs("image");
-      else if (act === "save-pdf") saveBoardAs("pdf");
+      else if (act === "bg") setBoardBg(index, b.dataset.bg);
+      else if (act === "save-image" || act === "save-pdf") {
+        if (index !== active) switchBoard(index);
+        saveBoardAs(act === "save-image" ? "image" : "pdf");
+      }
       else if (act === "rename") renameBoard(index);
       else if (act === "duplicate") duplicateBoard(index);
       else if (act === "close") removeBoard(index);
@@ -1677,7 +1693,18 @@
     // Take the snapshot while the selection outline is hidden
     const base = board().name.replace(/\s+/g, "_");
     const png = kind === "image" ? new Promise((res) => canvas.toBlob(res, "image/png")) : null;
-    const jpeg = kind === "pdf" ? canvas.toDataURL("image/jpeg", 0.92) : null;
+    let jpeg = null;
+    if (kind === "pdf") {
+      // JPEG has no transparency, so draw the board onto white first
+      const flat = document.createElement("canvas");
+      flat.width = canvas.width;
+      flat.height = canvas.height;
+      const fctx = flat.getContext("2d");
+      fctx.fillStyle = "#ffffff";
+      fctx.fillRect(0, 0, flat.width, flat.height);
+      fctx.drawImage(canvas, 0, 0);
+      jpeg = flat.toDataURL("image/jpeg", 0.92);
+    }
     selected = prev;
     render();
 
@@ -1695,12 +1722,36 @@
     if (tabMenuEl && !tabMenuEl.contains(e.target)) closeTabMenu();
   });
 
+  // Renames a tab in place. (window.prompt is not available in the desktop app.)
   function renameBoard(index) {
-    const name = prompt("Tab-এর নতুন নাম:", boards[index].name);
-    if (name && name.trim()) {
-      boards[index].name = name.trim().slice(0, 20);
+    const btn = tabsEl.children[index] && tabsEl.children[index].querySelector(".tab");
+    if (!btn) return;
+    const input = document.createElement("input");
+    input.className = "tab-rename";
+    input.value = boards[index].name;
+    input.maxLength = 20;
+    btn.replaceWith(input);
+    input.focus();
+    input.select();
+    let done = false;
+    const finish = (save) => {
+      if (done) return;
+      done = true;
+      if (save && input.value.trim()) boards[index].name = input.value.trim().slice(0, 20);
       renderTabs();
-    }
+    };
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") finish(true);
+      else if (e.key === "Escape") finish(false);
+    });
+    input.addEventListener("blur", () => finish(true));
+  }
+
+  // Tab bg: colours the tab and the board behind it; "transparent" lets the desktop show through
+  function setBoardBg(index, bg) {
+    boards[index].bg = bg;
+    renderTabs();
+    render();
   }
 
   // Copies a board's shapes with new ids, keeping connections between the copies
@@ -1737,6 +1788,10 @@
     boards.forEach((b, i) => {
       const wrap = document.createElement("div");
       wrap.className = "tab-wrap" + (i === active ? " active" : "");
+      if (b.bg) {
+        wrap.style.setProperty("--tab-bg", b.bg === "transparent" ? "rgba(255, 255, 255, 0.3)" : b.bg);
+        wrap.style.setProperty("--tab-fg", b.bg === "#000000" ? "#ffffff" : "#000000");
+      }
 
       const btn = document.createElement("button");
       btn.className = "tab";
