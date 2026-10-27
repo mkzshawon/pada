@@ -82,7 +82,7 @@
 
   // Style used for the next shape you draw.
   // transparency (0-100) fades the fill only; blur (0-10) softens the whole shape.
-  const currentStyle = { stroke: PALETTE[0], width: 2, fill: null, transparency: 0, blur: 0 };
+  const currentStyle = { stroke: PALETTE[0], width: 2, fill: null, transparency: 0, blur: 0, fontSize: TEXT_SIZE };
 
   // "#rrggbb" plus alpha (0-1) to "rgba(...)"
   function withAlpha(hex, alpha) {
@@ -108,6 +108,9 @@
     Object.assign(currentStyle, patch);
     const before = record ? snapshot() : null;
     board().shapes = shapesOf().map((s) => (selected.has(s.id) ? { ...s, ...patch } : s));
+    if (patch.fontSize) {
+      for (const s of shapesOf()) if (s.type === "text" && selected.has(s.id)) fitTextBox(s);
+    }
     if (record) commit(before);
     render();
   }
@@ -139,6 +142,16 @@
     if (!visible) return;
 
     const cur = sel.length ? sel[0] : currentStyle;
+    const textOnly = sel.length ? sel.every((s) => s.type === "text") : tool === "text";
+    const hasText = sel.length ? sel.some((s) => s.type === "text" || s.type === "note") : tool === "text";
+    const group = (name) => styleEl.querySelector(`[data-group="${name}"]`);
+    group("fill").hidden = textOnly;
+    group("transp").hidden = textOnly;
+    group("width").hidden = textOnly;
+    group("font").hidden = !hasText;
+    styleEl.querySelector('[data-role="line-label"]').textContent = textOnly ? "Color" : "Line";
+    styleEl.querySelector('input[data-kind="fontSize"]').value = cur.fontSize ?? TEXT_SIZE;
+
     const fillName = cur.fill || "none";
     styleEl.querySelectorAll("[data-stroke]").forEach((b) => b.classList.toggle("on", b.dataset.stroke === cur.stroke));
     styleEl.querySelectorAll("[data-fill]").forEach((b) => b.classList.toggle("on", b.dataset.fill === fillName));
@@ -156,7 +169,7 @@
     const kind = t.dataset.kind;
     if (!kind) return;
     if (sliderBefore === null) sliderBefore = snapshot();
-    const numeric = kind === "transparency" || kind === "blur";
+    const numeric = kind === "transparency" || kind === "blur" || kind === "fontSize";
     applyStyle({ [kind]: numeric ? Number(t.value) : t.value }, false);
   }
 
@@ -181,15 +194,17 @@
     styleEl = document.createElement("div");
     styleEl.id = "style";
     styleEl.innerHTML = `
-      <div class="grp"><span class="lbl">Line</span><div class="bar">${lineSwatches}</div>
+      <div class="grp"><span class="lbl" data-role="line-label">Line</span><div class="bar">${lineSwatches}</div>
         <input type="color" class="pick" data-kind="stroke" aria-label="Custom line color" /></div>
-      <div class="grp"><span class="lbl">Width</span>${widths}</div>
-      <div class="grp"><span class="lbl">Fill</span><div class="bar">${fillSwatches}</div>
+      <div class="grp" data-group="width"><span class="lbl">Width</span>${widths}</div>
+      <div class="grp" data-group="fill"><span class="lbl">Fill</span><div class="bar">${fillSwatches}</div>
         <input type="color" class="pick" data-kind="fill" aria-label="Custom fill color" /></div>
-      <div class="grp"><span class="lbl">Transparency</span>
+      <div class="grp" data-group="transp"><span class="lbl">Transparency</span>
         <input type="range" class="rng" min="0" max="100" step="1" data-kind="transparency" aria-label="Background transparency" /></div>
       <div class="grp"><span class="lbl">Blur</span>
         <input type="range" class="rng" min="0" max="10" step="1" data-kind="blur" aria-label="Blur" /></div>
+      <div class="grp" data-group="font"><span class="lbl">Font size</span>
+        <input type="range" class="rng" min="12" max="48" step="2" data-kind="fontSize" aria-label="Font size" /></div>
       <div class="grp"><span class="lbl">Layer</span>
         <button class="tx" data-layer="up" aria-label="Bring forward">&#8593; Up</button>
         <button class="tx" data-layer="down" aria-label="Send backward">&#8595; Down</button></div>`;
@@ -378,7 +393,6 @@
   /* ---------- Text & sticky notes ---------- */
 
   const TEXT_SIZE = 20;
-  const LINE_H = Math.round(TEXT_SIZE * 1.35);
   const FONT_FAMILY = '"Virgil", "Nirmala UI", "Segoe UI", system-ui, sans-serif';
   const NOTE_FILL = "#fff1a8";
   const NOTE_STROKE = "#d9c34a";
@@ -390,8 +404,11 @@
   let editBefore = null; // snapshot to record in undo history when editing ends
   let editor = null; // the textarea overlay
 
-  function setTextFont() {
-    ctx.font = `${TEXT_SIZE}px ${FONT_FAMILY}`;
+  const sizeOf = (s) => s.fontSize || TEXT_SIZE;
+  const lineHeightOf = (size) => Math.round(size * 1.35);
+
+  function setTextFont(size = TEXT_SIZE) {
+    ctx.font = `${size}px ${FONT_FAMILY}`;
     ctx.textBaseline = "top";
   }
 
@@ -428,15 +445,16 @@
     }
     // The shape being edited is shown by the textarea instead
     if (s.id !== editingId && s.text) {
-      setTextFont();
+      setTextFont(sizeOf(s));
+      const lh = lineHeightOf(sizeOf(s));
       ctx.fillStyle = s.stroke || PALETTE[0];
       if (s.type === "note") {
         const maxW = Math.max(10, b.x2 - b.x1 - 2 * NOTE_PAD);
-        wrapText(s.text, maxW).forEach((ln, i) => ctx.fillText(ln, b.x1 + NOTE_PAD, b.y1 + NOTE_PAD + i * LINE_H));
+        wrapText(s.text, maxW).forEach((ln, i) => ctx.fillText(ln, b.x1 + NOTE_PAD, b.y1 + NOTE_PAD + i * lh));
       } else {
         String(s.text)
           .split("\n")
-          .forEach((ln, i) => ctx.fillText(ln, b.x1, b.y1 + i * LINE_H));
+          .forEach((ln, i) => ctx.fillText(ln, b.x1, b.y1 + i * lh));
       }
     }
     ctx.restore();
@@ -444,14 +462,14 @@
 
   // A text shape grows to fit its lines. Notes keep the size the user gave them.
   function fitTextBox(s) {
-    setTextFont();
+    setTextFont(sizeOf(s));
     const b = bounds(s);
     const lines = String(s.text).split("\n");
     const w = Math.max(8, ...lines.map((l) => ctx.measureText(l).width));
     s.x0 = b.x1;
     s.y0 = b.y1;
     s.x1 = b.x1 + w;
-    s.y1 = b.y1 + lines.length * LINE_H;
+    s.y1 = b.y1 + lines.length * lineHeightOf(sizeOf(s));
   }
 
   function startTextAt(p) {
@@ -463,7 +481,8 @@
       x0: p.x,
       y0: p.y,
       x1: p.x,
-      y1: p.y + LINE_H,
+      y1: p.y + lineHeightOf(currentStyle.fontSize),
+      fontSize: currentStyle.fontSize,
       stroke: currentStyle.stroke,
       transparency: currentStyle.transparency,
       blur: currentStyle.blur,
@@ -487,12 +506,13 @@
     editor.style.left = r.left + cam.x + (b.x1 + pad) * z + "px";
     editor.style.top = r.top + cam.y + (b.y1 + pad) * z + "px";
     editor.style.width = Math.max(isNote ? 10 : 120, boxW * z + (isNote ? 0 : 12)) + "px";
-    editor.style.fontSize = TEXT_SIZE * z + "px";
-    editor.style.lineHeight = LINE_H * z + "px";
+    const size = sizeOf(s);
+    editor.style.fontSize = size * z + "px";
+    editor.style.lineHeight = lineHeightOf(size) * z + "px";
     editor.style.whiteSpace = isNote ? "pre-wrap" : "pre";
     editor.style.color = s.stroke || PALETTE[0];
     editor.style.height = "auto";
-    editor.style.height = Math.max(LINE_H * z, editor.scrollHeight) + "px";
+    editor.style.height = Math.max(lineHeightOf(size) * z, editor.scrollHeight) + "px";
   }
 
   function beginEdit(s, before) {
@@ -706,6 +726,9 @@
     }
     updateCursor();
     renderStyle();
+    showToolbar();
+    eraserMenuOpen = false;
+    renderEraserMenu();
   }
 
   function updateCursor() {
@@ -786,6 +809,9 @@
     finishEditing();
     const p = eventToWorld(e);
     const before = snapshot();
+    if (tool !== "select" || !topmostAt(p)) hideToolbar();
+    eraserMenuOpen = false;
+    renderEraserMenu();
 
     // Pan
     if (tool === "hand" || spaceHeld || e.button === 1) {
@@ -1030,7 +1056,40 @@
     }
   });
 
+  window.addEventListener("pointermove", (e) => {
+    if (e.clientY > window.innerHeight - 110) showToolbar();
+  });
+
   window.addEventListener("resize", resize);
+
+  /* ---------- Toolbar visibility & eraser menu ---------- */
+
+  let eraserMenuEl = null;
+  let eraserMenuOpen = false;
+
+  // The toolbar hides while drawing or clicking empty canvas, and returns when the pointer nears the bottom
+  function hideToolbar() {
+    document.body.classList.add("tb-hidden");
+  }
+
+  function showToolbar() {
+    document.body.classList.remove("tb-hidden");
+  }
+
+  function renderEraserMenu() {
+    if (eraserMenuEl) eraserMenuEl.style.display = eraserMenuOpen ? "flex" : "none";
+  }
+
+  function eraseAll() {
+    finishEditing();
+    if (!shapesOf().length) return;
+    if (!confirm("এই Tab-এর সব shape মুছে ফেলতে চান?")) return;
+    const before = snapshot();
+    board().shapes = [];
+    selected.clear();
+    commit(before);
+    render();
+  }
 
   /* ---------- UI construction ---------- */
 
@@ -1054,9 +1113,27 @@
       const kbd = document.createElement("kbd");
       kbd.textContent = t.key.toUpperCase();
       btn.appendChild(kbd);
-      btn.addEventListener("click", () => setTool(t.id));
+      btn.addEventListener("click", () => {
+        setTool(t.id);
+        if (t.id === "eraser") {
+          eraserMenuOpen = true;
+          renderEraserMenu();
+        }
+      });
       toolbarEl.appendChild(btn);
     });
+
+    eraserMenuEl = document.createElement("div");
+    eraserMenuEl.id = "eraser-menu";
+    eraserMenuEl.innerHTML = '<button data-erase="one">Erase</button><button data-erase="all">Erase All</button>';
+    eraserMenuEl.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      eraserMenuOpen = false;
+      renderEraserMenu();
+      if (b.dataset.erase === "all") eraseAll();
+    });
+    toolbarEl.appendChild(eraserMenuEl);
   }
 
   function renderTabs() {
