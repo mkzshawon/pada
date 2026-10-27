@@ -151,6 +151,7 @@
     group("transp").hidden = textOnly;
     group("width").hidden = textOnly;
     group("font").hidden = !hasText;
+    group("word").hidden = !hasText;
     styleEl.querySelector('[data-role="line-label"]').textContent = textOnly ? "Color" : "Line";
     styleEl.querySelector('select[data-kind="fontSize"]').value = String(cur.fontSize ?? TEXT_SIZE);
 
@@ -169,7 +170,7 @@
   function onStyleInput(e) {
     const t = e.target;
     const kind = t.dataset.kind;
-    if (!kind) return;
+    if (!kind || kind === "wordSize") return;
     if (sliderBefore === null) sliderBefore = snapshot();
     const numeric = kind === "transparency" || kind === "blur" || kind === "fontSize";
     // (fontSize comes from the dropdown as text and is converted here)
@@ -177,6 +178,11 @@
   }
 
   function onStyleChange(e) {
+    if (e.target.dataset.kind === "wordSize") {
+      if (e.target.value) applyWordFormat({ size: Number(e.target.value) });
+      e.target.value = "";
+      return;
+    }
     if (!e.target.dataset.kind || sliderBefore === null) return;
     commit(sliderBefore);
     sliderBefore = null;
@@ -189,6 +195,10 @@
     const fillSwatches = FILLS.map(
       (f) =>
         `<button class="sw fl" data-fill="${f || "none"}"${f ? ` style="background:${f}"` : ""} aria-label="Fill"></button>`
+    ).join("");
+    const wordBg = FILLS.map(
+      (f) =>
+        `<button class="sw fl" data-word-bg="${f || "none"}"${f ? ` style="background:${f}"` : ""} aria-label="Word background"></button>`
     ).join("");
     const widths = WIDTHS.map(
       (w) => `<button class="wd" data-width="${w}" aria-label="Width ${w}"><i style="height:${w * 2}px"></i></button>`
@@ -206,6 +216,9 @@
         <input type="range" class="rng" min="0" max="100" step="1" data-kind="transparency" aria-label="Background transparency" /></div>
       <div class="grp"><span class="lbl">Blur</span>
         <input type="range" class="rng" min="0" max="10" step="1" data-kind="blur" aria-label="Blur" /></div>
+      <div class="grp" data-group="word"><span class="lbl">Word size</span>
+        <select class="fsel" data-kind="wordSize" aria-label="Word size"><option value="">—</option>${FONT_SIZES.map((n) => `<option value="${n}">${n}</option>`).join("")}</select>
+        <span class="lbl">Word bg</span><div class="bar">${wordBg}</div></div>
       <div class="grp" data-group="font"><span class="lbl">Font size</span>
         <select class="fsel" data-kind="fontSize" aria-label="Font size">${FONT_SIZES.map((n) => `<option value="${n}">${n}</option>`).join("")}</select></div>
       <div class="grp"><span class="lbl">Layer</span>
@@ -220,6 +233,7 @@
       else if (d.fill !== undefined) applyStyle({ fill: d.fill === "none" ? null : d.fill });
       else if (d.width !== undefined) applyStyle({ width: Number(d.width) });
       else if (d.layer !== undefined) moveLayer(d.layer);
+      else if (d.wordBg !== undefined) applyWordFormat({ bg: d.wordBg === "none" ? null : d.wordBg });
     });
     styleEl.addEventListener("input", onStyleInput);
     styleEl.addEventListener("change", onStyleChange);
@@ -579,6 +593,7 @@
   let editingId = null; // id of the shape whose text is being edited
   let editBefore = null; // snapshot to record in undo history when editing ends
   let editor = null; // the textarea overlay
+  let lastRange = null; // { id, from, to }: the characters last selected in the editor, for word styling
 
   const sizeOf = (s) => s.fontSize || TEXT_SIZE;
 
@@ -588,6 +603,101 @@
     return Math.max(8, ...String(s.text).split(/\s+/).map((w) => ctx.measureText(w).width));
   }
   const lineHeightOf = (size) => Math.round(size * 1.35);
+
+  // Font for one run of characters; alphabetic baseline so lines of mixed sizes line up
+  function setCharFont(size) {
+    ctx.font = `${size}px ${FONT_FAMILY}`;
+    ctx.textBaseline = "alphabetic";
+  }
+
+  // Lays out a text or note. maxW = Infinity means no wrapping (lines break only at \n).
+  // Words wrap as whole words; each character keeps its own size and background (s.attrs[i]).
+  function layoutRich(s, maxW) {
+    const text = String(s.text || "");
+    const attrs = s.attrs || [];
+    const base = sizeOf(s);
+    const lines = [];
+    let line = { items: [], w: 0, size: base };
+    let word = [];
+    let maxWordW = 0;
+    let maxLineW = 0;
+
+    const endLine = () => {
+      lines.push(line);
+      maxLineW = Math.max(maxLineW, line.w);
+      line = { items: [], w: 0, size: base };
+    };
+    const flushWord = () => {
+      if (!word.length) return;
+      const ww = word.reduce((t, it) => t + it.w, 0);
+      maxWordW = Math.max(maxWordW, ww);
+      if (line.items.length && line.w + ww > maxW) endLine();
+      for (const it of word) {
+        line.items.push(it);
+        line.w += it.w;
+        line.size = Math.max(line.size, it.size);
+      }
+      word = [];
+    };
+
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      const a = attrs[i] || {};
+      const size = a.size || base;
+      if (ch === "\n") {
+        flushWord();
+        endLine();
+        continue;
+      }
+      setCharFont(size);
+      const item = { t: ch, w: ctx.measureText(ch).width, size, bg: a.bg || null };
+      if (ch === " ") {
+        flushWord();
+        line.items.push(item);
+        line.w += item.w;
+        line.size = Math.max(line.size, size);
+      } else {
+        word.push(item);
+      }
+    }
+    flushWord();
+    endLine();
+
+    for (const ln of lines) {
+      ln.h = lineHeightOf(ln.size);
+      ln.base = Math.round(ln.size * 1.05);
+    }
+    return { lines, maxWordW, maxLineW, height: lines.reduce((t, ln) => t + ln.h, 0) };
+  }
+
+  // Keeps per-character formatting aligned when the text is edited: typed characters take the style before them
+  function diffAttrs(oldT, newT, oldA = []) {
+    let p = 0;
+    while (p < oldT.length && p < newT.length && oldT[p] === newT[p]) p++;
+    let q = 0;
+    while (q < oldT.length - p && q < newT.length - p && oldT[oldT.length - 1 - q] === newT[newT.length - 1 - q]) q++;
+    const inherit = p > 0 ? oldA[p - 1] || null : null;
+    const head = Array.from({ length: p }, (_, i) => oldA[i] || null);
+    const mid = Array.from({ length: newT.length - p - q }, () => (inherit ? { ...inherit } : null));
+    const tail = Array.from({ length: q }, (_, i) => oldA[oldT.length - q + i] || null);
+    return [...head, ...mid, ...tail];
+  }
+
+  // Applies a per-word style (size or background) to the characters selected in the editor
+  function applyWordFormat(patch) {
+    const r = lastRange;
+    if (!r || !selected.has(r.id) || r.from === r.to) return;
+    const s = shapesOf().find((x) => x.id === r.id);
+    if (!s) return;
+    const before = snapshot();
+    const attrs = Array.from({ length: (s.text || "").length }, (_, i) => (s.attrs && s.attrs[i]) || null);
+    for (let i = r.from; i < r.to; i++) attrs[i] = { ...(attrs[i] || {}), ...patch };
+    s.attrs = attrs;
+    if (s.type === "text" || s.type === "note") fitTextBox(s);
+    lastRange = null;
+    commit(before);
+    render();
+  }
 
   function setTextFont(size = TEXT_SIZE) {
     ctx.font = `${size}px ${FONT_FAMILY}`;
@@ -627,15 +737,23 @@
     }
     // The shape being edited is shown by the textarea instead
     if (s.id !== editingId && s.text) {
-      setTextFont(sizeOf(s));
-      const lh = lineHeightOf(sizeOf(s));
-      ctx.fillStyle = s.stroke || PALETTE[0];
-      if (s.type === "note") {
-        const maxW = Math.max(10, b.x2 - b.x1 - 2 * NOTE_PAD);
-        wrapText(s.text, maxW).forEach((ln, i) => ctx.fillText(ln, b.x1 + NOTE_PAD, b.y1 + NOTE_PAD + i * lh));
-      } else {
-        const lines = s.autoW === false ? wrapText(s.text, b.x2 - b.x1) : String(s.text).split("\n");
-        lines.forEach((ln, i) => ctx.fillText(ln, b.x1, b.y1 + i * lh));
+      const pad = s.type === "note" ? NOTE_PAD : 0;
+      const maxW = s.type === "text" && s.autoW !== false ? Infinity : b.x2 - b.x1 - 2 * pad;
+      const lay = layoutRich(s, maxW);
+      let y = b.y1 + pad;
+      for (const line of lay.lines) {
+        let x = b.x1 + pad;
+        for (const it of line.items) {
+          if (it.bg) {
+            ctx.fillStyle = it.bg;
+            ctx.fillRect(x, y, it.w, line.h);
+          }
+          setCharFont(it.size);
+          ctx.fillStyle = s.stroke || PALETTE[0];
+          ctx.fillText(it.t, x, y + line.base);
+          x += it.w;
+        }
+        y += line.h;
       }
     }
     ctx.restore();
@@ -643,28 +761,24 @@
 
   // A text shape grows to fit its lines. Notes keep the size the user gave them.
   function fitTextBox(s) {
-    setTextFont(sizeOf(s));
     const b = bounds(s);
-    const minW = minTextWidth(s);
-    let w;
-    let lines;
-    if (s.autoW === false) {
-      w = Math.max(minW, b.x2 - b.x1);
-      lines = wrapText(s.text, w);
-    } else {
-      lines = String(s.text).split("\n");
-      w = Math.max(8, ...lines.map((l) => ctx.measureText(l).width));
-    }
+    const isNote = s.type === "note";
+    const pad = isNote ? NOTE_PAD : 0;
+    const probe = layoutRich(s, Infinity);
+    const minW = probe.maxWordW + 2 * pad;
+    const w = !isNote && s.autoW !== false ? Math.max(8, probe.maxLineW) : Math.max(minW, b.x2 - b.x1);
+    const lay = layoutRich(s, w - 2 * pad);
+    const h = isNote ? Math.max(NOTE_H, lay.height + 2 * pad) : Math.max(lay.height, lineHeightOf(sizeOf(s)));
     s.x0 = b.x1;
     s.y0 = b.y1;
     s.x1 = b.x1 + w;
-    s.y1 = b.y1 + Math.max(1, lines.length) * lineHeightOf(sizeOf(s));
+    s.y1 = b.y1 + h;
   }
 
   // After a resize, text shapes keep their new width (no longer auto-sized) and wrap to it
   function refitTexts() {
     for (const s of shapesOf()) {
-      if (s.type !== "text" || !selected.has(s.id)) continue;
+      if ((s.type !== "text" && s.type !== "note") || !selected.has(s.id)) continue;
       s.autoW = false;
       fitTextBox(s);
     }
@@ -703,7 +817,7 @@
 
     editor.style.left = r.left + cam.x + (b.x1 + pad) * z + "px";
     editor.style.top = r.top + cam.y + (b.y1 + pad) * z + "px";
-    const fixedText = !isNote && s.autoW === false;
+    const fixedText = isNote || s.autoW === false;
     editor.style.width = (fixedText ? boxW * z : Math.max(isNote ? 10 : 120, boxW * z + (isNote ? 0 : 12))) + "px";
     const size = sizeOf(s);
     editor.style.fontSize = size * z + "px";
@@ -717,6 +831,7 @@
   function beginEdit(s, before) {
     editingId = s.id;
     editBefore = before;
+    lastRange = null;
 
     editor = document.createElement("textarea");
     editor.className = "editor";
@@ -727,11 +842,19 @@
     editor.addEventListener("input", () => {
       const cur = shapesOf().find((x) => x.id === editingId);
       if (!cur) return;
+      cur.attrs = diffAttrs(cur.text || "", editor.value, cur.attrs);
       cur.text = editor.value;
-      if (cur.type === "text") fitTextBox(cur);
+      if (cur.type === "text" || cur.type === "note") fitTextBox(cur);
       positionEditor();
       render();
     });
+    // Remember which characters are selected, so a word style can be applied after the editor closes
+    const saveRange = () => {
+      if (editingId !== null) lastRange = { id: editingId, from: editor.selectionStart, to: editor.selectionEnd };
+    };
+    editor.addEventListener("select", saveRange);
+    editor.addEventListener("keyup", saveRange);
+    editor.addEventListener("mouseup", saveRange);
     editor.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         e.preventDefault();
@@ -767,7 +890,7 @@
         board().shapes = shapesOf().filter((x) => x !== s);
         selected.delete(id);
       } else {
-        if (s.type === "text") fitTextBox(s);
+        if (s.type === "text" || s.type === "note") fitTextBox(s);
         selected = new Set([id]);
       }
     }
@@ -1170,7 +1293,7 @@
         if (h.includes("s")) yB = rel.y;
 
         // Text shapes resize sideways only; their height comes from the wrapped lines
-        const textOnly = [...gesture.orig.values()].every((s) => s.type === "text");
+        const textOnly = [...gesture.orig.values()].every((s) => s.type === "text" || s.type === "note");
         if (textOnly) {
           yA = -oh / 2;
           yB = oh / 2;
@@ -1435,6 +1558,180 @@
     toolbarEl.appendChild(eraserMenuEl);
   }
 
+  /* ---------- Tab options menu ---------- */
+
+  let tabMenuEl = null;
+
+  function closeTabMenu() {
+    if (tabMenuEl) {
+      tabMenuEl.remove();
+      tabMenuEl = null;
+    }
+  }
+
+  function openTabMenu(index, anchor) {
+    closeTabMenu();
+    const r = anchor.getBoundingClientRect();
+    tabMenuEl = document.createElement("div");
+    tabMenuEl.id = "tab-menu";
+    tabMenuEl.style.left = r.left + "px";
+    tabMenuEl.style.top = r.bottom + 6 + "px";
+    tabMenuEl.innerHTML = `
+      <div class="tm-item"><div class="tm-label">Open File &#9656;</div>
+        <div class="tm-sub">
+          <button data-act="file" data-accept=".pdf">PDF</button>
+          <button data-act="file" data-accept="image/*">Image</button>
+          <button data-act="file" data-accept=".doc,.docx">Word</button>
+        </div></div>
+      <div class="tm-item"><div class="tm-label">Open Program &#9656;</div>
+        <div class="tm-sub">
+          <button data-act="program" data-url="https://zoom.us/">Zoom</button>
+          <button data-act="program" data-url="https://zoom.us/webinar">Webinar</button>
+        </div></div>
+      <div class="tm-item"><div class="tm-label">Save as &#9656;</div>
+        <div class="tm-sub">
+          <button data-act="save-image">Image</button>
+          <button data-act="save-pdf">PDF</button>
+        </div></div>
+      <hr />
+      <button data-act="rename">Rename</button>
+      <button data-act="duplicate">Duplicate</button>
+      <button data-act="close">Close</button>`;
+    tabMenuEl.querySelector('[data-act="close"]').disabled = boards.length === 1;
+    tabMenuEl.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      const act = b.dataset.act;
+      closeTabMenu();
+      if (act === "file") openFilePicker(b.dataset.accept);
+      else if (act === "program") window.open(b.dataset.url, "_blank", "noopener");
+      else if (act === "save-image") saveBoardAs("image");
+      else if (act === "save-pdf") saveBoardAs("pdf");
+      else if (act === "rename") renameBoard(index);
+      else if (act === "duplicate") duplicateBoard(index);
+      else if (act === "close") removeBoard(index);
+    });
+    document.body.appendChild(tabMenuEl);
+  }
+
+  // Opens a PDF, image or Word file chosen from disk in a new browser window
+  function openFilePicker(accept) {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = accept;
+    input.addEventListener("change", () => {
+      const file = input.files[0];
+      if (file) window.open(URL.createObjectURL(file), "_blank", "noopener");
+    });
+    input.click();
+  }
+
+  function download(blob, name) {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  // Minimal single-page PDF that holds the board image as a JPEG
+  function buildPdf(jpegBytes, w, h) {
+    const enc = new TextEncoder();
+    const parts = [];
+    const offsets = [];
+    let len = 0;
+    const push = (x) => {
+      const b = typeof x === "string" ? enc.encode(x) : x;
+      parts.push(b);
+      len += b.length;
+    };
+    const obj = (n, body) => {
+      offsets[n] = len;
+      push(`${n} 0 obj\n${body}\nendobj\n`);
+    };
+
+    push("%PDF-1.4\n");
+    obj(1, "<< /Type /Catalog /Pages 2 0 R >>");
+    obj(2, "<< /Type /Pages /Kids [3 0 R] /Count 1 >>");
+    obj(3, `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${w} ${h}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>`);
+    offsets[4] = len;
+    push(`4 0 obj\n<< /Type /XObject /Subtype /Image /Width ${w} /Height ${h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpegBytes.length} >>\nstream\n`);
+    push(jpegBytes);
+    push("\nendstream\nendobj\n");
+    const content = `q ${w} 0 0 ${h} 0 0 cm /Im0 Do Q`;
+    obj(5, `<< /Length ${content.length} >>\nstream\n${content}\nendstream`);
+
+    const xref = len;
+    let table = "xref\n0 6\n0000000000 65535 f \n";
+    for (let i = 1; i <= 5; i++) table += String(offsets[i]).padStart(10, "0") + " 00000 n \n";
+    push(table + `trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`);
+    return new Blob(parts, { type: "application/pdf" });
+  }
+
+  // Saves what is currently on the canvas (the visible part of the board) as an image or a PDF
+  function saveBoardAs(kind) {
+    finishEditing();
+    const prev = selected;
+    selected = new Set();
+    render();
+    // Take the snapshot while the selection outline is hidden
+    const base = board().name.replace(/\s+/g, "_");
+    const png = kind === "image" ? new Promise((res) => canvas.toBlob(res, "image/png")) : null;
+    const jpeg = kind === "pdf" ? canvas.toDataURL("image/jpeg", 0.92) : null;
+    selected = prev;
+    render();
+
+    if (kind === "image") {
+      png.then((blob) => download(blob, `${base}.png`));
+      return;
+    }
+    const bin = atob(jpeg.split(",")[1]);
+    const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
+    download(buildPdf(bytes, canvas.width, canvas.height), `${base}.pdf`);
+  }
+
+  // Clicking anywhere outside the menu closes it
+  document.addEventListener("pointerdown", (e) => {
+    if (tabMenuEl && !tabMenuEl.contains(e.target)) closeTabMenu();
+  });
+
+  function renameBoard(index) {
+    const name = prompt("Tab-এর নতুন নাম:", boards[index].name);
+    if (name && name.trim()) {
+      boards[index].name = name.trim().slice(0, 20);
+      renderTabs();
+    }
+  }
+
+  // Copies a board's shapes with new ids, keeping connections between the copies
+  function duplicateBoard(index) {
+    finishEditing();
+    const src = boards[index];
+    const idMap = new Map(src.shapes.map((s) => [s.id, newId()]));
+    const shapes = src.shapes.map((s) => {
+      const c = JSON.parse(JSON.stringify(s));
+      c.id = idMap.get(s.id);
+      if (c.bindStart && idMap.has(c.bindStart)) c.bindStart = idMap.get(c.bindStart);
+      else {
+        delete c.bindStart;
+        delete c.bindStartSide;
+      }
+      if (c.bindEnd && idMap.has(c.bindEnd)) c.bindEnd = idMap.get(c.bindEnd);
+      else {
+        delete c.bindEnd;
+        delete c.bindEndSide;
+      }
+      return c;
+    });
+    boards.splice(index + 1, 0, {
+      name: nextTabName(),
+      shapes,
+      camera: { ...src.camera },
+      history: [],
+    });
+    switchBoard(index + 1);
+  }
+
   function renderTabs() {
     tabsEl.innerHTML = "";
     boards.forEach((b, i) => {
@@ -1459,7 +1756,17 @@
         removeBoard(i);
       });
 
-      wrap.append(btn, x);
+      const menu = document.createElement("button");
+      menu.className = "tab-menu-btn";
+      menu.title = "Tab options";
+      menu.setAttribute("aria-label", `Options for ${b.name}`);
+      menu.textContent = "▾";
+      menu.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openTabMenu(i, menu);
+      });
+
+      wrap.append(btn, x, menu);
       tabsEl.appendChild(wrap);
     });
     const add = document.createElement("button");
