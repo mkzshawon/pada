@@ -16,6 +16,7 @@
     { id: "hand", label: "Hand", key: "h" },
     { id: "rect", label: "Rect", key: "r" },
     { id: "diamond", label: "Diamond", key: "d" },
+    { id: "triangle", label: "Triangle", key: "g" },
     { id: "ellipse", label: "Ellipse", key: "o" },
     { id: "arrow", label: "Arrow", key: "a" },
     { id: "line", label: "Line", key: "l" },
@@ -32,6 +33,7 @@
     hand: '<path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5V4a1.5 1.5 0 0 1 3 0v6m0-4.5a1.5 1.5 0 0 1 3 0V11m0-3a1.5 1.5 0 0 1 3 0v5a7 7 0 0 1-7 7h-.5a6 6 0 0 1-4.6-2.2L4.3 14.6a1.5 1.5 0 0 1 2.1-2.1L8 14"/>',
     rect: '<rect x="4" y="5" width="16" height="14" rx="2"/>',
     diamond: '<path d="M12 3l9 9-9 9-9-9z"/>',
+    triangle: '<path d="M12 4l9 16H3z"/>',
     ellipse: '<circle cx="12" cy="12" r="8"/>',
     arrow: '<path d="M4 12h15m-5-6l6 6-6 6"/>',
     line: '<path d="M4 20L20 4"/>',
@@ -55,7 +57,6 @@
   // Each board (tab) keeps its own shapes, camera and undo history
   const boards = [
     { name: "Tab 01", shapes: [], camera: { x: 0, y: 0, zoom: 1 }, history: [] },
-    { name: "Tab 02", shapes: [], camera: { x: 0, y: 0, zoom: 1 }, history: [] },
   ];
   let active = 0;
   let tool = "select";
@@ -76,8 +77,8 @@
   const PALETTE = ["#1d1b2e", "#868e96", "#e03131", "#f76707", "#f59f00", "#2f9e44", "#1971c2", "#7048e8"];
   const FILLS = [null, "#ffc9c9", "#ffe8cc", "#fff3bf", "#d3f9d8", "#c5f6fa", "#d0ebff", "#eebefa"];
   const WIDTHS = [1, 2, 4];
-  const CLOSED = new Set(["rect", "diamond", "ellipse"]); // shapes that can be filled
-  const SHAPE_TOOLS = new Set(["rect", "diamond", "ellipse", "arrow", "line", "pencil", "text", "note"]);
+  const CLOSED = new Set(["rect", "diamond", "ellipse", "triangle"]); // shapes that can be filled
+  const SHAPE_TOOLS = new Set(["rect", "diamond", "triangle", "ellipse", "arrow", "line", "pencil", "text", "note"]);
 
   // Style used for the next shape you draw.
   // transparency (0-100) fades the fill only; blur (0-10) softens the whole shape.
@@ -108,6 +109,24 @@
     const before = record ? snapshot() : null;
     board().shapes = shapesOf().map((s) => (selected.has(s.id) ? { ...s, ...patch } : s));
     if (record) commit(before);
+    render();
+  }
+
+  // Moves the selected shapes one step up or down in the stacking order (later = on top)
+  function moveLayer(dir) {
+    const arr = [...shapesOf()];
+    const before = snapshot();
+    if (dir === "up") {
+      for (let i = arr.length - 2; i >= 0; i--) {
+        if (selected.has(arr[i].id) && !selected.has(arr[i + 1].id)) [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+      }
+    } else {
+      for (let i = 1; i < arr.length; i++) {
+        if (selected.has(arr[i].id) && !selected.has(arr[i - 1].id)) [arr[i], arr[i - 1]] = [arr[i - 1], arr[i]];
+      }
+    }
+    board().shapes = arr;
+    commit(before);
     render();
   }
 
@@ -170,7 +189,10 @@
       <div class="grp"><span class="lbl">Transparency</span>
         <input type="range" class="rng" min="0" max="100" step="1" data-kind="transparency" aria-label="Background transparency" /></div>
       <div class="grp"><span class="lbl">Blur</span>
-        <input type="range" class="rng" min="0" max="10" step="1" data-kind="blur" aria-label="Blur" /></div>`;
+        <input type="range" class="rng" min="0" max="10" step="1" data-kind="blur" aria-label="Blur" /></div>
+      <div class="grp"><span class="lbl">Layer</span>
+        <button class="tx" data-layer="up" aria-label="Bring forward">&#8593; Up</button>
+        <button class="tx" data-layer="down" aria-label="Send backward">&#8595; Down</button></div>`;
 
     styleEl.addEventListener("click", (e) => {
       const b = e.target.closest("button");
@@ -179,6 +201,7 @@
       if (d.stroke !== undefined) applyStyle({ stroke: d.stroke });
       else if (d.fill !== undefined) applyStyle({ fill: d.fill === "none" ? null : d.fill });
       else if (d.width !== undefined) applyStyle({ width: Number(d.width) });
+      else if (d.layer !== undefined) moveLayer(d.layer);
     });
     styleEl.addEventListener("input", onStyleInput);
     styleEl.addEventListener("change", onStyleChange);
@@ -592,6 +615,12 @@
       case "rect":
         ctx.roundRect(x, y, w, h, 6);
         break;
+      case "triangle":
+        ctx.moveTo(x + w / 2, y);
+        ctx.lineTo(x + w, y + h);
+        ctx.lineTo(x, y + h);
+        ctx.closePath();
+        break;
       case "ellipse":
         ctx.ellipse(x + w / 2, y + h / 2, w / 2, h / 2, 0, 0, Math.PI * 2);
         break;
@@ -713,12 +742,31 @@
 
   function addBoard() {
     boards.push({
-      name: `Tab ${String(boards.length + 1).padStart(2, "0")}`,
+      name: nextTabName(),
       shapes: [],
       camera: { x: 0, y: 0, zoom: 1 },
       history: [],
     });
     switchBoard(boards.length - 1);
+  }
+
+  // "Tab 01", "Tab 02", ... using the highest number in use plus one
+  function nextTabName() {
+    const top = boards.reduce((m, b) => Math.max(m, parseInt(b.name.replace("Tab ", ""), 10) || 0), 0);
+    return `Tab ${String(top + 1).padStart(2, "0")}`;
+  }
+
+  function removeBoard(index) {
+    if (boards.length === 1) return;
+    finishEditing();
+    boards.splice(index, 1);
+    if (index < active) active--;
+    else if (index === active) active = Math.min(index, boards.length - 1);
+    selected = new Set();
+    gesture = null;
+    drawing = null;
+    renderTabs();
+    render();
   }
 
   function switchBoard(index) {
@@ -989,7 +1037,7 @@
   function renderToolbar() {
     toolbarEl.innerHTML = "";
     TOOLS.forEach((t, i) => {
-      if (i === 2 || i === 9) {
+      if (t.id === "rect" || t.id === "note") {
         const sep = document.createElement("span");
         sep.className = "sep";
         toolbarEl.appendChild(sep);
@@ -1014,13 +1062,29 @@
   function renderTabs() {
     tabsEl.innerHTML = "";
     boards.forEach((b, i) => {
+      const wrap = document.createElement("div");
+      wrap.className = "tab-wrap" + (i === active ? " active" : "");
+
       const btn = document.createElement("button");
       btn.className = "tab";
       btn.textContent = b.name;
       btn.setAttribute("role", "tab");
       btn.setAttribute("aria-selected", String(i === active));
       btn.addEventListener("click", () => switchBoard(i));
-      tabsEl.appendChild(btn);
+
+      const x = document.createElement("button");
+      x.className = "tab-x";
+      x.title = "Close tab";
+      x.setAttribute("aria-label", `Close ${b.name}`);
+      x.textContent = "×";
+      x.style.display = boards.length > 1 ? "" : "none";
+      x.addEventListener("click", (e) => {
+        e.stopPropagation();
+        removeBoard(i);
+      });
+
+      wrap.append(btn, x);
+      tabsEl.appendChild(wrap);
     });
     const add = document.createElement("button");
     add.className = "tab-add";

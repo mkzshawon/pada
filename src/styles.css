@@ -216,6 +216,53 @@ body {
   background-image: linear-gradient(to top right, transparent calc(50% - 1px), #e03131 50%, transparent calc(50% + 1px));
 }
 
+.tab-wrap {
+  position: relative;
+  display: flex;
+}
+
+/* × on hover; always visible on the active tab */
+.tab-x {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.tab-wrap:hover .tab-x,
+.tab-wrap.active .tab-x {
+  opacity: 1;
+}
+
+.tx {
+  height: 28px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.tx:hover {
+  background: #f3f1fb;
+}
+
 #style {
   flex-wrap: wrap;
   max-width: calc(100vw - 24px);
