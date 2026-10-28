@@ -745,12 +745,16 @@
     const b = bounds(s);
     ctx.save();
     if (s.type === "note") {
-      ctx.fillStyle = NOTE_FILL;
+      // Notes start yellow; a Fill colour chosen in the panel replaces it (none = transparent)
+      const fill = s.fill === undefined ? NOTE_FILL : s.fill;
       ctx.strokeStyle = NOTE_STROKE;
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.roundRect(b.x1, b.y1, b.x2 - b.x1, b.y2 - b.y1, 4);
-      ctx.fill();
+      if (fill) {
+        ctx.fillStyle = withAlpha(fill, 1 - (s.transparency ?? 0) / 100);
+        ctx.fill();
+      }
       ctx.stroke();
     }
     // The shape being edited is shown by the textarea instead
@@ -1250,7 +1254,7 @@
       text: "",
       stroke: currentStyle.stroke,
       width: currentStyle.width,
-      fill: currentStyle.fill,
+      fill: tool === "note" ? currentStyle.fill || NOTE_FILL : currentStyle.fill,
       fontSize: currentStyle.fontSize,
       family: currentStyle.family,
       transparency: currentStyle.transparency,
