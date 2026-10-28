@@ -84,7 +84,15 @@
 
   // Style used for the next shape you draw.
   // transparency (0-100) fades the fill only; blur (0-10) softens the whole shape.
-  const currentStyle = { stroke: PALETTE[0], width: 2, fill: null, transparency: 0, blur: 0, fontSize: TEXT_SIZE };
+  const currentStyle = {
+    stroke: PALETTE[0],
+    width: 2,
+    fill: null,
+    transparency: 0,
+    blur: 0,
+    fontSize: TEXT_SIZE,
+    family: "virgil",
+  };
 
   // "#rrggbb" plus alpha (0-1) to "rgba(...)"
   function withAlpha(hex, alpha) {
@@ -110,7 +118,7 @@
     Object.assign(currentStyle, patch);
     const before = record ? snapshot() : null;
     board().shapes = shapesOf().map((s) => (selected.has(s.id) ? { ...s, ...patch } : s));
-    if (patch.fontSize) {
+    if (patch.fontSize || patch.family) {
       for (const s of shapesOf()) if (s.type === "text" && selected.has(s.id)) fitTextBox(s);
     }
     if (record) commit(before);
@@ -154,6 +162,7 @@
     group("word").hidden = !hasText;
     styleEl.querySelector('[data-role="line-label"]').textContent = textOnly ? "Color" : "Line";
     styleEl.querySelector('select[data-kind="fontSize"]').value = String(cur.fontSize ?? TEXT_SIZE);
+    styleEl.querySelector('select[data-kind="family"]').value = cur.family || "virgil";
 
     const fillName = cur.fill || "none";
     styleEl.querySelectorAll("[data-stroke]").forEach((b) => b.classList.toggle("on", b.dataset.stroke === cur.stroke));
@@ -220,7 +229,8 @@
         <select class="fsel" data-kind="wordSize" aria-label="Word size"><option value="">—</option>${FONT_SIZES.map((n) => `<option value="${n}">${n}</option>`).join("")}</select>
         <span class="lbl">Word bg</span><div class="bar">${wordBg}</div></div>
       <div class="grp" data-group="font"><span class="lbl">Font size</span>
-        <select class="fsel" data-kind="fontSize" aria-label="Font size">${FONT_SIZES.map((n) => `<option value="${n}">${n}</option>`).join("")}</select></div>
+        <select class="fsel" data-kind="fontSize" aria-label="Font size">${FONT_SIZES.map((n) => `<option value="${n}">${n}</option>`).join("")}</select>
+        <select class="fsel" data-kind="family" aria-label="Font family">${Object.entries(FAMILIES).map(([k, f]) => `<option value="${k}">${f.label}</option>`).join("")}</select></div>
       <div class="grp"><span class="lbl">Layer</span>
         <button class="tx" data-layer="up" aria-label="Bring forward">&#8593; Up</button>
         <button class="tx" data-layer="down" aria-label="Send backward">&#8595; Down</button></div>`;
@@ -584,6 +594,14 @@
   /* ---------- Text & sticky notes ---------- */
 
   const FONT_FAMILY = '"Virgil", "Nirmala UI", "Segoe UI", system-ui, sans-serif';
+
+  // Font choices for text and notes (the key is stored on each shape)
+  const FAMILIES = {
+    virgil: { label: "Hand (Virgil)", css: FONT_FAMILY },
+    mono: { label: "Monospace", css: '"PADA Mono", Consolas, "Courier New", monospace' },
+    sans: { label: "Sans", css: '"Segoe UI", system-ui, sans-serif' },
+  };
+  const familyOf = (s) => (FAMILIES[s.family] || FAMILIES.virgil).css;
   const NOTE_FILL = "#fff1a8";
   const NOTE_STROKE = "#d9c34a";
   const NOTE_W = 200;
@@ -605,8 +623,8 @@
   const lineHeightOf = (size) => Math.round(size * 1.35);
 
   // Font for one run of characters; alphabetic baseline so lines of mixed sizes line up
-  function setCharFont(size) {
-    ctx.font = `${size}px ${FONT_FAMILY}`;
+  function setCharFont(size, css = FONT_FAMILY) {
+    ctx.font = `${size}px ${css}`;
     ctx.textBaseline = "alphabetic";
   }
 
@@ -649,7 +667,7 @@
         endLine();
         continue;
       }
-      setCharFont(size);
+      setCharFont(size, familyOf(s));
       const item = { t: ch, w: ctx.measureText(ch).width, size, bg: a.bg || null };
       if (ch === " ") {
         flushWord();
@@ -748,7 +766,7 @@
             ctx.fillStyle = it.bg;
             ctx.fillRect(x, y, it.w, line.h);
           }
-          setCharFont(it.size);
+          setCharFont(it.size, familyOf(s));
           ctx.fillStyle = s.stroke || PALETTE[0];
           ctx.fillText(it.t, x, y + line.base);
           x += it.w;
@@ -796,6 +814,7 @@
       y1: p.y + lineHeightOf(currentStyle.fontSize),
       fontSize: currentStyle.fontSize,
       stroke: currentStyle.stroke,
+      family: currentStyle.family,
       transparency: currentStyle.transparency,
       blur: currentStyle.blur,
     };
@@ -824,6 +843,7 @@
     editor.style.lineHeight = lineHeightOf(size) * z + "px";
     editor.style.whiteSpace = isNote || s.autoW === false ? "pre-wrap" : "pre";
     editor.style.color = s.stroke || PALETTE[0];
+    editor.style.fontFamily = familyOf(s);
     editor.style.height = "auto";
     editor.style.height = Math.max(lineHeightOf(size) * z, editor.scrollHeight) + "px";
   }
@@ -1231,6 +1251,7 @@
       stroke: currentStyle.stroke,
       width: currentStyle.width,
       fill: currentStyle.fill,
+      family: currentStyle.family,
       transparency: currentStyle.transparency,
       blur: currentStyle.blur,
     };
@@ -1872,6 +1893,8 @@
 
   // Canvas text is drawn once the font is ready, so redraw after it loads
   if (document.fonts) {
-    document.fonts.load(`${TEXT_SIZE}px Virgil`).then(render).catch(() => {});
+    Promise.all([document.fonts.load(`${TEXT_SIZE}px Virgil`), document.fonts.load(`${TEXT_SIZE}px "PADA Mono"`)])
+      .then(render)
+      .catch(() => {});
   }
 })();

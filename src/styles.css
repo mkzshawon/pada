@@ -4,6 +4,12 @@
   font-display: block;
 }
 
+@font-face {
+  font-family: "PADA Mono";
+  src: url("fonts/Monospace.woff2") format("woff2");
+  font-display: block;
+}
+
 :root {
   --paper: #ffffff;
   --ink: #1d1b2e;
