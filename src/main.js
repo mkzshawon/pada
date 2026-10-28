@@ -923,8 +923,7 @@
       ctx.fillStyle = bg || "#ffffff";
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
     }
-    document.documentElement.style.background = transparent ? "transparent" : "";
-    document.body.style.background = transparent ? "transparent" : "";
+    document.documentElement.classList.toggle("board-transparent", transparent);
 
     // Draw in world space
     ctx.setTransform(dpr * z, 0, 0, dpr * z, dpr * cam.x, dpr * cam.y);

@@ -325,6 +325,12 @@ body {
   display: none !important;
 }
 
+/* Tab bg = Transparent: the whole page becomes see-through, so the desktop shows behind the board */
+html.board-transparent,
+html.board-transparent body {
+  background: transparent !important;
+}
+
 /* Style panel slides away while drawing or clicking empty canvas; the toolbar stays */
 #style {
   transition: opacity 0.2s ease, transform 0.2s ease;
