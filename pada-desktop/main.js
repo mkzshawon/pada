@@ -1,10 +1,17 @@
 // PADA desktop overlay: a transparent, frameless, always-on-top window that shows the PADA whiteboard.
 // This folder lives inside the pada repository, so the whiteboard is one folder up: ../index.html
-const { app, BrowserWindow, globalShortcut, screen } = require("electron");
+const { app, BrowserWindow, globalShortcut, screen, ipcMain, dialog, shell } = require("electron");
 const path = require("path");
 
 let win = null;
 let passThrough = false; // when true, mouse clicks go through the overlay to the apps underneath
+
+// File types offered by the Tab menu's "Open File" sub-menu
+const FILE_FILTERS = {
+  pdf: [{ name: "PDF", extensions: ["pdf"] }],
+  image: [{ name: "Images", extensions: ["png", "jpg", "jpeg", "gif", "bmp", "webp"] }],
+  word: [{ name: "Word", extensions: ["doc", "docx"] }],
+};
 
 function setPassThrough(on) {
   passThrough = on;
@@ -25,7 +32,10 @@ function createWindow() {
     resizable: false,
     alwaysOnTop: true,
     backgroundColor: "#00000000",
-    webPreferences: { contextIsolation: true },
+    webPreferences: {
+      contextIsolation: true,
+      preload: path.join(__dirname, "preload.js"),
+    },
   });
 
   // Stay above other windows, including full-screen apps such as Zoom
@@ -37,6 +47,17 @@ function createWindow() {
     win = null;
   });
 }
+
+// The page asks for a file: show the native dialog, then open the chosen file in its default program
+ipcMain.handle("pada:open-file", async (_event, kind) => {
+  const result = await dialog.showOpenDialog(win, {
+    properties: ["openFile"],
+    filters: FILE_FILTERS[kind] || [{ name: "All files", extensions: ["*"] }],
+  });
+  if (!result.canceled && result.filePaths.length) {
+    await shell.openPath(result.filePaths[0]);
+  }
+});
 
 app.whenReady().then(() => {
   createWindow();

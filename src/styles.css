@@ -395,6 +395,7 @@ body.sp-hidden #style {
 
 .tab {
   color: var(--tab-fg, #000000);
+  border: 1px solid #000000;
 }
 
 .tab-rename {

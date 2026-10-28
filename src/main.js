@@ -1587,9 +1587,9 @@
     tabMenuEl.innerHTML = `
       <div class="tm-item"><div class="tm-label">Open File &#9656;</div>
         <div class="tm-sub">
-          <button data-act="file" data-accept=".pdf">PDF</button>
-          <button data-act="file" data-accept="image/*">Image</button>
-          <button data-act="file" data-accept=".doc,.docx">Word</button>
+          <button data-act="file" data-kind="pdf">PDF</button>
+          <button data-act="file" data-kind="image">Image</button>
+          <button data-act="file" data-kind="word">Word</button>
         </div></div>
       <div class="tm-item"><div class="tm-label">Tab bg &#9656;</div>
         <div class="tm-sub">
@@ -1617,7 +1617,7 @@
       if (!b) return;
       const act = b.dataset.act;
       closeTabMenu();
-      if (act === "file") openFilePicker(b.dataset.accept);
+      if (act === "file") openFilePicker(b.dataset.kind);
       else if (act === "bg") setBoardBg(index, b.dataset.bg);
       else if (act === "save-image" || act === "save-pdf") {
         if (index !== active) switchBoard(index);
@@ -1631,13 +1631,21 @@
   }
 
   // Opens a PDF, image or Word file chosen from disk in a new browser window
-  function openFilePicker(accept) {
+  const FILE_ACCEPT = { pdf: ".pdf", image: "image/*", word: ".doc,.docx" };
+
+  function openFilePicker(kind) {
+    // In the desktop overlay: native file dialog, then the file opens in its default program
+    if (window.padaDesktop) {
+      window.padaDesktop.openFile(kind);
+      return;
+    }
+    // In the browser: pick the file and open it in a new tab
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = accept;
+    input.accept = FILE_ACCEPT[kind] || "";
     input.addEventListener("change", () => {
       const file = input.files[0];
-      if (file) window.open(URL.createObjectURL(file), "_blank", "noopener");
+      if (file) window.open(URL.createObjectURL(file), "_blank");
     });
     input.click();
   }
@@ -1750,6 +1758,7 @@
   // Tab bg: colours the tab and the board behind it; "transparent" lets the desktop show through
   function setBoardBg(index, bg) {
     boards[index].bg = bg;
+    if (index !== active) switchBoard(index);
     renderTabs();
     render();
   }
