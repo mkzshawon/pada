@@ -119,7 +119,7 @@
     const before = record ? snapshot() : null;
     board().shapes = shapesOf().map((s) => (selected.has(s.id) ? { ...s, ...patch } : s));
     if (patch.fontSize || patch.family) {
-      for (const s of shapesOf()) if (s.type === "text" && selected.has(s.id)) fitTextBox(s);
+      for (const s of shapesOf()) if ((s.type === "text" || s.type === "note") && selected.has(s.id)) fitTextBox(s);
     }
     if (record) commit(before);
     render();
@@ -153,7 +153,7 @@
 
     const cur = sel.length ? sel[0] : currentStyle;
     const textOnly = sel.length ? sel.every((s) => s.type === "text") : tool === "text";
-    const hasText = sel.length ? sel.some((s) => s.type === "text" || s.type === "note") : tool === "text";
+    const hasText = sel.length ? sel.some((s) => s.type === "text" || s.type === "note") : tool === "text" || tool === "note";
     const group = (name) => styleEl.querySelector(`[data-group="${name}"]`);
     group("fill").hidden = textOnly;
     group("transp").hidden = textOnly;
@@ -1251,6 +1251,7 @@
       stroke: currentStyle.stroke,
       width: currentStyle.width,
       fill: currentStyle.fill,
+      fontSize: currentStyle.fontSize,
       family: currentStyle.family,
       transparency: currentStyle.transparency,
       blur: currentStyle.blur,
