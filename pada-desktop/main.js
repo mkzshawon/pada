@@ -5,6 +5,7 @@ const path = require("path");
 
 let win = null;
 let passThrough = false; // when true, mouse clicks go through the overlay to the apps underneath
+let fullOverlay = true; // true: covers the whole screen; false: a smaller, movable window
 
 // File types offered by the Tab menu's "Open File" sub-menu
 const FILE_FILTERS = {
@@ -29,7 +30,7 @@ function createWindow() {
     transparent: true,
     frame: false,
     hasShadow: false,
-    resizable: false,
+    resizable: true,
     alwaysOnTop: true,
     backgroundColor: "#00000000",
     webPreferences: {
@@ -59,6 +60,29 @@ ipcMain.handle("pada:open-file", async (_event, kind) => {
   }
 });
 
+// Window buttons in the ribbon: minimize, resize (full screen <-> smaller window), close
+ipcMain.on("pada:window", (_event, action) => {
+  if (!win) return;
+  if (action === "minimize") {
+    win.minimize();
+  } else if (action === "close") {
+    app.quit();
+  } else if (action === "resize") {
+    const display = screen.getDisplayMatching(win.getBounds()).bounds;
+    if (fullOverlay) {
+      win.setBounds({
+        x: display.x + Math.round(display.width * 0.15),
+        y: display.y + Math.round(display.height * 0.15),
+        width: Math.round(display.width * 0.7),
+        height: Math.round(display.height * 0.7),
+      });
+    } else {
+      win.setBounds({ x: display.x, y: display.y, width: display.width, height: display.height });
+    }
+    fullOverlay = !fullOverlay;
+  }
+});
+
 app.whenReady().then(() => {
   createWindow();
 
@@ -66,6 +90,10 @@ app.whenReady().then(() => {
   globalShortcut.register("CommandOrControl+Alt+P", () => setPassThrough(!passThrough));
   // Ctrl+Alt+Q: close the overlay
   globalShortcut.register("CommandOrControl+Alt+Q", () => app.quit());
+  // Ctrl+Alt+D: open or close the developer console (for diagnosing problems)
+  globalShortcut.register("CommandOrControl+Alt+D", () => {
+    if (win) win.webContents.toggleDevTools();
+  });
 });
 
 app.on("will-quit", () => globalShortcut.unregisterAll());

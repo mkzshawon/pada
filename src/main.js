@@ -1490,6 +1490,28 @@
 
   window.addEventListener("resize", resize);
 
+  /* ---------- Ribbon & window controls ---------- */
+
+  // A ribbon across the top: tabs on the left, window buttons on the right (desktop overlay only)
+  function buildRibbon() {
+    const ribbon = document.createElement("div");
+    ribbon.id = "ribbon";
+    document.body.appendChild(ribbon);
+
+    const ctl = document.createElement("div");
+    ctl.id = "winctl";
+    ctl.innerHTML =
+      '<button data-win="minimize" title="Minimize" aria-label="Minimize">&#8211;</button>' +
+      '<button data-win="resize" title="Resize" aria-label="Resize">&#9633;</button>' +
+      '<button data-win="close" class="close" title="Close" aria-label="Close">&#215;</button>';
+    ctl.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (b && window.padaDesktop) window.padaDesktop.windowControl(b.dataset.win);
+    });
+    if (!window.padaDesktop) ctl.style.display = "none";
+    document.body.appendChild(ctl);
+  }
+
   /* ---------- Toolbar visibility & eraser menu ---------- */
 
   let eraserMenuEl = null;
@@ -1845,6 +1867,7 @@
   renderTabs();
   setTool("select");
   buildStylePanel();
+  buildRibbon();
   resize();
 
   // Canvas text is drawn once the font is ready, so redraw after it loads
