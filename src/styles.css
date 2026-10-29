@@ -622,6 +622,135 @@ body {
   color: #ffffff;
 }
 
+/* Progress bar (bottom-left) while a PDF is being read */
+#progress {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  z-index: 15;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--chrome);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  font-size: 13px;
+  color: var(--ink);
+}
+
+#progress .pg {
+  width: 160px;
+  height: 6px;
+  border-radius: 3px;
+  background: #ececf4;
+  overflow: hidden;
+}
+
+#progress .pg i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent-ink);
+  transition: width 0.15s;
+}
+
+/* Page chooser for PDFs */
+#pagebox {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(29, 27, 46, 0.35);
+}
+
+#pagebox .pb-card {
+  width: 340px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--chrome);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  font-size: 14px;
+  color: var(--ink);
+}
+
+#pagebox input {
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #d6d3e6;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+#pagebox .pb-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+#pagebox .pb-row button {
+  height: 30px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 6px;
+  background: #f3f1fb;
+  color: var(--ink);
+  font-family: inherit;
+  cursor: pointer;
+}
+
+#pagebox .pb-row button[data-r="ok"] {
+  background: var(--accent-ink);
+  color: #ffffff;
+}
+
+/* Presentation: each tab full screen, one after another */
+#present {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+#present img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+#present .pres-bar {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  font-size: 13px;
+  color: var(--ink);
+  pointer-events: none;
+}
+
+#present .pres-bar small {
+  color: var(--muted);
+}
+
 /* Inline text editor shown over a text or note shape while typing */
 .editor {
   position: fixed;

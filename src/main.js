@@ -3,7 +3,7 @@
   "use strict";
 
   const canvas = document.getElementById("board");
-  const ctx = canvas.getContext("2d");
+  let ctx = canvas.getContext("2d");
   const tabsEl = document.getElementById("tabs");
   const toolbarEl = document.getElementById("toolbar");
 
@@ -1873,6 +1873,19 @@
   window.addEventListener("keydown", (e) => {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
 
+    if (presentEl) {
+      e.preventDefault();
+      if (e.key === "Escape") stopPresentation();
+      else if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(e.key)) presentStep(1);
+      else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(e.key)) presentStep(-1);
+      return;
+    }
+    if (e.key === "F5") {
+      e.preventDefault();
+      startPresentation();
+      return;
+    }
+
     if (e.code === "Space" && !spaceHeld) {
       spaceHeld = true;
       updateCursor();
@@ -2128,7 +2141,7 @@
       else if (act === "bg") setBoardBg(index, b.dataset.bg);
       else if (act === "save-image" || act === "save-pdf") {
         if (index !== active) switchBoard(index);
-        saveBoardAs(act === "save-image" ? "image" : "pdf");
+        saveTabAs(act === "save-image" ? "image" : "pdf");
       }
       else if (act === "rename") renameBoard(index);
       else if (act === "duplicate") duplicateBoard(index);
@@ -2199,16 +2212,27 @@
     await loadScript(PDFJS_URL, () => window.pdfjsLib);
     window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_URL.replace("pdf.min.js", "pdf.worker.min.js");
     const pdf = await window.pdfjsLib.getDocument({ data: await readFile(file, false) }).promise;
+    const spec = await askPages(pdf.numPages);
+    if (spec === null) return [];
+    const pages = parsePages(spec, pdf.numPages);
+    if (!pages.length) throw new Error("পৃষ্ঠার নম্বর সঠিক নয়");
+
     const out = [];
-    const scale = pdf.numPages > 100 ? 1 : 1.5;
-    for (let i = 1; i <= Math.min(pdf.numPages, 1000); i++) {
-      const page = await pdf.getPage(i);
-      const vp = page.getViewport({ scale });
-      const c = document.createElement("canvas");
-      c.width = Math.round(vp.width);
-      c.height = Math.round(vp.height);
-      await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
-      out.push({ src: c.toDataURL("image/jpeg", 0.9), w0: c.width, h0: c.height });
+    const scale = pages.length > 100 ? 1 : 1.5;
+    const pr = progressStart("PDF পৃষ্ঠা");
+    try {
+      for (let k = 0; k < pages.length; k++) {
+        pr.set(k, pages.length);
+        const page = await pdf.getPage(pages[k]);
+        const vp = page.getViewport({ scale });
+        const c = document.createElement("canvas");
+        c.width = Math.round(vp.width);
+        c.height = Math.round(vp.height);
+        await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+        out.push({ src: c.toDataURL("image/jpeg", 0.9), w0: c.width, h0: c.height });
+      }
+    } finally {
+      pr.end();
     }
     return out;
   }
@@ -2281,6 +2305,182 @@
     } catch (err) {
       alert("ফাইলটি খোলা যায়নি: " + err.message);
     }
+  }
+
+  /* ---------- PDF page choice and progress ---------- */
+
+  // A small box asking which pages to open ("all", or e.g. 1-5, 8, 12)
+  function askPages(total) {
+    return new Promise((resolve) => {
+      const box = document.createElement("div");
+      box.id = "pagebox";
+      box.innerHTML =
+        '<div class="pb-card">' +
+        `<div><b>PDF: মোট ${total} পৃষ্ঠা</b></div>` +
+        '<label>কোন পৃষ্ঠাগুলো খুলবেন? (যেমন 1-5, 8, 12 বা all)</label>' +
+        '<input type="text" value="all" />' +
+        '<div class="pb-row"><button data-r="cancel">বাতিল</button><button data-r="ok">খুলুন</button></div>' +
+        "</div>";
+      document.body.appendChild(box);
+      const input = box.querySelector("input");
+      input.focus();
+      input.select();
+      const done = (value) => {
+        box.remove();
+        resolve(value);
+      };
+      box.addEventListener("click", (e) => {
+        const r = e.target.dataset.r;
+        if (r === "cancel") done(null);
+        else if (r === "ok") done(input.value);
+      });
+      input.addEventListener("keydown", (e) => {
+        e.stopPropagation();
+        if (e.key === "Enter") done(input.value);
+        else if (e.key === "Escape") done(null);
+      });
+    });
+  }
+
+  // "1-5, 8" -> [1, 2, 3, 4, 5, 8]; "all" or empty -> every page
+  function parsePages(spec, n) {
+    const text = spec.trim().toLowerCase();
+    if (!text || text === "all") return Array.from({ length: n }, (_, i) => i + 1);
+    const out = [];
+    for (const part of text.split(",")) {
+      const m = part.trim().match(/^(\d+)(?:\s*-\s*(\d+))?$/);
+      if (!m) continue;
+      const a = Number(m[1]);
+      const b = m[2] ? Number(m[2]) : a;
+      for (let i = Math.min(a, b); i <= Math.max(a, b); i++) {
+        if (i >= 1 && i <= n && !out.includes(i)) out.push(i);
+      }
+    }
+    return out;
+  }
+
+  // Shows "label done / total" with a bar at the bottom-left; returns set(done, total) and end()
+  function progressStart(label) {
+    let el = document.getElementById("progress");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "progress";
+      el.innerHTML = "<span></span><div class=\"pg\"><i></i></div>";
+      document.body.appendChild(el);
+    }
+    el.style.display = "flex";
+    const span = el.querySelector("span");
+    const bar = el.querySelector("i");
+    return {
+      set(done, total) {
+        span.textContent = `${label} ${done} / ${total}`;
+        bar.style.width = (total ? (done / total) * 100 : 0) + "%";
+      },
+      end() {
+        el.style.display = "none";
+      },
+    };
+  }
+
+  /* ---------- Full-tab export ---------- */
+
+  // Paints every shape of a tab into an offscreen canvas, whatever part is on screen
+  function exportScene(shapes, scale, transparent) {
+    const bb = { x1: Infinity, y1: Infinity, x2: -Infinity, y2: -Infinity };
+    for (const s of shapes) {
+      const b = bounds(s);
+      bb.x1 = Math.min(bb.x1, b.x1);
+      bb.y1 = Math.min(bb.y1, b.y1);
+      bb.x2 = Math.max(bb.x2, b.x2);
+      bb.y2 = Math.max(bb.y2, b.y2);
+    }
+    if (!shapes.length) Object.assign(bb, { x1: 0, y1: 0, x2: 800, y2: 600 });
+    const pad = 20;
+    const x1 = bb.x1 - pad;
+    const y1 = bb.y1 - pad;
+    const w = bb.x2 - bb.x1 + 2 * pad;
+    const h = bb.y2 - bb.y1 + 2 * pad;
+    const k = Math.min(scale, 8000 / Math.max(w, h));
+
+    const off = document.createElement("canvas");
+    off.width = Math.max(1, Math.round(w * k));
+    off.height = Math.max(1, Math.round(h * k));
+    const prev = ctx;
+    ctx = off.getContext("2d");
+    try {
+      if (!transparent) {
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, off.width, off.height);
+      }
+      ctx.setTransform(k, 0, 0, k, -x1 * k, -y1 * k);
+      ctx.strokeStyle = "#1d1b2e";
+      ctx.lineWidth = 2;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      for (const s of shapes) drawWithStyle(s);
+    } finally {
+      ctx = prev;
+    }
+    return off;
+  }
+
+  // Save as > Image / PDF: the whole current tab
+  function saveTabAs(kind) {
+    finishEditing();
+    const b = board();
+    const base = b.name.replace(/\s+/g, "_");
+    if (kind === "image") {
+      const off = exportScene(shapesOf(), 2, b.bg === "transparent");
+      off.toBlob((blob) => download(blob, `${base}.png`), "image/png");
+      return;
+    }
+    const off = exportScene(shapesOf(), 2, false);
+    const bin = atob(off.toDataURL("image/jpeg", 0.92).split(",")[1]);
+    const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
+    download(buildPdf(bytes, off.width, off.height), `${base}.pdf`);
+  }
+
+  /* ---------- Presentation mode: every tab in order, full screen ---------- */
+
+  let presentEl = null;
+  let presentIndex = 0;
+  let presentSlides = [];
+
+  function showSlide() {
+    presentEl.querySelector("img").src = presentSlides[presentIndex];
+    presentEl.querySelector("span").textContent = `${boards[presentIndex].name}  ·  ${presentIndex + 1} / ${boards.length}`;
+  }
+
+  function presentStep(d) {
+    presentIndex = Math.min(boards.length - 1, Math.max(0, presentIndex + d));
+    showSlide();
+  }
+
+  // F5 starts from the current tab; → / Space / click go forward, ← goes back, Esc ends
+  function startPresentation() {
+    if (presentEl) return;
+    finishEditing();
+    selected = new Set();
+    presentSlides = boards.map((b) => exportScene(b.shapes, 2, false).toDataURL("image/png"));
+    presentIndex = active;
+
+    presentEl = document.createElement("div");
+    presentEl.id = "present";
+    presentEl.innerHTML = '<img alt="" /><div class="pres-bar"><span></span><small>← → · Esc: বন্ধ</small></div>';
+    presentEl.addEventListener("click", (e) => {
+      const half = presentEl.getBoundingClientRect().width / 2;
+      presentStep(e.clientX < half ? -1 : 1);
+    });
+    document.body.appendChild(presentEl);
+    showSlide();
+  }
+
+  function stopPresentation() {
+    if (!presentEl) return;
+    presentEl.remove();
+    presentEl = null;
+    presentSlides = [];
+    render();
   }
 
   // The Tab menu's Open File items: pick a file and place it on this board
