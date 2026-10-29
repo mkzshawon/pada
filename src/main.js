@@ -22,6 +22,7 @@
     { id: "arrow", label: "Arrow", key: "a" },
     { id: "line", label: "Line", key: "l" },
     { id: "pencil", label: "Pencil", key: "p" },
+    { id: "polyline", label: "Polyline", key: "m" },
     { id: "text", label: "Text", key: "t" },
     { id: "note", label: "Note", key: "n" },
     { id: "eraser", label: "Eraser", key: "e" },
@@ -41,6 +42,7 @@
     pencil: '<path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/>',
     text: '<path d="M5 20L12 4l7 16M8 14h8"/>',
     note: '<path d="M4 4h16v11l-5 5H4z"/><path d="M15 20v-5h5"/>',
+    polyline: '<path d="M3 18l5-7 4 4 4-6 5 5"/><circle cx="3" cy="18" r="1.5"/><circle cx="21" cy="16" r="1.5"/>',
     eraser: '<path d="M4 15l8-9 7 6-5 5H8z"/><path d="M9 19h11"/>',
   };
 
@@ -80,7 +82,7 @@
   const WIDTHS = [1, 2, 4];
   const FONT_SIZES = [12, 14, 16, 18, 20, 24, 28, 32, 40, 48];
   const CLOSED = new Set(["rect", "diamond", "ellipse", "triangle"]); // shapes that can be filled
-  const SHAPE_TOOLS = new Set(["rect", "diamond", "triangle", "ellipse", "arrow", "line", "pencil", "text", "note"]);
+  const SHAPE_TOOLS = new Set(["rect", "diamond", "triangle", "ellipse", "arrow", "line", "pencil", "polyline", "text", "note"]);
 
   // Style used for the next shape you draw.
   // transparency (0-100) fades the fill only; blur (0-10) softens the whole shape.
@@ -265,7 +267,7 @@
   /* ---------- Geometry ---------- */
 
   function bounds(s) {
-    if (s.type === "pencil") {
+    if (s.type === "pencil" || s.type === "polyline") {
       const xs = s.points.map((p) => p.x);
       const ys = s.points.map((p) => p.y);
       return { x1: Math.min(...xs), y1: Math.min(...ys), x2: Math.max(...xs), y2: Math.max(...ys) };
@@ -292,6 +294,11 @@
     const p = s.angle ? rotatePt(p0, centerOf(s), -s.angle) : p0;
     if (s.type === "line" || s.type === "arrow") {
       return distToSegment(p, { x: s.x0, y: s.y0 }, { x: s.x1, y: s.y1 }) <= m;
+    }
+    if (s.type === "polyline") {
+      const pts = s.closed ? [...s.points, s.points[0]] : s.points;
+      for (let i = 1; i < pts.length; i++) if (distToSegment(p, pts[i - 1], pts[i]) <= m) return true;
+      return false;
     }
     if (s.type === "pencil") return s.points.some((q) => Math.hypot(q.x - p.x, q.y - p.y) <= m);
     const b = bounds(s);
@@ -347,6 +354,7 @@
   }
 
   function handleAt(p) {
+    if (singleLine()) return null;
     const box = selectionBox();
     if (!box) return null;
     const tol = 10 / board().camera.zoom;
@@ -360,7 +368,7 @@
   // Returns a copy of a shape with every point passed through f(x, y) -> {x, y}
   function mapShape(src, f) {
     const out = { ...src };
-    if (src.type === "pencil") {
+    if (src.type === "pencil" || src.type === "polyline") {
       out.points = src.points.map((q) => f(q.x, q.y));
     } else {
       const a = f(src.x0, src.y0);
@@ -556,6 +564,124 @@
     ctx.beginPath();
     ctx.arc(pos.x, pos.y, r * 0.55, -0.6, Math.PI * 1.4);
     ctx.stroke();
+    ctx.restore();
+  }
+
+  /* ---------- Polyline ---------- */
+
+  let polyDraft = null; // { points, before } while corners are being added
+  let polyCursor = null; // where the pointer is, to draw the next segment
+
+  // Ends the polyline: closed (its first corner was clicked) or open (Enter, double-click or tool change)
+  function finishPoly(closed) {
+    if (!polyDraft) return;
+    const z = board().camera.zoom;
+    const pts = polyDraft.points.filter(
+      (q, i, arr) => i === 0 || Math.hypot(q.x - arr[i - 1].x, q.y - arr[i - 1].y) > 1 / z
+    );
+    const before = polyDraft.before;
+    polyDraft = null;
+    polyCursor = null;
+    if (pts.length >= 2) {
+      const s = {
+        id: newId(),
+        type: "polyline",
+        points: pts,
+        closed: closed && pts.length >= 3,
+        stroke: currentStyle.stroke,
+        width: currentStyle.width,
+        fill: currentStyle.fill,
+        transparency: currentStyle.transparency,
+        blur: currentStyle.blur,
+      };
+      shapesOf().push(s);
+      selected = new Set([s.id]);
+      commit(before);
+    }
+    render();
+  }
+
+  // The dashed guide while a polyline is being drawn
+  function drawPolyDraft(z) {
+    if (!polyDraft) return;
+    const pts = polyDraft.points;
+    ctx.save();
+    ctx.strokeStyle = ACCENT;
+    ctx.lineWidth = 2 / z;
+    ctx.setLineDash([6 / z, 4 / z]);
+    ctx.beginPath();
+    pts.forEach((q, i) => (i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y)));
+    if (polyCursor) ctx.lineTo(polyCursor.x, polyCursor.y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.arc(pts[0].x, pts[0].y, 5 / z, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  /* ---------- Line endpoints ---------- */
+
+  // The selected line or arrow, when exactly one is selected and it is not rotated
+  function singleLine() {
+    const sel = shapesOf().filter((s) => selected.has(s.id));
+    if (sel.length !== 1) return null;
+    const s = sel[0];
+    return (s.type === "line" || s.type === "arrow") && !s.angle ? s : null;
+  }
+
+  // Which end of the selected line the point is on: "start", "end", or null
+  function endpointAt(p) {
+    const s = singleLine();
+    if (!s) return null;
+    const tol = 10 / board().camera.zoom;
+    if (Math.hypot(p.x - s.x0, p.y - s.y0) <= tol) return "start";
+    if (Math.hypot(p.x - s.x1, p.y - s.y1) <= tol) return "end";
+    return null;
+  }
+
+  // Moves one end of a line. Released on a shape, the end connects to it; otherwise it is free.
+  function moveEndpoint(s, which, p) {
+    const key = which === "start" ? "Start" : "End";
+    const t = bindTarget(p);
+    let q = p;
+    if (t) {
+      const side = nearestSide(t, p);
+      s["bind" + key] = t.id;
+      s["bind" + key + "Side"] = side;
+      q = anchorOf(t, side);
+    } else {
+      delete s["bind" + key];
+      delete s["bind" + key + "Side"];
+    }
+    if (which === "start") {
+      s.x0 = q.x;
+      s.y0 = q.y;
+    } else {
+      s.x1 = q.x;
+      s.y1 = q.y;
+    }
+  }
+
+  // Round handles at the two ends of the selected line
+  function drawEndpoints(z) {
+    const s = singleLine();
+    if (!s) return;
+    ctx.save();
+    ctx.strokeStyle = ACCENT;
+    ctx.fillStyle = "#ffffff";
+    ctx.lineWidth = 1.5 / z;
+    for (const q of [
+      { x: s.x0, y: s.y0 },
+      { x: s.x1, y: s.y1 },
+    ]) {
+      ctx.beginPath();
+      ctx.arc(q.x, q.y, 5 / z, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
     ctx.restore();
   }
 
@@ -971,6 +1097,8 @@
     for (const s of shapesOf()) drawWithStyle(s);
     if (drawing) drawWithStyle(drawing);
     drawSelection(z);
+    drawEndpoints(z);
+    drawPolyDraft(z);
     drawMarquee(z);
     drawBindHint(z);
     drawRotateButton(z);
@@ -1051,12 +1179,16 @@
         ctx.lineTo(s.x1 - head * Math.cos(ang + 0.45), s.y1 - head * Math.sin(ang + 0.45));
         break;
       }
+      case "polyline":
+        s.points.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)));
+        if (s.closed) ctx.closePath();
+        break;
       case "pencil":
         s.points.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)));
         if (isClosedPencil(s)) ctx.closePath();
         break;
     }
-    if (s.fill && (CLOSED.has(s.type) || isClosedPencil(s))) {
+    if (s.fill && (CLOSED.has(s.type) || isClosedPencil(s) || (s.type === "polyline" && s.closed))) {
       ctx.fillStyle = withAlpha(s.fill, 1 - (s.transparency ?? 0) / 100);
       ctx.fill();
     }
@@ -1087,7 +1219,7 @@
 
     ctx.setLineDash([]);
     const box = selectionBox();
-    if (box) {
+    if (box && !singleLine()) {
       const hs = 8 / z;
       ctx.fillStyle = "#ffffff";
       for (const pt of Object.values(frameHandles(box))) {
@@ -1114,6 +1246,7 @@
   /* ---------- Tools & actions ---------- */
 
   function setTool(id) {
+    if (polyDraft) finishPoly(false);
     tool = id;
     for (const btn of toolbarEl.querySelectorAll(".tool")) {
       btn.setAttribute("aria-pressed", String(btn.dataset.tool === id));
@@ -1238,6 +1371,11 @@
         render();
         return;
       }
+      const ep = endpointAt(p);
+      if (ep) {
+        gesture = { type: "endpoint", id: singleLine().id, which: ep, before };
+        return;
+      }
       const h = handleAt(p);
       if (h) {
         detachSelectedLines();
@@ -1263,6 +1401,16 @@
       const base = e.shiftKey ? new Set(selected) : new Set();
       if (!e.shiftKey) selected.clear();
       gesture = { type: "marquee", rect: { x1: p.x, y1: p.y, x2: p.x, y2: p.y }, base };
+      render();
+      return;
+    }
+
+    // Polyline: each click adds a corner; click the first corner to close the shape
+    if (tool === "polyline") {
+      if (!polyDraft) polyDraft = { points: [p], before };
+      else if (polyDraft.points.length >= 3 && Math.hypot(p.x - polyDraft.points[0].x, p.y - polyDraft.points[0].y) <= 12 / board().camera.zoom) {
+        finishPoly(true);
+      } else polyDraft.points.push(p);
       render();
       return;
     }
@@ -1300,6 +1448,11 @@
 
   canvas.addEventListener("pointermove", (e) => {
     const p = eventToWorld(e);
+    if (polyDraft) {
+      polyCursor = p;
+      render();
+      return;
+    }
 
     if (!gesture) {
       if (tool === "select") {
@@ -1385,6 +1538,11 @@
         selectInRect(gesture.base);
         break;
       }
+      case "endpoint": {
+        const s = shapesOf().find((x) => x.id === gesture.id);
+        if (s) moveEndpoint(s, gesture.which, p);
+        break;
+      }
       case "rotate": {
         let d = Math.atan2(p.y - gesture.center.y, p.x - gesture.center.x) - gesture.startAng;
         if (e.shiftKey) d = Math.round(d / (Math.PI / 12)) * (Math.PI / 12);
@@ -1453,6 +1611,10 @@
 
   // Double-click a text or note with the Select tool to edit it
   canvas.addEventListener("dblclick", (e) => {
+    if (polyDraft) {
+      finishPoly(false);
+      return;
+    }
     if (tool !== "select") return;
     const hit = topmostAt(eventToWorld(e));
     if (hit && (hit.type === "text" || hit.type === "note")) {
@@ -1520,6 +1682,11 @@
         e.preventDefault();
         deleteSelected();
       }
+      return;
+    }
+    if ((e.key === "Enter" || e.key === "Escape") && polyDraft) {
+      e.preventDefault();
+      finishPoly(false);
       return;
     }
     if (e.key === "Escape") {
