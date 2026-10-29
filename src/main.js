@@ -571,15 +571,27 @@
     const h = board().history;
     h.push(before);
     if (h.length > MAX_HISTORY) h.shift();
+    board().redo = [];
   }
 
-  function undo() {
-    const h = board().history;
-    if (!h.length) return;
-    board().shapes = JSON.parse(h.pop());
+  // Restores a saved state and keeps the current one for the opposite action
+  function restore(from, to) {
+    if (!from.length) return;
+    to.push(snapshot());
+    board().shapes = JSON.parse(from.pop());
     const ids = new Set(shapesOf().map((s) => s.id));
     for (const id of [...selected]) if (!ids.has(id)) selected.delete(id);
     render();
+  }
+
+  function undo() {
+    if (!board().redo) board().redo = [];
+    restore(board().history, board().redo);
+  }
+
+  function redo() {
+    if (!board().redo) board().redo = [];
+    restore(board().redo, board().history);
   }
 
   function deleteSelected() {
@@ -1488,7 +1500,13 @@
 
     if ((e.ctrlKey || e.metaKey) && k === "z") {
       e.preventDefault();
-      undo();
+      if (e.shiftKey) redo();
+      else undo();
+      return;
+    }
+    if ((e.ctrlKey || e.metaKey) && k === "y") {
+      e.preventDefault();
+      redo();
       return;
     }
     if ((e.ctrlKey || e.metaKey) && k === "a") {
