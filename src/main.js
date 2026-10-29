@@ -981,6 +981,16 @@
   }
 
   function drawShape(s) {
+    if (s.type === "image") {
+      const b = bounds(s);
+      const img = imageFor(s.src);
+      if (img.complete && img.naturalWidth) {
+        ctx.drawImage(img, b.x1, b.y1, b.x2 - b.x1, b.y2 - b.y1);
+      } else {
+        ctx.strokeRect(b.x1, b.y1, b.x2 - b.x1, b.y2 - b.y1); // placeholder until the picture has loaded
+      }
+      return;
+    }
     if (s.type === "text" || s.type === "note") {
       drawBoxText(s);
       return;
@@ -1678,21 +1688,155 @@
   }
 
   // Opens a PDF, image or Word file chosen from disk in a new browser window
-  const FILE_ACCEPT = { pdf: ".pdf", image: "image/*", word: ".doc,.docx" };
+  /* ---------- Files: pictures, PDF pages and Word text open inside the board ---------- */
 
-  function openFilePicker(kind) {
-    // In the desktop overlay: native file dialog, then the file opens in its default program
-    if (window.padaDesktop) {
-      window.padaDesktop.openFile(kind);
-      return;
+  const FILE_ACCEPT = { pdf: ".pdf", image: "image/*", word: ".docx" };
+  const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+  const MAMMOTH_URL = "https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js";
+  const IMAGE_CACHE = new Map(); // picture source -> decoded image, so each one loads once
+
+  function imageFor(src) {
+    if (!IMAGE_CACHE.has(src)) {
+      const img = new Image();
+      img.onload = () => render();
+      img.src = src;
+      IMAGE_CACHE.set(src, img);
     }
-    // In the browser: pick the file and open it in a new tab
+    return IMAGE_CACHE.get(src);
+  }
+
+  function readFile(file, asDataUrl) {
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(r.result);
+      r.onerror = () => reject(new Error("file could not be read"));
+      if (asDataUrl) r.readAsDataURL(file);
+      else r.readAsArrayBuffer(file);
+    });
+  }
+
+  function loadScript(url, ready) {
+    if (ready()) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = url;
+      s.onload = resolve;
+      s.onerror = () => reject(new Error("the viewer could not be loaded (check the internet connection)"));
+      document.head.appendChild(s);
+    });
+  }
+
+  // Step 1: a picture, downscaled so the saved board stays small
+  async function pictureFromFile(file) {
+    const img = new Image();
+    img.src = await readFile(file, true);
+    await new Promise((res, rej) => {
+      img.onload = res;
+      img.onerror = rej;
+    });
+    const k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement("canvas");
+    c.width = Math.round(img.naturalWidth * k);
+    c.height = Math.round(img.naturalHeight * k);
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    const png = file.type === "image/png";
+    return { src: c.toDataURL(png ? "image/png" : "image/jpeg", 0.9), w0: c.width, h0: c.height };
+  }
+
+  // Step 2: each PDF page becomes a picture (up to 30 pages)
+  async function pagesFromPdf(file) {
+    await loadScript(PDFJS_URL, () => window.pdfjsLib);
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_URL.replace("pdf.min.js", "pdf.worker.min.js");
+    const pdf = await window.pdfjsLib.getDocument({ data: await readFile(file, false) }).promise;
+    const out = [];
+    for (let i = 1; i <= Math.min(pdf.numPages, 30); i++) {
+      const page = await pdf.getPage(i);
+      const vp = page.getViewport({ scale: 1.5 });
+      const c = document.createElement("canvas");
+      c.width = Math.round(vp.width);
+      c.height = Math.round(vp.height);
+      await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+      out.push({ src: c.toDataURL("image/jpeg", 0.9), w0: c.width, h0: c.height });
+    }
+    return out;
+  }
+
+  // Step 3: the text of a .docx becomes a note (old .doc files are not supported)
+  async function textFromWord(file) {
+    await loadScript(MAMMOTH_URL, () => window.mammoth);
+    const result = await window.mammoth.extractRawText({ arrayBuffer: await readFile(file, false) });
+    return result.value.trim() || "(empty document)";
+  }
+
+  // Places pictures one below another, starting at the centre of the view
+  function insertImages(list) {
+    const c = screenToWorld(window.innerWidth / 2, window.innerHeight / 2);
+    const before = snapshot();
+    const created = [];
+    let y = c.y;
+    for (const { src, w0, h0 } of list) {
+      const w = Math.min(600, w0);
+      const h = (h0 * w) / w0;
+      const x = c.x - w / 2;
+      const s = { id: newId(), type: "image", src, x0: x, y0: y, x1: x + w, y1: y + h, transparency: 0, blur: 0 };
+      shapesOf().push(s);
+      created.push(s.id);
+      y += h + 20;
+    }
+    selected = new Set(created);
+    commit(before);
+    render();
+  }
+
+  function insertNote(text) {
+    const c = screenToWorld(window.innerWidth / 2, window.innerHeight / 2);
+    const before = snapshot();
+    const s = {
+      id: newId(),
+      type: "note",
+      text,
+      x0: c.x - 210,
+      y0: c.y,
+      x1: c.x + 210,
+      y1: c.y + NOTE_H,
+      stroke: PALETTE[0],
+      fill: NOTE_FILL,
+      fontSize: 14,
+      family: "sans",
+      transparency: 0,
+      blur: 0,
+    };
+    shapesOf().push(s);
+    fitTextBox(s);
+    selected = new Set([s.id]);
+    commit(before);
+    render();
+  }
+
+  async function openIntoBoard(file, kind) {
+    try {
+      if (kind === "image") insertImages([await pictureFromFile(file)]);
+      else if (kind === "pdf") insertImages(await pagesFromPdf(file));
+      else if (kind === "word") {
+        if (!file.name.toLowerCase().endsWith(".docx")) {
+          alert("শুধু .docx ফাইল খোলা যাবে। পুরনো .doc ফাইল সমর্থিত নয়।");
+          return;
+        }
+        insertNote(await textFromWord(file));
+      }
+    } catch (err) {
+      alert("ফাইলটি খোলা যায়নি: " + err.message);
+    }
+  }
+
+  // The Tab menu's Open File items: pick a file and place it on this board
+  function openFilePicker(kind) {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = FILE_ACCEPT[kind] || "";
     input.addEventListener("change", () => {
       const file = input.files[0];
-      if (file) window.open(URL.createObjectURL(file), "_blank");
+      if (file) openIntoBoard(file, kind);
     });
     input.click();
   }
