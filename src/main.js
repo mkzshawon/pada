@@ -45,6 +45,7 @@
     note: '<path d="M4 4h16v11l-5 5H4z"/><path d="M15 20v-5h5"/>',
     polyline: '<path d="M3 18l5-7 4 4 4-6 5 5"/><circle cx="3" cy="18" r="1.5"/><circle cx="21" cy="16" r="1.5"/>',
     laser: '<circle cx="12" cy="12" r="2.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M5.6 18.4l2-2M16.4 7.6l2-2"/>',
+    camera: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
     eraser: '<path d="M4 15l8-9 7 6-5 5H8z"/><path d="M9 19h11"/>',
   };
 
@@ -889,6 +890,89 @@
     if (c) applyStyle({ stroke: c });
   }
 
+  /* ---------- Camera ---------- */
+
+  let camMenuOpen = false;
+  let camMenuEl = null;
+  let camCam = null; // webcam stream
+  let camVirt = null; // the board's picture as a video stream
+  let camShape = "rect"; // "rect" or "round"
+  let dragCam = null; // offset while the preview box is being dragged
+
+  function stopStream(stream) {
+    if (stream) stream.getTracks().forEach((t) => t.stop());
+  }
+
+  // One preview box shows the virtual camera if it is on, otherwise the webcam
+  function refreshPreview() {
+    const stream = camVirt || camCam;
+    let box = document.getElementById("cam-box");
+    if (!stream) {
+      if (box) box.remove();
+      return;
+    }
+    if (!box) {
+      box = document.createElement("div");
+      box.id = "cam-box";
+      box.innerHTML = '<div class="cb-title"></div><video autoplay muted playsinline></video>';
+      box.style.left = window.innerWidth - 272 + "px";
+      box.style.top = "56px";
+      box.style.right = "auto";
+      // Drag the preview anywhere inside the window
+      box.addEventListener("pointerdown", (e) => {
+        if (e.target.tagName === "BUTTON") return;
+        dragCam = { dx: e.clientX - box.offsetLeft, dy: e.clientY - box.offsetTop };
+        box.setPointerCapture(e.pointerId);
+      });
+      box.addEventListener("pointermove", (e) => {
+        if (!dragCam) return;
+        const left = Math.min(window.innerWidth - box.offsetWidth, Math.max(0, e.clientX - dragCam.dx));
+        const top = Math.min(window.innerHeight - box.offsetHeight, Math.max(0, e.clientY - dragCam.dy));
+        box.style.left = left + "px";
+        box.style.top = top + "px";
+      });
+      box.addEventListener("pointerup", () => {
+        dragCam = null;
+      });
+      document.body.appendChild(box);
+    }
+    box.classList.toggle("round", camShape === "round");
+    const video = box.querySelector("video");
+    if (video.srcObject !== stream) video.srcObject = stream;
+    box.querySelector(".cb-title").textContent = camVirt ? "Virtual camera (PADA)" : "Camera";
+  }
+
+  async function runCamAction(action) {
+    if (action === "show-round" || action === "show-rect") {
+      camShape = action === "show-round" ? "round" : "rect";
+      action = "show";
+    }
+    if (action === "show") {
+      if (!camCam) {
+        try {
+          camCam = await navigator.mediaDevices.getUserMedia({ video: true });
+        } catch (err) {
+          alert("ক্যামেরা চালু করা যায়নি: " + err.message);
+          return;
+        }
+      }
+    } else if (action === "off") {
+      stopStream(camCam);
+      camCam = null;
+    } else if (action === "vstart") {
+      // The board's canvas as a live video stream (shown here; other apps need a virtual camera driver)
+      if (!camVirt) camVirt = canvas.captureStream(30);
+    } else if (action === "voff") {
+      stopStream(camVirt);
+      camVirt = null;
+    }
+    refreshPreview();
+  }
+
+  function renderCamMenu() {
+    if (camMenuEl) camMenuEl.style.display = camMenuOpen ? "flex" : "none";
+  }
+
   /* ---------- Undo history ---------- */
 
   function snapshot() {
@@ -1547,6 +1631,8 @@
     else showStyle();
     eraserMenuOpen = false;
     renderEraserMenu();
+    camMenuOpen = false;
+    renderCamMenu();
 
     // Pan
     if (tool === "hand" || spaceHeld || e.button === 1) {
@@ -2072,6 +2158,43 @@
       });
       toolbarEl.appendChild(btn);
     });
+
+    // Camera button, with its menu: Show / Off Camera, Start / Off Virtual Camera
+    const camSep = document.createElement("span");
+    camSep.className = "sep";
+    toolbarEl.appendChild(camSep);
+    const camBtn = document.createElement("button");
+    camBtn.className = "tool";
+    camBtn.title = "Camera";
+    camBtn.setAttribute("aria-label", "Camera");
+    camBtn.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+      `stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS.camera}</svg>`;
+    camBtn.addEventListener("click", () => {
+      camMenuOpen = !camMenuOpen;
+      renderCamMenu();
+    });
+    toolbarEl.appendChild(camBtn);
+
+    camMenuEl = document.createElement("div");
+    camMenuEl.id = "camera-menu";
+    camMenuEl.innerHTML =
+      '<div class="tm-item"><div class="tm-label">Show Camera &#9656;</div>' +
+      '<div class="tm-sub">' +
+      '<button data-cam="show-round">Round shape</button>' +
+      '<button data-cam="show-rect">Rectangle shape</button>' +
+      "</div></div>" +
+      '<button data-cam="off">Off Camera</button>' +
+      '<button data-cam="vstart">Start Virtual Camera</button>' +
+      '<button data-cam="voff">Off Virtual Camera</button>';
+    camMenuEl.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      camMenuOpen = false;
+      renderCamMenu();
+      runCamAction(b.dataset.cam);
+    });
+    toolbarEl.appendChild(camMenuEl);
 
     eraserMenuEl = document.createElement("div");
     eraserMenuEl.id = "eraser-menu";
