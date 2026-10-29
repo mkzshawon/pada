@@ -23,6 +23,7 @@
     { id: "line", label: "Line", key: "l" },
     { id: "pencil", label: "Pencil", key: "p" },
     { id: "polyline", label: "Polyline", key: "m" },
+    { id: "laser", label: "Laser", key: "z" },
     { id: "text", label: "Text", key: "t" },
     { id: "note", label: "Note", key: "n" },
     { id: "eraser", label: "Eraser", key: "e" },
@@ -43,6 +44,7 @@
     text: '<path d="M5 20L12 4l7 16M8 14h8"/>',
     note: '<path d="M4 4h16v11l-5 5H4z"/><path d="M15 20v-5h5"/>',
     polyline: '<path d="M3 18l5-7 4 4 4-6 5 5"/><circle cx="3" cy="18" r="1.5"/><circle cx="21" cy="16" r="1.5"/>',
+    laser: '<circle cx="12" cy="12" r="2.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M5.6 18.4l2-2M16.4 7.6l2-2"/>',
     eraser: '<path d="M4 15l8-9 7 6-5 5H8z"/><path d="M9 19h11"/>',
   };
 
@@ -842,6 +844,51 @@
     render();
   }
 
+  /* ---------- Laser pointer & quick colour ---------- */
+
+  const LASER_MS = 1200; // how long a laser trail stays visible
+  let laserTrail = []; // { x, y, t }: points drawn by the laser, not part of the board
+  let laserRunning = false;
+
+  // Keeps the trail fading until it has disappeared
+  function startLaserFade() {
+    if (laserRunning) return;
+    laserRunning = true;
+    const step = () => {
+      const now = Date.now();
+      laserTrail = laserTrail.filter((q) => now - q.t < LASER_MS);
+      render();
+      if (laserTrail.length) requestAnimationFrame(step);
+      else laserRunning = false;
+    };
+    requestAnimationFrame(step);
+  }
+
+  function drawLaser(z) {
+    if (laserTrail.length < 2) return;
+    const now = Date.now();
+    ctx.save();
+    ctx.lineCap = "round";
+    ctx.lineWidth = 4 / z;
+    for (let i = 1; i < laserTrail.length; i++) {
+      const a = laserTrail[i - 1];
+      const b = laserTrail[i];
+      const alpha = Math.max(0, 1 - (now - b.t) / LASER_MS);
+      ctx.strokeStyle = `rgba(224, 49, 49, ${alpha})`;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // Colour 1-8 from the palette: applies to the selection, or to the next shape
+  function applyColorIndex(i) {
+    const c = PALETTE[i - 1];
+    if (c) applyStyle({ stroke: c });
+  }
+
   /* ---------- Undo history ---------- */
 
   function snapshot() {
@@ -1258,6 +1305,7 @@
     drawEndpoints(z);
     drawPolyDraft(z);
     drawSnapGuides(z);
+    drawLaser(z);
     drawMarquee(z);
     drawBindHint(z);
     drawRotateButton(z);
@@ -1564,6 +1612,14 @@
       return;
     }
 
+    // Laser: a trail that fades away; it is not saved to the board
+    if (tool === "laser") {
+      laserTrail.push({ x: p.x, y: p.y, t: Date.now() });
+      startLaserFade();
+      gesture = { type: "laser" };
+      return;
+    }
+
     // Polyline: each click adds a corner; click the first corner to close the shape
     if (tool === "polyline") {
       if (!polyDraft) polyDraft = { points: [p], before };
@@ -1699,6 +1755,10 @@
         selectInRect(gesture.base);
         break;
       }
+      case "laser":
+        laserTrail.push({ x: p.x, y: p.y, t: Date.now() });
+        startLaserFade();
+        break;
       case "endpoint": {
         const s = shapesOf().find((x) => x.id === gesture.id);
         if (s) moveEndpoint(s, gesture.which, p);
@@ -1839,6 +1899,10 @@
       render();
       return;
     }
+    if (!e.ctrlKey && !e.metaKey && !e.altKey && /^[1-8]$/.test(e.key)) {
+      applyColorIndex(Number(e.key));
+      return;
+    }
     if ((e.ctrlKey || e.metaKey) && k === "g") {
       e.preventDefault();
       snapOn = !snapOn;
@@ -1919,6 +1983,19 @@
     });
     if (!window.padaDesktop) ctl.style.display = "none";
     document.body.appendChild(ctl);
+
+    // A small grip on the left: drag it to move the window (desktop only)
+    const grip = document.createElement("div");
+    grip.id = "grip";
+    grip.title = "Drag to move the window";
+    grip.textContent = "\u22EE";
+    if (!window.padaDesktop) grip.style.display = "none";
+    document.body.appendChild(grip);
+
+    // Ctrl+Alt+1..8 from the desktop app pick a palette colour, even while Zoom has focus
+    if (window.padaDesktop && window.padaDesktop.onColor) {
+      window.padaDesktop.onColor((i) => applyColorIndex(i));
+    }
   }
 
   /* ---------- Toolbar visibility & eraser menu ---------- */

@@ -90,6 +90,12 @@ app.whenReady().then(() => {
   globalShortcut.register("CommandOrControl+Alt+P", () => setPassThrough(!passThrough));
   // Ctrl+Alt+Q: close the overlay
   globalShortcut.register("CommandOrControl+Alt+Q", () => app.quit());
+  // Ctrl+Alt+1..8: choose a palette colour (works even while Zoom has focus)
+  for (let i = 1; i <= 8; i++) {
+    globalShortcut.register(`CommandOrControl+Alt+${i}`, () => {
+      if (win) win.webContents.send("pada:color", i);
+    });
+  }
   // Ctrl+Alt+D: open or close the developer console (for diagnosing problems)
   globalShortcut.register("CommandOrControl+Alt+D", () => {
     if (win) win.webContents.toggleDevTools();

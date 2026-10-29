@@ -563,9 +563,26 @@ body {
   z-index: 1;
 }
 
+/* Grip: the only part of the ribbon that moves the window (drag region) */
+#grip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  color: #8d8aa6;
+  font-size: 16px;
+  cursor: move;
+  user-select: none;
+  z-index: 2;
+  -webkit-app-region: drag;
+}
+
 #tabs {
   top: 9px;
-  left: 10px;
+  left: 34px;
   -webkit-app-region: no-drag;
 }
 
