@@ -983,7 +983,9 @@
   function drawShape(s) {
     if (s.type === "image") {
       const b = bounds(s);
-      const img = imageFor(s.src);
+      const src = IMAGE_STORE.get(s.ref);
+      if (!src) return;
+      const img = imageFor(src);
       if (img.complete && img.naturalWidth) {
         ctx.drawImage(img, b.x1, b.y1, b.x2 - b.x1, b.y2 - b.y1);
       } else {
@@ -1694,6 +1696,7 @@
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
   const MAMMOTH_URL = "https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js";
   const IMAGE_CACHE = new Map(); // picture source -> decoded image, so each one loads once
+  const IMAGE_STORE = new Map(); // picture id -> image data; shapes keep only the id, so undo history stays small
 
   function imageFor(src) {
     if (!IMAGE_CACHE.has(src)) {
@@ -1749,9 +1752,10 @@
     window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_URL.replace("pdf.min.js", "pdf.worker.min.js");
     const pdf = await window.pdfjsLib.getDocument({ data: await readFile(file, false) }).promise;
     const out = [];
-    for (let i = 1; i <= Math.min(pdf.numPages, 30); i++) {
+    const scale = pdf.numPages > 100 ? 1 : 1.5;
+    for (let i = 1; i <= Math.min(pdf.numPages, 1000); i++) {
       const page = await pdf.getPage(i);
-      const vp = page.getViewport({ scale: 1.5 });
+      const vp = page.getViewport({ scale });
       const c = document.createElement("canvas");
       c.width = Math.round(vp.width);
       c.height = Math.round(vp.height);
@@ -1778,7 +1782,9 @@
       const w = Math.min(600, w0);
       const h = (h0 * w) / w0;
       const x = c.x - w / 2;
-      const s = { id: newId(), type: "image", src, x0: x, y0: y, x1: x + w, y1: y + h, transparency: 0, blur: 0 };
+      const ref = newId();
+      IMAGE_STORE.set(ref, src);
+      const s = { id: newId(), type: "image", ref, x0: x, y0: y, x1: x + w, y1: y + h, transparency: 0, blur: 0 };
       shapesOf().push(s);
       created.push(s.id);
       y += h + 20;
