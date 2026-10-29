@@ -685,6 +685,163 @@
     ctx.restore();
   }
 
+  /* ---------- Grid, snapping, clipboard, nudging ---------- */
+
+  const GRID = 20; // world units between grid lines
+  let snapOn = true; // Ctrl+G turns the grid and snapping on or off; hold Alt to skip snapping while dragging
+  let snapGuides = null; // { x, y }: lines shown while a move snaps to something
+  let clipboard = null; // shapes copied with Ctrl+C; kept in memory, so they paste into any tab
+  let pasteCount = 0;
+
+  function boxOf(map) {
+    let box = null;
+    for (const s of map.values()) {
+      const b = bounds(s);
+      if (!box) box = { ...b };
+      else {
+        box.x1 = Math.min(box.x1, b.x1);
+        box.y1 = Math.min(box.y1, b.y1);
+        box.x2 = Math.max(box.x2, b.x2);
+        box.y2 = Math.max(box.y2, b.y2);
+      }
+    }
+    return box;
+  }
+
+  // Snaps a move so the selection's left, centre or right (and top, middle, bottom) line up
+  // with other shapes or with the grid
+  function snapMove(startMap, dx, dy) {
+    snapGuides = null;
+    if (!snapOn) return { dx, dy };
+    const tol = 6 / board().camera.zoom;
+    const box = boxOf(startMap);
+    const mine = {
+      x: [box.x1, (box.x1 + box.x2) / 2, box.x2],
+      y: [box.y1, (box.y1 + box.y2) / 2, box.y2],
+    };
+    const others = shapesOf()
+      .filter((s) => !selected.has(s.id))
+      .map((s) => bounds(s));
+    const targets = {
+      x: others.flatMap((b) => [b.x1, (b.x1 + b.x2) / 2, b.x2]),
+      y: others.flatMap((b) => [b.y1, (b.y1 + b.y2) / 2, b.y2]),
+    };
+
+    const pick = (axis, delta) => {
+      let best = null;
+      for (const m of mine[axis]) {
+        const moved = m + delta;
+        for (const t of [...targets[axis], Math.round(moved / GRID) * GRID]) {
+          const off = t - moved;
+          if (Math.abs(off) <= tol && (best === null || Math.abs(off) < Math.abs(best.off))) best = { off, guide: t };
+        }
+      }
+      return best;
+    };
+
+    const sx = pick("x", dx);
+    const sy = pick("y", dy);
+    snapGuides = { x: sx ? sx.guide : null, y: sy ? sy.guide : null };
+    return { dx: dx + (sx ? sx.off : 0), dy: dy + (sy ? sy.off : 0) };
+  }
+
+  // Faint grid dots, drawn only when the grid is on and the dots are big enough to see
+  function drawGrid(z) {
+    if (!snapOn || GRID * z < 10 || board().bg === "transparent") return;
+    const a = screenToWorld(0, 0);
+    const b = screenToWorld(window.innerWidth, window.innerHeight);
+    const r = 1 / z;
+    ctx.save();
+    ctx.fillStyle = "#d9d6e8";
+    for (let x = Math.ceil(a.x / GRID) * GRID; x <= b.x; x += GRID) {
+      for (let y = Math.ceil(a.y / GRID) * GRID; y <= b.y; y += GRID) {
+        ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+      }
+    }
+    ctx.restore();
+  }
+
+  function drawSnapGuides(z) {
+    if (!snapGuides) return;
+    const a = screenToWorld(0, 0);
+    const b = screenToWorld(window.innerWidth, window.innerHeight);
+    ctx.save();
+    ctx.strokeStyle = "#e03131";
+    ctx.lineWidth = 1 / z;
+    ctx.setLineDash([4 / z, 4 / z]);
+    if (snapGuides.x !== null) {
+      ctx.beginPath();
+      ctx.moveTo(snapGuides.x, a.y);
+      ctx.lineTo(snapGuides.x, b.y);
+      ctx.stroke();
+    }
+    if (snapGuides.y !== null) {
+      ctx.beginPath();
+      ctx.moveTo(a.x, snapGuides.y);
+      ctx.lineTo(b.x, snapGuides.y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // Copies of shapes with new ids; connections between the copies are kept, others are dropped
+  function cloneWithNewIds(list, dx, dy) {
+    const idMap = new Map(list.map((s) => [s.id, newId()]));
+    return list.map((s) => {
+      const c = JSON.parse(JSON.stringify(s));
+      c.id = idMap.get(s.id);
+      if (c.bindStart && idMap.has(c.bindStart)) c.bindStart = idMap.get(c.bindStart);
+      else {
+        delete c.bindStart;
+        delete c.bindStartSide;
+      }
+      if (c.bindEnd && idMap.has(c.bindEnd)) c.bindEnd = idMap.get(c.bindEnd);
+      else {
+        delete c.bindEnd;
+        delete c.bindEndSide;
+      }
+      return dx || dy ? mapShape(c, (x, y) => ({ x: x + dx, y: y + dy })) : c;
+    });
+  }
+
+  function copySelection() {
+    const list = shapesOf().filter((s) => selected.has(s.id));
+    if (!list.length) return;
+    clipboard = JSON.parse(JSON.stringify(list));
+    pasteCount = 0;
+  }
+
+  function cutSelection() {
+    if (!selected.size) return;
+    copySelection();
+    deleteSelected();
+  }
+
+  // Each paste lands slightly further along, so repeated pastes are visible
+  function pasteClipboard() {
+    if (!clipboard || !clipboard.length) return;
+    finishEditing();
+    const before = snapshot();
+    pasteCount++;
+    const off = 20 * pasteCount;
+    const copies = cloneWithNewIds(clipboard, off, off);
+    for (const c of copies) shapesOf().push(c);
+    selected = new Set(copies.map((c) => c.id));
+    commit(before);
+    render();
+  }
+
+  // Arrow keys move the selection: 1 unit, or 10 with Shift
+  function nudgeSelection(dx, dy) {
+    const before = snapshot();
+    detachSelectedLines();
+    board().shapes = shapesOf().map((s) =>
+      selected.has(s.id) ? mapShape(s, (x, y) => ({ x: x + dx, y: y + dy })) : s
+    );
+    commit(before);
+    render();
+  }
+
   /* ---------- Undo history ---------- */
 
   function snapshot() {
@@ -1094,11 +1251,13 @@
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
 
+    drawGrid(z);
     for (const s of shapesOf()) drawWithStyle(s);
     if (drawing) drawWithStyle(drawing);
     drawSelection(z);
     drawEndpoints(z);
     drawPolyDraft(z);
+    drawSnapGuides(z);
     drawMarquee(z);
     drawBindHint(z);
     drawRotateButton(z);
@@ -1472,8 +1631,10 @@
         break;
       }
       case "move": {
-        const dx = p.x - gesture.start.x;
-        const dy = p.y - gesture.start.y;
+        let dx = p.x - gesture.start.x;
+        let dy = p.y - gesture.start.y;
+        if (e.altKey) snapGuides = null;
+        else ({ dx, dy } = snapMove(gesture.orig, dx, dy));
         applyToSelected(gesture.orig, (x, y) => ({ x: x + dx, y: y + dy }));
         break;
       }
@@ -1596,6 +1757,7 @@
     }
     const before = gesture && gesture.before;
     gesture = null;
+    snapGuides = null;
     updateCursor();
 
     // A new note opens straight into editing; the edit records the undo step
@@ -1675,6 +1837,30 @@
       e.preventDefault();
       selected = new Set(shapesOf().map((s) => s.id));
       render();
+      return;
+    }
+    if ((e.ctrlKey || e.metaKey) && k === "g") {
+      e.preventDefault();
+      snapOn = !snapOn;
+      render();
+      return;
+    }
+    if ((e.ctrlKey || e.metaKey) && (k === "c" || k === "x") && selected.size) {
+      e.preventDefault();
+      if (k === "c") copySelection();
+      else cutSelection();
+      return;
+    }
+    if ((e.ctrlKey || e.metaKey) && k === "v") {
+      e.preventDefault();
+      pasteClipboard();
+      return;
+    }
+    if (!e.ctrlKey && !e.metaKey && selected.size && e.key.startsWith("Arrow")) {
+      e.preventDefault();
+      const step = e.shiftKey ? 10 : 1;
+      const d = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] }[e.key];
+      nudgeSelection(d[0], d[1]);
       return;
     }
     if (e.key === "Delete" || e.key === "Backspace") {
