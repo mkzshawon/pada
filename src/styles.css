@@ -379,6 +379,175 @@ body.sp-hidden #style {
   background: #f3f1fb;
 }
 
+#camera-menu {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  background: var(--chrome);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+}
+
+#camera-menu button {
+  height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+#camera-menu button:hover {
+  background: #f3f1fb;
+}
+
+/* Camera preview: top-right, under the ribbon */
+#cam-box {
+  position: fixed;
+  top: 56px;
+  right: 12px;
+  width: 260px;
+  z-index: 12;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #111111;
+  box-shadow: var(--shadow);
+}
+
+#cam-box {
+  cursor: move;
+  touch-action: none;
+}
+
+#cam-box video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* Round shape: a circle */
+#cam-box.round {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+}
+
+#cam-box.round video {
+  aspect-ratio: auto;
+  height: 100%;
+}
+
+/* Hexagon shape: a square picture cut to a hexagon */
+#cam-box.hexagon {
+  width: 220px;
+  height: 220px;
+  border-radius: 0;
+  clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+}
+
+#cam-box.hexagon video {
+  aspect-ratio: auto;
+  height: 100%;
+}
+
+#cam-box.hexagon .cb-title {
+  display: none;
+}
+
+/* Laser colour menu above the toolbar */
+#laser-menu {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  background: var(--chrome);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+}
+
+#laser-menu button {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+#laser-menu button:hover {
+  background: #f3f1fb;
+}
+
+#laser-menu i {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  border-radius: 50%;
+}
+
+/* No header on the picture, for every shape */
+#cam-box .cb-title {
+  display: none;
+}
+
+/* Resize handle at the bottom-right corner (drag to resize; proportions are kept) */
+#cam-resize {
+  position: fixed;
+  z-index: 13;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--accent-ink);
+  border-radius: 4px;
+  background: #ffffff;
+  cursor: nwse-resize;
+  touch-action: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+#cam-resize.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#cam-box.round .cb-title {
+  display: none;
+}
+
+#cam-box .cb-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #ffffff;
+  font-size: 12px;
+}
+
 #eraser-menu button[data-erase="all"] {
   color: #c92a2a;
 }
@@ -563,9 +732,26 @@ body {
   z-index: 1;
 }
 
+/* Grip: the only part of the ribbon that moves the window (drag region) */
+#grip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  color: #8d8aa6;
+  font-size: 16px;
+  cursor: move;
+  user-select: none;
+  z-index: 2;
+  -webkit-app-region: drag;
+}
+
 #tabs {
   top: 9px;
-  left: 10px;
+  left: 34px;
   -webkit-app-region: no-drag;
 }
 
@@ -603,6 +789,262 @@ body {
 #winctl button.close:hover {
   background: #e03131;
   color: #ffffff;
+}
+
+/* Progress bar (bottom-left) while a PDF is being read */
+#progress {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  z-index: 15;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--chrome);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  font-size: 13px;
+  color: var(--ink);
+}
+
+#progress .pg {
+  width: 160px;
+  height: 6px;
+  border-radius: 3px;
+  background: #ececf4;
+  overflow: hidden;
+}
+
+#progress .pg i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent-ink);
+  transition: width 0.15s;
+}
+
+/* Page chooser for PDFs */
+#pagebox {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(29, 27, 46, 0.35);
+}
+
+#pagebox .pb-card {
+  width: 340px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--chrome);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  font-size: 14px;
+  color: var(--ink);
+}
+
+#pagebox input {
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #d6d3e6;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+#pagebox .pb-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+#pagebox .pb-row button {
+  height: 30px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 6px;
+  background: #f3f1fb;
+  color: var(--ink);
+  font-family: inherit;
+  cursor: pointer;
+}
+
+#pagebox .pb-row button[data-r="ok"] {
+  background: var(--accent-ink);
+  color: #ffffff;
+}
+
+/* Presentation: each tab full screen, one after another */
+#present {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+#present img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+#present .pres-bar {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  font-size: 13px;
+  color: var(--ink);
+  pointer-events: none;
+}
+
+#present .pres-bar small {
+  color: var(--muted);
+}
+
+/* Video on the board: header (× left, File right) above, controls below; shown only for a selected video */
+#vtop,
+#vbottom {
+  position: fixed;
+  z-index: 13;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+}
+
+#vbottom {
+  flex-wrap: wrap;
+}
+
+#vtop .vx {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #000000;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+#vtop .vx:hover {
+  background: #e03131;
+  color: #ffffff;
+}
+
+#vtop .vname {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: #000000;
+}
+
+#vtop .vfilewrap {
+  position: relative;
+}
+
+#vtop .vfilebtn,
+#vbottom button {
+  height: 28px;
+  min-width: 32px;
+  padding: 0 6px;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #000000;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+#vtop .vfilebtn:hover,
+#vbottom button:hover {
+  background: #f3f1fb;
+}
+
+#vtop .vfilemenu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 4px;
+  padding: 4px;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  background: #ffffff;
+  z-index: 2;
+}
+
+#vtop .vfilemenu.open {
+  display: block;
+}
+
+#vtop .vfilemenu button {
+  display: block;
+  width: 100%;
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  text-align: left;
+  color: #000000;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+#vbottom .vseek {
+  flex: 1;
+  min-width: 110px;
+}
+
+#vbottom .vtime {
+  font-size: 12px;
+  white-space: nowrap;
+  color: #000000;
+}
+
+#vbottom .vspeed {
+  height: 28px;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+#vbottom .vvol {
+  width: 80px;
 }
 
 /* Inline text editor shown over a text or note shape while typing */
