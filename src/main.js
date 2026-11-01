@@ -912,64 +912,90 @@
   }
 
   // One preview box shows the virtual camera if it is on, otherwise the webcam
+  // Puts the resize handle just outside the preview's bottom-right corner
+  function placeCamResize() {
+    const box = document.getElementById("cam-box");
+    const grip = document.getElementById("cam-resize");
+    if (!box || !grip) return;
+    grip.style.left = box.offsetLeft + box.offsetWidth - 8 + "px";
+    grip.style.top = box.offsetTop + box.offsetHeight - 8 + "px";
+  }
+
   function refreshPreview() {
     const stream = camVirt || camCam;
     let box = document.getElementById("cam-box");
     if (!stream) {
       if (box) box.remove();
+      const grip = document.getElementById("cam-resize");
+      if (grip) grip.remove();
       return;
     }
     if (!box) {
       box = document.createElement("div");
       box.id = "cam-box";
-      box.innerHTML = '<div class="cb-title"></div><video autoplay muted playsinline></video><div class="cb-grip"></div>';
+      box.innerHTML = '<div class="cb-title"></div><video autoplay muted playsinline></video>';
       box.style.left = window.innerWidth - 272 + "px";
       box.style.top = "56px";
       box.style.right = "auto";
+      // Drag anywhere on the picture to move it inside the window
       box.addEventListener("pointerdown", (e) => {
-        if (e.target.tagName === "BUTTON") return;
         box.setPointerCapture(e.pointerId);
-        if (e.target.classList.contains("cb-grip")) {
-          // Corner handle: resize, keeping the proportions
-          resizeCam = { x: e.clientX, w: box.offsetWidth, left: box.offsetLeft, top: box.offsetTop };
-        } else {
-          // Anywhere else: move the preview inside the window
-          dragCam = { dx: e.clientX - box.offsetLeft, dy: e.clientY - box.offsetTop };
-        }
+        dragCam = { dx: e.clientX - box.offsetLeft, dy: e.clientY - box.offsetTop };
       });
       box.addEventListener("pointermove", (e) => {
-        if (resizeCam) {
-          const round = box.classList.contains("round") || box.classList.contains("hexagon");
-          const maxH = window.innerHeight - resizeCam.top;
-          const maxW = Math.min(window.innerWidth - resizeCam.left, round ? maxH : (maxH * 16) / 9);
-          const w = Math.min(maxW, Math.max(120, resizeCam.w + (e.clientX - resizeCam.x)));
-          box.style.width = w + "px";
-          box.style.height = round ? w + "px" : "";
-          return;
-        }
         if (!dragCam) return;
         const left = Math.min(window.innerWidth - box.offsetWidth, Math.max(0, e.clientX - dragCam.dx));
         const top = Math.min(window.innerHeight - box.offsetHeight, Math.max(0, e.clientY - dragCam.dy));
         box.style.left = left + "px";
         box.style.top = top + "px";
+        placeCamResize();
       });
       box.addEventListener("pointerup", () => {
         dragCam = null;
-        resizeCam = null;
       });
       document.body.appendChild(box);
+
+      // Resize handle at the bottom-right corner, outside the picture so every shape can use it
+      const grip = document.createElement("div");
+      grip.id = "cam-resize";
+      grip.title = "Drag to resize (keeps proportions)";
+      grip.addEventListener("pointerdown", (e) => {
+        grip.setPointerCapture(e.pointerId);
+        resizeCam = { x: e.clientX, w: box.offsetWidth, left: box.offsetLeft, top: box.offsetTop };
+      });
+      grip.addEventListener("pointermove", (e) => {
+        if (!resizeCam) return;
+        const square = box.classList.contains("round") || box.classList.contains("hexagon");
+        const maxH = window.innerHeight - resizeCam.top;
+        const maxW = Math.min(window.innerWidth - resizeCam.left, square ? maxH : (maxH * 16) / 9);
+        const w = Math.min(maxW, Math.max(120, resizeCam.w + (e.clientX - resizeCam.x)));
+        box.style.width = w + "px";
+        box.style.height = square ? w + "px" : "";
+        placeCamResize();
+      });
+      grip.addEventListener("pointerup", () => {
+        resizeCam = null;
+      });
+      document.body.appendChild(grip);
     }
+    placeCamResize();
     box.classList.toggle("round", camShape === "round");
     box.classList.toggle("hexagon", camShape === "hexagon");
     const video = box.querySelector("video");
     if (video.srcObject !== stream) video.srcObject = stream;
     box.querySelector(".cb-title").textContent = camVirt ? "Virtual camera (PADA)" : "Camera";
+    placeCamResize();
   }
 
   async function runCamAction(action) {
     if (action === "rect" || action === "round" || action === "hexagon") {
       camShape = action;
       action = "show";
+      const box = document.getElementById("cam-box");
+      if (box) {
+        box.style.width = "";
+        box.style.height = "";
+      }
     }
     if (action === "show") {
       if (!camCam) {
@@ -2086,7 +2112,19 @@
 
   window.addEventListener("pointermove", (e) => {
     if (e.clientY > window.innerHeight - 110) showStyle();
+    camHandleHover(e);
   });
+
+  // The resize handle is shown only when the pointer is close to the camera preview
+  function camHandleHover(e) {
+    const box = document.getElementById("cam-box");
+    const grip = document.getElementById("cam-resize");
+    if (!box || !grip) return;
+    const r = box.getBoundingClientRect();
+    const near =
+      e.clientX >= r.left - 24 && e.clientX <= r.right + 24 && e.clientY >= r.top - 24 && e.clientY <= r.bottom + 24;
+    grip.classList.toggle("show", near || !!resizeCam);
+  }
 
   window.addEventListener("resize", resize);
 
@@ -2282,6 +2320,7 @@
           <button data-act="file" data-kind="pdf">PDF</button>
           <button data-act="file" data-kind="image">Image</button>
           <button data-act="file" data-kind="word">Word</button>
+          <button data-act="file" data-kind="video">Video</button>
         </div></div>
       <div class="tm-item"><div class="tm-label">Tab bg &#9656;</div>
         <div class="tm-sub">
@@ -2325,7 +2364,7 @@
   // Opens a PDF, image or Word file chosen from disk in a new browser window
   /* ---------- Files: pictures, PDF pages and Word text open inside the board ---------- */
 
-  const FILE_ACCEPT = { pdf: ".pdf", image: "image/*", word: ".docx" };
+  const FILE_ACCEPT = { pdf: ".pdf", image: "image/*", word: ".docx", video: "video/*" };
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
   const MAMMOTH_URL = "https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js";
   const IMAGE_CACHE = new Map(); // picture source -> decoded image, so each one loads once
@@ -2465,6 +2504,10 @@
 
   async function openIntoBoard(file, kind) {
     try {
+      if (kind === "video") {
+        openVideo(file);
+        return;
+      }
       if (kind === "image") insertImages([await pictureFromFile(file)]);
       else if (kind === "pdf") insertImages(await pagesFromPdf(file));
       else if (kind === "word") {
@@ -2653,6 +2696,151 @@
     presentEl = null;
     presentSlides = [];
     render();
+  }
+
+  /* ---------- Video player window (inside the board) ---------- */
+
+  let vpEl = null;
+  let vpUrl = null;
+  let vpDrag = null;
+  let vpResize = null;
+
+  const clampLeft = (v, el) => Math.min(window.innerWidth - el.offsetWidth, Math.max(0, v));
+  const clampTop = (v, el) => Math.min(window.innerHeight - el.offsetHeight, Math.max(0, v));
+
+  function openVideo(file) {
+    if (vpUrl) URL.revokeObjectURL(vpUrl);
+    vpUrl = URL.createObjectURL(file);
+    if (!vpEl) buildVideoPlayer();
+    vpEl.querySelector("video").src = vpUrl;
+    vpEl.querySelector(".vp-name").textContent = file.name;
+    vpEl.querySelector(".vp-play").textContent = "▶";
+  }
+
+  function closeVideo() {
+    if (vpEl) vpEl.remove();
+    vpEl = null;
+    if (vpUrl) URL.revokeObjectURL(vpUrl);
+    vpUrl = null;
+  }
+
+  function buildVideoPlayer() {
+    const el = document.createElement("div");
+    el.id = "vplayer";
+    el.innerHTML = `
+      <div class="vp-head">
+        <button class="vp-x" title="Close" aria-label="Close">×</button>
+        <span class="vp-name"></span>
+        <div class="vp-filewrap">
+          <button class="vp-filebtn" title="File">File ▾</button>
+          <div class="vp-filemenu"><button data-vfile="open">Open File</button></div>
+        </div>
+      </div>
+      <div class="vp-body"><video playsinline></video></div>
+      <div class="vp-ctrl">
+        <button data-vact="back" title="10 seconds back">« 10</button>
+        <button data-vact="play" class="vp-play" title="Play / Pause">▶</button>
+        <button data-vact="fwd" title="10 seconds forward">10 »</button>
+        <input class="vp-seek" type="range" min="0" max="0" step="0.1" value="0" title="Position" />
+        <span class="vp-time">0:00 / 0:00</span>
+        <select class="vp-speed" title="Speed">${[0.5, 0.75, 1, 1.25, 1.5, 2]
+          .map((s) => `<option value="${s}"${s === 1 ? " selected" : ""}>${s}x</option>`)
+          .join("")}</select>
+        <button data-vact="mute" class="vp-mute" title="Mute / Sound">🔊</button>
+        <input class="vp-vol" type="range" min="0" max="1" step="0.05" value="1" title="Volume" />
+      </div>
+      <div class="vp-grip" title="Drag to resize"></div>`;
+    document.body.appendChild(el);
+    vpEl = el;
+    const w = Math.min(640, window.innerWidth - 40);
+    el.style.width = w + "px";
+    el.style.left = (window.innerWidth - w) / 2 + "px";
+    el.style.top = "72px";
+    wireVideoPlayer(el);
+  }
+
+  function wireVideoPlayer(el) {
+    const video = el.querySelector("video");
+    const seek = el.querySelector(".vp-seek");
+    const time = el.querySelector(".vp-time");
+    const fmt = (t) => {
+      if (!isFinite(t)) return "0:00";
+      return `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}`;
+    };
+    const sync = () => {
+      seek.max = video.duration || 0;
+      seek.value = video.currentTime;
+      time.textContent = `${fmt(video.currentTime)} / ${fmt(video.duration)}`;
+    };
+    video.addEventListener("timeupdate", sync);
+    video.addEventListener("loadedmetadata", sync);
+    video.addEventListener("play", () => (el.querySelector(".vp-play").textContent = "⏸"));
+    video.addEventListener("pause", () => (el.querySelector(".vp-play").textContent = "▶"));
+    seek.addEventListener("input", () => {
+      video.currentTime = Number(seek.value);
+    });
+
+    // Header: close on the left; File ▾ > Open File on the right
+    el.querySelector(".vp-x").addEventListener("click", closeVideo);
+    const fileMenu = el.querySelector(".vp-filemenu");
+    el.querySelector(".vp-filebtn").addEventListener("click", () => fileMenu.classList.toggle("open"));
+    fileMenu.addEventListener("click", () => {
+      fileMenu.classList.remove("open");
+      openFilePicker("video");
+    });
+
+    // Control bar
+    el.querySelector(".vp-ctrl").addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      const act = b.dataset.vact;
+      if (act === "play") video.paused ? video.play() : video.pause();
+      else if (act === "back") video.currentTime = Math.max(0, video.currentTime - 10);
+      else if (act === "fwd") video.currentTime = Math.min(video.duration || Infinity, video.currentTime + 10);
+      else if (act === "mute") {
+        video.muted = !video.muted;
+        b.textContent = video.muted ? "🔇" : "🔊";
+      }
+    });
+    el.querySelector(".vp-speed").addEventListener("change", (e) => {
+      video.playbackRate = Number(e.target.value);
+    });
+    el.querySelector(".vp-vol").addEventListener("input", (e) => {
+      video.volume = Number(e.target.value);
+      video.muted = false;
+      el.querySelector(".vp-mute").textContent = "🔊";
+    });
+
+    // Drag the window by its header
+    const head = el.querySelector(".vp-head");
+    head.addEventListener("pointerdown", (e) => {
+      if (e.target.closest("button")) return;
+      head.setPointerCapture(e.pointerId);
+      vpDrag = { dx: e.clientX - el.offsetLeft, dy: e.clientY - el.offsetTop };
+    });
+    head.addEventListener("pointermove", (e) => {
+      if (!vpDrag) return;
+      el.style.left = clampLeft(e.clientX - vpDrag.dx, el) + "px";
+      el.style.top = clampTop(e.clientY - vpDrag.dy, el) + "px";
+    });
+    head.addEventListener("pointerup", () => {
+      vpDrag = null;
+    });
+
+    // Resize from the corner; the video keeps its proportions (its height follows its width)
+    const grip = el.querySelector(".vp-grip");
+    grip.addEventListener("pointerdown", (e) => {
+      grip.setPointerCapture(e.pointerId);
+      vpResize = { x: e.clientX, w: el.offsetWidth };
+    });
+    grip.addEventListener("pointermove", (e) => {
+      if (!vpResize) return;
+      const max = window.innerWidth - el.offsetLeft;
+      el.style.width = Math.min(max, Math.max(280, vpResize.w + (e.clientX - vpResize.x))) + "px";
+    });
+    grip.addEventListener("pointerup", () => {
+      vpResize = null;
+    });
   }
 
   /* ---------- Fonts from src/fonts ---------- */
