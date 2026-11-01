@@ -939,7 +939,7 @@
       });
       box.addEventListener("pointermove", (e) => {
         if (resizeCam) {
-          const round = box.classList.contains("round") || box.classList.contains("diamond");
+          const round = box.classList.contains("round") || box.classList.contains("hexagon");
           const maxH = window.innerHeight - resizeCam.top;
           const maxW = Math.min(window.innerWidth - resizeCam.left, round ? maxH : (maxH * 16) / 9);
           const w = Math.min(maxW, Math.max(120, resizeCam.w + (e.clientX - resizeCam.x)));
@@ -960,29 +960,16 @@
       document.body.appendChild(box);
     }
     box.classList.toggle("round", camShape === "round");
-    box.classList.toggle("diamond", camShape === "diamond");
+    box.classList.toggle("hexagon", camShape === "hexagon");
     const video = box.querySelector("video");
     if (video.srcObject !== stream) video.srcObject = stream;
     box.querySelector(".cb-title").textContent = camVirt ? "Virtual camera (PADA)" : "Camera";
   }
 
   async function runCamAction(action) {
-    if (action === "rect" || action === "round" || action === "diamond") {
+    if (action === "rect" || action === "round" || action === "hexagon") {
       camShape = action;
       action = "show";
-    }
-    if (action === "larger" || action === "smaller") {
-      const box = document.getElementById("cam-box");
-      if (box) {
-        const square = box.classList.contains("round") || box.classList.contains("diamond");
-        const k = action === "larger" ? 1.25 : 0.8;
-        const maxH = window.innerHeight - box.offsetTop;
-        const maxW = Math.min(window.innerWidth - box.offsetLeft, square ? maxH : (maxH * 16) / 9);
-        const w = Math.min(maxW, Math.max(120, box.offsetWidth * k));
-        box.style.width = w + "px";
-        box.style.height = square ? w + "px" : "";
-      }
-      return;
     }
     if (action === "show") {
       if (!camCam) {
@@ -2227,11 +2214,8 @@
       '<div class="tm-item"><div class="tm-label">Camera &#9656;</div>' +
       '<div class="tm-sub">' +
       '<button data-cam="rect">Rectangle</button>' +
-      '<button data-cam="round">Round</button>' +
-      '<button data-cam="diamond">Diamond</button>' +
-      '<hr />' +
-      '<button data-cam="larger">Larger</button>' +
-      '<button data-cam="smaller">Smaller</button>' +
+      '<button data-cam="round">Circular</button>' +
+      '<button data-cam="hexagon">Hexagon</button>' +
       '<hr />' +
       '<button data-cam="off">Camera Off</button>' +
       "</div></div>" +

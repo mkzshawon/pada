@@ -448,20 +448,20 @@ body.sp-hidden #style {
   height: 100%;
 }
 
-/* Diamond shape: a square rotated 45 degrees, cut out of the picture */
-#cam-box.diamond {
+/* Hexagon shape: a square picture cut to a hexagon */
+#cam-box.hexagon {
   width: 220px;
   height: 220px;
   border-radius: 0;
-  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
 }
 
-#cam-box.diamond video {
+#cam-box.hexagon video {
   aspect-ratio: auto;
   height: 100%;
 }
 
-#cam-box.diamond .cb-title {
+#cam-box.hexagon .cb-title {
   display: none;
 }
 
