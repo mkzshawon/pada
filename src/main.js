@@ -152,7 +152,10 @@
   function renderStyle() {
     if (!styleEl) return;
     const sel = shapesOf().filter((s) => selected.has(s.id));
-    const visible = sel.length > 0 || SHAPE_TOOLS.has(tool);
+    // Pictures, videos, slide decks and notes made from Word files have no style options of their own
+    const isMedia = (s) =>
+      s.type === "image" || s.type === "video" || s.type === "deck" || (s.type === "note" && s.fromFile);
+    const visible = !sel.some(isMedia) && (sel.length > 0 || SHAPE_TOOLS.has(tool));
     styleEl.style.display = visible ? "flex" : "none";
     if (!visible) return;
 
@@ -2520,6 +2523,7 @@
       stroke: PALETTE[0],
       fill: NOTE_FILL,
       fontSize: 14,
+      fromFile: true,
       family: "sans",
       transparency: 0,
       blur: 0,
