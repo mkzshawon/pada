@@ -1446,6 +1446,7 @@
     if (editor) positionEditor();
     renderStyle();
     placeVideoUI();
+    placeDeckUI();
   }
 
   // Applies the shape's opacity and blur around its normal drawing
@@ -1463,6 +1464,10 @@
   }
 
   function drawShape(s) {
+    if (s.type === "deck") {
+      drawDeck(s);
+      return;
+    }
     if (s.type === "video") {
       const b = bounds(s);
       const v = VIDEO_STORE.get(s.ref);
@@ -2338,6 +2343,7 @@
           <button data-act="file" data-kind="image">Image</button>
           <button data-act="file" data-kind="word">Word</button>
           <button data-act="file" data-kind="video">Video</button>
+          <button data-act="file" data-kind="pptx">PowerPoint</button>
         </div></div>
       <div class="tm-item"><div class="tm-label">Tab bg &#9656;</div>
         <div class="tm-sub">
@@ -2386,6 +2392,7 @@
     image: "image/*",
     word: ".docx",
     video: "video/*,.mkv,.mov,.m4v,.avi,.wmv,.flv,.mpg,.mpeg,.3gp,.ts,.ogv",
+    pptx: ".pptx,.ppt",
   };
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
   const MAMMOTH_URL = "https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js";
@@ -2528,6 +2535,10 @@
     try {
       if (kind === "video") {
         await openVideo(file);
+        return;
+      }
+      if (kind === "pptx") {
+        await openDeck(file);
         return;
       }
       if (kind === "image") insertImages([await pictureFromFile(file)]);
@@ -2734,7 +2745,9 @@
   // Keeps the picture's proportions after a resize
   function refitVideos() {
     for (const s of shapesOf()) {
-      if (s.type === "video" && selected.has(s.id)) s.y1 = s.y0 + (s.x1 - s.x0) / (s.ratio || 16 / 9);
+      if ((s.type === "video" || s.type === "deck") && selected.has(s.id)) {
+        s.y1 = s.y0 + (s.x1 - s.x0) / (s.ratio || 16 / 9);
+      }
     }
   }
 
@@ -2958,6 +2971,252 @@
     bottom.style.top = b.y2 * z + cam.y + 6 + "px";
     bottom.style.width = w + "px";
     updateVideoUI();
+  }
+
+  /* ---------- PowerPoint: a slide-deck shape (slides converted by the desktop app) ---------- */
+
+  const DECK_MS = 400; // length of a transition
+  const DECK_AUTO_MS = 5000; // time each slide stays during auto-play
+  const deckAnim = new Map(); // shape id -> { from, dir, t0 } while a transition runs
+  const deckLast = new Map(); // shape id -> time of the last auto-play step
+  let deckLoopRunning = false;
+  let duiBuilt = false;
+
+  function selectedDeck() {
+    const sel = shapesOf().filter((s) => selected.has(s.id));
+    return sel.length === 1 && sel[0].type === "deck" ? sel[0] : null;
+  }
+
+  // Redraws while a transition or auto-play is running
+  function startDeckLoop() {
+    if (deckLoopRunning) return;
+    deckLoopRunning = true;
+    const step = () => {
+      const now = performance.now();
+      for (const [id, a] of deckAnim) if (now - a.t0 > DECK_MS + 100) deckAnim.delete(id);
+      for (const s of shapesOf()) {
+        if (s.type !== "deck" || !s.auto) continue;
+        if (now - (deckLast.get(s.id) ?? now) >= DECK_AUTO_MS) {
+          deckLast.set(s.id, now);
+          if (s.index < s.slides.length - 1) setDeckIndex(s, s.index + 1, 1);
+          else s.auto = false;
+        }
+      }
+      render();
+      const busy = deckAnim.size > 0 || shapesOf().some((s) => s.type === "deck" && s.auto);
+      if (busy) requestAnimationFrame(step);
+      else deckLoopRunning = false;
+    };
+    requestAnimationFrame(step);
+  }
+
+  function setDeckIndex(s, idx, dir) {
+    if (idx < 0 || idx >= s.slides.length || idx === s.index) return;
+    deckAnim.set(s.id, { from: s.index, dir, t0: performance.now() });
+    s.index = idx;
+    startDeckLoop();
+    render();
+  }
+
+  function drawDeckImg(ref, x, y, w, h) {
+    const src = IMAGE_STORE.get(ref);
+    const img = src && imageFor(src);
+    if (img && img.complete && img.naturalWidth) ctx.drawImage(img, x, y, w, h);
+  }
+
+  // The current slide, with the transition (fade or slide) while it runs
+  function drawDeck(s) {
+    const b = bounds(s);
+    const w = b.x2 - b.x1;
+    const h = b.y2 - b.y1;
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(b.x1, b.y1, w, h);
+    ctx.clip();
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(b.x1, b.y1, w, h);
+    const anim = deckAnim.get(s.id);
+    const p = anim ? Math.min(1, (performance.now() - anim.t0) / DECK_MS) : 1;
+    if (anim && p < 1 && s.transition !== "none") {
+      if (s.transition === "slide") {
+        drawDeckImg(s.slides[anim.from], b.x1 - anim.dir * p * w, b.y1, w, h);
+        drawDeckImg(s.slides[s.index], b.x1 + anim.dir * (1 - p) * w, b.y1, w, h);
+      } else {
+        ctx.globalAlpha = 1 - p;
+        drawDeckImg(s.slides[anim.from], b.x1, b.y1, w, h);
+        ctx.globalAlpha = p;
+        drawDeckImg(s.slides[s.index], b.x1, b.y1, w, h);
+        ctx.globalAlpha = 1;
+      }
+    } else {
+      drawDeckImg(s.slides[s.index], b.x1, b.y1, w, h);
+    }
+    ctx.restore();
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = 2 / board().camera.zoom;
+    ctx.strokeRect(b.x1, b.y1, w, h);
+  }
+
+  // Renders each slide of a .pptx (converted to PDF by the desktop app) into the picture store
+  async function convertDeck(file) {
+    if (!(window.padaDesktop && window.padaDesktop.convertPptx && file.path)) {
+      throw new Error("PowerPoint শুধু desktop app-এ খোলা যায়");
+    }
+    const pr = progressStart("PowerPoint স্লাইড");
+    try {
+      pr.set(0, 1);
+      const bytes = await window.padaDesktop.convertPptx(file.path);
+      await loadScript(PDFJS_URL, () => window.pdfjsLib);
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_URL.replace("pdf.min.js", "pdf.worker.min.js");
+      const pdf = await window.pdfjsLib.getDocument({ data: bytes }).promise;
+      const refs = [];
+      let ratio = 16 / 9;
+      for (let i = 1; i <= pdf.numPages; i++) {
+        pr.set(i - 1, pdf.numPages);
+        const page = await pdf.getPage(i);
+        const vp = page.getViewport({ scale: 1.5 });
+        const c = document.createElement("canvas");
+        c.width = Math.round(vp.width);
+        c.height = Math.round(vp.height);
+        await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+        const ref = newId();
+        IMAGE_STORE.set(ref, c.toDataURL("image/jpeg", 0.9));
+        refs.push(ref);
+        if (i === 1) ratio = c.width / c.height;
+      }
+      return { refs, ratio };
+    } finally {
+      pr.end();
+    }
+  }
+
+  // Open File > PowerPoint: a new slide-deck shape at the centre of the view
+  async function openDeck(file) {
+    finishEditing();
+    const { refs, ratio } = await convertDeck(file);
+    const w = 640;
+    const h = w / ratio;
+    const c = screenToWorld(window.innerWidth / 2, window.innerHeight / 2);
+    const before = snapshot();
+    const s = {
+      id: newId(),
+      type: "deck",
+      name: file.name,
+      slides: refs,
+      index: 0,
+      ratio,
+      transition: "fade",
+      auto: false,
+      x0: c.x - w / 2,
+      y0: c.y - h / 2,
+      x1: c.x + w / 2,
+      y1: c.y - h / 2 + h,
+      transparency: 0,
+      blur: 0,
+    };
+    shapesOf().push(s);
+    selected = new Set([s.id]);
+    commit(before);
+    render();
+  }
+
+  // File > Open File inside the deck's header: replaces the selected deck's slides
+  async function replaceDeck(file) {
+    const s = selectedDeck();
+    if (!s) return;
+    const { refs, ratio } = await convertDeck(file);
+    const before = snapshot();
+    s.name = file.name;
+    s.slides = refs;
+    s.index = 0;
+    s.ratio = ratio;
+    refitVideos();
+    commit(before);
+    render();
+  }
+
+  // Header (×, name, File) above and control bar below the selected deck
+  function buildDeckUI() {
+    if (duiBuilt) return;
+    duiBuilt = true;
+    const top = document.createElement("div");
+    top.id = "dtop";
+    top.innerHTML =
+      '<button class="vx" title="Close" aria-label="Close">×</button>' +
+      '<span class="vname"></span>' +
+      '<div class="vfilewrap"><button class="vfilebtn" title="File">File ▾</button>' +
+      '<div class="vfilemenu"><button>Open File</button></div></div>';
+    const bottom = document.createElement("div");
+    bottom.id = "dbottom";
+    bottom.innerHTML =
+      '<button data-dact="prev" title="Previous slide">«</button>' +
+      '<span class="dcount">1 / 1</span>' +
+      '<button data-dact="next" title="Next slide">»</button>' +
+      '<button data-dact="auto" class="dauto" title="Auto play">▶ Auto</button>' +
+      '<select class="dtrans" title="Transition">' +
+      '<option value="fade">Fade</option><option value="slide">Slide</option><option value="none">None</option>' +
+      "</select>";
+    document.body.append(top, bottom);
+
+    top.querySelector(".vx").addEventListener("click", () => deleteSelected());
+    const menu = top.querySelector(".vfilemenu");
+    top.querySelector(".vfilebtn").addEventListener("click", () => menu.classList.toggle("open"));
+    menu.addEventListener("click", () => {
+      menu.classList.remove("open");
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = FILE_ACCEPT.pptx;
+      input.addEventListener("change", () => {
+        if (input.files[0]) replaceDeck(input.files[0]).catch((err) => alert("ফাইলটি খোলা যায়নি: " + err.message));
+      });
+      input.click();
+    });
+    bottom.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      const s = selectedDeck();
+      if (!b || !s) return;
+      if (b.dataset.dact === "prev") setDeckIndex(s, s.index - 1, -1);
+      else if (b.dataset.dact === "next") setDeckIndex(s, s.index + 1, 1);
+      else if (b.dataset.dact === "auto") {
+        s.auto = !s.auto;
+        deckLast.set(s.id, performance.now());
+        if (s.auto) startDeckLoop();
+      }
+      render();
+    });
+    bottom.querySelector(".dtrans").addEventListener("change", (e) => {
+      const s = selectedDeck();
+      if (s) s.transition = e.target.value;
+    });
+  }
+
+  function placeDeckUI() {
+    if (!duiBuilt) return;
+    const top = document.getElementById("dtop");
+    const bottom = document.getElementById("dbottom");
+    const s = selectedDeck();
+    if (!s) {
+      top.style.display = "none";
+      bottom.style.display = "none";
+      return;
+    }
+    const cam = board().camera;
+    const z = cam.zoom;
+    const b = bounds(s);
+    const left = b.x1 * z + cam.x;
+    const w = Math.max(360, (b.x2 - b.x1) * z);
+    top.style.display = "flex";
+    bottom.style.display = "flex";
+    top.style.left = left + "px";
+    top.style.top = b.y1 * z + cam.y - 40 + "px";
+    top.style.width = w + "px";
+    bottom.style.left = left + "px";
+    bottom.style.top = b.y2 * z + cam.y + 6 + "px";
+    bottom.style.width = w + "px";
+    top.querySelector(".vname").textContent = s.name;
+    bottom.querySelector(".dcount").textContent = `${s.index + 1} / ${s.slides.length}`;
+    bottom.querySelector(".dauto").textContent = s.auto ? "❚❚ Auto" : "▶ Auto";
+    bottom.querySelector(".dtrans").value = s.transition || "fade";
   }
 
   /* ---------- Fonts from src/fonts ---------- */
@@ -3202,6 +3461,7 @@
   buildStylePanel();
   buildRibbon();
   buildVideoUI();
+  buildDeckUI();
   resize();
   loadFontList();
 

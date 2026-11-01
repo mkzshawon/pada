@@ -3,6 +3,7 @@
 const { app, BrowserWindow, globalShortcut, screen, ipcMain, dialog, shell } = require("electron");
 const path = require("path");
 const { spawn } = require("child_process");
+const fs = require("fs");
 const { pathToFileURL } = require("url");
 
 // ffmpeg bundled with the app (inside the installer, it is unpacked from app.asar)
@@ -84,6 +85,38 @@ ipcMain.handle("pada:transcode", (_event, srcPath) => {
     proc.on("close", (code) => {
       if (code === 0) resolve(pathToFileURL(out).href);
       else reject(new Error(`ffmpeg stopped (code ${code}): ${log.slice(-300)}`));
+    });
+  });
+});
+
+
+// Finds LibreOffice (needed to read PowerPoint files; install it from libreoffice.org)
+function findSoffice() {
+  const candidates = [
+    "C:\\Program Files\\LibreOffice\\program\\soffice.exe",
+    "C:\\Program Files (x86)\\LibreOffice\\program\\soffice.exe",
+  ];
+  return candidates.find((p) => fs.existsSync(p)) || null;
+}
+
+// Converts a .pptx/.ppt to PDF (one page per slide) and returns the PDF bytes
+ipcMain.handle("pada:pptx", (_event, srcPath) => {
+  return new Promise((resolve, reject) => {
+    const soffice = findSoffice();
+    if (!soffice) {
+      reject(new Error("PowerPoint দেখতে LibreOffice ইনস্টল করুন (libreoffice.org)"));
+      return;
+    }
+    const outDir = path.join(app.getPath("temp"), `pada-pptx-${Date.now()}`);
+    fs.mkdirSync(outDir, { recursive: true });
+    const proc = spawn(soffice, ["--headless", "--convert-to", "pdf", "--outdir", outDir, srcPath]);
+    let log = "";
+    proc.stderr.on("data", (d) => (log += d));
+    proc.on("error", reject);
+    proc.on("close", (code) => {
+      const pdf = path.join(outDir, path.basename(srcPath, path.extname(srcPath)) + ".pdf");
+      if (code === 0 && fs.existsSync(pdf)) resolve(fs.readFileSync(pdf));
+      else reject(new Error(`রূপান্তর ব্যর্থ (code ${code}) ${log.slice(-200)}`));
     });
   });
 });
