@@ -628,6 +628,45 @@
     ctx.restore();
   }
 
+  /* ---------- Sticky note height handle ---------- */
+
+  function selectedNote() {
+    const sel = shapesOf().filter((s) => selected.has(s.id));
+    return sel.length === 1 && sel[0].type === "note" ? sel[0] : null;
+  }
+
+  // The small bar under the middle of the bottom edge of the selected note
+  function noteHandleAt(p) {
+    const s = selectedNote();
+    if (!s) return false;
+    const b = bounds(s);
+    const tol = 10 / board().camera.zoom;
+    return Math.abs(p.x - (b.x1 + b.x2) / 2) <= tol * 2 && Math.abs(p.y - b.y2) <= tol;
+  }
+
+  // The note can be no shorter than its text
+  function noteMinH(s) {
+    const b = bounds(s);
+    return layoutRich(s, b.x2 - b.x1 - 2 * NOTE_PAD).height + 2 * NOTE_PAD;
+  }
+
+  function drawNoteHandle(z) {
+    const s = selectedNote();
+    if (!s) return;
+    const b = bounds(s);
+    const w = 16 / z;
+    const h = 6 / z;
+    const x = (b.x1 + b.x2) / 2 - w / 2;
+    const y = b.y2 - h / 2;
+    ctx.save();
+    ctx.fillStyle = "#ffffff";
+    ctx.strokeStyle = ACCENT;
+    ctx.lineWidth = 1.5 / z;
+    ctx.fillRect(x, y, w, h);
+    ctx.strokeRect(x, y, w, h);
+    ctx.restore();
+  }
+
   /* ---------- Line endpoints ---------- */
 
   // The selected line or arrow, when exactly one is selected and it is not rotated
@@ -1269,7 +1308,9 @@
     const minW = probe.maxWordW + 2 * pad;
     const w = !isNote && s.autoW !== false ? Math.max(8, probe.maxLineW) : Math.max(minW, b.x2 - b.x1);
     const lay = layoutRich(s, w - 2 * pad);
-    const h = isNote ? Math.max(NOTE_H, lay.height + 2 * pad) : Math.max(lay.height, lineHeightOf(sizeOf(s)));
+    const h = isNote
+      ? Math.max(s.noteH || NOTE_H, lay.height + 2 * pad)
+      : Math.max(lay.height, lineHeightOf(sizeOf(s)));
     s.x0 = b.x1;
     s.y0 = b.y1;
     s.x1 = b.x1 + w;
@@ -1440,6 +1481,7 @@
     if (drawing) drawWithStyle(drawing);
     drawSelection(z);
     drawEndpoints(z);
+    drawNoteHandle(z);
     drawPolyDraft(z);
     drawSnapGuides(z);
     drawLaser(z);
@@ -1633,6 +1675,10 @@
   }
 
   function hoverCursor(p) {
+    if (noteHandleAt(p)) {
+      canvas.style.cursor = "ns-resize";
+      return;
+    }
     const h = handleAt(p);
     if (h) canvas.style.cursor = HANDLE_CURSOR[h];
     else canvas.style.cursor = topmostAt(p) ? "move" : "default";
@@ -1740,6 +1786,10 @@
           before,
         };
         render();
+        return;
+      }
+      if (noteHandleAt(p)) {
+        gesture = { type: "notes-h", id: selectedNote().id, before };
         return;
       }
       const ep = endpointAt(p);
@@ -1924,6 +1974,14 @@
         laserTrail.push({ x: p.x, y: p.y, t: Date.now() });
         startLaserFade();
         break;
+      case "notes-h": {
+        const s = shapesOf().find((x) => x.id === gesture.id);
+        if (s) {
+          s.noteH = Math.max(noteMinH(s), p.y - s.y0);
+          fitTextBox(s);
+        }
+        break;
+      }
       case "endpoint": {
         const s = shapesOf().find((x) => x.id === gesture.id);
         if (s) moveEndpoint(s, gesture.which, p);
