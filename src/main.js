@@ -3,7 +3,7 @@
   "use strict";
 
   const canvas = document.getElementById("board");
-  const ctx = canvas.getContext("2d");
+  let ctx = canvas.getContext("2d");
   const tabsEl = document.getElementById("tabs");
   const toolbarEl = document.getElementById("toolbar");
 
@@ -23,6 +23,7 @@
     { id: "line", label: "Line", key: "l" },
     { id: "pencil", label: "Pencil", key: "p" },
     { id: "polyline", label: "Polyline", key: "m" },
+    { id: "laser", label: "Laser", key: "z" },
     { id: "text", label: "Text", key: "t" },
     { id: "note", label: "Note", key: "n" },
     { id: "eraser", label: "Eraser", key: "e" },
@@ -43,6 +44,8 @@
     text: '<path d="M5 20L12 4l7 16M8 14h8"/>',
     note: '<path d="M4 4h16v11l-5 5H4z"/><path d="M15 20v-5h5"/>',
     polyline: '<path d="M3 18l5-7 4 4 4-6 5 5"/><circle cx="3" cy="18" r="1.5"/><circle cx="21" cy="16" r="1.5"/>',
+    laser: '<circle cx="12" cy="12" r="2.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M5.6 18.4l2-2M16.4 7.6l2-2"/>',
+    camera: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
     eraser: '<path d="M4 15l8-9 7 6-5 5H8z"/><path d="M9 19h11"/>',
   };
 
@@ -842,6 +845,184 @@
     render();
   }
 
+  /* ---------- Laser pointer & quick colour ---------- */
+
+  const LASER_MS = 1200; // how long a laser trail stays visible
+  let laserTrail = []; // { x, y, t }: points drawn by the laser, not part of the board
+  let laserRunning = false;
+  let laserColor = "#e03131"; // Red, Blue or Green (chosen from the laser menu)
+  let laserMenuOpen = false;
+  let laserMenuEl = null;
+
+  function renderLaserMenu() {
+    if (laserMenuEl) laserMenuEl.style.display = laserMenuOpen ? "flex" : "none";
+  }
+
+  // Keeps the trail fading until it has disappeared
+  function startLaserFade() {
+    if (laserRunning) return;
+    laserRunning = true;
+    const step = () => {
+      const now = Date.now();
+      laserTrail = laserTrail.filter((q) => now - q.t < LASER_MS);
+      render();
+      if (laserTrail.length) requestAnimationFrame(step);
+      else laserRunning = false;
+    };
+    requestAnimationFrame(step);
+  }
+
+  function drawLaser(z) {
+    if (laserTrail.length < 2) return;
+    const now = Date.now();
+    ctx.save();
+    ctx.lineCap = "round";
+    ctx.lineWidth = 4 / z;
+    for (let i = 1; i < laserTrail.length; i++) {
+      const a = laserTrail[i - 1];
+      const b = laserTrail[i];
+      const alpha = Math.max(0, 1 - (now - b.t) / LASER_MS);
+      ctx.strokeStyle = withAlpha(laserColor, alpha);
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // Colour 1-8 from the palette: applies to the selection, or to the next shape
+  function applyColorIndex(i) {
+    const c = PALETTE[i - 1];
+    if (c) applyStyle({ stroke: c });
+  }
+
+  /* ---------- Camera ---------- */
+
+  let camMenuOpen = false;
+  let camMenuEl = null;
+  let camCam = null; // webcam stream
+  let camVirt = null; // the board's picture as a video stream
+  let camShape = "rect"; // "rect" or "round"
+  let dragCam = null; // offset while the preview box is being dragged
+  let resizeCam = null; // start size and pointer while the corner handle is dragged
+
+  function stopStream(stream) {
+    if (stream) stream.getTracks().forEach((t) => t.stop());
+  }
+
+  // One preview box shows the virtual camera if it is on, otherwise the webcam
+  // Puts the resize handle just outside the preview's bottom-right corner
+  function placeCamResize() {
+    const box = document.getElementById("cam-box");
+    const grip = document.getElementById("cam-resize");
+    if (!box || !grip) return;
+    grip.style.left = box.offsetLeft + box.offsetWidth - 8 + "px";
+    grip.style.top = box.offsetTop + box.offsetHeight - 8 + "px";
+  }
+
+  function refreshPreview() {
+    const stream = camVirt || camCam;
+    let box = document.getElementById("cam-box");
+    if (!stream) {
+      if (box) box.remove();
+      const grip = document.getElementById("cam-resize");
+      if (grip) grip.remove();
+      return;
+    }
+    if (!box) {
+      box = document.createElement("div");
+      box.id = "cam-box";
+      box.innerHTML = '<div class="cb-title"></div><video autoplay muted playsinline></video>';
+      box.style.left = window.innerWidth - 272 + "px";
+      box.style.top = "56px";
+      box.style.right = "auto";
+      // Drag anywhere on the picture to move it inside the window
+      box.addEventListener("pointerdown", (e) => {
+        box.setPointerCapture(e.pointerId);
+        dragCam = { dx: e.clientX - box.offsetLeft, dy: e.clientY - box.offsetTop };
+      });
+      box.addEventListener("pointermove", (e) => {
+        if (!dragCam) return;
+        const left = Math.min(window.innerWidth - box.offsetWidth, Math.max(0, e.clientX - dragCam.dx));
+        const top = Math.min(window.innerHeight - box.offsetHeight, Math.max(0, e.clientY - dragCam.dy));
+        box.style.left = left + "px";
+        box.style.top = top + "px";
+        placeCamResize();
+      });
+      box.addEventListener("pointerup", () => {
+        dragCam = null;
+      });
+      document.body.appendChild(box);
+
+      // Resize handle at the bottom-right corner, outside the picture so every shape can use it
+      const grip = document.createElement("div");
+      grip.id = "cam-resize";
+      grip.title = "Drag to resize (keeps proportions)";
+      grip.addEventListener("pointerdown", (e) => {
+        grip.setPointerCapture(e.pointerId);
+        resizeCam = { x: e.clientX, w: box.offsetWidth, left: box.offsetLeft, top: box.offsetTop };
+      });
+      grip.addEventListener("pointermove", (e) => {
+        if (!resizeCam) return;
+        const square = box.classList.contains("round") || box.classList.contains("hexagon");
+        const maxH = window.innerHeight - resizeCam.top;
+        const maxW = Math.min(window.innerWidth - resizeCam.left, square ? maxH : (maxH * 16) / 9);
+        const w = Math.min(maxW, Math.max(120, resizeCam.w + (e.clientX - resizeCam.x)));
+        box.style.width = w + "px";
+        box.style.height = square ? w + "px" : "";
+        placeCamResize();
+      });
+      grip.addEventListener("pointerup", () => {
+        resizeCam = null;
+      });
+      document.body.appendChild(grip);
+    }
+    placeCamResize();
+    box.classList.toggle("round", camShape === "round");
+    box.classList.toggle("hexagon", camShape === "hexagon");
+    const video = box.querySelector("video");
+    if (video.srcObject !== stream) video.srcObject = stream;
+    box.querySelector(".cb-title").textContent = camVirt ? "Virtual camera (PADA)" : "Camera";
+    placeCamResize();
+  }
+
+  async function runCamAction(action) {
+    if (action === "rect" || action === "round" || action === "hexagon") {
+      camShape = action;
+      action = "show";
+      const box = document.getElementById("cam-box");
+      if (box) {
+        box.style.width = "";
+        box.style.height = "";
+      }
+    }
+    if (action === "show") {
+      if (!camCam) {
+        try {
+          camCam = await navigator.mediaDevices.getUserMedia({ video: true });
+        } catch (err) {
+          alert("ক্যামেরা চালু করা যায়নি: " + err.message);
+          return;
+        }
+      }
+    } else if (action === "off") {
+      stopStream(camCam);
+      camCam = null;
+    } else if (action === "vstart") {
+      // The board's canvas as a live video stream (shown here; other apps need a virtual camera driver)
+      if (!camVirt) camVirt = canvas.captureStream(30);
+    } else if (action === "voff") {
+      stopStream(camVirt);
+      camVirt = null;
+    }
+    refreshPreview();
+  }
+
+  function renderCamMenu() {
+    if (camMenuEl) camMenuEl.style.display = camMenuOpen ? "flex" : "none";
+  }
+
   /* ---------- Undo history ---------- */
 
   function snapshot() {
@@ -1258,11 +1439,13 @@
     drawEndpoints(z);
     drawPolyDraft(z);
     drawSnapGuides(z);
+    drawLaser(z);
     drawMarquee(z);
     drawBindHint(z);
     drawRotateButton(z);
     if (editor) positionEditor();
     renderStyle();
+    placeVideoUI();
   }
 
   // Applies the shape's opacity and blur around its normal drawing
@@ -1280,6 +1463,21 @@
   }
 
   function drawShape(s) {
+    if (s.type === "video") {
+      const b = bounds(s);
+      const v = VIDEO_STORE.get(s.ref);
+      const w = b.x2 - b.x1;
+      const h = b.y2 - b.y1;
+      if (v && v.el.readyState >= 2) ctx.drawImage(v.el, b.x1, b.y1, w, h);
+      else {
+        ctx.fillStyle = "#f1f0f7";
+        ctx.fillRect(b.x1, b.y1, w, h);
+      }
+      ctx.strokeStyle = "#000000";
+      ctx.lineWidth = 2 / board().camera.zoom;
+      ctx.strokeRect(b.x1, b.y1, w, h);
+      return;
+    }
     if (s.type === "image") {
       const b = bounds(s);
       const src = IMAGE_STORE.get(s.ref);
@@ -1415,6 +1613,8 @@
     showStyle();
     eraserMenuOpen = false;
     renderEraserMenu();
+    laserMenuOpen = false;
+    renderLaserMenu();
   }
 
   function updateCursor() {
@@ -1499,6 +1699,10 @@
     else showStyle();
     eraserMenuOpen = false;
     renderEraserMenu();
+    camMenuOpen = false;
+    renderCamMenu();
+    laserMenuOpen = false;
+    renderLaserMenu();
 
     // Pan
     if (tool === "hand" || spaceHeld || e.button === 1) {
@@ -1561,6 +1765,14 @@
       if (!e.shiftKey) selected.clear();
       gesture = { type: "marquee", rect: { x1: p.x, y1: p.y, x2: p.x, y2: p.y }, base };
       render();
+      return;
+    }
+
+    // Laser: a trail that fades away; it is not saved to the board
+    if (tool === "laser") {
+      laserTrail.push({ x: p.x, y: p.y, t: Date.now() });
+      startLaserFade();
+      gesture = { type: "laser" };
       return;
     }
 
@@ -1691,6 +1903,7 @@
           return { x: C1.x + ux * cs - uy * sn, y: C1.y + ux * sn + uy * cs };
         });
         if (textOnly) refitTexts();
+        refitVideos();
         break;
       }
       case "marquee": {
@@ -1699,6 +1912,10 @@
         selectInRect(gesture.base);
         break;
       }
+      case "laser":
+        laserTrail.push({ x: p.x, y: p.y, t: Date.now() });
+        startLaserFade();
+        break;
       case "endpoint": {
         const s = shapesOf().find((x) => x.id === gesture.id);
         if (s) moveEndpoint(s, gesture.which, p);
@@ -1813,6 +2030,19 @@
   window.addEventListener("keydown", (e) => {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
 
+    if (presentEl) {
+      e.preventDefault();
+      if (e.key === "Escape") stopPresentation();
+      else if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(e.key)) presentStep(1);
+      else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(e.key)) presentStep(-1);
+      return;
+    }
+    if (e.key === "F5") {
+      e.preventDefault();
+      startPresentation();
+      return;
+    }
+
     if (e.code === "Space" && !spaceHeld) {
       spaceHeld = true;
       updateCursor();
@@ -1837,6 +2067,10 @@
       e.preventDefault();
       selected = new Set(shapesOf().map((s) => s.id));
       render();
+      return;
+    }
+    if (!e.ctrlKey && !e.metaKey && !e.altKey && /^[1-8]$/.test(e.key)) {
+      applyColorIndex(Number(e.key));
       return;
     }
     if ((e.ctrlKey || e.metaKey) && k === "g") {
@@ -1895,7 +2129,19 @@
 
   window.addEventListener("pointermove", (e) => {
     if (e.clientY > window.innerHeight - 110) showStyle();
+    camHandleHover(e);
   });
+
+  // The resize handle is shown only when the pointer is close to the camera preview
+  function camHandleHover(e) {
+    const box = document.getElementById("cam-box");
+    const grip = document.getElementById("cam-resize");
+    if (!box || !grip) return;
+    const r = box.getBoundingClientRect();
+    const near =
+      e.clientX >= r.left - 24 && e.clientX <= r.right + 24 && e.clientY >= r.top - 24 && e.clientY <= r.bottom + 24;
+    grip.classList.toggle("show", near || !!resizeCam);
+  }
 
   window.addEventListener("resize", resize);
 
@@ -1919,6 +2165,19 @@
     });
     if (!window.padaDesktop) ctl.style.display = "none";
     document.body.appendChild(ctl);
+
+    // A small grip on the left: drag it to move the window (desktop only)
+    const grip = document.createElement("div");
+    grip.id = "grip";
+    grip.title = "Drag to move the window";
+    grip.textContent = "\u22EE";
+    if (!window.padaDesktop) grip.style.display = "none";
+    document.body.appendChild(grip);
+
+    // Ctrl+Alt+1..8 from the desktop app pick a palette colour, even while Zoom has focus
+    if (window.padaDesktop && window.padaDesktop.onColor) {
+      window.padaDesktop.onColor((i) => applyColorIndex(i));
+    }
   }
 
   /* ---------- Toolbar visibility & eraser menu ---------- */
@@ -1979,9 +2238,52 @@
           eraserMenuOpen = true;
           renderEraserMenu();
         }
+        if (t.id === "laser") {
+          laserMenuOpen = true;
+          renderLaserMenu();
+        }
       });
       toolbarEl.appendChild(btn);
     });
+
+    // Camera button, with its menu: Show / Off Camera, Start / Off Virtual Camera
+    const camSep = document.createElement("span");
+    camSep.className = "sep";
+    toolbarEl.appendChild(camSep);
+    const camBtn = document.createElement("button");
+    camBtn.className = "tool";
+    camBtn.title = "Camera";
+    camBtn.setAttribute("aria-label", "Camera");
+    camBtn.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+      `stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS.camera}</svg>`;
+    camBtn.addEventListener("click", () => {
+      camMenuOpen = !camMenuOpen;
+      renderCamMenu();
+    });
+    toolbarEl.appendChild(camBtn);
+
+    camMenuEl = document.createElement("div");
+    camMenuEl.id = "camera-menu";
+    camMenuEl.innerHTML =
+      '<div class="tm-item"><div class="tm-label">Camera &#9656;</div>' +
+      '<div class="tm-sub">' +
+      '<button data-cam="rect">Rectangle</button>' +
+      '<button data-cam="round">Circular</button>' +
+      '<button data-cam="hexagon">Hexagon</button>' +
+      '<hr />' +
+      '<button data-cam="off">Camera Off</button>' +
+      "</div></div>" +
+      '<button data-cam="vstart">Start Virtual Camera</button>' +
+      '<button data-cam="voff">Off Virtual Camera</button>';
+    camMenuEl.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      camMenuOpen = false;
+      renderCamMenu();
+      runCamAction(b.dataset.cam);
+    });
+    toolbarEl.appendChild(camMenuEl);
 
     eraserMenuEl = document.createElement("div");
     eraserMenuEl.id = "eraser-menu";
@@ -1994,6 +2296,21 @@
       if (b.dataset.erase === "all") eraseAll();
     });
     toolbarEl.appendChild(eraserMenuEl);
+
+    laserMenuEl = document.createElement("div");
+    laserMenuEl.id = "laser-menu";
+    laserMenuEl.innerHTML =
+      '<button data-lcolor="#e03131"><i style="background:#e03131"></i>Red</button>' +
+      '<button data-lcolor="#1971c2"><i style="background:#1971c2"></i>Blue</button>' +
+      '<button data-lcolor="#2f9e44"><i style="background:#2f9e44"></i>Green</button>';
+    laserMenuEl.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      laserColor = b.dataset.lcolor;
+      laserMenuOpen = false;
+      renderLaserMenu();
+    });
+    toolbarEl.appendChild(laserMenuEl);
   }
 
   /* ---------- Tab options menu ---------- */
@@ -2020,6 +2337,7 @@
           <button data-act="file" data-kind="pdf">PDF</button>
           <button data-act="file" data-kind="image">Image</button>
           <button data-act="file" data-kind="word">Word</button>
+          <button data-act="file" data-kind="video">Video</button>
         </div></div>
       <div class="tm-item"><div class="tm-label">Tab bg &#9656;</div>
         <div class="tm-sub">
@@ -2051,7 +2369,7 @@
       else if (act === "bg") setBoardBg(index, b.dataset.bg);
       else if (act === "save-image" || act === "save-pdf") {
         if (index !== active) switchBoard(index);
-        saveBoardAs(act === "save-image" ? "image" : "pdf");
+        saveTabAs(act === "save-image" ? "image" : "pdf");
       }
       else if (act === "rename") renameBoard(index);
       else if (act === "duplicate") duplicateBoard(index);
@@ -2063,7 +2381,12 @@
   // Opens a PDF, image or Word file chosen from disk in a new browser window
   /* ---------- Files: pictures, PDF pages and Word text open inside the board ---------- */
 
-  const FILE_ACCEPT = { pdf: ".pdf", image: "image/*", word: ".docx" };
+  const FILE_ACCEPT = {
+    pdf: ".pdf",
+    image: "image/*",
+    word: ".docx",
+    video: "video/*,.mkv,.mov,.m4v,.avi,.wmv,.flv,.mpg,.mpeg,.3gp,.ts,.ogv",
+  };
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
   const MAMMOTH_URL = "https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js";
   const IMAGE_CACHE = new Map(); // picture source -> decoded image, so each one loads once
@@ -2122,16 +2445,27 @@
     await loadScript(PDFJS_URL, () => window.pdfjsLib);
     window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_URL.replace("pdf.min.js", "pdf.worker.min.js");
     const pdf = await window.pdfjsLib.getDocument({ data: await readFile(file, false) }).promise;
+    const spec = await askPages(pdf.numPages);
+    if (spec === null) return [];
+    const pages = parsePages(spec, pdf.numPages);
+    if (!pages.length) throw new Error("পৃষ্ঠার নম্বর সঠিক নয়");
+
     const out = [];
-    const scale = pdf.numPages > 100 ? 1 : 1.5;
-    for (let i = 1; i <= Math.min(pdf.numPages, 1000); i++) {
-      const page = await pdf.getPage(i);
-      const vp = page.getViewport({ scale });
-      const c = document.createElement("canvas");
-      c.width = Math.round(vp.width);
-      c.height = Math.round(vp.height);
-      await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
-      out.push({ src: c.toDataURL("image/jpeg", 0.9), w0: c.width, h0: c.height });
+    const scale = pages.length > 100 ? 1 : 1.5;
+    const pr = progressStart("PDF পৃষ্ঠা");
+    try {
+      for (let k = 0; k < pages.length; k++) {
+        pr.set(k, pages.length);
+        const page = await pdf.getPage(pages[k]);
+        const vp = page.getViewport({ scale });
+        const c = document.createElement("canvas");
+        c.width = Math.round(vp.width);
+        c.height = Math.round(vp.height);
+        await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+        out.push({ src: c.toDataURL("image/jpeg", 0.9), w0: c.width, h0: c.height });
+      }
+    } finally {
+      pr.end();
     }
     return out;
   }
@@ -2192,6 +2526,10 @@
 
   async function openIntoBoard(file, kind) {
     try {
+      if (kind === "video") {
+        await openVideo(file);
+        return;
+      }
       if (kind === "image") insertImages([await pictureFromFile(file)]);
       else if (kind === "pdf") insertImages(await pagesFromPdf(file));
       else if (kind === "word") {
@@ -2204,6 +2542,454 @@
     } catch (err) {
       alert("ফাইলটি খোলা যায়নি: " + err.message);
     }
+  }
+
+  /* ---------- PDF page choice and progress ---------- */
+
+  // A small box asking which pages to open ("all", or e.g. 1-5, 8, 12)
+  function askPages(total) {
+    return new Promise((resolve) => {
+      const box = document.createElement("div");
+      box.id = "pagebox";
+      box.innerHTML =
+        '<div class="pb-card">' +
+        `<div><b>PDF: মোট ${total} পৃষ্ঠা</b></div>` +
+        '<label>কোন পৃষ্ঠাগুলো খুলবেন? (যেমন 1-5, 8, 12 বা all)</label>' +
+        '<input type="text" value="all" />' +
+        '<div class="pb-row"><button data-r="cancel">বাতিল</button><button data-r="ok">খুলুন</button></div>' +
+        "</div>";
+      document.body.appendChild(box);
+      const input = box.querySelector("input");
+      input.focus();
+      input.select();
+      const done = (value) => {
+        box.remove();
+        resolve(value);
+      };
+      box.addEventListener("click", (e) => {
+        const r = e.target.dataset.r;
+        if (r === "cancel") done(null);
+        else if (r === "ok") done(input.value);
+      });
+      input.addEventListener("keydown", (e) => {
+        e.stopPropagation();
+        if (e.key === "Enter") done(input.value);
+        else if (e.key === "Escape") done(null);
+      });
+    });
+  }
+
+  // "1-5, 8" -> [1, 2, 3, 4, 5, 8]; "all" or empty -> every page
+  function parsePages(spec, n) {
+    const text = spec.trim().toLowerCase();
+    if (!text || text === "all") return Array.from({ length: n }, (_, i) => i + 1);
+    const out = [];
+    for (const part of text.split(",")) {
+      const m = part.trim().match(/^(\d+)(?:\s*-\s*(\d+))?$/);
+      if (!m) continue;
+      const a = Number(m[1]);
+      const b = m[2] ? Number(m[2]) : a;
+      for (let i = Math.min(a, b); i <= Math.max(a, b); i++) {
+        if (i >= 1 && i <= n && !out.includes(i)) out.push(i);
+      }
+    }
+    return out;
+  }
+
+  // Shows "label done / total" with a bar at the bottom-left; returns set(done, total) and end()
+  function progressStart(label) {
+    let el = document.getElementById("progress");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "progress";
+      el.innerHTML = "<span></span><div class=\"pg\"><i></i></div>";
+      document.body.appendChild(el);
+    }
+    el.style.display = "flex";
+    const span = el.querySelector("span");
+    const bar = el.querySelector("i");
+    return {
+      set(done, total) {
+        span.textContent = `${label} ${done} / ${total}`;
+        bar.style.width = (total ? (done / total) * 100 : 0) + "%";
+      },
+      end() {
+        el.style.display = "none";
+      },
+    };
+  }
+
+  /* ---------- Full-tab export ---------- */
+
+  // Paints every shape of a tab into an offscreen canvas, whatever part is on screen
+  function exportScene(shapes, scale, transparent) {
+    const bb = { x1: Infinity, y1: Infinity, x2: -Infinity, y2: -Infinity };
+    for (const s of shapes) {
+      const b = bounds(s);
+      bb.x1 = Math.min(bb.x1, b.x1);
+      bb.y1 = Math.min(bb.y1, b.y1);
+      bb.x2 = Math.max(bb.x2, b.x2);
+      bb.y2 = Math.max(bb.y2, b.y2);
+    }
+    if (!shapes.length) Object.assign(bb, { x1: 0, y1: 0, x2: 800, y2: 600 });
+    const pad = 20;
+    const x1 = bb.x1 - pad;
+    const y1 = bb.y1 - pad;
+    const w = bb.x2 - bb.x1 + 2 * pad;
+    const h = bb.y2 - bb.y1 + 2 * pad;
+    const k = Math.min(scale, 8000 / Math.max(w, h));
+
+    const off = document.createElement("canvas");
+    off.width = Math.max(1, Math.round(w * k));
+    off.height = Math.max(1, Math.round(h * k));
+    const prev = ctx;
+    ctx = off.getContext("2d");
+    try {
+      if (!transparent) {
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, off.width, off.height);
+      }
+      ctx.setTransform(k, 0, 0, k, -x1 * k, -y1 * k);
+      ctx.strokeStyle = "#1d1b2e";
+      ctx.lineWidth = 2;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      for (const s of shapes) drawWithStyle(s);
+    } finally {
+      ctx = prev;
+    }
+    return off;
+  }
+
+  // Save as > Image / PDF: the whole current tab
+  function saveTabAs(kind) {
+    finishEditing();
+    const b = board();
+    const base = b.name.replace(/\s+/g, "_");
+    if (kind === "image") {
+      const off = exportScene(shapesOf(), 2, b.bg === "transparent");
+      off.toBlob((blob) => download(blob, `${base}.png`), "image/png");
+      return;
+    }
+    const off = exportScene(shapesOf(), 2, false);
+    const bin = atob(off.toDataURL("image/jpeg", 0.92).split(",")[1]);
+    const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
+    download(buildPdf(bytes, off.width, off.height), `${base}.pdf`);
+  }
+
+  /* ---------- Presentation mode: every tab in order, full screen ---------- */
+
+  let presentEl = null;
+  let presentIndex = 0;
+  let presentSlides = [];
+
+  function showSlide() {
+    presentEl.querySelector("img").src = presentSlides[presentIndex];
+    presentEl.querySelector("span").textContent = `${boards[presentIndex].name}  ·  ${presentIndex + 1} / ${boards.length}`;
+  }
+
+  function presentStep(d) {
+    presentIndex = Math.min(boards.length - 1, Math.max(0, presentIndex + d));
+    showSlide();
+  }
+
+  // F5 starts from the current tab; → / Space / click go forward, ← goes back, Esc ends
+  function startPresentation() {
+    if (presentEl) return;
+    finishEditing();
+    selected = new Set();
+    presentSlides = boards.map((b) => exportScene(b.shapes, 2, false).toDataURL("image/png"));
+    presentIndex = active;
+
+    presentEl = document.createElement("div");
+    presentEl.id = "present";
+    presentEl.innerHTML = '<img alt="" /><div class="pres-bar"><span></span><small>← → · Esc: বন্ধ</small></div>';
+    presentEl.addEventListener("click", (e) => {
+      const half = presentEl.getBoundingClientRect().width / 2;
+      presentStep(e.clientX < half ? -1 : 1);
+    });
+    document.body.appendChild(presentEl);
+    showSlide();
+  }
+
+  function stopPresentation() {
+    if (!presentEl) return;
+    presentEl.remove();
+    presentEl = null;
+    presentSlides = [];
+    render();
+  }
+
+  /* ---------- Video: a shape on the board (its layer works like any shape) ---------- */
+
+  const VIDEO_STORE = new Map(); // ref -> { el, url, name }: the video element and its file
+  let videoLoopRunning = false;
+  let vuiBuilt = false;
+
+  function selectedVideo() {
+    const sel = shapesOf().filter((s) => selected.has(s.id));
+    return sel.length === 1 && sel[0].type === "video" ? sel[0] : null;
+  }
+
+  // Keeps the picture's proportions after a resize
+  function refitVideos() {
+    for (const s of shapesOf()) {
+      if (s.type === "video" && selected.has(s.id)) s.y1 = s.y0 + (s.x1 - s.x0) / (s.ratio || 16 / 9);
+    }
+  }
+
+  // Redraws the board while any video is playing
+  function startVideoLoop() {
+    if (videoLoopRunning) return;
+    videoLoopRunning = true;
+    const step = () => {
+      render();
+      if ([...VIDEO_STORE.values()].some((v) => !v.el.paused)) requestAnimationFrame(step);
+      else videoLoopRunning = false;
+    };
+    requestAnimationFrame(step);
+  }
+
+  // Loads a file into a hidden video element, ready once its size is known
+  function loadVideoEntry(file) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const el = document.createElement("video");
+      el.playsInline = true;
+      el.preload = "auto";
+      el.src = url;
+      el.onloadedmetadata = () => resolve({ el, url, name: file.name });
+      el.onerror = async () => {
+        // Desktop app only: convert to MP4 (H.264/AAC) with the bundled ffmpeg, then play that
+        if (!(window.padaDesktop && window.padaDesktop.transcodeVideo && file.path) || el.dataset.converted) {
+          reject(new Error("this video format cannot be played"));
+          return;
+        }
+        el.dataset.converted = "1";
+        const pr = progressStart("ভিডিও রূপান্তর (MP4)");
+        pr.set(0, 1);
+        try {
+          el.src = await window.padaDesktop.transcodeVideo(file.path);
+        } catch (err) {
+          reject(new Error("রূপান্তর ব্যর্থ: " + err.message));
+        } finally {
+          pr.end();
+        }
+      };
+      el.addEventListener("play", startVideoLoop);
+      el.addEventListener("pause", () => {
+        render();
+        updateVideoUI();
+      });
+      el.addEventListener("timeupdate", updateVideoUI);
+      el.addEventListener("seeked", render);
+      el.addEventListener("loadeddata", render);
+    });
+  }
+
+  // Open File > Video: a new video shape at the centre of the view
+  async function openVideo(file) {
+    finishEditing();
+    const entry = await loadVideoEntry(file);
+    const ref = newId();
+    VIDEO_STORE.set(ref, entry);
+    const ratio = entry.el.videoWidth / entry.el.videoHeight || 16 / 9;
+    const w = Math.min(480, entry.el.videoWidth || 480);
+    const h = w / ratio;
+    const c = screenToWorld(window.innerWidth / 2, window.innerHeight / 2);
+    const before = snapshot();
+    const s = {
+      id: newId(),
+      type: "video",
+      ref,
+      ratio,
+      x0: c.x - w / 2,
+      y0: c.y - h / 2,
+      x1: c.x + w / 2,
+      y1: c.y - h / 2 + h,
+      transparency: 0,
+      blur: 0,
+    };
+    shapesOf().push(s);
+    selected = new Set([s.id]);
+    commit(before);
+    render();
+  }
+
+  // File > Open File inside the video's controls: replaces the selected video's file
+  async function replaceVideo(file) {
+    const s = selectedVideo();
+    if (!s) return;
+    const old = VIDEO_STORE.get(s.ref);
+    if (old) {
+      old.el.pause();
+      URL.revokeObjectURL(old.url);
+    }
+    const entry = await loadVideoEntry(file);
+    const before = snapshot();
+    VIDEO_STORE.set(s.ref, entry);
+    s.ratio = entry.el.videoWidth / entry.el.videoHeight || s.ratio;
+    refitVideos();
+    commit(before);
+    render();
+  }
+
+  // The × in the video's header removes the video shape from the board
+  function closeVideoShape() {
+    const s = selectedVideo();
+    if (!s) return;
+    const v = VIDEO_STORE.get(s.ref);
+    if (v) v.el.pause();
+    deleteSelected();
+  }
+
+  // Header (×, name, File) above the video and control bar below it; shown only for a selected video
+  function buildVideoUI() {
+    if (vuiBuilt) return;
+    vuiBuilt = true;
+    const top = document.createElement("div");
+    top.id = "vtop";
+    top.innerHTML =
+      '<button class="vx" title="Close video" aria-label="Close video">×</button>' +
+      '<span class="vname"></span>' +
+      '<div class="vfilewrap"><button class="vfilebtn" title="File">File ▾</button>' +
+      '<div class="vfilemenu"><button>Open File</button></div></div>';
+    const bottom = document.createElement("div");
+    bottom.id = "vbottom";
+    bottom.innerHTML =
+      '<button data-vact="back" title="10 seconds back">« 10</button>' +
+      '<button data-vact="play" class="vplay" title="Play / Pause">▶</button>' +
+      '<button data-vact="fwd" title="10 seconds forward">10 »</button>' +
+      '<input class="vseek" type="range" min="0" max="0" step="0.1" value="0" title="Position" />' +
+      '<span class="vtime">0:00 / 0:00</span>' +
+      '<select class="vspeed" title="Speed">' +
+      [0.5, 0.75, 1, 1.25, 1.5, 2].map((s) => `<option value="${s}"${s === 1 ? " selected" : ""}>${s}x</option>`).join("") +
+      "</select>" +
+      '<button data-vact="mute" class="vmute" title="Mute / Sound">🔊</button>' +
+      '<input class="vvol" type="range" min="0" max="1" step="0.05" value="1" title="Volume" />';
+    document.body.append(top, bottom);
+
+    top.querySelector(".vx").addEventListener("click", closeVideoShape);
+    const menu = top.querySelector(".vfilemenu");
+    top.querySelector(".vfilebtn").addEventListener("click", () => menu.classList.toggle("open"));
+    menu.addEventListener("click", () => {
+      menu.classList.remove("open");
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = FILE_ACCEPT.video;
+      input.addEventListener("change", () => {
+        if (input.files[0]) replaceVideo(input.files[0]);
+      });
+      input.click();
+    });
+
+    bottom.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      const s = selectedVideo();
+      if (!b || !s) return;
+      const v = VIDEO_STORE.get(s.ref).el;
+      const act = b.dataset.vact;
+      if (act === "play") v.paused ? v.play() : v.pause();
+      else if (act === "back") v.currentTime = Math.max(0, v.currentTime - 10);
+      else if (act === "fwd") v.currentTime = Math.min(v.duration || Infinity, v.currentTime + 10);
+      else if (act === "mute") {
+        v.muted = !v.muted;
+        b.textContent = v.muted ? "🔇" : "🔊";
+      }
+      updateVideoUI();
+    });
+    bottom.querySelector(".vseek").addEventListener("input", (e) => {
+      const s = selectedVideo();
+      if (s) VIDEO_STORE.get(s.ref).el.currentTime = Number(e.target.value);
+    });
+    bottom.querySelector(".vspeed").addEventListener("change", (e) => {
+      const s = selectedVideo();
+      if (s) VIDEO_STORE.get(s.ref).el.playbackRate = Number(e.target.value);
+    });
+    bottom.querySelector(".vvol").addEventListener("input", (e) => {
+      const s = selectedVideo();
+      if (!s) return;
+      const v = VIDEO_STORE.get(s.ref).el;
+      v.volume = Number(e.target.value);
+      v.muted = false;
+      bottom.querySelector(".vmute").textContent = "🔊";
+    });
+  }
+
+  // Fills the header and controls from the selected video's state
+  function updateVideoUI() {
+    const top = document.getElementById("vtop");
+    const bottom = document.getElementById("vbottom");
+    const s = selectedVideo();
+    if (!top || !s) return;
+    const v = VIDEO_STORE.get(s.ref);
+    if (!v) return;
+    const fmt = (t) => (isFinite(t) ? `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}` : "0:00");
+    top.querySelector(".vname").textContent = v.name;
+    bottom.querySelector(".vplay").textContent = v.el.paused ? "▶" : "⏸";
+    bottom.querySelector(".vseek").max = v.el.duration || 0;
+    bottom.querySelector(".vseek").value = v.el.currentTime;
+    bottom.querySelector(".vtime").textContent = `${fmt(v.el.currentTime)} / ${fmt(v.el.duration)}`;
+  }
+
+  // Places the header above and the controls below the selected video, following it on the board
+  function placeVideoUI() {
+    if (!vuiBuilt) return;
+    const top = document.getElementById("vtop");
+    const bottom = document.getElementById("vbottom");
+    const s = selectedVideo();
+    if (!s) {
+      top.style.display = "none";
+      bottom.style.display = "none";
+      return;
+    }
+    const cam = board().camera;
+    const z = cam.zoom;
+    const b = bounds(s);
+    const left = b.x1 * z + cam.x;
+    const right = b.x2 * z + cam.x;
+    const w = Math.max(360, right - left);
+    top.style.display = "flex";
+    bottom.style.display = "flex";
+    top.style.left = left + "px";
+    top.style.top = b.y1 * z + cam.y - 40 + "px";
+    top.style.width = w + "px";
+    bottom.style.left = left + "px";
+    bottom.style.top = b.y2 * z + cam.y + 6 + "px";
+    bottom.style.width = w + "px";
+    updateVideoUI();
+  }
+
+  /* ---------- Fonts from src/fonts ---------- */
+
+  // Rebuilds the font dropdown in the style panel from FAMILIES
+  function populateFamilySelect() {
+    const sel = styleEl && styleEl.querySelector('select[data-kind="family"]');
+    if (!sel) return;
+    sel.innerHTML = Object.entries(FAMILIES)
+      .map(([k, f]) => `<option value="${k}">${f.label}</option>`)
+      .join("");
+  }
+
+  // fonts.js (written from the src/fonts folder) lists the extra fonts; each one is loaded and offered
+  function loadFontList() {
+    loadScript("fonts/fonts.js", () => window.PADA_FONTS)
+      .then(() => {
+        for (const f of window.PADA_FONTS || []) {
+          const family = "PADA " + f.label;
+          FAMILIES["font-" + f.key] = { label: f.label, css: `"${family}", system-ui, sans-serif` };
+          const face = new FontFace(family, `url("fonts/${f.file}")`);
+          face
+            .load()
+            .then((loaded) => {
+              document.fonts.add(loaded);
+              render();
+            })
+            .catch(() => {});
+        }
+        populateFamilySelect();
+      })
+      .catch(() => {});
   }
 
   // The Tab menu's Open File items: pick a file and place it on this board
@@ -2415,7 +3201,9 @@
   setTool("select");
   buildStylePanel();
   buildRibbon();
+  buildVideoUI();
   resize();
+  loadFontList();
 
   // Canvas text is drawn once the font is ready, so redraw after it loads
   if (document.fonts) {

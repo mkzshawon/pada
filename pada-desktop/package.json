@@ -1,14 +1,46 @@
 {
   "name": "pada-desktop",
   "version": "0.1.0",
-  "description": "PADA overlay: a transparent, always-on-top whiteboard for drawing over Zoom and other apps",
+  "description": "PADA - Play Anything, Draw Anything: desktop whiteboard overlay",
   "private": true,
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "prepare-web": "node prepare.js",
+    "start": "node prepare.js && electron .",
+    "dist": "node prepare.js && electron-builder"
+  },
+  "build": {
+    "appId": "com.pada.whiteboard",
+    "productName": "PADA",
+    "files": [
+      "main.js",
+      "preload.js",
+      "www/**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "asarUnpack": [
+      "**/node_modules/ffmpeg-static/**"
+    ]
   },
   "devDependencies": {
-    "electron": "^31.0.0"
+    "electron": "^31.0.0",
+    "electron-builder": "^25.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "ffmpeg-static": "^5.2.0"
+  }
 }

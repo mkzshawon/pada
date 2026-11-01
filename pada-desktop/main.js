@@ -2,6 +2,11 @@
 // This folder lives inside the pada repository, so the whiteboard is one folder up: ../index.html
 const { app, BrowserWindow, globalShortcut, screen, ipcMain, dialog, shell } = require("electron");
 const path = require("path");
+const { spawn } = require("child_process");
+const { pathToFileURL } = require("url");
+
+// ffmpeg bundled with the app (inside the installer, it is unpacked from app.asar)
+const ffmpegPath = require("ffmpeg-static").replace("app.asar", "app.asar.unpacked");
 
 let win = null;
 let passThrough = false; // when true, mouse clicks go through the overlay to the apps underneath
@@ -43,7 +48,7 @@ function createWindow() {
   win.setAlwaysOnTop(true, "screen-saver");
   win.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
 
-  win.loadFile(path.join(__dirname, "..", "index.html"));
+  win.loadFile(path.join(__dirname, "www", "index.html"));
   win.on("closed", () => {
     win = null;
   });
@@ -58,6 +63,29 @@ ipcMain.handle("pada:open-file", async (_event, kind) => {
   if (!result.canceled && result.filePaths.length) {
     await shell.openPath(result.filePaths[0]);
   }
+});
+
+// Converts a video the browser cannot play (e.g. MKV with unsupported codecs) to H.264/AAC MP4
+ipcMain.handle("pada:transcode", (_event, srcPath) => {
+  return new Promise((resolve, reject) => {
+    const out = path.join(app.getPath("temp"), `pada-${Date.now()}.mp4`);
+    const args = [
+      "-y",
+      "-i", srcPath,
+      "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", "-pix_fmt", "yuv420p",
+      "-c:a", "aac", "-b:a", "160k",
+      "-movflags", "+faststart",
+      out,
+    ];
+    const proc = spawn(ffmpegPath, args);
+    let log = "";
+    proc.stderr.on("data", (d) => (log += d));
+    proc.on("error", reject);
+    proc.on("close", (code) => {
+      if (code === 0) resolve(pathToFileURL(out).href);
+      else reject(new Error(`ffmpeg stopped (code ${code}): ${log.slice(-300)}`));
+    });
+  });
 });
 
 // Window buttons in the ribbon: minimize, resize (full screen <-> smaller window), close
@@ -90,6 +118,12 @@ app.whenReady().then(() => {
   globalShortcut.register("CommandOrControl+Alt+P", () => setPassThrough(!passThrough));
   // Ctrl+Alt+Q: close the overlay
   globalShortcut.register("CommandOrControl+Alt+Q", () => app.quit());
+  // Ctrl+Alt+1..8: choose a palette colour (works even while Zoom has focus)
+  for (let i = 1; i <= 8; i++) {
+    globalShortcut.register(`CommandOrControl+Alt+${i}`, () => {
+      if (win) win.webContents.send("pada:color", i);
+    });
+  }
   // Ctrl+Alt+D: open or close the developer console (for diagnosing problems)
   globalShortcut.register("CommandOrControl+Alt+D", () => {
     if (win) win.webContents.toggleDevTools();
