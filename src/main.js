@@ -850,6 +850,13 @@
   const LASER_MS = 1200; // how long a laser trail stays visible
   let laserTrail = []; // { x, y, t }: points drawn by the laser, not part of the board
   let laserRunning = false;
+  let laserColor = "#e03131"; // Red, Blue or Green (chosen from the laser menu)
+  let laserMenuOpen = false;
+  let laserMenuEl = null;
+
+  function renderLaserMenu() {
+    if (laserMenuEl) laserMenuEl.style.display = laserMenuOpen ? "flex" : "none";
+  }
 
   // Keeps the trail fading until it has disappeared
   function startLaserFade() {
@@ -875,7 +882,7 @@
       const a = laserTrail[i - 1];
       const b = laserTrail[i];
       const alpha = Math.max(0, 1 - (now - b.t) / LASER_MS);
-      ctx.strokeStyle = `rgba(224, 49, 49, ${alpha})`;
+      ctx.strokeStyle = withAlpha(laserColor, alpha);
       ctx.beginPath();
       ctx.moveTo(a.x, a.y);
       ctx.lineTo(b.x, b.y);
@@ -898,6 +905,7 @@
   let camVirt = null; // the board's picture as a video stream
   let camShape = "rect"; // "rect" or "round"
   let dragCam = null; // offset while the preview box is being dragged
+  let resizeCam = null; // start size and pointer while the corner handle is dragged
 
   function stopStream(stream) {
     if (stream) stream.getTracks().forEach((t) => t.stop());
@@ -914,17 +922,31 @@
     if (!box) {
       box = document.createElement("div");
       box.id = "cam-box";
-      box.innerHTML = '<div class="cb-title"></div><video autoplay muted playsinline></video>';
+      box.innerHTML = '<div class="cb-title"></div><video autoplay muted playsinline></video><div class="cb-grip"></div>';
       box.style.left = window.innerWidth - 272 + "px";
       box.style.top = "56px";
       box.style.right = "auto";
-      // Drag the preview anywhere inside the window
       box.addEventListener("pointerdown", (e) => {
         if (e.target.tagName === "BUTTON") return;
-        dragCam = { dx: e.clientX - box.offsetLeft, dy: e.clientY - box.offsetTop };
         box.setPointerCapture(e.pointerId);
+        if (e.target.classList.contains("cb-grip")) {
+          // Corner handle: resize, keeping the proportions
+          resizeCam = { x: e.clientX, w: box.offsetWidth, left: box.offsetLeft, top: box.offsetTop };
+        } else {
+          // Anywhere else: move the preview inside the window
+          dragCam = { dx: e.clientX - box.offsetLeft, dy: e.clientY - box.offsetTop };
+        }
       });
       box.addEventListener("pointermove", (e) => {
+        if (resizeCam) {
+          const round = box.classList.contains("round") || box.classList.contains("diamond");
+          const maxH = window.innerHeight - resizeCam.top;
+          const maxW = Math.min(window.innerWidth - resizeCam.left, round ? maxH : (maxH * 16) / 9);
+          const w = Math.min(maxW, Math.max(120, resizeCam.w + (e.clientX - resizeCam.x)));
+          box.style.width = w + "px";
+          box.style.height = round ? w + "px" : "";
+          return;
+        }
         if (!dragCam) return;
         const left = Math.min(window.innerWidth - box.offsetWidth, Math.max(0, e.clientX - dragCam.dx));
         const top = Math.min(window.innerHeight - box.offsetHeight, Math.max(0, e.clientY - dragCam.dy));
@@ -933,19 +955,34 @@
       });
       box.addEventListener("pointerup", () => {
         dragCam = null;
+        resizeCam = null;
       });
       document.body.appendChild(box);
     }
     box.classList.toggle("round", camShape === "round");
+    box.classList.toggle("diamond", camShape === "diamond");
     const video = box.querySelector("video");
     if (video.srcObject !== stream) video.srcObject = stream;
     box.querySelector(".cb-title").textContent = camVirt ? "Virtual camera (PADA)" : "Camera";
   }
 
   async function runCamAction(action) {
-    if (action === "show-round" || action === "show-rect") {
-      camShape = action === "show-round" ? "round" : "rect";
+    if (action === "rect" || action === "round" || action === "diamond") {
+      camShape = action;
       action = "show";
+    }
+    if (action === "larger" || action === "smaller") {
+      const box = document.getElementById("cam-box");
+      if (box) {
+        const square = box.classList.contains("round") || box.classList.contains("diamond");
+        const k = action === "larger" ? 1.25 : 0.8;
+        const maxH = window.innerHeight - box.offsetTop;
+        const maxW = Math.min(window.innerWidth - box.offsetLeft, square ? maxH : (maxH * 16) / 9);
+        const w = Math.min(maxW, Math.max(120, box.offsetWidth * k));
+        box.style.width = w + "px";
+        box.style.height = square ? w + "px" : "";
+      }
+      return;
     }
     if (action === "show") {
       if (!camCam) {
@@ -1547,6 +1584,8 @@
     showStyle();
     eraserMenuOpen = false;
     renderEraserMenu();
+    laserMenuOpen = false;
+    renderLaserMenu();
   }
 
   function updateCursor() {
@@ -1633,6 +1672,8 @@
     renderEraserMenu();
     camMenuOpen = false;
     renderCamMenu();
+    laserMenuOpen = false;
+    renderLaserMenu();
 
     // Pan
     if (tool === "hand" || spaceHeld || e.button === 1) {
@@ -2155,6 +2196,10 @@
           eraserMenuOpen = true;
           renderEraserMenu();
         }
+        if (t.id === "laser") {
+          laserMenuOpen = true;
+          renderLaserMenu();
+        }
       });
       toolbarEl.appendChild(btn);
     });
@@ -2179,12 +2224,17 @@
     camMenuEl = document.createElement("div");
     camMenuEl.id = "camera-menu";
     camMenuEl.innerHTML =
-      '<div class="tm-item"><div class="tm-label">Show Camera &#9656;</div>' +
+      '<div class="tm-item"><div class="tm-label">Camera &#9656;</div>' +
       '<div class="tm-sub">' +
-      '<button data-cam="show-round">Round shape</button>' +
-      '<button data-cam="show-rect">Rectangle shape</button>' +
+      '<button data-cam="rect">Rectangle</button>' +
+      '<button data-cam="round">Round</button>' +
+      '<button data-cam="diamond">Diamond</button>' +
+      '<hr />' +
+      '<button data-cam="larger">Larger</button>' +
+      '<button data-cam="smaller">Smaller</button>' +
+      '<hr />' +
+      '<button data-cam="off">Camera Off</button>' +
       "</div></div>" +
-      '<button data-cam="off">Off Camera</button>' +
       '<button data-cam="vstart">Start Virtual Camera</button>' +
       '<button data-cam="voff">Off Virtual Camera</button>';
     camMenuEl.addEventListener("click", (e) => {
@@ -2207,6 +2257,21 @@
       if (b.dataset.erase === "all") eraseAll();
     });
     toolbarEl.appendChild(eraserMenuEl);
+
+    laserMenuEl = document.createElement("div");
+    laserMenuEl.id = "laser-menu";
+    laserMenuEl.innerHTML =
+      '<button data-lcolor="#e03131"><i style="background:#e03131"></i>Red</button>' +
+      '<button data-lcolor="#1971c2"><i style="background:#1971c2"></i>Blue</button>' +
+      '<button data-lcolor="#2f9e44"><i style="background:#2f9e44"></i>Green</button>';
+    laserMenuEl.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      laserColor = b.dataset.lcolor;
+      laserMenuOpen = false;
+      renderLaserMenu();
+    });
+    toolbarEl.appendChild(laserMenuEl);
   }
 
   /* ---------- Tab options menu ---------- */
@@ -2606,6 +2671,38 @@
     render();
   }
 
+  /* ---------- Fonts from src/fonts ---------- */
+
+  // Rebuilds the font dropdown in the style panel from FAMILIES
+  function populateFamilySelect() {
+    const sel = styleEl && styleEl.querySelector('select[data-kind="family"]');
+    if (!sel) return;
+    sel.innerHTML = Object.entries(FAMILIES)
+      .map(([k, f]) => `<option value="${k}">${f.label}</option>`)
+      .join("");
+  }
+
+  // fonts.js (written from the src/fonts folder) lists the extra fonts; each one is loaded and offered
+  function loadFontList() {
+    loadScript("fonts/fonts.js", () => window.PADA_FONTS)
+      .then(() => {
+        for (const f of window.PADA_FONTS || []) {
+          const family = "PADA " + f.label;
+          FAMILIES["font-" + f.key] = { label: f.label, css: `"${family}", system-ui, sans-serif` };
+          const face = new FontFace(family, `url("fonts/${f.file}")`);
+          face
+            .load()
+            .then((loaded) => {
+              document.fonts.add(loaded);
+              render();
+            })
+            .catch(() => {});
+        }
+        populateFamilySelect();
+      })
+      .catch(() => {});
+  }
+
   // The Tab menu's Open File items: pick a file and place it on this board
   function openFilePicker(kind) {
     const input = document.createElement("input");
@@ -2816,6 +2913,7 @@
   buildStylePanel();
   buildRibbon();
   resize();
+  loadFontList();
 
   // Canvas text is drawn once the font is ready, so redraw after it loads
   if (document.fonts) {

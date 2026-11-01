@@ -379,6 +379,160 @@ body.sp-hidden #style {
   background: #f3f1fb;
 }
 
+#camera-menu {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  background: var(--chrome);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+}
+
+#camera-menu button {
+  height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+#camera-menu button:hover {
+  background: #f3f1fb;
+}
+
+/* Camera preview: top-right, under the ribbon */
+#cam-box {
+  position: fixed;
+  top: 56px;
+  right: 12px;
+  width: 260px;
+  z-index: 12;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #111111;
+  box-shadow: var(--shadow);
+}
+
+#cam-box {
+  cursor: move;
+  touch-action: none;
+}
+
+#cam-box video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* Round shape: a circle */
+#cam-box.round {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+}
+
+#cam-box.round video {
+  aspect-ratio: auto;
+  height: 100%;
+}
+
+/* Diamond shape: a square rotated 45 degrees, cut out of the picture */
+#cam-box.diamond {
+  width: 220px;
+  height: 220px;
+  border-radius: 0;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+#cam-box.diamond video {
+  aspect-ratio: auto;
+  height: 100%;
+}
+
+#cam-box.diamond .cb-title {
+  display: none;
+}
+
+/* Laser colour menu above the toolbar */
+#laser-menu {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  background: var(--chrome);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+}
+
+#laser-menu button {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+#laser-menu button:hover {
+  background: #f3f1fb;
+}
+
+#laser-menu i {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  border-radius: 50%;
+}
+
+/* Corner handle for resizing (keeps the picture's proportions) */
+#cam-box .cb-grip {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 50%, rgba(255, 255, 255, 0.9) 50%);
+}
+
+#cam-box.round .cb-title {
+  display: none;
+}
+
+#cam-box .cb-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #ffffff;
+  font-size: 12px;
+}
+
 #eraser-menu button[data-erase="all"] {
   color: #c92a2a;
 }
