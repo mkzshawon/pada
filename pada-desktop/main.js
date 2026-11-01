@@ -90,35 +90,63 @@ ipcMain.handle("pada:transcode", (_event, srcPath) => {
 });
 
 
-// Finds LibreOffice (needed to read PowerPoint files; install it from libreoffice.org)
+// LibreOffice location: the saved path first, then the usual places.
+// If it is not found, the user is asked to point to soffice.exe, and that choice is remembered.
+const settingsFile = () => path.join(app.getPath("userData"), "pada-settings.json");
+
+function readSettings() {
+  try {
+    return JSON.parse(fs.readFileSync(settingsFile(), "utf-8"));
+  } catch {
+    return {};
+  }
+}
+
+function writeSettings(obj) {
+  fs.mkdirSync(app.getPath("userData"), { recursive: true });
+  fs.writeFileSync(settingsFile(), JSON.stringify(obj, null, 2));
+}
+
 function findSoffice() {
   const candidates = [
+    readSettings().sofficePath,
+    path.join(__dirname, "libreoffice", "program", "soffice.exe"),
+    path.join(process.resourcesPath || __dirname, "libreoffice", "program", "soffice.exe"),
     "C:\\Program Files\\LibreOffice\\program\\soffice.exe",
     "C:\\Program Files (x86)\\LibreOffice\\program\\soffice.exe",
-  ];
+  ].filter(Boolean);
   return candidates.find((p) => fs.existsSync(p)) || null;
 }
 
+async function askSoffice() {
+  const result = await dialog.showOpenDialog(win, {
+    title: "LibreOffice-এর soffice.exe বেছে নিন (সাধারণত ...\\LibreOffice\\program\\soffice.exe)",
+    properties: ["openFile"],
+    filters: [{ name: "soffice", extensions: ["exe"] }],
+  });
+  if (result.canceled || !result.filePaths.length) return null;
+  writeSettings({ ...readSettings(), sofficePath: result.filePaths[0] });
+  return result.filePaths[0];
+}
+
 // Converts a .pptx/.ppt to PDF (one page per slide) and returns the PDF bytes
-ipcMain.handle("pada:pptx", (_event, srcPath) => {
-  return new Promise((resolve, reject) => {
-    const soffice = findSoffice();
-    if (!soffice) {
-      reject(new Error("PowerPoint দেখতে LibreOffice ইনস্টল করুন (libreoffice.org)"));
-      return;
-    }
-    const outDir = path.join(app.getPath("temp"), `pada-pptx-${Date.now()}`);
-    fs.mkdirSync(outDir, { recursive: true });
+ipcMain.handle("pada:pptx", async (_event, srcPath) => {
+  let soffice = findSoffice();
+  if (!soffice) soffice = await askSoffice();
+  if (!soffice) throw new Error("LibreOffice পাওয়া যায়নি। libreoffice.org থেকে ইনস্টল করুন।");
+
+  const outDir = path.join(app.getPath("temp"), `pada-pptx-${Date.now()}`);
+  fs.mkdirSync(outDir, { recursive: true });
+  const { code, log } = await new Promise((resolve, reject) => {
     const proc = spawn(soffice, ["--headless", "--convert-to", "pdf", "--outdir", outDir, srcPath]);
     let log = "";
     proc.stderr.on("data", (d) => (log += d));
     proc.on("error", reject);
-    proc.on("close", (code) => {
-      const pdf = path.join(outDir, path.basename(srcPath, path.extname(srcPath)) + ".pdf");
-      if (code === 0 && fs.existsSync(pdf)) resolve(fs.readFileSync(pdf));
-      else reject(new Error(`রূপান্তর ব্যর্থ (code ${code}) ${log.slice(-200)}`));
-    });
+    proc.on("close", (code) => resolve({ code, log }));
   });
+  const pdf = path.join(outDir, path.basename(srcPath, path.extname(srcPath)) + ".pdf");
+  if (code !== 0 || !fs.existsSync(pdf)) throw new Error(`রূপান্তর ব্যর্থ (code ${code}) ${log.slice(-200)}`);
+  return fs.readFileSync(pdf);
 });
 
 // Window buttons in the ribbon: minimize, resize (full screen <-> smaller window), close
