@@ -3210,6 +3210,35 @@
   }
   let deckScene = null;
 
+  // Emphasis effects: the object changes while its step plays, then returns to normal.
+  // The preset numbers below follow PowerPoint's own codes; unknown ones show a pulse
+  // and are logged to the console (Ctrl+Alt+D) so they can be added.
+  function emphasisState(eff, p) {
+    const s = { visible: true, alpha: 1, dx: 0, dy: 0, sc: 1, clip: 1, rot: 0, filter: "none" };
+    const bump = Math.sin(Math.PI * p); // rises from 0 to 1 and back to 0
+    switch (eff.id) {
+      case "8": // Spin
+        return { ...s, rot: p * 2 * Math.PI };
+      case "6": // Grow / Shrink
+        return { ...s, sc: 1 + 0.5 * bump };
+      case "26": // Pulse
+        return { ...s, sc: 1 + 0.25 * bump };
+      case "28": // Teeter
+        return { ...s, rot: Math.sin(p * Math.PI * 4) * 0.17 * bump };
+      case "19": // Transparency
+        return { ...s, alpha: 1 - 0.7 * bump };
+      case "14": // Desaturate
+        return { ...s, filter: `grayscale(${bump})` };
+      case "13": // Darken
+        return { ...s, filter: `brightness(${1 - 0.5 * bump})` };
+      case "15": // Lighten
+        return { ...s, filter: `brightness(${1 + 0.5 * bump})` };
+      default:
+        console.debug("PADA: emphasis preset not yet specific", eff.id);
+        return { ...s, sc: 1 + 0.25 * bump };
+    }
+  }
+
   function itemState(sc, id, step, now, t0) {
     const base = { visible: true, alpha: 1, dx: 0, dy: 0, sc: 1, clip: 1 };
     let eff = null;
@@ -3236,7 +3265,11 @@
       deckScene = sc;
       return exitState(eff, p);
     }
-    return base; // emphasis effects are shown statically for now
+    if (eff.cls === "emph") {
+      if (!shown) return base; // before its click: normal
+      return emphasisState(eff, p);
+    }
+    return base;
   }
 
   function drawNativeText(it, x, y, w, k) {
@@ -3318,13 +3351,15 @@
         ctx.rect(x, y, iw * st.clip, ih);
         ctx.clip();
       }
-      if (st.sc !== 1) {
+      if (st.sc !== 1 || st.rot) {
         const cx = x + iw / 2;
         const cy = y + ih / 2;
         ctx.translate(cx, cy);
+        ctx.rotate(st.rot || 0);
         ctx.scale(st.sc, st.sc);
         ctx.translate(-cx, -cy);
       }
+      if (st.filter && st.filter !== "none") ctx.filter = st.filter;
       drawNativeItem(it, x, y, iw, ih, k);
       ctx.restore();
     }
