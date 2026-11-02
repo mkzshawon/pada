@@ -2288,7 +2288,7 @@
       '<div class="pb-card">' +
       "<div><b>Save before closing PADA?</b></div>" +
       '<div style="font-size:12px;color:#8d8aa6">Each tab is saved as a separate file.</div>' +
-      '<div class="pb-row">' +
+      '<div class="pb-row pb-grid">' +
       '<button data-r="pdf">Save as PDF</button>' +
       '<button data-r="png">Save as PNG</button>' +
       '<button data-r="nosave">Close without saving</button>' +

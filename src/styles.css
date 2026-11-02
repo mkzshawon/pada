@@ -836,7 +836,8 @@ body {
 }
 
 #pagebox .pb-card {
-  width: 340px;
+  width: 400px;
+  max-width: calc(100vw - 32px);
   padding: 18px;
   display: flex;
   flex-direction: column;
@@ -863,6 +864,17 @@ body {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+}
+
+/* Save prompt: two equal columns; labels stay on one line */
+#pagebox .pb-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+#pagebox .pb-row button {
+  white-space: nowrap;
 }
 
 #pagebox .pb-row button {
