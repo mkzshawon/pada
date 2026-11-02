@@ -977,6 +977,8 @@
   /* ---------- Camera ---------- */
 
   let camMenuOpen = false;
+  let calcMenuOpen = false;
+  let calcMenuEl = null;
   let camMenuEl = null;
   let camCam = null; // webcam stream
   let camVirt = null; // the board's picture as a video stream
@@ -1094,6 +1096,10 @@
       camVirt = null;
     }
     refreshPreview();
+  }
+
+  function renderCalcMenu() {
+    if (calcMenuEl) calcMenuEl.style.display = calcMenuOpen ? "flex" : "none";
   }
 
   function renderCamMenu() {
@@ -2141,6 +2147,7 @@
 
   window.addEventListener("keydown", (e) => {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+    if (calcEl && calcFocus && calcKey(e)) return;
 
     if (presentEl) {
       e.preventDefault();
@@ -2444,6 +2451,33 @@
       runCamAction(b.dataset.cam);
     });
     toolbarEl.appendChild(camMenuEl);
+
+    // Calculator button and its menu: Standard or Scientific
+    const calcBtn = document.createElement("button");
+    calcBtn.className = "tool";
+    calcBtn.title = "Calculator";
+    calcBtn.setAttribute("aria-label", "Calculator");
+    calcBtn.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/></svg>';
+    calcBtn.addEventListener("click", () => {
+      calcMenuOpen = !calcMenuOpen;
+      renderCalcMenu();
+    });
+    toolbarEl.appendChild(calcBtn);
+
+    calcMenuEl = document.createElement("div");
+    calcMenuEl.id = "calc-menu";
+    calcMenuEl.innerHTML = '<button data-calc="standard">Standard</button><button data-calc="scientific">Scientific</button>';
+    calcMenuEl.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      calcMenuOpen = false;
+      renderCalcMenu();
+      openCalculator(b.dataset.calc);
+    });
+    toolbarEl.appendChild(calcMenuEl);
 
     eraserMenuEl = document.createElement("div");
     eraserMenuEl.id = "eraser-menu";
@@ -3723,6 +3757,252 @@
     bottom.querySelector(".dcount").textContent = `${s.index + 1} / ${s.slides.length}`;
     bottom.querySelector(".dauto").textContent = s.auto ? "❚❚ Auto" : "▶ Auto";
     bottom.querySelector(".dtrans").value = s.transition || "file";
+  }
+
+  /* ---------- Calculator (Standard and Scientific; last 10 calculations kept while open) ---------- */
+
+  let calcEl = null;
+  let calcFocus = false; // keyboard goes to the calculator after it has been used
+  let calcDrag = null;
+  const calc = { mode: "standard", expr: "", deg: true, fresh: false, error: false, history: [] };
+  const CALC_FUNCS = ["sin", "cos", "tan", "log", "ln", "sqrt"];
+
+  // Evaluates an expression without eval: supports + - * / ^ ( ) ! %, sin cos tan (degrees or radians), log, ln, sqrt, pi, e
+  function calcEval(src, deg) {
+    const toks = src.replace(/\s+/g, "").match(/\d+\.?\d*|\.\d+|[A-Za-z]+|[+\-*/^()!%]/g) || [];
+    const out = [];
+    const ops = [];
+    const prec = { "+": 1, "-": 1, "*": 2, "/": 2, "^": 3, neg: 4 };
+    let prevValue = false;
+    for (const t of toks) {
+      if (/^[\d.]/.test(t)) {
+        out.push(parseFloat(t));
+        prevValue = true;
+      } else if (/^[A-Za-z]+$/.test(t)) {
+        const lt = t.toLowerCase();
+        if (lt === "pi") out.push(Math.PI);
+        else if (lt === "e") out.push(Math.E);
+        else if (CALC_FUNCS.includes(lt)) {
+          ops.push({ fn: lt });
+          prevValue = false;
+          continue;
+        } else throw new Error("unknown " + t);
+        prevValue = true;
+      } else if (t === "(") {
+        ops.push("(");
+        prevValue = false;
+      } else if (t === ")") {
+        while (ops.length && ops[ops.length - 1] !== "(") out.push(ops.pop());
+        if (!ops.length) throw new Error("brackets");
+        ops.pop();
+        if (ops.length && typeof ops[ops.length - 1] === "object") out.push(ops.pop());
+        prevValue = true;
+      } else if (t === "!" || t === "%") {
+        out.push(t);
+        prevValue = true;
+      } else {
+        if (t === "-" && !prevValue) {
+          ops.push("neg");
+          continue;
+        }
+        if (t === "+" && !prevValue) continue;
+        while (ops.length) {
+          const top = ops[ops.length - 1];
+          if (top === "(" || typeof top === "object") break;
+          const rightAssoc = t === "^";
+          if (rightAssoc ? prec[t] < prec[top] : prec[t] <= prec[top]) out.push(ops.pop());
+          else break;
+        }
+        ops.push(t);
+        prevValue = false;
+      }
+    }
+    while (ops.length) {
+      const o = ops.pop();
+      if (o === "(") throw new Error("brackets");
+      out.push(o);
+    }
+    const st = [];
+    const trig = (f, x) => {
+      const a = deg ? (x * Math.PI) / 180 : x;
+      return f(a);
+    };
+    for (const o of out) {
+      if (typeof o === "number") st.push(o);
+      else if (o === "!") {
+        const n = st.pop();
+        if (n < 0 || n > 170 || n !== Math.floor(n)) throw new Error("factorial");
+        let f = 1;
+        for (let k = 2; k <= n; k++) f *= k;
+        st.push(f);
+      } else if (o === "%") st.push(st.pop() / 100);
+      else if (o === "neg") st.push(-st.pop());
+      else if (typeof o === "object") {
+        const x = st.pop();
+        const v =
+          o.fn === "sin" ? trig(Math.sin, x)
+          : o.fn === "cos" ? trig(Math.cos, x)
+          : o.fn === "tan" ? trig(Math.tan, x)
+          : o.fn === "log" ? Math.log10(x)
+          : o.fn === "ln" ? Math.log(x)
+          : Math.sqrt(x);
+        st.push(v);
+      } else {
+        const b = st.pop();
+        const a = st.pop();
+        st.push(o === "+" ? a + b : o === "-" ? a - b : o === "*" ? a * b : o === "/" ? a / b : Math.pow(a, b));
+      }
+    }
+    if (st.length !== 1 || !isFinite(st[0])) throw new Error("result");
+    return st[0];
+  }
+
+  function calcFormat(v) {
+    const a = Math.abs(v);
+    if (a !== 0 && (a >= 1e12 || a < 1e-9)) return v.toExponential(6);
+    return String(Number(v.toPrecision(12)));
+  }
+
+  function calcPress(k) {
+    if (k === "=") {
+      calcEquals();
+      return;
+    }
+    calc.error = false;
+    if (k === "C") calc.expr = "";
+    else if (k === "DEL") calc.expr = calc.expr.slice(0, -1);
+    else if (k === "neg") calc.expr = calc.expr.startsWith("-") ? calc.expr.slice(1) : "-" + calc.expr;
+    else if (k === "deg") calc.deg = !calc.deg;
+    else {
+      if (calc.fresh && /^[\d.]$/.test(k)) calc.expr = "";
+      calc.expr += k;
+    }
+    calc.fresh = false;
+    renderCalc();
+  }
+
+  function calcEquals() {
+    if (!calc.expr) return;
+    try {
+      const text = calcFormat(calcEval(calc.expr, calc.deg));
+      calc.history.unshift({ expr: calc.expr, result: text });
+      calc.history = calc.history.slice(0, 10);
+      calc.expr = text;
+      calc.fresh = true;
+    } catch {
+      calc.error = true;
+    }
+    renderCalc();
+  }
+
+  const CALC_SCI = [
+    ["sin(", "sin"], ["cos(", "cos"], ["tan(", "tan"], ["pi", "π"], ["e", "e"],
+    ["ln(", "ln"], ["log(", "log"], ["sqrt(", "√"], ["^2", "x²"], ["^", "xʸ"],
+    ["!", "n!"], ["(", "("], [")", ")"], ["%", "%"], ["deg", calc.deg ? "DEG" : "RAD"],
+  ];
+  const CALC_STD = [
+    ["C", "C", "fn"], ["DEL", "⌫", "fn"], ["%", "%", "fn"], ["/", "÷", "op"],
+    ["7", "7"], ["8", "8"], ["9", "9"], ["*", "×", "op"],
+    ["4", "4"], ["5", "5"], ["6", "6"], ["-", "−", "op"],
+    ["1", "1"], ["2", "2"], ["3", "3"], ["+", "+", "op"],
+    ["neg", "±"], ["0", "0"], [".", "."], ["=", "=", "eq"],
+  ];
+
+  function calcPreview() {
+    if (!calc.expr || calc.fresh) return "";
+    try {
+      return calcFormat(calcEval(calc.expr, calc.deg));
+    } catch {
+      return "";
+    }
+  }
+
+  function renderCalc() {
+    if (!calcEl) return;
+    const sci = calc.mode === "scientific";
+    const sciKeys = CALC_SCI.map(([k, l]) => {
+      const label = k === "deg" ? (calc.deg ? "DEG" : "RAD") : l;
+      return `<button data-k="${k}" class="fn">${label}</button>`;
+    }).join("");
+    const stdKeys = CALC_STD.map(([k, l, c]) => `<button data-k="${k}" class="${c || "num"}">${l}</button>`).join("");
+    const hist = calc.history.length
+      ? calc.history
+          .map((h, i) => `<button class="calc-h" data-h="${i}"><span>${h.expr}</span><b>= ${h.result}</b></button>`)
+          .join("")
+      : '<div class="calc-empty">No calculations yet</div>';
+    const shown = calc.error ? "Error" : calc.expr ? calcPreview() : "0";
+    calcEl.innerHTML = `
+      <div class="calc-head">
+        <span>Calculator · ${sci ? "Scientific" : "Standard"}</span>
+        <button class="calc-x" title="Close" aria-label="Close">×</button>
+      </div>
+      <div class="calc-screen">
+        <div class="calc-expr">${calc.expr || "&nbsp;"}</div>
+        <div class="calc-res">${shown || "0"}</div>
+      </div>
+      <div class="calc-keys ${sci ? "sci" : ""}">${sci ? sciKeys : ""}${stdKeys}</div>
+      <div class="calc-hist">
+        <div class="calc-hhead"><span>History (last 10)</span><button class="calc-clear">Clear</button></div>
+        ${hist}
+      </div>`;
+  }
+
+  function calcKey(e) {
+    const map = { Enter: "=", Escape: "C", Backspace: "DEL", "*": "*", "/": "/" };
+    const k = map[e.key] || (/^[0-9.+\-*/^()%!]$/.test(e.key) ? e.key : null);
+    if (!k) return false;
+    e.preventDefault();
+    calcPress(k);
+    return true;
+  }
+
+  function closeCalculator() {
+    if (calcEl) calcEl.remove();
+    calcEl = null;
+    calcFocus = false;
+    calc.history = [];
+    calc.expr = "";
+    calc.fresh = false;
+  }
+
+  function openCalculator(mode) {
+    calc.mode = mode;
+    if (!calcEl) {
+      calcEl = document.createElement("div");
+      calcEl.id = "calc";
+      calcEl.style.left = Math.max(0, (window.innerWidth - 300) / 2) + "px";
+      calcEl.style.top = "72px";
+      calcEl.addEventListener("pointerdown", (e) => {
+        calcFocus = true;
+        if (e.target.closest(".calc-head") && !e.target.closest("button")) {
+          calcEl.setPointerCapture(e.pointerId);
+          calcDrag = { dx: e.clientX - calcEl.offsetLeft, dy: e.clientY - calcEl.offsetTop };
+        }
+      });
+      calcEl.addEventListener("pointermove", (e) => {
+        if (!calcDrag) return;
+        calcEl.style.left = Math.min(window.innerWidth - calcEl.offsetWidth, Math.max(0, e.clientX - calcDrag.dx)) + "px";
+        calcEl.style.top = Math.min(window.innerHeight - calcEl.offsetHeight, Math.max(0, e.clientY - calcDrag.dy)) + "px";
+      });
+      calcEl.addEventListener("pointerup", () => {
+        calcDrag = null;
+      });
+      calcEl.addEventListener("click", (e) => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        if (b.classList.contains("calc-x")) closeCalculator();
+        else if (b.classList.contains("calc-clear")) {
+          calc.history = [];
+          renderCalc();
+        } else if (b.dataset.h !== undefined) {
+          calc.expr = calc.history[Number(b.dataset.h)].result;
+          calc.fresh = true;
+          renderCalc();
+        } else if (b.dataset.k !== undefined) calcPress(b.dataset.k);
+      });
+      document.body.appendChild(calcEl);
+    }
+    renderCalc();
   }
 
   /* ---------- Fonts from src/fonts ---------- */
