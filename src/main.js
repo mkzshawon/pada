@@ -116,6 +116,7 @@
     return Math.hypot(a.x - b.x, a.y - b.y) < 15 && span > 30;
   }
   let styleEl = null;
+  let styleOpen = true; // the style panel belongs to the shape and select tools; other toolbar icons close it
 
   // Applies a style change to the selection (and to the next shape)
   // record=false is used while a slider is dragged; the whole drag is recorded once when it ends
@@ -155,7 +156,7 @@
     // Pictures, videos, slide decks and notes made from Word files have no style options of their own
     const isMedia = (s) =>
       s.type === "image" || s.type === "video" || s.type === "deck" || (s.type === "note" && s.fromFile);
-    const visible = !sel.some(isMedia) && (sel.length > 0 || SHAPE_TOOLS.has(tool));
+    const visible = styleOpen && !sel.some(isMedia) && (sel.length > 0 || SHAPE_TOOLS.has(tool));
     styleEl.style.display = visible ? "flex" : "none";
     if (!visible) return;
 
@@ -1098,6 +1099,18 @@
     refreshPreview();
   }
 
+  // Closes every toolbar pop-up (Eraser, Laser, Camera and Calculator menus)
+  function closeToolPopups() {
+    eraserMenuOpen = false;
+    laserMenuOpen = false;
+    camMenuOpen = false;
+    calcMenuOpen = false;
+    renderEraserMenu();
+    renderLaserMenu();
+    renderCamMenu();
+    renderCalcMenu();
+  }
+
   function renderCalcMenu() {
     if (calcMenuEl) calcMenuEl.style.display = calcMenuOpen ? "flex" : "none";
   }
@@ -1707,6 +1720,8 @@
   function setTool(id) {
     if (polyDraft) finishPoly(false);
     tool = id;
+    styleOpen = id === "select" || SHAPE_TOOLS.has(id);
+    closeToolPopups();
     for (const btn of toolbarEl.querySelectorAll(".tool")) {
       btn.setAttribute("aria-pressed", String(btn.dataset.tool === id));
     }
@@ -1809,6 +1824,8 @@
     renderCamMenu();
     laserMenuOpen = false;
     renderLaserMenu();
+    calcMenuOpen = false;
+    renderCalcMenu();
 
     // Pan
     if (tool === "hand" || spaceHeld || e.button === 1) {
@@ -2192,6 +2209,11 @@
       applyColorIndex(Number(e.key));
       return;
     }
+    if (!e.ctrlKey && !e.metaKey && !e.altKey && (k === "q" || k === "c")) {
+      e.preventDefault();
+      document.querySelector(k === "q" ? '[aria-label="Camera"]' : '[aria-label="Calculator"]').click();
+      return;
+    }
     if ((e.ctrlKey || e.metaKey) && k === "g") {
       e.preventDefault();
       snapOn = !snapOn;
@@ -2379,6 +2401,12 @@
 
   /* ---------- UI construction ---------- */
 
+  // A pop-up lives inside its icon, so it is placed right above that icon
+  function attachMenu(btn, menu) {
+    menu.addEventListener("click", (e) => e.stopPropagation());
+    btn.appendChild(menu);
+  }
+
   function renderToolbar() {
     toolbarEl.innerHTML = "";
     TOOLS.forEach((t, i) => {
@@ -2419,13 +2447,17 @@
     toolbarEl.appendChild(camSep);
     const camBtn = document.createElement("button");
     camBtn.className = "tool";
-    camBtn.title = "Camera";
+    camBtn.title = "Camera (Q)";
     camBtn.setAttribute("aria-label", "Camera");
     camBtn.innerHTML =
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
       `stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS.camera}</svg>`;
     camBtn.addEventListener("click", () => {
-      camMenuOpen = !camMenuOpen;
+      const wasOpen = camMenuOpen;
+      closeToolPopups();
+      styleOpen = false;
+      renderStyle();
+      camMenuOpen = !wasOpen;
       renderCamMenu();
     });
     toolbarEl.appendChild(camBtn);
@@ -2450,19 +2482,23 @@
       renderCamMenu();
       runCamAction(b.dataset.cam);
     });
-    toolbarEl.appendChild(camMenuEl);
+    attachMenu(camBtn, camMenuEl);
 
     // Calculator button and its menu: Standard or Scientific
     const calcBtn = document.createElement("button");
     calcBtn.className = "tool";
-    calcBtn.title = "Calculator";
+    calcBtn.title = "Calculator (C)";
     calcBtn.setAttribute("aria-label", "Calculator");
     calcBtn.innerHTML =
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
       'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
       '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/></svg>';
     calcBtn.addEventListener("click", () => {
-      calcMenuOpen = !calcMenuOpen;
+      const wasOpen = calcMenuOpen;
+      closeToolPopups();
+      styleOpen = false;
+      renderStyle();
+      calcMenuOpen = !wasOpen;
       renderCalcMenu();
     });
     toolbarEl.appendChild(calcBtn);
@@ -2477,7 +2513,7 @@
       renderCalcMenu();
       openCalculator(b.dataset.calc);
     });
-    toolbarEl.appendChild(calcMenuEl);
+    attachMenu(calcBtn, calcMenuEl);
 
     eraserMenuEl = document.createElement("div");
     eraserMenuEl.id = "eraser-menu";
@@ -2489,7 +2525,7 @@
       renderEraserMenu();
       if (b.dataset.erase === "all") eraseAll();
     });
-    toolbarEl.appendChild(eraserMenuEl);
+    attachMenu(toolbarEl.querySelector('[data-tool="eraser"]'), eraserMenuEl);
 
     laserMenuEl = document.createElement("div");
     laserMenuEl.id = "laser-menu";
@@ -2504,7 +2540,7 @@
       laserMenuOpen = false;
       renderLaserMenu();
     });
-    toolbarEl.appendChild(laserMenuEl);
+    attachMenu(toolbarEl.querySelector('[data-tool="laser"]'), laserMenuEl);
   }
 
   /* ---------- Tab options menu ---------- */
