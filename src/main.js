@@ -2460,6 +2460,9 @@
       camMenuOpen = !wasOpen;
       renderCamMenu();
     });
+    const camKbd = document.createElement("kbd");
+    camKbd.textContent = "Q";
+    camBtn.appendChild(camKbd);
     toolbarEl.appendChild(camBtn);
 
     camMenuEl = document.createElement("div");
@@ -2501,6 +2504,9 @@
       calcMenuOpen = !wasOpen;
       renderCalcMenu();
     });
+    const calcKbd = document.createElement("kbd");
+    calcKbd.textContent = "C";
+    calcBtn.appendChild(calcKbd);
     toolbarEl.appendChild(calcBtn);
 
     calcMenuEl = document.createElement("div");
