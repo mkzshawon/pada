@@ -121,7 +121,7 @@ function findSoffice() {
 
 async function askSoffice() {
   const result = await dialog.showOpenDialog(win, {
-    title: "LibreOffice-এর soffice.exe বেছে নিন (সাধারণত ...\\LibreOffice\\program\\soffice.exe)",
+    title: "Choose soffice.exe (usually in ...\\LibreOffice\\program\\soffice.exe)",
     properties: ["openFile"],
     filters: [{ name: "soffice", extensions: ["exe"] }],
   });
@@ -367,7 +367,7 @@ function pptxSlideFiles(zip) {
 ipcMain.handle("pada:pptx", async (_event, srcPath) => {
   let soffice = findSoffice();
   if (!soffice) soffice = await askSoffice();
-  if (!soffice) throw new Error("LibreOffice পাওয়া যায়নি। libreoffice.org থেকে ইনস্টল করুন।");
+  if (!soffice) throw new Error("LibreOffice was not found. Install it from libreoffice.org.");
 
   const zip = new AdmZip(srcPath);
   const { W, H, files } = pptxSlideFiles(zip);
@@ -400,7 +400,7 @@ ipcMain.handle("pada:pptx", async (_event, srcPath) => {
     proc.on("close", (code) => resolve({ code, log }));
   });
   const pdf = path.join(outDir, "slides.pdf");
-  if (code !== 0 || !fs.existsSync(pdf)) throw new Error(`রূপান্তর ব্যর্থ (code ${code}) ${log.slice(-200)}`);
+  if (code !== 0 || !fs.existsSync(pdf)) throw new Error(`Conversion failed (code ${code}) ${log.slice(-200)}`);
 
   let transitions = [];
   try {

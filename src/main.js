@@ -790,17 +790,52 @@
     return { dx: dx + (sx ? sx.off : 0), dy: dy + (sy ? sy.off : 0) };
   }
 
-  // Faint grid dots, drawn only when the grid is on and the dots are big enough to see
+  // Inserted files (pictures, PDF pages, videos, slide decks, Word notes)
+  function isMediaShape(s) {
+    return s.type === "image" || s.type === "video" || s.type === "deck" || (s.type === "note" && !!s.fromFile);
+  }
+
+  // Grid per tab: "corner" (small dots at the crossings, the default), "dots" (lines made of small dots),
+  // "lines" (plain lines), or "none"
   function drawGrid(z) {
-    if (!snapOn || GRID * z < 10 || board().bg === "transparent") return;
+    const mode = board().grid || "corner";
+    if (mode === "none" || GRID * z < 6 || board().bg === "transparent") return;
     const a = screenToWorld(0, 0);
     const b = screenToWorld(window.innerWidth, window.innerHeight);
-    const r = 1 / z;
     ctx.save();
-    ctx.fillStyle = "#d9d6e8";
-    for (let x = Math.ceil(a.x / GRID) * GRID; x <= b.x; x += GRID) {
+    if (mode === "lines") {
+      ctx.strokeStyle = "#e6e4f0";
+      ctx.lineWidth = 1 / z;
+      ctx.beginPath();
+      for (let x = Math.ceil(a.x / GRID) * GRID; x <= b.x; x += GRID) {
+        ctx.moveTo(x, a.y);
+        ctx.lineTo(x, b.y);
+      }
       for (let y = Math.ceil(a.y / GRID) * GRID; y <= b.y; y += GRID) {
-        ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+        ctx.moveTo(a.x, y);
+        ctx.lineTo(b.x, y);
+      }
+      ctx.stroke();
+    } else if (mode === "dots") {
+      // The same lines, drawn as small dots spaced along each line
+      let step = GRID / 2;
+      while (step * z < 6) step *= 2;
+      const r = 1 / z;
+      ctx.fillStyle = "#b9b5d1";
+      for (let x = Math.ceil(a.x / GRID) * GRID; x <= b.x; x += GRID) {
+        for (let y = Math.ceil(a.y / step) * step; y <= b.y; y += step) ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+      }
+      for (let y = Math.ceil(a.y / GRID) * GRID; y <= b.y; y += GRID) {
+        for (let x = Math.ceil(a.x / step) * step; x <= b.x; x += step) ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+      }
+    } else {
+      // Corner dots: one small dot at each crossing
+      const r = 1 / z;
+      ctx.fillStyle = "#d9d6e8";
+      for (let x = Math.ceil(a.x / GRID) * GRID; x <= b.x; x += GRID) {
+        for (let y = Math.ceil(a.y / GRID) * GRID; y <= b.y; y += GRID) {
+          ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+        }
       }
     }
     ctx.restore();
@@ -1044,7 +1079,7 @@
         try {
           camCam = await navigator.mediaDevices.getUserMedia({ video: true });
         } catch (err) {
-          alert("ক্যামেরা চালু করা যায়নি: " + err.message);
+          alert("Could not start the camera: " + err.message);
           return;
         }
       }
@@ -1699,7 +1734,7 @@
     const m = 8 / board().camera.zoom;
     const arr = shapesOf();
     for (let i = arr.length - 1; i >= 0; i--) {
-      if (hitShape(arr[i], p, m)) {
+      if (!isMediaShape(arr[i]) && hitShape(arr[i], p, m)) {
         selected.delete(arr[i].id);
         arr.splice(i, 1);
         render();
@@ -2224,6 +2259,52 @@
 
   /* ---------- Ribbon & window controls ---------- */
 
+  // The file of one tab: a PNG picture, or a PDF page
+  function boardFileBlob(b, kind) {
+    if (kind === "image") {
+      const off = exportScene(b.shapes, 2, b.bg === "transparent");
+      return new Promise((res) => off.toBlob(res, "image/png"));
+    }
+    const off = exportScene(b.shapes, 2, false);
+    const bin = atob(off.toDataURL("image/jpeg", 0.92).split(",")[1]);
+    return Promise.resolve(buildPdf(Uint8Array.from(bin, (c) => c.charCodeAt(0)), off.width, off.height));
+  }
+
+  // Saves every tab (one file per tab), then closes the window
+  async function saveAllAndClose(kind) {
+    finishEditing();
+    for (const b of boards) {
+      const blob = await boardFileBlob(b, kind);
+      download(blob, `${b.name.replace(/\s+/g, "_")}.${kind === "image" ? "png" : "pdf"}`);
+      await new Promise((r) => setTimeout(r, 700));
+    }
+    window.padaDesktop.windowControl("close");
+  }
+
+  function showCloseBox() {
+    const box = document.createElement("div");
+    box.id = "pagebox";
+    box.innerHTML =
+      '<div class="pb-card">' +
+      "<div><b>Save before closing PADA?</b></div>" +
+      '<div style="font-size:12px;color:#8d8aa6">Each tab is saved as a separate file.</div>' +
+      '<div class="pb-row">' +
+      '<button data-r="pdf">Save as PDF</button>' +
+      '<button data-r="png">Save as PNG</button>' +
+      '<button data-r="nosave">Close without saving</button>' +
+      '<button data-r="cancel">Cancel</button>' +
+      "</div></div>";
+    document.body.appendChild(box);
+    box.addEventListener("click", (e) => {
+      const r = e.target.dataset.r;
+      if (!r) return;
+      box.remove();
+      if (r === "cancel") return;
+      if (r === "nosave") window.padaDesktop.windowControl("close");
+      else saveAllAndClose(r === "pdf" ? "pdf" : "image");
+    });
+  }
+
   // A ribbon across the top: tabs on the left, window buttons on the right (desktop overlay only)
   function buildRibbon() {
     const ribbon = document.createElement("div");
@@ -2238,7 +2319,9 @@
       '<button data-win="close" class="close" title="Close" aria-label="Close">&#215;</button>';
     ctl.addEventListener("click", (e) => {
       const b = e.target.closest("button");
-      if (b && window.padaDesktop) window.padaDesktop.windowControl(b.dataset.win);
+      if (!b || !window.padaDesktop) return;
+      if (b.dataset.win === "close") showCloseBox();
+      else window.padaDesktop.windowControl(b.dataset.win);
     });
     if (!window.padaDesktop) ctl.style.display = "none";
     document.body.appendChild(ctl);
@@ -2279,10 +2362,10 @@
   function eraseAll() {
     finishEditing();
     if (!shapesOf().length) return;
-    if (!confirm("এই Tab-এর সব shape মুছে ফেলতে চান?")) return;
+    if (!confirm("Delete the drawn shapes on this tab? (Inserted files will stay.)")) return;
     const before = snapshot();
-    board().shapes = [];
-    selected.clear();
+    board().shapes = shapesOf().filter(isMediaShape);
+    selected = new Set();
     commit(before);
     render();
   }
@@ -2428,6 +2511,13 @@
           <button data-act="bg" data-bg="#eebefa" style="border-left:10px solid #eebefa">Lilac</button>
           <button data-act="bg" data-bg="#000000" style="border-left:10px solid #000000">Black</button>
         </div></div>
+      <div class="tm-item"><div class="tm-label">Grid &#9656;</div>
+        <div class="tm-sub">
+          <button data-act="grid" data-grid="corner">Corner dots</button>
+          <button data-act="grid" data-grid="dots">Dots grid</button>
+          <button data-act="grid" data-grid="lines">Line grid</button>
+          <button data-act="grid" data-grid="none">No grid</button>
+        </div></div>
       <div class="tm-item"><div class="tm-label">Save as &#9656;</div>
         <div class="tm-sub">
           <button data-act="save-pdf">PDF</button>
@@ -2445,6 +2535,7 @@
       closeTabMenu();
       if (act === "file") openFilePicker(b.dataset.kind);
       else if (act === "bg") setBoardBg(index, b.dataset.bg);
+      else if (act === "grid") setBoardGrid(index, b.dataset.grid);
       else if (act === "save-image" || act === "save-pdf") {
         if (index !== active) switchBoard(index);
         saveTabAs(act === "save-image" ? "image" : "pdf");
@@ -2527,11 +2618,11 @@
     const spec = await askPages(pdf.numPages);
     if (spec === null) return [];
     const pages = parsePages(spec, pdf.numPages);
-    if (!pages.length) throw new Error("পৃষ্ঠার নম্বর সঠিক নয়");
+    if (!pages.length) throw new Error("invalid page numbers");
 
     const out = [];
     const scale = pages.length > 100 ? 1 : 1.5;
-    const pr = progressStart("PDF পৃষ্ঠা");
+    const pr = progressStart("PDF pages");
     try {
       for (let k = 0; k < pages.length; k++) {
         pr.set(k, pages.length);
@@ -2618,13 +2709,13 @@
       else if (kind === "pdf") insertImages(await pagesFromPdf(file));
       else if (kind === "word") {
         if (!file.name.toLowerCase().endsWith(".docx")) {
-          alert("শুধু .docx ফাইল খোলা যাবে। পুরনো .doc ফাইল সমর্থিত নয়।");
+          alert("Only .docx files can be opened. Old .doc files are not supported.");
           return;
         }
         insertNote(await textFromWord(file));
       }
     } catch (err) {
-      alert("ফাইলটি খোলা যায়নি: " + err.message);
+      alert("Could not open the file: " + err.message);
     }
   }
 
@@ -2637,10 +2728,10 @@
       box.id = "pagebox";
       box.innerHTML =
         '<div class="pb-card">' +
-        `<div><b>PDF: মোট ${total} পৃষ্ঠা</b></div>` +
-        '<label>কোন পৃষ্ঠাগুলো খুলবেন? (যেমন 1-5, 8, 12 বা all)</label>' +
+        `<div><b>PDF: ${total} pages in total</b></div>` +
+        '<label>Which pages to open? (e.g. 1-5, 8, 12, or all)</label>' +
         '<input type="text" value="all" />' +
-        '<div class="pb-row"><button data-r="cancel">বাতিল</button><button data-r="ok">খুলুন</button></div>' +
+        '<div class="pb-row"><button data-r="cancel">Cancel</button><button data-r="ok">Open</button></div>' +
         "</div>";
       document.body.appendChild(box);
       const input = box.querySelector("input");
@@ -2787,7 +2878,7 @@
 
     presentEl = document.createElement("div");
     presentEl.id = "present";
-    presentEl.innerHTML = '<img alt="" /><div class="pres-bar"><span></span><small>← → · Esc: বন্ধ</small></div>';
+    presentEl.innerHTML = '<img alt="" /><div class="pres-bar"><span></span><small>← → · Esc: close</small></div>';
     presentEl.addEventListener("click", (e) => {
       const half = presentEl.getBoundingClientRect().width / 2;
       presentStep(e.clientX < half ? -1 : 1);
@@ -2852,12 +2943,12 @@
           return;
         }
         el.dataset.converted = "1";
-        const pr = progressStart("ভিডিও রূপান্তর (MP4)");
+        const pr = progressStart("Converting video (MP4)");
         pr.set(0, 1);
         try {
           el.src = await window.padaDesktop.transcodeVideo(file.path);
         } catch (err) {
-          reject(new Error("রূপান্তর ব্যর্থ: " + err.message));
+          reject(new Error("Conversion failed: " + err.message));
         } finally {
           pr.end();
         }
@@ -3461,9 +3552,9 @@
   // Renders each slide of a .pptx (converted to PDF by the desktop app) into the picture store
   async function convertDeck(file) {
     if (!(window.padaDesktop && window.padaDesktop.convertPptx && file.path)) {
-      throw new Error("PowerPoint শুধু desktop app-এ খোলা যায়");
+      throw new Error("PowerPoint files open only in the desktop app");
     }
-    const pr = progressStart("PowerPoint স্লাইড");
+    const pr = progressStart("PowerPoint slides");
     try {
       pr.set(0, 1);
       const conv = await window.padaDesktop.convertPptx(file.path);
@@ -3578,7 +3669,7 @@
       input.type = "file";
       input.accept = FILE_ACCEPT.pptx;
       input.addEventListener("change", () => {
-        if (input.files[0]) replaceDeck(input.files[0]).catch((err) => alert("ফাইলটি খোলা যায়নি: " + err.message));
+        if (input.files[0]) replaceDeck(input.files[0]).catch((err) => alert("Could not open the file: " + err.message));
       });
       input.click();
     });
@@ -3784,6 +3875,11 @@
   }
 
   // Tab bg: colours the tab and the board behind it; "transparent" lets the desktop show through
+  function setBoardGrid(index, grid) {
+    boards[index].grid = grid;
+    render();
+  }
+
   function setBoardBg(index, bg) {
     boards[index].bg = bg;
     if (index !== active) switchBoard(index);
