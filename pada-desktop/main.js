@@ -161,30 +161,237 @@ function readPptxTransitions(srcPath) {
   });
 }
 
-// Converts a .pptx/.ppt to PDF (one page per slide) and returns the PDF bytes
+
+// ---- Animated objects of each slide, read from the .pptx XML ----
+function attrsOf(s) {
+  const o = {};
+  for (const m of s.matchAll(/([\w:]+)="([^"]*)"/g)) o[m[1]] = m[2];
+  return o;
+}
+
+function decodeXml(s) {
+  return s
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, "&");
+}
+
+// Each click (step) lists the animated objects that start with it, in order
+function parseSteps(xml) {
+  const tm = xml.match(/<p:timing>[\s\S]*<\/p:timing>/);
+  if (!tm) return [];
+  const t = tm[0];
+  const starts = [...t.matchAll(/<p:cTn ([^>]*presetClass="[^"]*"[^>]*)>/g)];
+  const steps = [];
+  let cur = null;
+  starts.forEach((m, i) => {
+    const a = attrsOf(m[1]);
+    const seg = t.slice(m.index, i + 1 < starts.length ? starts[i + 1].index : t.length);
+    const spid = (seg.match(/<p:spTgt spid="(\d+)"/) || [])[1];
+    if (!spid) return;
+    const dur = +((seg.match(/<p:animEffect[^>]*>[\s\S]*?<p:cTn dur="(\d+)"/) || [])[1] || 500);
+    const eff = { spid, cls: a.presetClass, id: a.presetID, sub: +(a.presetSubtype || 0), dur };
+    if (!cur || a.nodeType === "clickEffect") {
+      cur = [];
+      steps.push(cur);
+    }
+    cur.push(eff);
+  });
+  return steps;
+}
+
+// Parses one shape or picture element into positions (EMU), geometry, fill, line and text
+function parseItem(block, layoutBoxes) {
+  const idm = block.match(/<p:cNvPr[^>]*\bid="(\d+)"/);
+  if (!idm) return null;
+  const item = { id: idm[1], kind: block.startsWith("<p:pic") ? "pic" : "shape" };
+  const xf = block.match(/<a:xfrm[^>]*>\s*<a:off x="(-?\d+)" y="(-?\d+)"\s*\/>\s*<a:ext cx="(\d+)" cy="(\d+)"/);
+  let box = xf ? xf.slice(1).map(Number) : null;
+  if (!box) {
+    const ph = block.match(/<p:ph([^>]*)\/?>/);
+    if (!ph) return null;
+    const pa = attrsOf(ph[1]);
+    box = layoutBoxes[pa.idx] || layoutBoxes[pa.type || "body"] || null;
+    if (!box) return null;
+  }
+  [item.x, item.y, item.w, item.h] = box;
+  const spPr = (block.match(/<p:spPr[\s\S]*?<\/p:spPr>/) || [""])[0];
+  item.prst = (spPr.match(/<a:prstGeom prst="(\w+)"/) || [])[1] || "rect";
+  const noLine = spPr.replace(/<a:ln[\s\S]*?<\/a:ln>/, "");
+  const fill = noLine.match(/<a:solidFill>\s*<a:srgbClr val="(\w{6})"/);
+  item.fill = fill ? "#" + fill[1] : null;
+  const ln = spPr.match(/<a:ln[^>]*w="(\d+)"[\s\S]*?<a:srgbClr val="(\w{6})"/);
+  item.line = ln ? { w: +ln[1], color: "#" + ln[2] } : null;
+  if (item.kind === "pic") {
+    const emb = block.match(/r:embed="([^"]+)"/);
+    item.rid = emb ? emb[1] : null;
+  } else {
+    const tb = block.match(/<p:txBody>[\s\S]*?<\/p:txBody>/);
+    item.paras = tb ? parseParas(tb[0]) : [];
+  }
+  return item;
+}
+
+function parseParas(tb) {
+  const paras = [];
+  for (const pm of tb.matchAll(/<a:p>[\s\S]*?<\/a:p>/g)) {
+    const p = pm[0];
+    const algn = (p.match(/<a:pPr[^>]*algn="(\w+)"/) || [])[1] || "l";
+    const runs = [];
+    for (const rm of p.matchAll(/<a:r>([\s\S]*?)<\/a:r>/g)) {
+      const r = rm[1];
+      const rPr = attrsOf((r.match(/<a:rPr([^>]*)>/) || ["", ""])[1]);
+      const color = (r.match(/<a:srgbClr val="(\w{6})"/) || [])[1];
+      runs.push({
+        t: decodeXml((r.match(/<a:t>([\s\S]*?)<\/a:t>/) || [])[1] || ""),
+        sz: +(rPr.sz || 1800) / 100,
+        color: color ? "#" + color : null,
+      });
+    }
+    paras.push({ algn, runs });
+  }
+  return paras;
+}
+
+// For every slide: its animation steps and the animated objects (their text, shapes and pictures)
+function readAnimatedScenes(zip, slideFiles, W, H) {
+  const text = (name) => {
+    const e = zip.getEntry(name);
+    return e ? e.getData().toString("utf8") : "";
+  };
+  const relsOf = (file) => {
+    const out = {};
+    for (const m of text(file.replace(/([^/]+)$/, "_rels/$1.rels")).matchAll(/<Relationship ([^>]*)\/>/g)) {
+      const a = attrsOf(m[1]);
+      out[a.Id] = a.Target;
+    }
+    return out;
+  };
+  const resolve = (base, target) => require("path").posix.normalize(require("path").posix.join(base, target));
+
+  return slideFiles.map((file) => {
+    const xml = text(file);
+    const steps = parseSteps(xml);
+    const ids = new Set(steps.flat().map((e) => e.spid));
+    const rels = relsOf(file);
+    const dir = file.replace(/[^/]+$/, "");
+    // Placeholder positions from the slide's layout (used when a shape has no position of its own)
+    const layoutFile = Object.values(rels).find((t) => t.includes("slideLayout"));
+    const layoutBoxes = {};
+    if (layoutFile) {
+      for (const b of text(resolve(dir, layoutFile)).matchAll(/<p:sp>[\s\S]*?<\/p:sp>/g)) {
+        const ph = b[0].match(/<p:ph([^>]*)\/?>/);
+        const xf = b[0].match(/<a:off x="(-?\d+)" y="(-?\d+)"\s*\/>\s*<a:ext cx="(\d+)" cy="(\d+)"/);
+        if (!ph || !xf) continue;
+        const pa = attrsOf(ph[1]);
+        const box = xf.slice(1).map(Number);
+        if (pa.idx) layoutBoxes[pa.idx] = box;
+        if (pa.type) layoutBoxes[pa.type] = box;
+      }
+    }
+    const items = [];
+    for (const m of xml.matchAll(/<p:(sp|pic)>[\s\S]*?<\/p:\1>/g)) {
+      const idm = m[0].match(/<p:cNvPr[^>]*\bid="(\d+)"/);
+      if (!idm || !ids.has(idm[1])) continue;
+      const it = parseItem(m[0], layoutBoxes);
+      if (it && it.kind === "pic" && it.rid && rels[it.rid]) {
+        const media = resolve(dir, rels[it.rid]);
+        const e = zip.getEntry(media);
+        if (e) {
+          const ext = media.split(".").pop().toLowerCase();
+          const mime = ext === "jpg" || ext === "jpeg" ? "image/jpeg" : ext === "gif" ? "image/gif" : "image/png";
+          it.src = `data:${mime};base64,${e.getData().toString("base64")}`;
+        }
+      }
+      if (it) items.push(it);
+    }
+    return { W, H, steps, items, removeIds: [...ids] };
+  });
+}
+
+// Removes the animated objects from a slide, so the PDF shows the static parts only
+function removeAnimated(xml, ids) {
+  return xml.replace(/<p:(sp|pic)>[\s\S]*?<\/p:\1>/g, (block) => {
+    const m = block.match(/<p:cNvPr[^>]*\bid="(\d+)"/);
+    return m && ids.includes(m[1]) ? "" : block;
+  });
+}
+
+// Slide size and the slide files, in presentation order
+function pptxSlideFiles(zip) {
+  const text = (name) => {
+    const e = zip.getEntry(name);
+    return e ? e.getData().toString("utf8") : "";
+  };
+  const pres = text("ppt/presentation.xml");
+  const rels = text("ppt/_rels/presentation.xml.rels");
+  const sz = pres.match(/<p:sldSz[^>]*cx="(\d+)"[^>]*cy="(\d+)"/);
+  const W = sz ? +sz[1] : 9144000;
+  const H = sz ? +sz[2] : 5143500;
+  const files = [...pres.matchAll(/<p:sldId [^>]*r:id="([^"]+)"/g)].map((m) => {
+    const r = m[1];
+    const t =
+      (rels.match(new RegExp(`<Relationship[^>]*Id="${r}"[^>]*Target="([^"]+)"`)) ||
+        rels.match(new RegExp(`<Relationship[^>]*Target="([^"]+)"[^>]*Id="${r}"`)) ||
+        [])[1];
+    return t ? "ppt/" + t : null;
+  });
+  return { W, H, files: files.filter(Boolean) };
+}
+
+// Converts a .pptx/.ppt to PDF (one page per slide). Animated objects are taken out of the
+// PDF and returned as native scenes, so the app can draw them and animate them itself.
 ipcMain.handle("pada:pptx", async (_event, srcPath) => {
   let soffice = findSoffice();
   if (!soffice) soffice = await askSoffice();
   if (!soffice) throw new Error("LibreOffice পাওয়া যায়নি। libreoffice.org থেকে ইনস্টল করুন।");
 
-  const outDir = path.join(app.getPath("temp"), `pada-pptx-${Date.now()}`);
+  const zip = new AdmZip(srcPath);
+  const { W, H, files } = pptxSlideFiles(zip);
+  let scenes = [];
+  try {
+    scenes = readAnimatedScenes(zip, files, W, H);
+  } catch {
+    scenes = [];
+  }
+
+  // A copy of the presentation with the animated objects removed (converted to PDF below)
+  const work = path.join(app.getPath("temp"), `pada-pptx-${Date.now()}`);
+  fs.mkdirSync(work, { recursive: true });
+  const copyPath = path.join(work, "slides.pptx");
+  const copy = new AdmZip(srcPath);
+  scenes.forEach((sc, i) => {
+    if (!sc.removeIds.length) return;
+    const e = copy.getEntry(files[i]);
+    copy.updateFile(files[i], Buffer.from(removeAnimated(e.getData().toString("utf8"), sc.removeIds), "utf8"));
+  });
+  copy.writeZip(copyPath);
+
+  const outDir = path.join(work, "pdf");
   fs.mkdirSync(outDir, { recursive: true });
   const { code, log } = await new Promise((resolve, reject) => {
-    const proc = spawn(soffice, ["--headless", "--convert-to", "pdf", "--outdir", outDir, srcPath]);
+    const proc = spawn(soffice, ["--headless", "--convert-to", "pdf", "--outdir", outDir, copyPath]);
     let log = "";
     proc.stderr.on("data", (d) => (log += d));
     proc.on("error", reject);
     proc.on("close", (code) => resolve({ code, log }));
   });
-  const pdf = path.join(outDir, path.basename(srcPath, path.extname(srcPath)) + ".pdf");
+  const pdf = path.join(outDir, "slides.pdf");
   if (code !== 0 || !fs.existsSync(pdf)) throw new Error(`রূপান্তর ব্যর্থ (code ${code}) ${log.slice(-200)}`);
+
   let transitions = [];
   try {
     transitions = readPptxTransitions(srcPath);
   } catch {
     transitions = [];
   }
-  return { pdf: fs.readFileSync(pdf), transitions };
+  return {
+    pdf: fs.readFileSync(pdf),
+    transitions,
+    scenes: scenes.map((sc) => ({ W: sc.W, H: sc.H, steps: sc.steps, items: sc.items })),
+  };
 });
 
 // Window buttons in the ribbon: minimize, resize (full screen <-> smaller window), close

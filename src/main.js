@@ -1186,7 +1186,7 @@
         continue;
       }
       setCharFont(size, familyOf(s));
-      const item = { t: ch, w: ctx.measureText(ch).width, size, bg: a.bg || null };
+      const item = { t: ch, w: ctx.measureText(ch).width, size, bg: a.bg || null, color: a.color || null };
       if (ch === " ") {
         flushWord();
         line.items.push(item);
@@ -1289,7 +1289,7 @@
             ctx.fillRect(x, y, it.w, line.h);
           }
           setCharFont(it.size, familyOf(s));
-          ctx.fillStyle = s.stroke || PALETTE[0];
+          ctx.fillStyle = it.color || s.stroke || PALETTE[0];
           ctx.fillText(it.t, x, y + line.base);
           x += it.w;
         }
@@ -3041,6 +3041,7 @@
   const DECK_AUTO_MS = 5000; // time each slide stays during auto-play
   const deckAnim = new Map(); // shape id -> { from, dir, t0 } while a transition runs
   const deckLast = new Map(); // shape id -> time of the last auto-play step
+  const deckStepT = new Map(); // shape id -> time the latest animation step started
   let deckLoopRunning = false;
   let duiBuilt = false;
 
@@ -3060,12 +3061,18 @@
         if (s.type !== "deck" || !s.auto) continue;
         if (now - (deckLast.get(s.id) ?? now) >= DECK_AUTO_MS) {
           deckLast.set(s.id, now);
-          if (s.index < s.slides.length - 1) setDeckIndex(s, s.index + 1, 1);
-          else s.auto = false;
+          if (!nextDeckStep(s)) {
+            if (s.index < s.slides.length - 1) setDeckIndex(s, s.index + 1);
+            else s.auto = false;
+          }
         }
       }
       render();
-      const busy = deckAnim.size > 0 || shapesOf().some((s) => s.type === "deck" && s.auto);
+      const busy =
+        deckAnim.size > 0 ||
+        shapesOf().some(
+          (s) => s.type === "deck" && (s.auto || (deckStepT.has(s.id) && now - deckStepT.get(s.id) < 1500))
+        );
       if (busy) requestAnimationFrame(step);
       else deckLoopRunning = false;
     };
@@ -3097,8 +3104,24 @@
     const tr = transitionFor(s, idx);
     if (tr) deckAnim.set(s.id, { from: s.index, t0: performance.now(), ...tr });
     s.index = idx;
+    s.step = 0;
     startDeckLoop();
     render();
+  }
+
+  // Shows the next animated object (one click); false when this slide has no more steps
+  function deckSteps(s) {
+    const sc = s.scenes && s.scenes[s.index];
+    return sc ? sc.steps : [];
+  }
+
+  function nextDeckStep(s) {
+    if ((s.step || 0) >= deckSteps(s).length) return false;
+    s.step = (s.step || 0) + 1;
+    deckStepT.set(s.id, performance.now());
+    startDeckLoop();
+    render();
+    return true;
   }
 
   function drawDeckImg(ref, x, y, w, h) {
@@ -3140,10 +3163,171 @@
     } else {
       drawDeckImg(toRef, b.x1, b.y1, w, h);
     }
+    if (!anim || p >= 1) drawDeckOverlays(s, b, w, h);
     ctx.restore();
     ctx.strokeStyle = "#000000";
     ctx.lineWidth = 2 / board().camera.zoom;
     ctx.strokeRect(b.x1, b.y1, w, h);
+  }
+
+
+  // The animated objects are stored as native scenes. Pictures move into the picture store once.
+  function prepScenes(scenes) {
+    for (const sc of scenes || []) {
+      for (const it of sc.items || []) {
+        if (it.src) {
+          it.ref = newId();
+          IMAGE_STORE.set(it.ref, it.src);
+          delete it.src;
+        }
+      }
+    }
+    return scenes || [];
+  }
+
+  // What an animated object looks like at this moment (position offset, opacity, zoom, wipe)
+  function entranceState(eff, p, W, H) {
+    const s = { visible: true, alpha: 1, dx: 0, dy: 0, sc: 1, clip: 1 };
+    const q = 1 - p;
+    if (eff.id === "1") return s; // Appear
+    if (eff.id === "2") {
+      // Fly In: subtype 1 = from top, 2 = from right, 4 = from bottom, 8 = from left
+      if (eff.sub === 1) s.dy = -q * H;
+      else if (eff.sub === 2) s.dx = q * W;
+      else if (eff.sub === 8) s.dx = -q * W;
+      else s.dy = q * H;
+      return s;
+    }
+    if (eff.id === "22") return { ...s, clip: p }; // Wipe
+    if (eff.id === "53") return { ...s, sc: 0.5 + 0.5 * p, alpha: p }; // Zoom
+    return { ...s, alpha: p }; // Fade (and similar effects shown as fade)
+  }
+
+  function exitState(eff, p) {
+    const s = { visible: true, alpha: 1, dx: 0, dy: 0, sc: 1, clip: 1 };
+    if (eff.id === "2") return { ...s, dy: p * (deckScene && deckScene.H) }; // Fly Out (downwards)
+    return { ...s, alpha: 1 - p }; // Fade Out
+  }
+  let deckScene = null;
+
+  function itemState(sc, id, step, now, t0) {
+    const base = { visible: true, alpha: 1, dx: 0, dy: 0, sc: 1, clip: 1 };
+    let eff = null;
+    let gi = -1;
+    sc.steps.forEach((g, i) =>
+      g.forEach((e) => {
+        if (e.spid === id) {
+          eff = e;
+          gi = i;
+        }
+      })
+    );
+    if (!eff) return base;
+    const shown = gi < step;
+    const current = gi === step - 1;
+    const p = shown ? (current ? Math.min(1, (now - t0) / Math.max(1, eff.dur)) : 1) : 0;
+    if (eff.cls === "entr") {
+      if (!shown) return { ...base, visible: false };
+      return entranceState(eff, p, sc.W, sc.H);
+    }
+    if (eff.cls === "exit") {
+      if (!shown) return base; // before its click the object is shown
+      if (eff.id === "1" || p >= 1) return { ...base, visible: false }; // Disappear, or finished
+      deckScene = sc;
+      return exitState(eff, p);
+    }
+    return base; // emphasis effects are shown statically for now
+  }
+
+  function drawNativeText(it, x, y, w, k) {
+    const inset = 91440 * k; // 0.1 inch
+    let text = "";
+    const attrs = [];
+    it.paras.forEach((p, pi) => {
+      if (pi) {
+        text += "\n";
+        attrs.push(null);
+      }
+      for (const r of p.runs) {
+        for (const ch of r.t) {
+          text += ch;
+          attrs.push({ size: r.sz * 12700 * k, color: r.color });
+        }
+      }
+    });
+    if (!text.trim()) return;
+    const first = it.paras[0].runs[0];
+    const obj = { text, attrs, fontSize: (first ? first.sz : 18) * 12700 * k, family: "sans" };
+    const lay = layoutRich(obj, w - 2 * inset);
+    let yy = y + inset;
+    for (const line of lay.lines) {
+      let xx = x + inset;
+      for (const itm of line.items) {
+        ctx.fillStyle = itm.color || "#1d1b2e";
+        setCharFont(itm.size, familyOf(obj));
+        ctx.fillText(itm.t, xx, yy + line.base);
+        xx += itm.w;
+      }
+      yy += line.h;
+    }
+  }
+
+  function drawNativeItem(it, x, y, w, h, k) {
+    if (it.kind === "pic") {
+      const img = it.ref && imageFor(IMAGE_STORE.get(it.ref));
+      if (img && img.complete && img.naturalWidth) ctx.drawImage(img, x, y, w, h);
+      return;
+    }
+    if (it.fill || it.line) {
+      ctx.beginPath();
+      if (it.prst === "ellipse") ctx.ellipse(x + w / 2, y + h / 2, w / 2, h / 2, 0, 0, Math.PI * 2);
+      else if (it.prst === "roundRect") ctx.roundRect(x, y, w, h, Math.min(w, h) * 0.1);
+      else ctx.rect(x, y, w, h);
+      if (it.fill) {
+        ctx.fillStyle = it.fill;
+        ctx.fill();
+      }
+      if (it.line) {
+        ctx.strokeStyle = it.line.color;
+        ctx.lineWidth = Math.max(1, it.line.w * k);
+        ctx.stroke();
+      }
+    }
+    if (it.paras && it.paras.length) drawNativeText(it, x, y, w, k);
+  }
+
+  // The animated objects of the current slide, drawn over its picture as their steps are shown
+  function drawDeckOverlays(s, b, w, h) {
+    const sc = s.scenes && s.scenes[s.index];
+    if (!sc || !sc.items || !sc.items.length) return;
+    const k = w / sc.W;
+    const t0 = deckStepT.get(s.id) ?? 0;
+    const now = performance.now();
+    for (const it of sc.items) {
+      deckScene = sc;
+      const st = itemState(sc, it.id, s.step || 0, now, t0);
+      if (!st.visible) continue;
+      const x = b.x1 + it.x * k + st.dx * k;
+      const y = b.y1 + it.y * k + st.dy * k;
+      const iw = it.w * k;
+      const ih = it.h * k;
+      ctx.save();
+      ctx.globalAlpha = st.alpha;
+      if (st.clip < 1) {
+        ctx.beginPath();
+        ctx.rect(x, y, iw * st.clip, ih);
+        ctx.clip();
+      }
+      if (st.sc !== 1) {
+        const cx = x + iw / 2;
+        const cy = y + ih / 2;
+        ctx.translate(cx, cy);
+        ctx.scale(st.sc, st.sc);
+        ctx.translate(-cx, -cy);
+      }
+      drawNativeItem(it, x, y, iw, ih, k);
+      ctx.restore();
+    }
   }
 
   // Renders each slide of a .pptx (converted to PDF by the desktop app) into the picture store
@@ -3174,7 +3358,7 @@
         refs.push(ref);
         if (i === 1) ratio = c.width / c.height;
       }
-      return { refs, ratio, transitions: conv.transitions || [] };
+      return { refs, ratio, transitions: conv.transitions || [], scenes: conv.scenes || [] };
     } finally {
       pr.end();
     }
@@ -3183,7 +3367,7 @@
   // Open File > PowerPoint: a new slide-deck shape at the centre of the view
   async function openDeck(file) {
     finishEditing();
-    const { refs, ratio, transitions } = await convertDeck(file);
+    const { refs, ratio, transitions, scenes } = await convertDeck(file);
     const w = 640;
     const h = w / ratio;
     const c = screenToWorld(window.innerWidth / 2, window.innerHeight / 2);
@@ -3197,6 +3381,8 @@
       ratio,
       transition: "file",
       slideTrans: transitions,
+      scenes: prepScenes(scenes),
+      step: 0,
       auto: false,
       x0: c.x - w / 2,
       y0: c.y - h / 2,
@@ -3215,10 +3401,12 @@
   async function replaceDeck(file) {
     const s = selectedDeck();
     if (!s) return;
-    const { refs, ratio, transitions } = await convertDeck(file);
+    const { refs, ratio, transitions, scenes } = await convertDeck(file);
     const before = snapshot();
     s.name = file.name;
     s.slideTrans = transitions;
+    s.scenes = prepScenes(scenes);
+    s.step = 0;
     s.slides = refs;
     s.index = 0;
     s.ratio = ratio;
@@ -3270,8 +3458,12 @@
       const b = e.target.closest("button");
       const s = selectedDeck();
       if (!b || !s) return;
-      if (b.dataset.dact === "prev") setDeckIndex(s, s.index - 1);
-      else if (b.dataset.dact === "next") setDeckIndex(s, s.index + 1);
+      if (b.dataset.dact === "prev") {
+        setDeckIndex(s, s.index - 1);
+        s.step = deckSteps(s).length; // going back shows the earlier slide complete
+      } else if (b.dataset.dact === "next") {
+        if (!nextDeckStep(s)) setDeckIndex(s, s.index + 1);
+      }
       else if (b.dataset.dact === "auto") {
         s.auto = !s.auto;
         deckLast.set(s.id, performance.now());
