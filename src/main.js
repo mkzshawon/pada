@@ -3173,6 +3173,7 @@
 
   // The animated objects are stored as native scenes. Pictures move into the picture store once.
   function prepScenes(scenes) {
+    console.log("PADA animations:", JSON.stringify((scenes || []).map((sc) => sc.steps)));
     for (const sc of scenes || []) {
       for (const it of sc.items || []) {
         if (it.src) {
@@ -3210,6 +3211,74 @@
   }
   let deckScene = null;
 
+  // Motion paths: the path is read into points (straight lines and curves), and the object
+  // moves along it. Coordinates are fractions of the slide, starting at the object's place.
+  const motionCache = new Map();
+  function motionPoints(d) {
+    if (motionCache.has(d)) return motionCache.get(d);
+    const toks = d.match(/[MLCQZE]|-?\d*\.?\d+(?:e-?\d+)?/gi) || [];
+    const pts = [{ x: 0, y: 0 }];
+    let cur = { x: 0, y: 0 };
+    let cmd = null;
+    let i = 0;
+    const num = () => parseFloat(toks[i++]);
+    while (i < toks.length) {
+      const t = toks[i];
+      if (/^[A-Za-z]$/.test(t)) {
+        cmd = t.toUpperCase();
+        i++;
+        if (cmd === "E") break;
+        continue;
+      }
+      if (cmd === "M" || cmd === "L") {
+        cur = { x: num(), y: num() };
+        pts.push(cur);
+        if (cmd === "M") cmd = "L";
+      } else if (cmd === "C") {
+        const x1 = num(), y1 = num(), x2 = num(), y2 = num(), x = num(), y = num();
+        for (let k = 1; k <= 16; k++) {
+          const u = k / 16;
+          const v = 1 - u;
+          pts.push({
+            x: v * v * v * cur.x + 3 * v * v * u * x1 + 3 * v * u * u * x2 + u * u * u * x,
+            y: v * v * v * cur.y + 3 * v * v * u * y1 + 3 * v * u * u * y2 + u * u * u * y,
+          });
+        }
+        cur = { x, y };
+      } else if (cmd === "Q") {
+        const x1 = num(), y1 = num(), x = num(), y = num();
+        for (let k = 1; k <= 16; k++) {
+          const u = k / 16;
+          const v = 1 - u;
+          pts.push({ x: v * v * cur.x + 2 * v * u * x1 + u * u * x, y: v * v * cur.y + 2 * v * u * y1 + u * u * y });
+        }
+        cur = { x, y };
+      } else {
+        i++; // unknown token: skip
+      }
+    }
+    const cum = [0];
+    for (let k = 1; k < pts.length; k++) {
+      cum.push(cum[k - 1] + Math.hypot(pts[k].x - pts[k - 1].x, pts[k].y - pts[k - 1].y));
+    }
+    const mp = { pts, cum, total: cum[cum.length - 1] || 0 };
+    motionCache.set(d, mp);
+    return mp;
+  }
+
+  // The point reached after the fraction t (0 to 1) of the path's length
+  function pointOnPath(mp, t) {
+    if (!mp.total || mp.pts.length < 2) return { x: 0, y: 0 };
+    const target = Math.min(1, Math.max(0, t)) * mp.total;
+    let k = 1;
+    while (k < mp.cum.length - 1 && mp.cum[k] < target) k++;
+    const seg = mp.cum[k] - mp.cum[k - 1] || 1;
+    const f = (target - mp.cum[k - 1]) / seg;
+    const a = mp.pts[k - 1];
+    const b = mp.pts[k];
+    return { x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f };
+  }
+
   // Emphasis effects: the object changes while its step plays, then returns to normal.
   // The preset numbers below follow PowerPoint's own codes; unknown ones show a pulse
   // and are logged to the console (Ctrl+Alt+D) so they can be added.
@@ -3234,7 +3303,7 @@
       case "15": // Lighten
         return { ...s, filter: `brightness(${1 + 0.5 * bump})` };
       default:
-        console.debug("PADA: emphasis preset not yet specific", eff.id);
+        console.warn("PADA emphasis preset", eff.id, "(shown as Pulse)");
         return { ...s, sc: 1 + 0.25 * bump };
     }
   }
@@ -3268,6 +3337,11 @@
     if (eff.cls === "emph") {
       if (!shown) return base; // before its click: normal
       return emphasisState(eff, p);
+    }
+    if (eff.cls === "path") {
+      if (!shown || !eff.path) return base; // stays at its end point once the motion is done
+      const q = pointOnPath(motionPoints(eff.path), p);
+      return { ...base, dx: q.x * sc.W, dy: q.y * sc.H };
     }
     return base;
   }

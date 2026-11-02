@@ -191,8 +191,9 @@ function parseSteps(xml) {
     const seg = t.slice(m.index, i + 1 < starts.length ? starts[i + 1].index : t.length);
     const spid = (seg.match(/<p:spTgt spid="(\d+)"/) || [])[1];
     if (!spid) return;
-    const dur = +((seg.match(/<p:animEffect[^>]*>[\s\S]*?<p:cTn dur="(\d+)"/) || [])[1] || 500);
-    const eff = { spid, cls: a.presetClass, id: a.presetID, sub: +(a.presetSubtype || 0), dur };
+    const dur = +((seg.match(/<p:(?:animEffect|animMotion)[^>]*>[\s\S]*?<p:cTn dur="(\d+)"/) || [])[1] || 500);
+    const motion = (seg.match(/<p:animMotion[^>]*\bpath="([^"]+)"/) || [])[1] || null;
+    const eff = { spid, cls: a.presetClass, id: a.presetID, sub: +(a.presetSubtype || 0), dur, path: motion };
     if (!cur || a.nodeType === "clickEffect") {
       cur = [];
       steps.push(cur);
