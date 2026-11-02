@@ -203,8 +203,19 @@ function parseSteps(xml) {
   return steps;
 }
 
+// Default text sizes of the master (titles, body text and other text boxes), in points x 100
+function readStyleSizes(zip) {
+  const e = zip.getEntry("ppt/slideMasters/slideMaster1.xml");
+  const xml = e ? e.getData().toString("utf8") : "";
+  const size = (tag, fallback) => {
+    const m = xml.match(new RegExp(`<p:${tag}>[\\s\\S]*?<a:lvl1pPr[^>]*>[\\s\\S]*?<a:defRPr[^>]*\\bsz="(\\d+)"`));
+    return m ? +m[1] : fallback;
+  };
+  return { title: size("titleStyle", 4400), body: size("bodyStyle", 2800), other: size("otherStyle", 1800) };
+}
+
 // Parses one shape or picture element into positions (EMU), geometry, fill, line and text
-function parseItem(block, layoutBoxes) {
+function parseItem(block, layoutBoxes, styles) {
   const idm = block.match(/<p:cNvPr[^>]*\bid="(\d+)"/);
   if (!idm) return null;
   const item = { id: idm[1], kind: block.startsWith("<p:pic") ? "pic" : "shape" };
@@ -230,12 +241,16 @@ function parseItem(block, layoutBoxes) {
     item.rid = emb ? emb[1] : null;
   } else {
     const tb = block.match(/<p:txBody>[\s\S]*?<\/p:txBody>/);
-    item.paras = tb ? parseParas(tb[0]) : [];
+    const ph = block.match(/<p:ph([^>]*)\/?>/);
+    const pt = ph ? attrsOf(ph[1]).type : null;
+    const defSz = !ph ? styles.other : pt === "title" || pt === "ctrTitle" ? styles.title : styles.body;
+    item.anchor = tb ? (tb[0].match(/<a:bodyPr[^>]*\banchor="(\w+)"/) || [])[1] || "t" : "t";
+    item.paras = tb ? parseParas(tb[0], defSz) : [];
   }
   return item;
 }
 
-function parseParas(tb) {
+function parseParas(tb, defSz) {
   const paras = [];
   for (const pm of tb.matchAll(/<a:p>[\s\S]*?<\/a:p>/g)) {
     const p = pm[0];
@@ -245,13 +260,17 @@ function parseParas(tb) {
       const r = rm[1];
       const rPr = attrsOf((r.match(/<a:rPr([^>]*)>/) || ["", ""])[1]);
       const color = (r.match(/<a:srgbClr val="(\w{6})"/) || [])[1];
+      const latin = (r.match(/<a:latin typeface="([^"]+)"/) || [])[1];
       runs.push({
         t: decodeXml((r.match(/<a:t>([\s\S]*?)<\/a:t>/) || [])[1] || ""),
-        sz: +(rPr.sz || 1800) / 100,
+        sz: (rPr.sz ? +rPr.sz : defSz) / 100,
         color: color ? "#" + color : null,
+        b: rPr.b === "1",
+        i: rPr.i === "1",
+        font: latin && !latin.startsWith("+") ? latin : null,
       });
     }
-    paras.push({ algn, runs });
+    paras.push({ algn: algn === "just" ? "l" : algn, runs });
   }
   return paras;
 }
@@ -262,6 +281,7 @@ function readAnimatedScenes(zip, slideFiles, W, H) {
     const e = zip.getEntry(name);
     return e ? e.getData().toString("utf8") : "";
   };
+  const styles = readStyleSizes(zip);
   const relsOf = (file) => {
     const out = {};
     for (const m of text(file.replace(/([^/]+)$/, "_rels/$1.rels")).matchAll(/<Relationship ([^>]*)\/>/g)) {
@@ -296,7 +316,7 @@ function readAnimatedScenes(zip, slideFiles, W, H) {
     for (const m of xml.matchAll(/<p:(sp|pic)>[\s\S]*?<\/p:\1>/g)) {
       const idm = m[0].match(/<p:cNvPr[^>]*\bid="(\d+)"/);
       if (!idm || !ids.has(idm[1])) continue;
-      const it = parseItem(m[0], layoutBoxes);
+      const it = parseItem(m[0], layoutBoxes, styles);
       if (it && it.kind === "pic" && it.rid && rels[it.rid]) {
         const media = resolve(dir, rels[it.rid]);
         const e = zip.getEntry(media);

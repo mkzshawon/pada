@@ -1141,8 +1141,8 @@
   const lineHeightOf = (size) => Math.round(size * 1.35);
 
   // Font for one run of characters; alphabetic baseline so lines of mixed sizes line up
-  function setCharFont(size, css = FONT_FAMILY) {
-    ctx.font = `${size}px ${css}`;
+  function setCharFont(size, css = FONT_FAMILY, bold = false, italic = false) {
+    ctx.font = `${italic ? "italic " : ""}${bold ? "bold " : ""}${size}px ${css}`;
     ctx.textBaseline = "alphabetic";
   }
 
@@ -1185,8 +1185,19 @@
         endLine();
         continue;
       }
-      setCharFont(size, familyOf(s));
-      const item = { t: ch, w: ctx.measureText(ch).width, size, bg: a.bg || null, color: a.color || null };
+      const css = a.font ? `"${a.font}", sans-serif` : familyOf(s);
+      setCharFont(size, css, !!a.b, !!a.i);
+      const item = {
+        t: ch,
+        w: ctx.measureText(ch).width,
+        size,
+        bg: a.bg || null,
+        color: a.color || null,
+        b: !!a.b,
+        i: !!a.i,
+        font: a.font || null,
+        algn: a.algn || null,
+      };
       if (ch === " ") {
         flushWord();
         line.items.push(item);
@@ -1288,7 +1299,7 @@
             ctx.fillStyle = it.bg;
             ctx.fillRect(x, y, it.w, line.h);
           }
-          setCharFont(it.size, familyOf(s));
+          setCharFont(it.size, it.font ? `"${it.font}", sans-serif` : familyOf(s), it.b, it.i);
           ctx.fillStyle = it.color || s.stroke || PALETTE[0];
           ctx.fillText(it.t, x, y + line.base);
           x += it.w;
@@ -3346,7 +3357,8 @@
     return base;
   }
 
-  function drawNativeText(it, x, y, w, k) {
+  // Text of a text box: paragraphs, bold/italic, fonts, colours, alignment and vertical anchor
+  function drawNativeText(it, x, y, w, h, k) {
     const inset = 91440 * k; // 0.1 inch
     let text = "";
     const attrs = [];
@@ -3358,20 +3370,27 @@
       for (const r of p.runs) {
         for (const ch of r.t) {
           text += ch;
-          attrs.push({ size: r.sz * 12700 * k, color: r.color });
+          attrs.push({ size: r.sz * 12700 * k, color: r.color, b: r.b, i: r.i, font: r.font, algn: p.algn });
         }
       }
     });
     if (!text.trim()) return;
     const first = it.paras[0].runs[0];
     const obj = { text, attrs, fontSize: (first ? first.sz : 18) * 12700 * k, family: "sans" };
-    const lay = layoutRich(obj, w - 2 * inset);
-    let yy = y + inset;
+    const avail = w - 2 * inset;
+    const lay = layoutRich(obj, avail);
+    const top = y + inset;
+    const free = h - 2 * inset - lay.height;
+    let yy = it.anchor === "ctr" ? top + Math.max(0, free) / 2 : it.anchor === "b" ? top + Math.max(0, free) : top;
     for (const line of lay.lines) {
+      const algn = line.items.length ? line.items[0].algn : "l";
+      const lineW = line.items.reduce((t, itm) => t + itm.w, 0);
       let xx = x + inset;
+      if (algn === "ctr") xx += (avail - lineW) / 2;
+      else if (algn === "r") xx += avail - lineW;
       for (const itm of line.items) {
         ctx.fillStyle = itm.color || "#1d1b2e";
-        setCharFont(itm.size, familyOf(obj));
+        setCharFont(itm.size, itm.font ? `"${itm.font}", sans-serif` : familyOf(obj), itm.b, itm.i);
         ctx.fillText(itm.t, xx, yy + line.base);
         xx += itm.w;
       }
@@ -3400,7 +3419,7 @@
         ctx.stroke();
       }
     }
-    if (it.paras && it.paras.length) drawNativeText(it, x, y, w, k);
+    if (it.paras && it.paras.length) drawNativeText(it, x, y, w, h, k);
   }
 
   // The animated objects of the current slide, drawn over its picture as their steps are shown
