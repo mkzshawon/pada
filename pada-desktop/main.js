@@ -4,6 +4,7 @@ const { app, BrowserWindow, globalShortcut, screen, ipcMain, dialog, shell } = r
 const path = require("path");
 const { spawn } = require("child_process");
 const fs = require("fs");
+const AdmZip = require("adm-zip");
 const { pathToFileURL } = require("url");
 
 // ffmpeg bundled with the app (inside the installer, it is unpacked from app.asar)
@@ -129,6 +130,37 @@ async function askSoffice() {
   return result.filePaths[0];
 }
 
+
+// Reads each slide's transition from the .pptx file (Fade, Push with direction, or none), in slide order
+function readPptxTransitions(srcPath) {
+  const zip = new AdmZip(srcPath);
+  const text = (name) => {
+    const e = zip.getEntry(name);
+    return e ? e.getData().toString("utf8") : "";
+  };
+  const pres = text("ppt/presentation.xml");
+  const rels = text("ppt/_rels/presentation.xml.rels");
+  const slideIds = [...pres.matchAll(/<p:sldId [^>]*r:id="([^"]+)"/g)].map((m) => m[1]);
+  const target = (rid) => {
+    const m =
+      rels.match(new RegExp(`<Relationship[^>]*Id="${rid}"[^>]*Target="([^"]+)"`)) ||
+      rels.match(new RegExp(`<Relationship[^>]*Target="([^"]+)"[^>]*Id="${rid}"`));
+    return m ? "ppt/" + m[1] : null;
+  };
+  return slideIds.map((rid) => {
+    const file = target(rid);
+    const xml = file ? text(file) : "";
+    const t = xml.match(/<p:transition[\s\S]*?(?:<\/p:transition>|\/>)/);
+    if (!t) return { kind: "none" };
+    const body = t[0];
+    if (/<p:fade/.test(body)) return { kind: "fade" };
+    const push = body.match(/<p:push[^>]*dir="([lrud])"/);
+    if (push) return { kind: "push", dir: push[1] };
+    if (/<p:push/.test(body)) return { kind: "push", dir: "l" };
+    return { kind: "fade" }; // other transitions are shown as Fade
+  });
+}
+
 // Converts a .pptx/.ppt to PDF (one page per slide) and returns the PDF bytes
 ipcMain.handle("pada:pptx", async (_event, srcPath) => {
   let soffice = findSoffice();
@@ -146,7 +178,13 @@ ipcMain.handle("pada:pptx", async (_event, srcPath) => {
   });
   const pdf = path.join(outDir, path.basename(srcPath, path.extname(srcPath)) + ".pdf");
   if (code !== 0 || !fs.existsSync(pdf)) throw new Error(`রূপান্তর ব্যর্থ (code ${code}) ${log.slice(-200)}`);
-  return fs.readFileSync(pdf);
+  let transitions = [];
+  try {
+    transitions = readPptxTransitions(srcPath);
+  } catch {
+    transitions = [];
+  }
+  return { pdf: fs.readFileSync(pdf), transitions };
 });
 
 // Window buttons in the ribbon: minimize, resize (full screen <-> smaller window), close

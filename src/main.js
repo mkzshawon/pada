@@ -3037,7 +3037,7 @@
 
   /* ---------- PowerPoint: a slide-deck shape (slides converted by the desktop app) ---------- */
 
-  const DECK_MS = 400; // length of a transition
+  const DECK_MS = 500; // length of a transition (Fade and Push: 0.5 s)
   const DECK_AUTO_MS = 5000; // time each slide stays during auto-play
   const deckAnim = new Map(); // shape id -> { from, dir, t0 } while a transition runs
   const deckLast = new Map(); // shape id -> time of the last auto-play step
@@ -3072,9 +3072,30 @@
     requestAnimationFrame(step);
   }
 
-  function setDeckIndex(s, idx, dir) {
+  // Which transition plays when a slide is entered; null means none
+  function pushMode(d) {
+    // d = the direction the picture moves: l (left), r (right), u (up), d (down)
+    const map = { l: [1, "x"], r: [-1, "x"], u: [1, "y"], d: [-1, "y"] };
+    const [dir, axis] = map[d] || map.l;
+    return { mode: "push", dir, axis };
+  }
+
+  function transitionFor(s, idx) {
+    const choice = s.transition || "file";
+    if (choice === "none") return null;
+    if (choice === "fade") return { mode: "fade" };
+    if (choice.startsWith("push-")) return pushMode(choice.slice(5));
+    // "From file": the transition stored for this slide in the PowerPoint file
+    const t = (s.slideTrans || [])[idx] || { kind: "fade" };
+    if (t.kind === "none") return null;
+    if (t.kind === "push") return pushMode(t.dir);
+    return { mode: "fade" };
+  }
+
+  function setDeckIndex(s, idx) {
     if (idx < 0 || idx >= s.slides.length || idx === s.index) return;
-    deckAnim.set(s.id, { from: s.index, dir, t0: performance.now() });
+    const tr = transitionFor(s, idx);
+    if (tr) deckAnim.set(s.id, { from: s.index, t0: performance.now(), ...tr });
     s.index = idx;
     startDeckLoop();
     render();
@@ -3099,19 +3120,25 @@
     ctx.fillRect(b.x1, b.y1, w, h);
     const anim = deckAnim.get(s.id);
     const p = anim ? Math.min(1, (performance.now() - anim.t0) / DECK_MS) : 1;
-    if (anim && p < 1 && s.transition !== "none") {
-      if (s.transition === "slide") {
-        drawDeckImg(s.slides[anim.from], b.x1 - anim.dir * p * w, b.y1, w, h);
-        drawDeckImg(s.slides[s.index], b.x1 + anim.dir * (1 - p) * w, b.y1, w, h);
+    const fromRef = anim ? s.slides[anim.from] : null;
+    const toRef = s.slides[s.index];
+    if (anim && p < 1) {
+      if (anim.mode === "push") {
+        // The old picture slides out while the new one slides in from the opposite side
+        const size = anim.axis === "x" ? w : h;
+        const ox = anim.axis === "x" ? 1 : 0;
+        const oy = anim.axis === "y" ? 1 : 0;
+        drawDeckImg(fromRef, b.x1 - anim.dir * p * size * ox, b.y1 - anim.dir * p * size * oy, w, h);
+        drawDeckImg(toRef, b.x1 + anim.dir * (1 - p) * size * ox, b.y1 + anim.dir * (1 - p) * size * oy, w, h);
       } else {
         ctx.globalAlpha = 1 - p;
-        drawDeckImg(s.slides[anim.from], b.x1, b.y1, w, h);
+        drawDeckImg(fromRef, b.x1, b.y1, w, h);
         ctx.globalAlpha = p;
-        drawDeckImg(s.slides[s.index], b.x1, b.y1, w, h);
+        drawDeckImg(toRef, b.x1, b.y1, w, h);
         ctx.globalAlpha = 1;
       }
     } else {
-      drawDeckImg(s.slides[s.index], b.x1, b.y1, w, h);
+      drawDeckImg(toRef, b.x1, b.y1, w, h);
     }
     ctx.restore();
     ctx.strokeStyle = "#000000";
@@ -3127,7 +3154,8 @@
     const pr = progressStart("PowerPoint স্লাইড");
     try {
       pr.set(0, 1);
-      const bytes = await window.padaDesktop.convertPptx(file.path);
+      const conv = await window.padaDesktop.convertPptx(file.path);
+      const bytes = conv.pdf;
       await loadScript(PDFJS_URL, () => window.pdfjsLib);
       window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_URL.replace("pdf.min.js", "pdf.worker.min.js");
       const pdf = await window.pdfjsLib.getDocument({ data: bytes }).promise;
@@ -3146,7 +3174,7 @@
         refs.push(ref);
         if (i === 1) ratio = c.width / c.height;
       }
-      return { refs, ratio };
+      return { refs, ratio, transitions: conv.transitions || [] };
     } finally {
       pr.end();
     }
@@ -3155,7 +3183,7 @@
   // Open File > PowerPoint: a new slide-deck shape at the centre of the view
   async function openDeck(file) {
     finishEditing();
-    const { refs, ratio } = await convertDeck(file);
+    const { refs, ratio, transitions } = await convertDeck(file);
     const w = 640;
     const h = w / ratio;
     const c = screenToWorld(window.innerWidth / 2, window.innerHeight / 2);
@@ -3167,7 +3195,8 @@
       slides: refs,
       index: 0,
       ratio,
-      transition: "fade",
+      transition: "file",
+      slideTrans: transitions,
       auto: false,
       x0: c.x - w / 2,
       y0: c.y - h / 2,
@@ -3186,9 +3215,10 @@
   async function replaceDeck(file) {
     const s = selectedDeck();
     if (!s) return;
-    const { refs, ratio } = await convertDeck(file);
+    const { refs, ratio, transitions } = await convertDeck(file);
     const before = snapshot();
     s.name = file.name;
+    s.slideTrans = transitions;
     s.slides = refs;
     s.index = 0;
     s.ratio = ratio;
@@ -3216,7 +3246,10 @@
       '<button data-dact="next" title="Next slide">»</button>' +
       '<button data-dact="auto" class="dauto" title="Auto play">▶ Auto</button>' +
       '<select class="dtrans" title="Transition">' +
-      '<option value="fade">Fade</option><option value="slide">Slide</option><option value="none">None</option>' +
+      '<option value="file">From file</option><option value="fade">Fade (0.5 s)</option>' +
+      '<option value="push-l">Push ← (left)</option><option value="push-r">Push → (right)</option>' +
+      '<option value="push-u">Push ↑ (up)</option><option value="push-d">Push ↓ (down)</option>' +
+      '<option value="none">None</option>' +
       "</select>";
     document.body.append(top, bottom);
 
@@ -3237,8 +3270,8 @@
       const b = e.target.closest("button");
       const s = selectedDeck();
       if (!b || !s) return;
-      if (b.dataset.dact === "prev") setDeckIndex(s, s.index - 1, -1);
-      else if (b.dataset.dact === "next") setDeckIndex(s, s.index + 1, 1);
+      if (b.dataset.dact === "prev") setDeckIndex(s, s.index - 1);
+      else if (b.dataset.dact === "next") setDeckIndex(s, s.index + 1);
       else if (b.dataset.dact === "auto") {
         s.auto = !s.auto;
         deckLast.set(s.id, performance.now());
@@ -3278,7 +3311,7 @@
     top.querySelector(".vname").textContent = s.name;
     bottom.querySelector(".dcount").textContent = `${s.index + 1} / ${s.slides.length}`;
     bottom.querySelector(".dauto").textContent = s.auto ? "❚❚ Auto" : "▶ Auto";
-    bottom.querySelector(".dtrans").value = s.transition || "fade";
+    bottom.querySelector(".dtrans").value = s.transition || "file";
   }
 
   /* ---------- Fonts from src/fonts ---------- */
