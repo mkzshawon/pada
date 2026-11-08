@@ -1961,7 +1961,7 @@
 
     if (!gesture) {
       if (!spellHits.length) hideSpell();
-      else if (!polyDraft) spellHoverAt(p, e);
+      else if (!polyDraft) spellHoverAt(p);
       if (tool === "select") {
         const was = rotHover;
         rotHover = selected.size > 0 && nearRotButton(p);
@@ -4135,17 +4135,29 @@
   }
 
   // Hover over an underlined word: suggestions appear next to the pointer
-  function spellHoverAt(p, e) {
+  let spellTimer = null;
+
+  function spellHoverAt(p) {
     const hit = spellHits.find((h) => p.x >= h.x1 && p.x <= h.x2 && p.y >= h.y0 && p.y <= h.y1);
-    if (!hit || !hit.sugg.length) return hideSpell();
-    showSpell(hit, e.clientX, e.clientY);
+    if (hit && hit.sugg.length) {
+      clearTimeout(spellTimer);
+      showSpell(hit);
+    } else {
+      // Give the pointer time to travel from the word to the suggestions
+      clearTimeout(spellTimer);
+      spellTimer = setTimeout(hideSpell, 350);
+    }
   }
 
-  function showSpell(hit, cx, cy) {
+  function showSpell(hit) {
     if (!spellEl) {
       spellEl = document.createElement("div");
       spellEl.id = "spell";
       spellEl.addEventListener("pointerdown", (e) => e.stopPropagation());
+      spellEl.addEventListener("pointerenter", () => clearTimeout(spellTimer));
+      spellEl.addEventListener("pointerleave", () => {
+        spellTimer = setTimeout(hideSpell, 350);
+      });
       spellEl.addEventListener("click", (e) => {
         const b = e.target.closest("button");
         if (!b || !spellEl.hit) return;
@@ -4158,8 +4170,10 @@
     spellEl.innerHTML =
       '<div class="sp-title">Spelling</div>' +
       hit.sugg.map((s) => `<button data-s="${s}">${s}</button>`).join("");
-    spellEl.style.left = cx + 10 + "px";
-    spellEl.style.top = cy + 16 + "px";
+    // Placed directly under the word, on the screen
+    const cam = board().camera;
+    spellEl.style.left = hit.x1 * cam.zoom + cam.x + "px";
+    spellEl.style.top = hit.y1 * cam.zoom + cam.y + 4 + "px";
     spellEl.style.display = "flex";
   }
 
