@@ -1379,6 +1379,43 @@ body {
   text-align: center;
 }
 
+/* Spelling suggestions popup */
+#spell {
+  position: fixed;
+  z-index: 30;
+  display: none;
+  flex-direction: column;
+  min-width: 130px;
+  padding: 4px;
+  background: var(--chrome);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+#spell .sp-title {
+  padding: 4px 8px 2px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+#spell button {
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+#spell button:hover {
+  background: #f3f1fb;
+  color: #4f46e5;
+}
+
 /* Inline text editor shown over a text or note shape while typing */
 .editor {
   position: fixed;

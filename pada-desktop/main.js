@@ -415,6 +415,32 @@ ipcMain.handle("pada:pptx", async (_event, srcPath) => {
   };
 });
 
+// English spelling: a dictionary is loaded once, then words are checked and suggestions made
+let spellPromise = null;
+function spellChecker() {
+  if (!spellPromise) {
+    spellPromise = new Promise((resolve, reject) => {
+      try {
+        require("dictionary-en")((err, dict) => {
+          if (err) return reject(err);
+          resolve(require("nspell")(dict.aff, dict.dic));
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+  return spellPromise;
+}
+
+ipcMain.handle("pada:spell", async (_event, words) => {
+  const sp = await spellChecker();
+  return words.map((w) => {
+    const ok = sp.correct(w);
+    return { word: w, ok, sugg: ok ? [] : sp.suggest(w).slice(0, 5) };
+  });
+});
+
 // Window buttons in the ribbon: minimize, resize (full screen <-> smaller window), close
 ipcMain.on("pada:window", (_event, action) => {
   if (!win) return;

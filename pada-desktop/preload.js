@@ -6,5 +6,6 @@ contextBridge.exposeInMainWorld("padaDesktop", {
   windowControl: (action) => ipcRenderer.send("pada:window", action),
   transcodeVideo: (srcPath) => ipcRenderer.invoke("pada:transcode", srcPath),
   convertPptx: (srcPath) => ipcRenderer.invoke("pada:pptx", srcPath),
+  spellCheck: (words) => ipcRenderer.invoke("pada:spell", words),
   onColor: (callback) => ipcRenderer.on("pada:color", (_event, index) => callback(index)),
 });

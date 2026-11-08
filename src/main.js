@@ -1345,6 +1345,7 @@
       const pad = s.type === "note" ? NOTE_PAD : 0;
       const maxW = s.type === "text" && s.autoW !== false ? Infinity : b.x2 - b.x1 - 2 * pad;
       const lay = layoutRich(s, maxW);
+      requestSpell(String(s.text).match(/[A-Za-z]{2,}(?:'[A-Za-z]+)?/g) || []);
       let y = b.y1 + pad;
       for (const line of lay.lines) {
         let x = b.x1 + pad;
@@ -1360,6 +1361,11 @@
         }
         y += line.h;
       }
+    }
+    if (s.id !== editingId && s.text && s.type !== "image") {
+      const pad2 = s.type === "note" ? NOTE_PAD : 0;
+      const maxW2 = s.type === "text" && s.autoW !== false ? Infinity : b.x2 - b.x1 - 2 * pad2;
+      drawSpellMarks(s, layoutRich(s, maxW2), b, pad2);
     }
     ctx.restore();
   }
@@ -1445,7 +1451,7 @@
     editor = document.createElement("textarea");
     editor.className = "editor";
     editor.value = s.text || "";
-    editor.spellcheck = false;
+    editor.spellcheck = true;
     document.body.appendChild(editor);
 
     editor.addEventListener("input", () => {
@@ -1518,6 +1524,7 @@
 
   function render() {
     syncBindings();
+    spellHits = [];
     const dpr = window.devicePixelRatio || 1;
     const cam = board().camera;
     const z = cam.zoom;
@@ -1953,6 +1960,8 @@
     }
 
     if (!gesture) {
+      if (!spellHits.length) hideSpell();
+      else if (!polyDraft) spellHoverAt(p, e);
       if (tool === "select") {
         const was = rotHover;
         rotHover = selected.size > 0 && nearRotButton(p);
@@ -4045,6 +4054,134 @@
       document.body.appendChild(calcEl);
     }
     renderCalc();
+  }
+
+  /* ---------- Spelling: red wavy underline and suggestions for English words (desktop app) ---------- */
+
+  const spellCache = new Map(); // word -> { ok, sugg }
+  const spellWait = new Set();
+  let spellHits = []; // underlined words on the board for this frame
+  let spellBusy = false;
+  let spellOff = false;
+  let spellEl = null;
+
+  // Checks words with the desktop spell checker; the board is redrawn when results arrive
+  function requestSpell(words) {
+    if (spellOff || !window.padaDesktop || !window.padaDesktop.spellCheck) return;
+    for (const w of words) if (!spellCache.has(w)) spellWait.add(w);
+    if (spellBusy || !spellWait.size) return;
+    spellBusy = true;
+    const batch = [...spellWait];
+    spellWait.clear();
+    window.padaDesktop
+      .spellCheck(batch)
+      .then((res) => {
+        for (const r of res) spellCache.set(r.word, r);
+        spellBusy = false;
+        render();
+        if (spellWait.size) requestSpell([]);
+      })
+      .catch(() => {
+        spellOff = true;
+        spellBusy = false;
+      });
+  }
+
+  // Draws a wavy red line under each misspelled word of a text or note, and records where it is
+  function drawSpellMarks(s, lay, b, pad) {
+    const z = board().camera.zoom;
+    const seen = {};
+    let y = b.y1 + pad;
+    for (const line of lay.lines) {
+      let x = b.x1 + pad;
+      let cur = null;
+      const flush = () => {
+        if (!cur) return;
+        const word = cur.text.replace(/^'+|'+$/g, "");
+        if (word.length >= 2) {
+          const c = spellCache.get(word);
+          const nth = seen[word] || 0;
+          seen[word] = nth + 1;
+          if (c && !c.ok) {
+            ctx.save();
+            ctx.strokeStyle = "#e03131";
+            ctx.lineWidth = 1.2 / z;
+            ctx.beginPath();
+            const yy = cur.y + 3 / z;
+            const step = 3 / z;
+            ctx.moveTo(cur.x1, yy);
+            for (let xw = cur.x1; xw < cur.x2; xw += step * 2) {
+              ctx.lineTo(xw + step, yy - 1.6 / z);
+              ctx.lineTo(xw + step * 2, yy);
+            }
+            ctx.stroke();
+            ctx.restore();
+            spellHits.push({ id: s.id, word, nth, sugg: c.sugg, x1: cur.x1, x2: cur.x2, y0: cur.y - line.h, y1: cur.y + 4 / z });
+          }
+        }
+        cur = null;
+      };
+      for (const it of line.items) {
+        if (/[A-Za-z']/.test(it.t)) {
+          if (!cur) cur = { text: "", x1: x, y: y + line.base };
+          cur.text += it.t;
+          cur.x2 = x + it.w;
+        } else flush();
+        x += it.w;
+      }
+      flush();
+      y += line.h;
+    }
+  }
+
+  // Hover over an underlined word: suggestions appear next to the pointer
+  function spellHoverAt(p, e) {
+    const hit = spellHits.find((h) => p.x >= h.x1 && p.x <= h.x2 && p.y >= h.y0 && p.y <= h.y1);
+    if (!hit || !hit.sugg.length) return hideSpell();
+    showSpell(hit, e.clientX, e.clientY);
+  }
+
+  function showSpell(hit, cx, cy) {
+    if (!spellEl) {
+      spellEl = document.createElement("div");
+      spellEl.id = "spell";
+      spellEl.addEventListener("pointerdown", (e) => e.stopPropagation());
+      spellEl.addEventListener("click", (e) => {
+        const b = e.target.closest("button");
+        if (!b || !spellEl.hit) return;
+        applySpell(spellEl.hit, b.dataset.s);
+        hideSpell();
+      });
+      document.body.appendChild(spellEl);
+    }
+    spellEl.hit = hit;
+    spellEl.innerHTML =
+      '<div class="sp-title">Spelling</div>' +
+      hit.sugg.map((s) => `<button data-s="${s}">${s}</button>`).join("");
+    spellEl.style.left = cx + 10 + "px";
+    spellEl.style.top = cy + 16 + "px";
+    spellEl.style.display = "flex";
+  }
+
+  function hideSpell() {
+    if (spellEl) spellEl.style.display = "none";
+  }
+
+  // Replaces the chosen occurrence of the misspelled word; keeps the formatting of the text
+  function applySpell(hit, sugg) {
+    const s = shapesOf().find((x) => x.id === hit.id);
+    if (!s) return;
+    const word = hit.word[0] === hit.word[0].toUpperCase() ? sugg[0].toUpperCase() + sugg.slice(1) : sugg;
+    const esc = hit.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const re = new RegExp(`(?<![A-Za-z'])${esc}(?![A-Za-z'])`, "g");
+    const before = snapshot();
+    let n = 0;
+    const text = s.text.replace(re, (m) => (n++ === hit.nth ? word : m));
+    s.attrs = diffAttrs(s.text, text, s.attrs);
+    s.text = text;
+    if (s.type === "text" || s.type === "note") fitTextBox(s);
+    commit(before);
+    render();
   }
 
   /* ---------- Fonts from src/fonts ---------- */
