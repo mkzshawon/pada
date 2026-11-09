@@ -2622,6 +2622,8 @@
     tabMenuEl.innerHTML = `
       <div class="tm-item"><div class="tm-label">Open File &#9656;</div>
         <div class="tm-sub">
+          <button data-act="board-open">Open board (.pada)</button>
+          <hr />
           <button data-act="file" data-kind="pdf">PDF</button>
           <button data-act="file" data-kind="image">Image</button>
           <button data-act="file" data-kind="word">Word</button>
@@ -2652,7 +2654,6 @@
           <button data-act="save-image">Image</button>
           <hr />
           <button data-act="board-save">Save board (.pada)</button>
-          <button data-act="board-open">Open board (.pada)</button>
           <button data-act="autosave">Auto-save: ${autosaveOn ? "On" : "Off"}</button>
         </div></div>
       <hr />
