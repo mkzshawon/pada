@@ -4464,7 +4464,8 @@
       y0: c.y - h / 2,
       x1: c.x + w / 2,
       y1: c.y + h / 2,
-      cells: Array.from({ length: rows * cols }, () => ({ t: "", bg: null, color: null, size: null, hl: null })),
+      rowH: Array.from({ length: rows }, () => 40),
+      cells: Array.from({ length: rows * cols }, () => ({ t: "", bg: null, color: null, size: null, hl: null, family: null })),
       transparency: 0,
       blur: 0,
     };
@@ -4475,19 +4476,63 @@
     render();
   }
 
+  // Row heights are kept as they were made; they are scaled to the table's current height
+  function rowHeights(s) {
+    const b = bounds(s);
+    const raw = s.rowH || Array.from({ length: s.rows }, () => (b.y2 - b.y1) / s.rows);
+    const sum = raw.reduce((t, h) => t + h, 0) || 1;
+    const k = (b.y2 - b.y1) / sum;
+    return raw.map((h) => h * k);
+  }
+
   function cellRect(s, r, c) {
     const b = bounds(s);
+    const hs = rowHeights(s);
     const cw = (b.x2 - b.x1) / s.cols;
-    const ch = (b.y2 - b.y1) / s.rows;
-    return { x: b.x1 + c * cw, y: b.y1 + r * ch, w: cw, h: ch };
+    let y = b.y1;
+    for (let i = 0; i < r; i++) y += hs[i];
+    return { x: b.x1 + c * cw, y, w: cw, h: hs[r] };
   }
 
   function cellAt(s, p) {
     const b = bounds(s);
     if (p.x < b.x1 || p.x > b.x2 || p.y < b.y1 || p.y > b.y2) return null;
     const c = Math.min(s.cols - 1, Math.floor((p.x - b.x1) / ((b.x2 - b.x1) / s.cols)));
-    const r = Math.min(s.rows - 1, Math.floor((p.y - b.y1) / ((b.y2 - b.y1) / s.rows)));
+    const hs = rowHeights(s);
+    let y = b.y1;
+    let r = 0;
+    while (r < s.rows - 1 && p.y >= y + hs[r]) {
+      y += hs[r];
+      r++;
+    }
     return { r, c };
+  }
+
+  // A cell's text needs room: its row grows downward (every cell in that row follows)
+  const TABLE_ROW_MIN = 36;
+
+  function neededRowHeight(s, r) {
+    const b = bounds(s);
+    const cw = (b.x2 - b.x1) / s.cols;
+    let need = TABLE_ROW_MIN;
+    for (let c = 0; c < s.cols; c++) {
+      const cell = s.cells[r * s.cols + c] || {};
+      const obj = { text: cell.t || "", attrs: [], fontSize: cell.size || 14, family: cell.family || "sans" };
+      const lay = layoutRich(obj, cw - 10);
+      need = Math.max(need, lay.height + 14);
+    }
+    return need;
+  }
+
+  // Sets the row's height to what its text needs; the table's bottom edge moves with it
+  function growRow(s, r) {
+    const b = bounds(s);
+    const sumRaw = (s.rowH || []).reduce((t, h) => t + h, 0);
+    if (!s.rowH) s.rowH = Array.from({ length: s.rows }, () => (b.y2 - b.y1) / s.rows);
+    const scale = sumRaw ? (b.y2 - b.y1) / sumRaw : 1;
+    s.rowH[r] = neededRowHeight(s, r);
+    const newRaw = s.rowH.reduce((t, h) => t + h, 0);
+    s.y1 = s.y0 + newRaw * scale;
   }
 
   function drawTable(s) {
@@ -4513,10 +4558,12 @@
       ctx.moveTo(x, b.y1);
       ctx.lineTo(x, b.y2);
     }
+    let yy = b.y1;
+    const hs = rowHeights(s);
     for (let r = 0; r <= s.rows; r++) {
-      const y = b.y1 + (r * (b.y2 - b.y1)) / s.rows;
-      ctx.moveTo(b.x1, y);
-      ctx.lineTo(b.x2, y);
+      ctx.moveTo(b.x1, yy);
+      ctx.lineTo(b.x2, yy);
+      if (r < s.rows) yy += hs[r];
     }
     ctx.stroke();
     ctx.fillStyle = "#4a4763";
@@ -4534,7 +4581,7 @@
 
   function drawCellText(cell, cr) {
     const pad = 5;
-    const obj = { text: cell.t, attrs: [], fontSize: cell.size || 14, family: "sans" };
+    const obj = { text: cell.t, attrs: [], fontSize: cell.size || 14, family: cell.family || "sans" };
     const lay = layoutRich(obj, cr.w - 2 * pad);
     let yy = cr.y + Math.max(pad, (cr.h - lay.height) / 2);
     for (const line of lay.lines) {
@@ -4560,7 +4607,10 @@
     placeCellEdit();
     el.addEventListener("input", () => {
       const t = shapesOf().find((x) => x.id === cellEdit.id);
-      if (t) t.cells[cellEdit.r * t.cols + cellEdit.c].t = el.value;
+      if (!t) return;
+      t.cells[cellEdit.r * t.cols + cellEdit.c].t = el.value;
+      growRow(t, cellEdit.r);
+      placeCellEdit();
       render();
     });
     el.addEventListener("keydown", (e) => {
@@ -4581,12 +4631,14 @@
     const cam = board().camera;
     const z = cam.zoom;
     const cr = cellRect(s, cellEdit.r, cellEdit.c);
+    const cell = s.cells[cellEdit.r * s.cols + cellEdit.c];
     const el = cellEdit.el;
     el.style.left = cr.x * z + cam.x + "px";
     el.style.top = cr.y * z + cam.y + "px";
     el.style.width = cr.w * z + "px";
     el.style.height = cr.h * z + "px";
-    el.style.fontSize = (s.cells[cellEdit.r * s.cols + cellEdit.c].size || 14) * z + "px";
+    el.style.fontSize = (cell.size || 14) * z + "px";
+    el.style.fontFamily = familyOf({ family: cell.family || "sans" });
   }
 
   function finishCellEdit() {
@@ -4598,7 +4650,7 @@
     render();
   }
 
-  // The small menu next to the clicked cell: cell colour, font size, font colour, highlight
+  // The small menu next to the clicked cell: font, font size, cell colour, font colour, highlight
   function openCellMenu() {
     if (!tableCell) return hideCellMenu();
     const s = shapesOf().find((x) => x.id === tableCell.id);
@@ -4618,6 +4670,7 @@
       });
       cellMenuEl.addEventListener("change", (e) => {
         if (e.target.dataset.cs !== undefined) setCellProp("size", Number(e.target.value));
+        else if (e.target.dataset.cfam !== undefined) setCellProp("family", e.target.value);
       });
       document.body.appendChild(cellMenuEl);
     }
@@ -4626,10 +4679,13 @@
         .map((c) => `<button class="csw${c === cur ? " on" : ""}" data-${attr}="${c || "none"}" ${c ? `style="background:${c}"` : ""}></button>`)
         .join("");
     cellMenuEl.innerHTML =
-      `<div class="cm-row"><span>Cell colour</span><div class="cm-bar">${sw([null, ...FILLS.slice(1)], "cc", cell.bg)}</div></div>` +
+      `<div class="cm-row"><span>Font</span><select data-cfam>${Object.entries(FAMILIES)
+        .map(([k, f]) => `<option value="${k}"${k === (cell.family || "sans") ? " selected" : ""}>${f.label}</option>`)
+        .join("")}</select></div>` +
       `<div class="cm-row"><span>Font size</span><select data-cs>${FONT_SIZES.map(
         (n) => `<option value="${n}"${n === (cell.size || 14) ? " selected" : ""}>${n}</option>`
       ).join("")}</select></div>` +
+      `<div class="cm-row"><span>Cell colour</span><div class="cm-bar">${sw([null, ...FILLS.slice(1)], "cc", cell.bg)}</div></div>` +
       `<div class="cm-row"><span>Font colour</span><div class="cm-bar">${sw(PALETTE, "cf", cell.color)}</div></div>` +
       `<div class="cm-row"><span>Highlight</span><div class="cm-bar">${sw([null, ...FILLS.slice(1)], "ch", cell.hl)}</div></div>`;
     const cam = board().camera;
@@ -4638,7 +4694,7 @@
     const y = cr.y * cam.zoom + cam.y;
     cellMenuEl.style.display = "flex";
     cellMenuEl.style.left = Math.min(window.innerWidth - 250, Math.max(8, x)) + "px";
-    cellMenuEl.style.top = Math.min(window.innerHeight - 200, Math.max(60, y)) + "px";
+    cellMenuEl.style.top = Math.min(window.innerHeight - 260, Math.max(60, y)) + "px";
   }
 
   function hideCellMenu() {
@@ -4651,6 +4707,7 @@
     if (!s) return;
     const before = snapshot();
     s.cells[tableCell.r * s.cols + tableCell.c][prop] = val;
+    if (prop === "size" || prop === "family") growRow(s, tableCell.r);
     commit(before);
     render();
     openCellMenu();
