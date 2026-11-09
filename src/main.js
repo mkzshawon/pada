@@ -155,7 +155,7 @@
     const sel = shapesOf().filter((s) => selected.has(s.id));
     // Pictures, videos, slide decks and notes made from Word files have no style options of their own
     const isMedia = (s) =>
-      s.type === "image" || s.type === "video" || s.type === "deck" || (s.type === "note" && s.fromFile);
+      s.type === "image" || s.type === "video" || s.type === "deck" || s.type === "table" || (s.type === "note" && s.fromFile);
     const visible = styleOpen && !sel.some(isMedia) && (sel.length > 0 || SHAPE_TOOLS.has(tool));
     styleEl.style.display = visible ? "flex" : "none";
     if (!visible) return;
@@ -1595,6 +1595,10 @@
   }
 
   function drawShape(s) {
+    if (s.type === "table") {
+      drawTable(s);
+      return;
+    }
     if (s.type === "deck") {
       drawDeck(s);
       return;
@@ -1835,7 +1839,12 @@
   canvas.addEventListener("pointerdown", (e) => {
     canvas.setPointerCapture(e.pointerId);
     finishEditing();
+    finishCellEdit();
     const p = eventToWorld(e);
+    if (tool !== "select" || !topmostAt(p) || topmostAt(p).type !== "table") {
+      tableCell = null;
+      hideCellMenu();
+    }
     const before = snapshot();
     if (tool !== "select" || !topmostAt(p)) hideStyle();
     else showStyle();
@@ -1895,6 +1904,11 @@
       }
       const hit = topmostAt(p);
       if (hit) {
+        if (hit.type === "table") {
+          const cc = cellAt(hit, p);
+          tableCell = cc ? { id: hit.id, r: cc.r, c: cc.c } : null;
+          if (tableCell) openCellMenu();
+        }
         if (e.shiftKey) {
           if (selected.has(hit.id)) selected.delete(hit.id);
           else selected.add(hit.id);
@@ -2154,6 +2168,15 @@
     }
     if (tool !== "select") return;
     const hit = topmostAt(eventToWorld(e));
+    if (hit && hit.type === "table") {
+      const cc = cellAt(hit, eventToWorld(e));
+      if (cc) {
+        selected = new Set([hit.id]);
+        tableCell = { id: hit.id, r: cc.r, c: cc.c };
+        beginCellEdit(hit, cc.r, cc.c);
+      }
+      return;
+    }
     if (hit && (hit.type === "text" || hit.type === "note")) {
       selected = new Set([hit.id]);
       beginEdit(hit, snapshot());
@@ -2641,6 +2664,10 @@
           <button data-act="bg" data-bg="#eebefa" style="border-left:10px solid #eebefa">Lilac</button>
           <button data-act="bg" data-bg="#000000" style="border-left:10px solid #000000">Black</button>
         </div></div>
+      <div class="tm-item"><div class="tm-label">Insert &#9656;</div>
+        <div class="tm-sub">
+          <button data-act="insert-table">Table</button>
+        </div></div>
       <div class="tm-item"><div class="tm-label">Grid &#9656;</div>
         <div class="tm-sub">
           <button data-act="grid" data-grid="corner">Corner dots</button>
@@ -2667,6 +2694,7 @@
       const act = b.dataset.act;
       closeTabMenu();
       if (act === "file") openFilePicker(b.dataset.kind);
+      else if (act === "insert-table") openTableDialog();
       else if (act === "board-save") saveBoardFile();
       else if (act === "board-open") openBoardFile();
       else if (act === "autosave") autosaveOn = !autosaveOn;
@@ -4381,6 +4409,246 @@
         alert("Could not restore the session: " + err.message);
       }
     }
+  }
+
+  /* ---------- Tables: rows and columns, cell colour, font size, font colour and highlight ---------- */
+
+  let tableCell = null; // { id, r, c }: the cell last clicked (its menu is shown)
+  let cellEdit = null; // { id, r, c, el, before } while a cell is being typed in
+  let cellMenuEl = null;
+
+  // Asks for the rows and columns, then places a table at the centre of the view
+  function openTableDialog() {
+    const box = document.createElement("div");
+    box.id = "pagebox";
+    box.innerHTML =
+      '<div class="pb-card"><div><b>Select Rows and Columns</b></div>' +
+      '<label style="display:flex;justify-content:space-between;align-items:center;gap:10px">Rows <input id="tb-r" type="number" min="1" max="30" value="3" style="width:90px" /></label>' +
+      '<label style="display:flex;justify-content:space-between;align-items:center;gap:10px">Columns <input id="tb-c" type="number" min="1" max="12" value="3" style="width:90px" /></label>' +
+      '<div class="pb-row"><button data-r="cancel">Cancel</button><button data-r="ok">Create</button></div></div>';
+    document.body.appendChild(box);
+    const rowsIn = box.querySelector("#tb-r");
+    const colsIn = box.querySelector("#tb-c");
+    rowsIn.focus();
+    rowsIn.select();
+    const clampN = (v, max) => Math.min(max, Math.max(1, parseInt(v, 10) || 1));
+    const done = (ok) => {
+      const rows = clampN(rowsIn.value, 30);
+      const cols = clampN(colsIn.value, 12);
+      box.remove();
+      if (ok) insertTable(rows, cols);
+    };
+    box.addEventListener("click", (e) => {
+      const r = e.target.dataset.r;
+      if (r === "ok") done(true);
+      else if (r === "cancel") done(false);
+    });
+    box.addEventListener("keydown", (e) => {
+      e.stopPropagation();
+      if (e.key === "Enter") done(true);
+      else if (e.key === "Escape") done(false);
+    });
+  }
+
+  function insertTable(rows, cols) {
+    const c = screenToWorld(window.innerWidth / 2, window.innerHeight / 2);
+    const w = cols * 120;
+    const h = rows * 40;
+    const before = snapshot();
+    const s = {
+      id: newId(),
+      type: "table",
+      rows,
+      cols,
+      x0: c.x - w / 2,
+      y0: c.y - h / 2,
+      x1: c.x + w / 2,
+      y1: c.y + h / 2,
+      cells: Array.from({ length: rows * cols }, () => ({ t: "", bg: null, color: null, size: null, hl: null })),
+      transparency: 0,
+      blur: 0,
+    };
+    shapesOf().push(s);
+    selected = new Set([s.id]);
+    tableCell = null;
+    commit(before);
+    render();
+  }
+
+  function cellRect(s, r, c) {
+    const b = bounds(s);
+    const cw = (b.x2 - b.x1) / s.cols;
+    const ch = (b.y2 - b.y1) / s.rows;
+    return { x: b.x1 + c * cw, y: b.y1 + r * ch, w: cw, h: ch };
+  }
+
+  function cellAt(s, p) {
+    const b = bounds(s);
+    if (p.x < b.x1 || p.x > b.x2 || p.y < b.y1 || p.y > b.y2) return null;
+    const c = Math.min(s.cols - 1, Math.floor((p.x - b.x1) / ((b.x2 - b.x1) / s.cols)));
+    const r = Math.min(s.rows - 1, Math.floor((p.y - b.y1) / ((b.y2 - b.y1) / s.rows)));
+    return { r, c };
+  }
+
+  function drawTable(s) {
+    const b = bounds(s);
+    const z = board().camera.zoom;
+    ctx.save();
+    for (let r = 0; r < s.rows; r++) {
+      for (let c = 0; c < s.cols; c++) {
+        const cell = s.cells[r * s.cols + c] || {};
+        const cr = cellRect(s, r, c);
+        if (cell.bg) {
+          ctx.fillStyle = cell.bg;
+          ctx.fillRect(cr.x, cr.y, cr.w, cr.h);
+        }
+        if (cell.t) drawCellText(cell, cr);
+      }
+    }
+    ctx.strokeStyle = "#1d1b2e";
+    ctx.lineWidth = 1.2 / z;
+    ctx.beginPath();
+    for (let c = 0; c <= s.cols; c++) {
+      const x = b.x1 + (c * (b.x2 - b.x1)) / s.cols;
+      ctx.moveTo(x, b.y1);
+      ctx.lineTo(x, b.y2);
+    }
+    for (let r = 0; r <= s.rows; r++) {
+      const y = b.y1 + (r * (b.y2 - b.y1)) / s.rows;
+      ctx.moveTo(b.x1, y);
+      ctx.lineTo(b.x2, y);
+    }
+    ctx.stroke();
+    if (tableCell && tableCell.id === s.id) {
+      const cr = cellRect(s, tableCell.r, tableCell.c);
+      ctx.strokeStyle = ACCENT;
+      ctx.lineWidth = 2 / z;
+      ctx.strokeRect(cr.x, cr.y, cr.w, cr.h);
+    }
+    ctx.restore();
+  }
+
+  function drawCellText(cell, cr) {
+    const pad = 5;
+    const obj = { text: cell.t, attrs: [], fontSize: cell.size || 14, family: "sans" };
+    const lay = layoutRich(obj, cr.w - 2 * pad);
+    let yy = cr.y + Math.max(pad, (cr.h - lay.height) / 2);
+    for (const line of lay.lines) {
+      if (cell.hl) {
+        const lw = line.items.reduce((t, it) => t + it.w, 0);
+        ctx.fillStyle = cell.hl;
+        ctx.fillRect(cr.x + pad, yy, lw, line.h);
+      }
+      drawLineRuns(line.items, cr.x + pad, yy + line.base, cell.color || "#1d1b2e", familyOf(obj));
+      yy += line.h;
+    }
+  }
+
+  // Typing in a cell: a text box over the cell, saved with undo
+  function beginCellEdit(s, r, c) {
+    finishCellEdit();
+    const el = document.createElement("textarea");
+    el.className = "celled";
+    el.value = s.cells[r * s.cols + c].t;
+    el.spellcheck = true;
+    document.body.appendChild(el);
+    cellEdit = { id: s.id, r, c, el, before: snapshot() };
+    placeCellEdit();
+    el.addEventListener("input", () => {
+      const t = shapesOf().find((x) => x.id === cellEdit.id);
+      if (t) t.cells[cellEdit.r * t.cols + cellEdit.c].t = el.value;
+      render();
+    });
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        finishCellEdit();
+      }
+    });
+    el.addEventListener("blur", finishCellEdit);
+    requestAnimationFrame(() => el.focus());
+  }
+
+  function placeCellEdit() {
+    if (!cellEdit) return;
+    const s = shapesOf().find((x) => x.id === cellEdit.id);
+    if (!s) return;
+    const cam = board().camera;
+    const z = cam.zoom;
+    const cr = cellRect(s, cellEdit.r, cellEdit.c);
+    const el = cellEdit.el;
+    el.style.left = cr.x * z + cam.x + "px";
+    el.style.top = cr.y * z + cam.y + "px";
+    el.style.width = cr.w * z + "px";
+    el.style.height = cr.h * z + "px";
+    el.style.fontSize = (s.cells[cellEdit.r * s.cols + cellEdit.c].size || 14) * z + "px";
+  }
+
+  function finishCellEdit() {
+    if (!cellEdit) return;
+    const ce = cellEdit;
+    cellEdit = null;
+    ce.el.remove();
+    commit(ce.before);
+    render();
+  }
+
+  // The small menu next to the clicked cell: cell colour, font size, font colour, highlight
+  function openCellMenu() {
+    if (!tableCell) return hideCellMenu();
+    const s = shapesOf().find((x) => x.id === tableCell.id);
+    if (!s) return hideCellMenu();
+    const cell = s.cells[tableCell.r * s.cols + tableCell.c];
+    if (!cellMenuEl) {
+      cellMenuEl = document.createElement("div");
+      cellMenuEl.id = "cellmenu";
+      cellMenuEl.addEventListener("pointerdown", (e) => e.stopPropagation());
+      cellMenuEl.addEventListener("click", (e) => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        const v = (k) => (b.dataset[k] === "none" ? null : b.dataset[k]);
+        if (b.dataset.cc !== undefined) setCellProp("bg", v("cc"));
+        else if (b.dataset.cf !== undefined) setCellProp("color", v("cf"));
+        else if (b.dataset.ch !== undefined) setCellProp("hl", v("ch"));
+      });
+      cellMenuEl.addEventListener("change", (e) => {
+        if (e.target.dataset.cs !== undefined) setCellProp("size", Number(e.target.value));
+      });
+      document.body.appendChild(cellMenuEl);
+    }
+    const sw = (list, attr, cur) =>
+      list
+        .map((c) => `<button class="csw${c === cur ? " on" : ""}" data-${attr}="${c || "none"}" ${c ? `style="background:${c}"` : ""}></button>`)
+        .join("");
+    cellMenuEl.innerHTML =
+      `<div class="cm-row"><span>Cell colour</span><div class="cm-bar">${sw([null, ...FILLS.slice(1)], "cc", cell.bg)}</div></div>` +
+      `<div class="cm-row"><span>Font size</span><select data-cs>${FONT_SIZES.map(
+        (n) => `<option value="${n}"${n === (cell.size || 14) ? " selected" : ""}>${n}</option>`
+      ).join("")}</select></div>` +
+      `<div class="cm-row"><span>Font colour</span><div class="cm-bar">${sw(PALETTE, "cf", cell.color)}</div></div>` +
+      `<div class="cm-row"><span>Highlight</span><div class="cm-bar">${sw([null, ...FILLS.slice(1)], "ch", cell.hl)}</div></div>`;
+    const cam = board().camera;
+    const cr = cellRect(s, tableCell.r, tableCell.c);
+    const x = (cr.x + cr.w) * cam.zoom + cam.x + 10;
+    const y = cr.y * cam.zoom + cam.y;
+    cellMenuEl.style.display = "flex";
+    cellMenuEl.style.left = Math.min(window.innerWidth - 250, Math.max(8, x)) + "px";
+    cellMenuEl.style.top = Math.min(window.innerHeight - 200, Math.max(60, y)) + "px";
+  }
+
+  function hideCellMenu() {
+    if (cellMenuEl) cellMenuEl.style.display = "none";
+  }
+
+  function setCellProp(prop, val) {
+    if (!tableCell) return;
+    const s = shapesOf().find((x) => x.id === tableCell.id);
+    if (!s) return;
+    const before = snapshot();
+    s.cells[tableCell.r * s.cols + tableCell.c][prop] = val;
+    commit(before);
+    render();
+    openCellMenu();
   }
 
   /* ---------- Fonts from src/fonts ---------- */
