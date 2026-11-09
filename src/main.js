@@ -2349,6 +2349,25 @@
     ribbon.id = "ribbon";
     document.body.appendChild(ribbon);
 
+    // Drag the empty part of the ribbon to move the window (desktop app)
+    if (window.padaDesktop && window.padaDesktop.moveWindow) {
+      let last = null;
+      ribbon.addEventListener("pointerdown", (e) => {
+        last = { x: e.screenX, y: e.screenY };
+        ribbon.setPointerCapture(e.pointerId);
+      });
+      ribbon.addEventListener("pointermove", (e) => {
+        if (!last) return;
+        window.padaDesktop.moveWindow(e.screenX - last.x, e.screenY - last.y);
+        last = { x: e.screenX, y: e.screenY };
+      });
+      const end = () => {
+        last = null;
+      };
+      ribbon.addEventListener("pointerup", end);
+      ribbon.addEventListener("pointercancel", end);
+    }
+
     const ctl = document.createElement("div");
     ctl.id = "winctl";
     ctl.innerHTML =

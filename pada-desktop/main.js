@@ -441,6 +441,13 @@ ipcMain.handle("pada:spell", async (_event, words) => {
   });
 });
 
+// Moves the overlay window by the mouse movement on the ribbon (used when the window is not full screen)
+ipcMain.on("pada:move", (_event, dx, dy) => {
+  if (!win) return;
+  const [x, y] = win.getPosition();
+  win.setPosition(Math.round(x + dx), Math.round(y + dy));
+});
+
 // Window buttons in the ribbon: minimize, resize (full screen <-> smaller window), close
 ipcMain.on("pada:window", (_event, action) => {
   if (!win) return;

@@ -726,9 +726,10 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 46px;
-  background: #ffffff;
+  height: 38px;
+  background: linear-gradient(90deg, #cffafe 0%, #e0e7ff 45%, #fae8ff 100%);
   border-bottom: 1px solid #1d1b2e;
+  cursor: default;
   z-index: 1;
 }
 
@@ -738,7 +739,7 @@ body {
   top: 0;
   left: 0;
   width: 28px;
-  height: 46px;
+  height: 38px;
   display: grid;
   place-items: center;
   color: #8d8aa6;
@@ -750,7 +751,7 @@ body {
 }
 
 #tabs {
-  top: 9px;
+  top: 6px;
   left: 34px;
   -webkit-app-region: no-drag;
 }
@@ -759,7 +760,7 @@ body {
   position: fixed;
   top: 0;
   right: 0;
-  height: 46px;
+  height: 38px;
   display: flex;
   align-items: center;
   gap: 2px;
@@ -770,7 +771,7 @@ body {
 
 #winctl button {
   width: 36px;
-  height: 30px;
+  height: 26px;
   padding: 0;
   border: 0;
   border-radius: 6px;
