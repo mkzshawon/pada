@@ -2217,6 +2217,16 @@
       else undo();
       return;
     }
+    if ((e.ctrlKey || e.metaKey) && k === "s") {
+      e.preventDefault();
+      saveBoardFile();
+      return;
+    }
+    if ((e.ctrlKey || e.metaKey) && k === "o") {
+      e.preventDefault();
+      openBoardFile();
+      return;
+    }
     if ((e.ctrlKey || e.metaKey) && k === "y") {
       e.preventDefault();
       redo();
@@ -2640,6 +2650,10 @@
         <div class="tm-sub">
           <button data-act="save-pdf">PDF</button>
           <button data-act="save-image">Image</button>
+          <hr />
+          <button data-act="board-save">Save board (.pada)</button>
+          <button data-act="board-open">Open board (.pada)</button>
+          <button data-act="autosave">Auto-save: ${autosaveOn ? "On" : "Off"}</button>
         </div></div>
       <hr />
       <button data-act="rename">Rename</button>
@@ -2652,6 +2666,9 @@
       const act = b.dataset.act;
       closeTabMenu();
       if (act === "file") openFilePicker(b.dataset.kind);
+      else if (act === "board-save") saveBoardFile();
+      else if (act === "board-open") openBoardFile();
+      else if (act === "autosave") autosaveOn = !autosaveOn;
       else if (act === "bg") setBoardBg(index, b.dataset.bg);
       else if (act === "grid") setBoardGrid(index, b.dataset.grid);
       else if (act === "save-image" || act === "save-pdf") {
@@ -3053,7 +3070,7 @@
       el.playsInline = true;
       el.preload = "auto";
       el.src = url;
-      el.onloadedmetadata = () => resolve({ el, url, name: file.name });
+      el.onloadedmetadata = () => resolve({ el, url, name: file.name, path: file.path || null });
       el.onerror = async () => {
         // Desktop app only: convert to MP4 (H.264/AAC) with the bundled ffmpeg, then play that
         if (!(window.padaDesktop && window.padaDesktop.transcodeVideo && file.path) || el.dataset.converted) {
@@ -4255,6 +4272,116 @@
     render();
   }
 
+  /* ---------- Save board (.pada), Open board, Auto-save ---------- */
+
+  let autosaveOn = true;
+  let lastAutoJson = "";
+
+  // The whole session: every tab with its shapes, and the pictures and videos they use
+  function boardsToJson() {
+    return JSON.stringify({
+      app: "PADA",
+      version: 1,
+      active,
+      boards: boards.map((b) => ({ name: b.name, bg: b.bg || null, grid: b.grid || null, camera: b.camera, shapes: b.shapes })),
+      images: Object.fromEntries(IMAGE_STORE),
+      videos: Object.fromEntries([...VIDEO_STORE].map(([ref, v]) => [ref, { name: v.name, path: v.path || null }])),
+    });
+  }
+
+  // Loads a saved session back: pictures, videos (from their files), and the tabs
+  async function restoreBoards(data) {
+    if (!data || data.app !== "PADA" || !Array.isArray(data.boards)) throw new Error("not a PADA board file");
+    let maxId = idCounter;
+    for (const [ref, src] of Object.entries(data.images || {})) {
+      IMAGE_STORE.set(Number(ref), src);
+      maxId = Math.max(maxId, Number(ref));
+    }
+    for (const [ref, v] of Object.entries(data.videos || {})) {
+      if (!v.path || !window.padaDesktop) continue;
+      try {
+        const buf = await window.padaDesktop.readFile(v.path);
+        const entry = await loadVideoEntry(new File([buf], v.name || "video"));
+        entry.path = v.path;
+        VIDEO_STORE.set(Number(ref), entry);
+      } catch (err) {
+        console.warn("PADA: video not found", v.path);
+      }
+    }
+    boards.length = 0;
+    for (const b of data.boards) {
+      for (const s of b.shapes || []) maxId = Math.max(maxId, s.id || 0, s.ref || 0);
+      boards.push({ name: b.name, shapes: b.shapes || [], camera: b.camera || { x: 0, y: 0, zoom: 1 }, history: [], redo: [], bg: b.bg || undefined, grid: b.grid || undefined });
+    }
+    idCounter = maxId;
+    selected = new Set();
+    gesture = null;
+    drawing = null;
+    polyDraft = null;
+    active = Math.min(data.active || 0, boards.length - 1);
+    renderTabs();
+    render();
+  }
+
+  async function saveBoardFile() {
+    finishEditing();
+    const json = boardsToJson();
+    const name = `${(boards[active] ? boards[active].name : "board").replace(/\s+/g, "_")}.pada`;
+    try {
+      if (window.padaDesktop && window.padaDesktop.saveBoard) {
+        if (await window.padaDesktop.saveBoard(json, name)) lastAutoJson = json;
+      } else {
+        download(new Blob([json], { type: "application/json" }), name);
+      }
+    } catch (err) {
+      alert("Could not save the board: " + err.message);
+    }
+  }
+
+  async function openBoardFile() {
+    try {
+      if (window.padaDesktop && window.padaDesktop.openBoard) {
+        const text = await window.padaDesktop.openBoard();
+        if (text) await restoreBoards(JSON.parse(text));
+        return;
+      }
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = ".pada,application/json";
+      input.addEventListener("change", async () => {
+        const f = input.files[0];
+        if (f) await restoreBoards(JSON.parse(await f.text()));
+      });
+      input.click();
+    } catch (err) {
+      alert("Could not open the board: " + err.message);
+    }
+  }
+
+  // Saves the session every 30 seconds when something has changed
+  function startAutosave() {
+    setInterval(() => {
+      if (!autosaveOn || !window.padaDesktop || !window.padaDesktop.autoSave) return;
+      const json = boardsToJson();
+      if (json === lastAutoJson) return;
+      lastAutoJson = json;
+      window.padaDesktop.autoSave(json);
+    }, 30000);
+  }
+
+  // On start: if an auto-saved session exists, ask whether to restore it
+  async function offerRestore() {
+    if (!window.padaDesktop || !window.padaDesktop.loadAutosave) return;
+    const text = await window.padaDesktop.loadAutosave();
+    if (text && confirm("Restore the last auto-saved session?")) {
+      try {
+        await restoreBoards(JSON.parse(text));
+      } catch (err) {
+        alert("Could not restore the session: " + err.message);
+      }
+    }
+  }
+
   /* ---------- Fonts from src/fonts ---------- */
 
   // Rebuilds the font dropdown in the style panel from FAMILIES
@@ -4505,6 +4632,8 @@
   buildDeckUI();
   resize();
   loadFontList();
+  startAutosave();
+  setTimeout(offerRestore, 400);
 
   // Canvas text is drawn once the font is ready, so redraw after it loads
   if (document.fonts) {

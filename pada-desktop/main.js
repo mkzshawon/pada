@@ -441,6 +441,40 @@ ipcMain.handle("pada:spell", async (_event, words) => {
   });
 });
 
+// Save board / Open board (.pada files), reading media files, and auto-save
+const autosavePath = () => path.join(app.getPath("userData"), "autosave.pada");
+
+ipcMain.handle("pada:saveBoard", async (_event, json, name) => {
+  const r = await dialog.showSaveDialog(win, {
+    title: "Save board",
+    defaultPath: name,
+    filters: [{ name: "PADA board", extensions: ["pada"] }],
+  });
+  if (r.canceled || !r.filePath) return null;
+  fs.writeFileSync(r.filePath, json, "utf8");
+  return r.filePath;
+});
+
+ipcMain.handle("pada:openBoard", async () => {
+  const r = await dialog.showOpenDialog(win, {
+    title: "Open board",
+    properties: ["openFile"],
+    filters: [{ name: "PADA board", extensions: ["pada"] }],
+  });
+  if (r.canceled || !r.filePaths.length) return null;
+  return fs.readFileSync(r.filePaths[0], "utf8");
+});
+
+ipcMain.handle("pada:readFile", (_event, filePath) => fs.readFileSync(filePath));
+
+ipcMain.handle("pada:autoSave", (_event, json) => {
+  fs.mkdirSync(app.getPath("userData"), { recursive: true });
+  fs.writeFileSync(autosavePath(), json, "utf8");
+  return true;
+});
+
+ipcMain.handle("pada:loadAutosave", () => (fs.existsSync(autosavePath()) ? fs.readFileSync(autosavePath(), "utf8") : null));
+
 // Moves the overlay window by the mouse movement on the ribbon (used when the window is not full screen)
 ipcMain.on("pada:move", (_event, dx, dy) => {
   if (!win) return;
