@@ -1209,6 +1209,7 @@
     const lines = [];
     let line = { items: [], w: 0, size: base };
     let word = [];
+    let wordStr = "";
     let maxWordW = 0;
     let maxLineW = 0;
 
@@ -1228,6 +1229,7 @@
         line.size = Math.max(line.size, it.size);
       }
       word = [];
+      wordStr = "";
     };
 
     for (let i = 0; i < text.length; i++) {
@@ -1239,17 +1241,25 @@
         endLine();
         continue;
       }
-      const css = a.font ? `"${a.font}", sans-serif` : familyOf(s);
+      const fnt = a.font || (/[\u0980-\u09FF]/.test(ch) ? "Nirmala UI" : null);
+      const css = fnt ? `"${fnt}", sans-serif` : familyOf(s);
       setCharFont(size, css, !!a.b, !!a.i);
+      let charWidth;
+      if (ch === " ") charWidth = ctx.measureText(ch).width;
+      else {
+        const before = wordStr ? ctx.measureText(wordStr).width : 0;
+        wordStr += ch;
+        charWidth = ctx.measureText(wordStr).width - before;
+      }
       const item = {
         t: ch,
-        w: ctx.measureText(ch).width,
+        w: charWidth,
         size,
         bg: a.bg || null,
         color: a.color || null,
         b: !!a.b,
         i: !!a.i,
-        font: a.font || null,
+        font: fnt,
         algn: a.algn || null,
       };
       if (ch === " ") {
@@ -1354,11 +1364,9 @@
             ctx.fillStyle = it.bg;
             ctx.fillRect(x, y, it.w, line.h);
           }
-          setCharFont(it.size, it.font ? `"${it.font}", sans-serif` : familyOf(s), it.b, it.i);
-          ctx.fillStyle = it.color || s.stroke || PALETTE[0];
-          ctx.fillText(it.t, x, y + line.base);
           x += it.w;
         }
+        drawLineRuns(line.items, b.x1 + pad, y + line.base, s.stroke || PALETTE[0], familyOf(s));
         y += line.h;
       }
     }
@@ -2731,7 +2739,7 @@
     if (!pages.length) throw new Error("invalid page numbers");
 
     const out = [];
-    const scale = pages.length > 100 ? 1 : 1.5;
+    const scale = pages.length > 100 ? 2 : 3;
     const pr = progressStart("PDF pages");
     try {
       for (let k = 0; k < pages.length; k++) {
@@ -3558,6 +3566,28 @@
     return base;
   }
 
+  const runKey = (it) => `${it.size}|${it.color}|${it.b}|${it.i}|${it.font}`;
+
+  // Draws one line of text as runs of equal style; a whole run is one fillText, so Bangla letters join correctly
+  function drawLineRuns(items, x, y, fallbackColor, fam) {
+    let i = 0;
+    while (i < items.length) {
+      const key = runKey(items[i]);
+      let j = i;
+      let txt = "";
+      while (j < items.length && runKey(items[j]) === key) {
+        txt += items[j].t;
+        j++;
+      }
+      const it = items[i];
+      setCharFont(it.size, it.font ? `"${it.font}", sans-serif` : fam, it.b, it.i);
+      ctx.fillStyle = it.color || fallbackColor;
+      ctx.fillText(txt, x, y);
+      x += ctx.measureText(txt).width;
+      i = j;
+    }
+  }
+
   // Text of a text box: paragraphs, bold/italic, fonts, colours, alignment and vertical anchor
   function drawNativeText(it, x, y, w, h, k) {
     const inset = 91440 * k; // 0.1 inch
@@ -3571,7 +3601,14 @@
       for (const r of p.runs) {
         for (const ch of r.t) {
           text += ch;
-          attrs.push({ size: r.sz * 12700 * k, color: r.color, b: r.b, i: r.i, font: r.font, algn: p.algn });
+          attrs.push({
+            size: r.sz * 12700 * k,
+            color: r.color,
+            b: r.b,
+            i: r.i,
+            font: r.font || (/[\u0980-\u09FF]/.test(ch) ? "Nirmala UI" : null),
+            algn: p.algn,
+          });
         }
       }
     });
@@ -3589,12 +3626,7 @@
       let xx = x + inset;
       if (algn === "ctr") xx += (avail - lineW) / 2;
       else if (algn === "r") xx += avail - lineW;
-      for (const itm of line.items) {
-        ctx.fillStyle = itm.color || "#1d1b2e";
-        setCharFont(itm.size, itm.font ? `"${itm.font}", sans-serif` : familyOf(obj), itm.b, itm.i);
-        ctx.fillText(itm.t, xx, yy + line.base);
-        xx += itm.w;
-      }
+      drawLineRuns(line.items, xx, yy + line.base, "#1d1b2e", familyOf(obj));
       yy += line.h;
     }
   }
@@ -3677,7 +3709,7 @@
       for (let i = 1; i <= pdf.numPages; i++) {
         pr.set(i - 1, pdf.numPages);
         const page = await pdf.getPage(i);
-        const vp = page.getViewport({ scale: 1.5 });
+        const vp = page.getViewport({ scale: 2.5 });
         const c = document.createElement("canvas");
         c.width = Math.round(vp.width);
         c.height = Math.round(vp.height);
