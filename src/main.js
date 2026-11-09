@@ -1905,9 +1905,8 @@
       const hit = topmostAt(p);
       if (hit) {
         if (hit.type === "table") {
-          const cc = cellAt(hit, p);
-          tableCell = cc ? { id: hit.id, r: cc.r, c: cc.c } : null;
-          if (tableCell) openCellMenu();
+          tableCell = null;
+          hideCellMenu();
         }
         if (e.shiftKey) {
           if (selected.has(hit.id)) selected.delete(hit.id);
@@ -4458,6 +4457,7 @@
     const s = {
       id: newId(),
       type: "table",
+      name: `Table-${String(shapesOf().filter((x) => x.type === "table").length + 1).padStart(2, "0")}`,
       rows,
       cols,
       x0: c.x - w / 2,
@@ -4519,6 +4519,10 @@
       ctx.lineTo(b.x2, y);
     }
     ctx.stroke();
+    ctx.fillStyle = "#4a4763";
+    ctx.font = '13px "Segoe UI", system-ui, sans-serif';
+    ctx.textBaseline = "alphabetic";
+    ctx.fillText(s.name || "Table", b.x1, b.y1 - 6 / z);
     if (tableCell && tableCell.id === s.id) {
       const cr = cellRect(s, tableCell.r, tableCell.c);
       ctx.strokeStyle = ACCENT;
@@ -4566,7 +4570,8 @@
       }
     });
     el.addEventListener("blur", finishCellEdit);
-    requestAnimationFrame(() => el.focus());
+    el.focus();
+    setTimeout(() => el.focus(), 30);
   }
 
   function placeCellEdit() {
@@ -4650,6 +4655,79 @@
     render();
     openCellMenu();
   }
+
+  // The name label above a table (right-click it to rename)
+  function tableLabelAt(p) {
+    const z = board().camera.zoom;
+    const arr = shapesOf();
+    for (let i = arr.length - 1; i >= 0; i--) {
+      const s = arr[i];
+      if (s.type !== "table") continue;
+      const b = bounds(s);
+      if (p.x >= b.x1 && p.x <= b.x2 && p.y <= b.y1 && p.y >= b.y1 - 24 / z) return s;
+    }
+    return null;
+  }
+
+  function renameTable(s) {
+    const cam = board().camera;
+    const z = cam.zoom;
+    const b = bounds(s);
+    const el = document.createElement("input");
+    el.className = "tab-rename";
+    el.value = s.name || "Table";
+    el.maxLength = 24;
+    el.style.position = "fixed";
+    el.style.zIndex = "27";
+    el.style.width = "150px";
+    el.style.left = b.x1 * z + cam.x + "px";
+    el.style.top = b.y1 * z + cam.y - 32 + "px";
+    document.body.appendChild(el);
+    el.focus();
+    el.select();
+    let done = false;
+    const finish = (save) => {
+      if (done) return;
+      done = true;
+      const v = el.value.trim();
+      if (save && v) {
+        const before = snapshot();
+        s.name = v.slice(0, 24);
+        commit(before);
+      }
+      el.remove();
+      render();
+    };
+    el.addEventListener("keydown", (e) => {
+      e.stopPropagation();
+      if (e.key === "Enter") finish(true);
+      else if (e.key === "Escape") finish(false);
+    });
+    el.addEventListener("blur", () => finish(true));
+  }
+
+  canvas.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    if (tool !== "select") return;
+    const p = eventToWorld(e);
+    const label = tableLabelAt(p);
+    if (label) {
+      renameTable(label);
+      return;
+    }
+    const hit = topmostAt(p);
+    if (!hit || hit.type !== "table") {
+      tableCell = null;
+      hideCellMenu();
+      return;
+    }
+    const cc = cellAt(hit, p);
+    if (!cc) return;
+    selected = new Set([hit.id]);
+    tableCell = { id: hit.id, r: cc.r, c: cc.c };
+    openCellMenu();
+    render();
+  });
 
   /* ---------- Fonts from src/fonts ---------- */
 
