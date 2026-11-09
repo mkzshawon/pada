@@ -1417,6 +1417,20 @@ body {
   color: #4f46e5;
 }
 
+/* Narrow window: the toolbar and the style panel wrap onto several rows and stay fully usable */
+#toolbar {
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 2px;
+  max-width: calc(100vw - 16px);
+  box-sizing: border-box;
+}
+
+#style {
+  max-width: calc(100vw - 16px);
+  box-sizing: border-box;
+}
+
 /* Inline text editor shown over a text or note shape while typing */
 .editor {
   position: fixed;

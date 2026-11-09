@@ -1515,7 +1515,13 @@
 
   /* ---------- Rendering ---------- */
 
+  // In a narrow window the toolbar wraps onto several rows; the style panel is placed above it
+  function placePanels() {
+    if (styleEl) styleEl.style.bottom = toolbarEl.offsetHeight + 16 + 10 + "px";
+  }
+
   function resize() {
+    placePanels();
     const dpr = window.devicePixelRatio || 1;
     canvas.width = Math.round(window.innerWidth * dpr);
     canvas.height = Math.round(window.innerHeight * dpr);
