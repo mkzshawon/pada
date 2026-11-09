@@ -1767,6 +1767,10 @@
   }
 
   function hoverCursor(p) {
+    if (tableBorderAt(p)) {
+      canvas.style.cursor = "ew-resize";
+      return;
+    }
     if (noteHandleAt(p)) {
       canvas.style.cursor = "ns-resize";
       return;
@@ -1887,6 +1891,12 @@
         render();
         return;
       }
+      const colBorder = tableBorderAt(p);
+      if (colBorder) {
+        selected = new Set([colBorder.s.id]);
+        gesture = { type: "colw", id: colBorder.s.id, idx: colBorder.idx, startX: p.x, startW: colBorder.widths, before };
+        return;
+      }
       if (noteHandleAt(p)) {
         gesture = { type: "notes-h", id: selectedNote().id, before };
         return;
@@ -1905,7 +1915,8 @@
       const hit = topmostAt(p);
       if (hit) {
         if (hit.type === "table") {
-          tableCell = null;
+          const cc = cellAt(hit, p);
+          tableCell = cc ? { id: hit.id, r: cc.r, c: cc.c } : null;
           hideCellMenu();
         }
         if (e.shiftKey) {
@@ -2079,6 +2090,23 @@
         laserTrail.push({ x: p.x, y: p.y, t: Date.now() });
         startLaserFade();
         break;
+      case "colw": {
+        const s = shapesOf().find((x) => x.id === gesture.id);
+        if (s) {
+          const dx = p.x - gesture.startX;
+          const i = gesture.idx;
+          const minW = 40;
+          const total = gesture.startW[i - 1] + gesture.startW[i];
+          let left = gesture.startW[i - 1] + dx;
+          left = Math.min(total - minW, Math.max(minW, left));
+          const ws = gesture.startW.slice();
+          ws[i - 1] = left;
+          ws[i] = total - left;
+          s.colW = ws;
+          for (let r = 0; r < s.rows; r++) growRow(s, r);
+        }
+        break;
+      }
       case "notes-h": {
         const s = shapesOf().find((x) => x.id === gesture.id);
         if (s) {
@@ -2210,6 +2238,18 @@
   window.addEventListener("keydown", (e) => {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
     if (calcEl && calcFocus && calcKey(e)) return;
+    if (tableCell && !cellEdit && selected.size === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      const t = shapesOf().find((x) => x.id === tableCell.id);
+      if (t && t.type === "table" && (e.key === "Enter" || e.key.length === 1)) {
+        e.preventDefault();
+        beginCellEdit(t, tableCell.r, tableCell.c);
+        if (e.key.length === 1) {
+          cellEdit.el.value = e.key;
+          cellEdit.el.dispatchEvent(new Event("input"));
+        }
+        return;
+      }
+    }
 
     if (presentEl) {
       e.preventDefault();
@@ -4465,6 +4505,7 @@
       x1: c.x + w / 2,
       y1: c.y + h / 2,
       rowH: Array.from({ length: rows }, () => 40),
+      colW: Array.from({ length: cols }, () => 120),
       cells: Array.from({ length: rows * cols }, () => ({ t: "", bg: null, color: null, size: null, hl: null, family: null })),
       transparency: 0,
       blur: 0,
@@ -4485,19 +4526,35 @@
     return raw.map((h) => h * k);
   }
 
+  function colWidths(s) {
+    const b = bounds(s);
+    const raw = s.colW || Array.from({ length: s.cols }, () => (b.x2 - b.x1) / s.cols);
+    const sum = raw.reduce((t, w) => t + w, 0) || 1;
+    const k = (b.x2 - b.x1) / sum;
+    return raw.map((w) => w * k);
+  }
+
   function cellRect(s, r, c) {
     const b = bounds(s);
     const hs = rowHeights(s);
-    const cw = (b.x2 - b.x1) / s.cols;
+    const ws = colWidths(s);
     let y = b.y1;
     for (let i = 0; i < r; i++) y += hs[i];
-    return { x: b.x1 + c * cw, y, w: cw, h: hs[r] };
+    let x = b.x1;
+    for (let i = 0; i < c; i++) x += ws[i];
+    return { x, y, w: ws[c], h: hs[r] };
   }
 
   function cellAt(s, p) {
     const b = bounds(s);
     if (p.x < b.x1 || p.x > b.x2 || p.y < b.y1 || p.y > b.y2) return null;
-    const c = Math.min(s.cols - 1, Math.floor((p.x - b.x1) / ((b.x2 - b.x1) / s.cols)));
+    const ws = colWidths(s);
+    let c = 0;
+    let x = b.x1;
+    while (c < s.cols - 1 && p.x >= x + ws[c]) {
+      x += ws[c];
+      c++;
+    }
     const hs = rowHeights(s);
     let y = b.y1;
     let r = 0;
@@ -4512,13 +4569,12 @@
   const TABLE_ROW_MIN = 36;
 
   function neededRowHeight(s, r) {
-    const b = bounds(s);
-    const cw = (b.x2 - b.x1) / s.cols;
+    const ws = colWidths(s);
     let need = TABLE_ROW_MIN;
     for (let c = 0; c < s.cols; c++) {
       const cell = s.cells[r * s.cols + c] || {};
       const obj = { text: cell.t || "", attrs: [], fontSize: cell.size || 14, family: cell.family || "sans" };
-      const lay = layoutRich(obj, cw - 10);
+      const lay = layoutRich(obj, ws[c] - 10);
       need = Math.max(need, lay.height + 14);
     }
     return need;
@@ -4553,10 +4609,12 @@
     ctx.strokeStyle = "#1d1b2e";
     ctx.lineWidth = 1.2 / z;
     ctx.beginPath();
+    const wsDraw = colWidths(s);
+    let xx = b.x1;
     for (let c = 0; c <= s.cols; c++) {
-      const x = b.x1 + (c * (b.x2 - b.x1)) / s.cols;
-      ctx.moveTo(x, b.y1);
-      ctx.lineTo(x, b.y2);
+      ctx.moveTo(xx, b.y1);
+      ctx.lineTo(xx, b.y2);
+      if (c < s.cols) xx += wsDraw[c];
     }
     let yy = b.y1;
     const hs = rowHeights(s);
@@ -4711,6 +4769,22 @@
     commit(before);
     render();
     openCellMenu();
+  }
+
+  // The inner column border under the pointer (a table's columns can be widened or narrowed)
+  function tableBorderAt(p) {
+    const z = board().camera.zoom;
+    const hit = topmostAt(p);
+    if (!hit || hit.type !== "table") return null;
+    const b = bounds(hit);
+    if (p.y < b.y1 || p.y > b.y2) return null;
+    const ws = colWidths(hit);
+    let x = b.x1;
+    for (let i = 0; i < hit.cols - 1; i++) {
+      x += ws[i];
+      if (Math.abs(p.x - x) <= 5 / z) return { s: hit, idx: i + 1, widths: ws };
+    }
+    return null;
   }
 
   // The name label above a table (right-click it to rename)
