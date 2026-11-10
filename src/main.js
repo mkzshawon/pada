@@ -2764,6 +2764,7 @@
       <button data-act="duplicate">Duplicate</button>
       <button data-act="close">Close</button>`;
     tabMenuEl.querySelector('[data-act="close"]').disabled = boards.length === 1;
+    tabMenuEl.addEventListener("pointerover", fitSub);
     tabMenuEl.addEventListener("click", (e) => {
       const b = e.target.closest("button");
       if (!b) return;
@@ -2786,6 +2787,28 @@
       else if (act === "close") removeBoard(index);
     });
     document.body.appendChild(tabMenuEl);
+  }
+
+  // Keeps an open sub-menu on the screen: it moves up when it would run off the bottom,
+  // and a list of items that still does not fit gets a scroll bar
+  function fitSub(e) {
+    const item = e.target.closest(".tm-item");
+    if (!item) return;
+    const sub = Array.from(item.children).find((c) => c.classList.contains("tm-sub"));
+    if (!sub) return;
+    const edge = 8;
+    const h = window.innerHeight;
+    sub.style.top = "-4px";
+    sub.style.maxHeight = "";
+    sub.style.overflowY = "";
+    const r = sub.getBoundingClientRect();
+    let shift = 0;
+    if (r.bottom > h - edge) shift = Math.max(0, Math.min(r.bottom - (h - edge), r.top - edge));
+    const top = r.top - shift;
+    sub.style.top = -4 - shift + "px";
+    sub.style.maxHeight = Math.max(60, h - edge - top) + "px";
+    // Only the list of items scrolls (a menu that holds sub-menus must not, or its sub-menus get cut off)
+    if (!sub.querySelector(":scope > .tm-item")) sub.style.overflowY = "auto";
   }
 
   // Opens a PDF, image or Word file chosen from disk in a new browser window
