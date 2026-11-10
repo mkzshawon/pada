@@ -2742,6 +2742,7 @@
       <div class="tm-item"><div class="tm-label">Insert &#9656;</div>
         <div class="tm-sub">
           <button data-act="insert-table">Table</button>
+          ${clipArtMenuHtml()}
         </div></div>
       <div class="tm-item"><div class="tm-label">Grid &#9656;</div>
         <div class="tm-sub">
@@ -2770,6 +2771,7 @@
       closeTabMenu();
       if (act === "file") openFilePicker(b.dataset.kind);
       else if (act === "insert-table") openTableDialog();
+      else if (act === "clip") insertClipArt(Number(b.dataset.cat), Number(b.dataset.i));
       else if (act === "board-save") saveBoardFile();
       else if (act === "board-open") openBoardFile();
       else if (act === "autosave") autosaveOn = !autosaveOn;
@@ -4529,6 +4531,77 @@
       if (e.key === "Enter") done(true);
       else if (e.key === "Escape") done(false);
     });
+  }
+
+  // Clip art: simple line drawings (SVG), grouped by subject
+  const CLIP_ART = {
+    Electrical: [
+      { name: "Resistor", svg: '<path d="M5 50h15l5-12 10 24 10-24 10 24 10-24 5 12h25"/>' },
+      { name: "Battery", svg: '<path d="M5 50h35M40 32v36M50 22v56M60 32v36M70 22v56M70 50h25"/>' },
+      { name: "Light bulb", svg: '<circle cx="50" cy="38" r="22"/><path d="M40 58v12h20V58M42 80h16M45 88h10"/>' },
+      { name: "Switch", svg: '<circle cx="18" cy="72" r="3"/><circle cx="82" cy="72" r="3"/><path d="M18 72h30l28-28"/>' },
+    ],
+    Mechanical: [
+      { name: "Gear", svg: '<circle cx="50" cy="50" r="32" stroke-width="10" stroke-dasharray="8 6"/><circle cx="50" cy="50" r="24"/><circle cx="50" cy="50" r="8"/>' },
+      { name: "Nut", svg: '<path d="M30 38l20-12 20 12v24l-20 12-20-12z"/><circle cx="50" cy="50" r="10"/>' },
+      { name: "Spring", svg: '<path d="M50 6v14M50 80v14"/><path d="M50 20l-16 8 32 8-32 8 32 8-32 8 16 8"/>' },
+      { name: "Pulley", svg: '<circle cx="50" cy="50" r="30"/><circle cx="50" cy="50" r="6"/><path d="M50 20V6M20 50H6"/>' },
+    ],
+    Civil: [
+      { name: "Bridge", svg: '<path d="M5 62h90M5 80h90"/><path d="M5 62c10-35 80-35 90 0"/><path d="M25 62V40M50 62V32M75 62V40"/>' },
+      { name: "Building", svg: '<rect x="25" y="12" width="50" height="78"/><path d="M35 26h8M57 26h8M35 42h8M57 42h8M35 58h8M57 58h8M43 90V76h14v14"/>' },
+      { name: "Road", svg: '<path d="M30 92L42 10M70 92L58 10"/><path d="M50 14v8M50 34v10M50 58v12M50 80v10"/>' },
+      { name: "Dam", svg: '<path d="M5 30h90"/><path d="M15 30l10 60h50l10-60"/><path d="M5 20c20 6 40 6 45 0s20-6 45 0"/>' },
+    ],
+    Computer: [
+      { name: "Monitor", svg: '<rect x="12" y="14" width="76" height="54" rx="3"/><path d="M45 68h10v12h-10M32 86h36"/>' },
+      { name: "Laptop", svg: '<rect x="22" y="20" width="56" height="42" rx="3"/><path d="M10 72h80l-6 9H16z"/>' },
+      { name: "Chip", svg: '<rect x="28" y="28" width="44" height="44"/><rect x="40" y="40" width="20" height="20"/><path d="M36 16v12M50 16v12M64 16v12M36 72v12M50 72v12M64 72v12M16 36h12M16 50h12M16 64h12M72 36h12M72 50h12M72 64h12"/>' },
+      { name: "Server", svg: '<ellipse cx="50" cy="22" rx="30" ry="10"/><path d="M20 22v56c0 6 60 6 60 0V22"/><path d="M20 50c0 6 60 6 60 0"/>' },
+    ],
+    "Science & IT": [
+      { name: "Atom", svg: '<circle cx="50" cy="50" r="7"/><ellipse cx="50" cy="50" rx="42" ry="16"/><ellipse cx="50" cy="50" rx="42" ry="16" transform="rotate(60 50 50)"/><ellipse cx="50" cy="50" rx="42" ry="16" transform="rotate(-60 50 50)"/>' },
+      { name: "Globe", svg: '<circle cx="50" cy="50" r="38"/><ellipse cx="50" cy="50" rx="16" ry="38"/><path d="M12 50h76M18 30h64M18 70h64"/>' },
+      { name: "Wi-Fi", svg: '<path d="M18 42a44 44 0 0 1 64 0"/><path d="M30 56a28 28 0 0 1 40 0"/><path d="M42 68a12 12 0 0 1 16 0"/><circle cx="50" cy="82" r="3"/>' },
+      { name: "Cloud", svg: '<path d="M28 74h44a18 18 0 0 0 0-36 26 26 0 0 0-50 6 14 14 0 0 0 6 30z"/>' },
+    ],
+    Chemistry: [
+      { name: "Flask", svg: '<path d="M40 12h20M44 12v25L22 75a8 8 0 0 0 7 12h42a8 8 0 0 0 7-12L56 37V12"/><path d="M32 64h36"/>' },
+      { name: "Test tube", svg: '<path d="M38 12h24M42 12v62a8 8 0 0 0 16 0V12"/><path d="M42 52h16"/>' },
+      { name: "Benzene", svg: '<path d="M50 10l34 20v40L50 90 16 70V30z"/><circle cx="50" cy="50" r="18"/>' },
+      { name: "Molecule", svg: '<circle cx="50" cy="28" r="9"/><circle cx="24" cy="74" r="9"/><circle cx="76" cy="74" r="9"/><path d="M45 35L30 67M55 35L70 67M33 74h34"/>' },
+    ],
+    Physics: [
+      { name: "Pendulum", svg: '<path d="M18 10h64"/><path d="M50 10L26 78"/><circle cx="26" cy="82" r="9"/>' },
+      { name: "Lens", svg: '<path d="M50 8c-14 16-14 68 0 84 14-16 14-68 0-84z"/><path d="M8 50h84"/>' },
+      { name: "Magnet", svg: '<path d="M22 14v46a28 28 0 0 0 56 0V14H64v46a14 14 0 0 1-28 0V14z"/>' },
+      { name: "Wave", svg: '<path d="M5 50c10-30 20-30 30 0s20 30 30 0 20-30 30 0"/>' },
+    ],
+  };
+
+  function clipArtSrc(inner) {
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#1d1b2e" ' +
+      'stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' + inner + "</svg>";
+    return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+  }
+
+  // Insert > Clip Art > subject > picture
+  function clipArtMenuHtml() {
+    const subjects = Object.keys(CLIP_ART)
+      .map((subject, ci) =>
+        `<div class="tm-item"><div class="tm-label">${subject} &#9656;</div><div class="tm-sub">` +
+        CLIP_ART[subject].map((art, i) => `<button data-act="clip" data-cat="${ci}" data-i="${i}">${art.name}</button>`).join("") +
+        "</div></div>"
+      )
+      .join("");
+    return `<div class="tm-item"><div class="tm-label">Clip Art &#9656;</div><div class="tm-sub">${subjects}</div></div>`;
+  }
+
+  function insertClipArt(ci, i) {
+    const subject = Object.keys(CLIP_ART)[ci];
+    const art = CLIP_ART[subject][i];
+    if (art) insertImages([{ src: clipArtSrc(art.svg), w0: 200, h0: 200 }]);
   }
 
   function insertTable(rows, cols) {

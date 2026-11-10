@@ -1620,6 +1620,13 @@ body {
 
 /* Small windows: the toolbar icons shrink to 75%, then to 50% */
 @media (max-width: 1000px) {
+  #tabs { gap: 3px; }
+  #tabs .tab { min-width: 63px; padding: 4.5px 19.5px 4.5px 18px; font-size: 9px; }
+  #tabs .tab-x,
+  #tabs .tab-menu-btn { width: 10.5px; height: 10.5px; font-size: 8px; }
+  #tabs .tab-x { right: 3px; }
+  #tabs .tab-menu-btn { left: 3px; }
+  #tabs .tab-add { width: 16.5px; height: 16.5px; font-size: 12px; }
   #toolbar .tool { width: 32px; height: 32px; }
   #toolbar .tool svg { width: 17px; height: 17px; }
   #toolbar .tool kbd { font-size: 7px; }
@@ -1629,4 +1636,14 @@ body {
   #toolbar .tool { width: 21px; height: 21px; border-radius: 5px; }
   #toolbar .tool svg { width: 11px; height: 11px; }
   #toolbar .tool kbd { font-size: 5px; right: 1px; bottom: 0; }
+}
+
+@media (max-width: 640px) {
+  #tabs { gap: 2px; }
+  #tabs .tab { min-width: 42px; padding: 3px 13px 3px 12px; font-size: 6px; }
+  #tabs .tab-x,
+  #tabs .tab-menu-btn { width: 7px; height: 7px; font-size: 5.5px; }
+  #tabs .tab-x { right: 2px; }
+  #tabs .tab-menu-btn { left: 2px; }
+  #tabs .tab-add { width: 11px; height: 11px; font-size: 8px; }
 }
