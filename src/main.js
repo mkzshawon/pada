@@ -156,7 +156,7 @@
     const sel = shapesOf().filter((s) => selected.has(s.id));
     // Pictures, videos, slide decks and notes made from Word files have no style options of their own
     const isMedia = (s) =>
-      s.type === "image" || s.type === "video" || s.type === "deck" || s.type === "table" || (s.type === "note" && s.fromFile);
+      s.type === "image" || s.type === "clip" || s.type === "video" || s.type === "deck" || s.type === "table" || (s.type === "note" && s.fromFile);
     const visible = styleOpen && !sel.some(isMedia) && (sel.length > 0 || SHAPE_TOOLS.has(tool));
     styleEl.style.display = visible ? "flex" : "none";
     if (!visible) return;
@@ -794,7 +794,7 @@
 
   // Inserted files (pictures, PDF pages, videos, slide decks, Word notes)
   function isMediaShape(s) {
-    return s.type === "image" || s.type === "video" || s.type === "deck" || (s.type === "note" && !!s.fromFile);
+    return s.type === "image" || s.type === "clip" || s.type === "video" || s.type === "deck" || (s.type === "note" && !!s.fromFile);
   }
 
   // Grid per tab: "corner" (small dots at the crossings, the default), "dots" (lines made of small dots),
@@ -1596,7 +1596,67 @@
     ctx.restore();
   }
 
+  // Clip art: drawn from its vector paths as lines (no picture file), so it stays sharp at any size
+  function clipParts(svgInner) {
+    const cache = (window.PADA_CLIP_CACHE ||= new Map());
+    if (cache.has(svgInner)) return cache.get(svgInner);
+    const doc = new DOMParser().parseFromString(
+      `<svg xmlns="http://www.w3.org/2000/svg">${svgInner}</svg>`,
+      "image/svg+xml"
+    );
+    const parts = [];
+    for (const el of Array.from(doc.documentElement.children)) {
+      const num = (n) => Number(el.getAttribute(n) || 0);
+      const tag = el.localName;
+      let p;
+      if (tag === "path") p = new Path2D(el.getAttribute("d") || "");
+      else if (tag === "circle") {
+        p = new Path2D();
+        p.arc(num("cx"), num("cy"), num("r"), 0, Math.PI * 2);
+      } else if (tag === "ellipse") {
+        p = new Path2D();
+        p.ellipse(num("cx"), num("cy"), num("rx"), num("ry"), 0, 0, Math.PI * 2);
+      } else if (tag === "rect") {
+        p = new Path2D();
+        p.roundRect(num("x"), num("y"), num("width"), num("height"), num("rx"));
+      } else continue;
+      const m = (el.getAttribute("transform") || "").match(/rotate\(\s*([-\d.]+)(?:[\s,]+([-\d.]+)[\s,]+([-\d.]+))?\s*\)/);
+      if (m) {
+        const cx = Number(m[2] || 0);
+        const cy = Number(m[3] || 0);
+        const mat = new DOMMatrix().translate(cx, cy).rotate(Number(m[1])).translate(-cx, -cy);
+        const turned = new Path2D();
+        turned.addPath(p, mat);
+        p = turned;
+      }
+      const dash = (el.getAttribute("stroke-dasharray") || "").split(/[\s,]+/).filter(Boolean).map(Number);
+      parts.push({ path: p, dash, width: Number(el.getAttribute("stroke-width") || 3) });
+    }
+    cache.set(svgInner, parts);
+    return parts;
+  }
+
+  function drawClip(s) {
+    const b = bounds(s);
+    ctx.save();
+    ctx.translate(b.x1, b.y1);
+    ctx.scale((b.x2 - b.x1) / 100, (b.y2 - b.y1) / 100);
+    ctx.strokeStyle = s.stroke || "#1d1b2e";
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    for (const part of clipParts(s.svg)) {
+      ctx.lineWidth = part.width * 0.5;
+      ctx.setLineDash(part.dash);
+      ctx.stroke(part.path);
+    }
+    ctx.restore();
+  }
+
   function drawShape(s) {
+    if (s.type === "clip") {
+      drawClip(s);
+      return;
+    }
     if (s.type === "table") {
       drawTable(s);
       return;
@@ -4619,7 +4679,26 @@
   function insertClipArt(ci, i) {
     const subject = Object.keys(CLIP_ART)[ci];
     const art = CLIP_ART[subject][i];
-    if (art) insertImages([{ src: clipArtSrc(art.svg), w0: 200, h0: 200 }]);
+    if (!art) return;
+    const c = screenToWorld(window.innerWidth / 2, window.innerHeight / 2);
+    const size = 200;
+    const before = snapshot();
+    const s = {
+      id: newId(),
+      type: "clip",
+      svg: art.svg,
+      stroke: "#1d1b2e",
+      x0: c.x - size / 2,
+      y0: c.y - size / 2,
+      x1: c.x + size / 2,
+      y1: c.y + size / 2,
+      transparency: 0,
+      blur: 0,
+    };
+    shapesOf().push(s);
+    selected = new Set([s.id]);
+    commit(before);
+    render();
   }
 
   function insertTable(rows, cols) {
