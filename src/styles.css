@@ -1648,10 +1648,12 @@ body {
   #tabs .tab-add { width: 11px; height: 11px; font-size: 8px; }
 }
 
-/* Sub-menus: scroll when there are more items than fit on the screen */
-.tm-sub {
+/* Lowest sub-menus (the items themselves) scroll when they do not fit on the screen.
+   Menus that hold other menus are not scrolled, so their sub-menus are not cut off. */
+.tm-sub:not(:has(> .tm-item)) {
   max-height: calc(100vh - 16px);
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* Clip Art names: smaller, each on one line */
