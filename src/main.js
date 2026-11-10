@@ -2238,15 +2238,17 @@
   window.addEventListener("keydown", (e) => {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
     if (calcEl && calcFocus && calcKey(e)) return;
+    if (cellEdit && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      cellEditKey(e);
+      return;
+    }
     if (tableCell && !cellEdit && selected.size === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
       const t = shapesOf().find((x) => x.id === tableCell.id);
       if (t && t.type === "table" && (e.key === "Enter" || e.key.length === 1)) {
         e.preventDefault();
         beginCellEdit(t, tableCell.r, tableCell.c);
-        if (e.key.length === 1) {
-          cellEdit.el.value = e.key;
-          cellEdit.el.dispatchEvent(new Event("input"));
-        }
+        cellEditKey(e);
         return;
       }
     }
@@ -4603,7 +4605,8 @@
           ctx.fillStyle = cell.bg;
           ctx.fillRect(cr.x, cr.y, cr.w, cr.h);
         }
-        if (cell.t) drawCellText(cell, cr);
+        const typing = cellEdit && cellEdit.id === s.id && cellEdit.r === r && cellEdit.c === c;
+        if (cell.t || typing) drawCellText(cell, cr, typing);
       }
     }
     ctx.strokeStyle = "#1d1b2e";
@@ -4637,73 +4640,70 @@
     ctx.restore();
   }
 
-  function drawCellText(cell, cr) {
+  function drawCellText(cell, cr, typing) {
     const pad = 5;
     const obj = { text: cell.t, attrs: [], fontSize: cell.size || 14, family: cell.family || "sans" };
     const lay = layoutRich(obj, cr.w - 2 * pad);
     let yy = cr.y + Math.max(pad, (cr.h - lay.height) / 2);
+    let lastW = 0;
+    let lastY = yy;
+    let lastH = (cell.size || 14) * 1.35;
     for (const line of lay.lines) {
+      const lw = line.items.reduce((t, it) => t + it.w, 0);
       if (cell.hl) {
-        const lw = line.items.reduce((t, it) => t + it.w, 0);
         ctx.fillStyle = cell.hl;
         ctx.fillRect(cr.x + pad, yy, lw, line.h);
       }
       drawLineRuns(line.items, cr.x + pad, yy + line.base, cell.color || "#1d1b2e", familyOf(obj));
+      lastW = lw;
+      lastY = yy;
+      lastH = line.h;
       yy += line.h;
+    }
+    if (typing && Math.floor(Date.now() / 500) % 2 === 0) {
+      const z = board().camera.zoom;
+      ctx.fillStyle = "#1d1b2e";
+      ctx.fillRect(cr.x + pad + lastW, lastY + 2 / z, 1.5 / z, Math.max(2 / z, lastH - 4 / z));
     }
   }
 
-  // Typing in a cell: a text box over the cell, saved with undo
+  // Typing in a cell: the keys go straight to the cell (no text box), with a blinking caret
+  let cellBlink = null;
+
   function beginCellEdit(s, r, c) {
     finishCellEdit();
-    const el = document.createElement("textarea");
-    el.className = "celled";
-    el.value = s.cells[r * s.cols + c].t;
-    el.spellcheck = true;
-    document.body.appendChild(el);
-    cellEdit = { id: s.id, r, c, el, before: snapshot() };
-    placeCellEdit();
-    el.addEventListener("input", () => {
-      const t = shapesOf().find((x) => x.id === cellEdit.id);
-      if (!t) return;
-      t.cells[cellEdit.r * t.cols + cellEdit.c].t = el.value;
-      growRow(t, cellEdit.r);
-      placeCellEdit();
-      render();
-    });
-    el.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        finishCellEdit();
-      }
-    });
-    el.addEventListener("blur", finishCellEdit);
-    el.focus();
-    setTimeout(() => el.focus(), 30);
+    cellEdit = { id: s.id, r, c, before: snapshot() };
+    tableCell = { id: s.id, r, c };
+    cellBlink = setInterval(render, 500);
+    render();
   }
 
-  function placeCellEdit() {
-    if (!cellEdit) return;
-    const s = shapesOf().find((x) => x.id === cellEdit.id);
-    if (!s) return;
-    const cam = board().camera;
-    const z = cam.zoom;
-    const cr = cellRect(s, cellEdit.r, cellEdit.c);
-    const cell = s.cells[cellEdit.r * s.cols + cellEdit.c];
-    const el = cellEdit.el;
-    el.style.left = cr.x * z + cam.x + "px";
-    el.style.top = cr.y * z + cam.y + "px";
-    el.style.width = cr.w * z + "px";
-    el.style.height = cr.h * z + "px";
-    el.style.fontSize = (cell.size || 14) * z + "px";
-    el.style.fontFamily = familyOf({ family: cell.family || "sans" });
+  function cellEditKey(e) {
+    const t = shapesOf().find((x) => x.id === cellEdit.id);
+    if (!t) return finishCellEdit();
+    const cell = t.cells[cellEdit.r * t.cols + cellEdit.c];
+    if (e.key === "Escape" || e.key === "Tab") {
+      finishCellEdit();
+      return;
+    } else if (e.key === "Backspace") {
+      cell.t = cell.t.slice(0, -1);
+    } else if (e.key === "Enter") {
+      cell.t += "\n";
+    } else if (e.key.length === 1) {
+      cell.t += e.key;
+    } else {
+      return; // arrows and other keys do nothing while typing
+    }
+    growRow(t, cellEdit.r);
+    render();
   }
 
   function finishCellEdit() {
     if (!cellEdit) return;
     const ce = cellEdit;
     cellEdit = null;
-    ce.el.remove();
+    clearInterval(cellBlink);
+    cellBlink = null;
     commit(ce.before);
     render();
   }
