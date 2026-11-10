@@ -4535,12 +4535,7 @@
 
   // Clip art: simple line drawings (SVG), grouped by subject
   const CLIP_ART = {
-    Electrical: [
-      { name: "Resistor", svg: '<path d="M5 50h15l5-12 10 24 10-24 10 24 10-24 5 12h25"/>' },
-      { name: "Battery", svg: '<path d="M5 50h35M40 32v36M50 22v56M60 32v36M70 22v56M70 50h25"/>' },
-      { name: "Light bulb", svg: '<circle cx="50" cy="38" r="22"/><path d="M40 58v12h20V58M42 80h16M45 88h10"/>' },
-      { name: "Switch", svg: '<circle cx="18" cy="72" r="3"/><circle cx="82" cy="72" r="3"/><path d="M18 72h30l28-28"/>' },
-    ],
+    Electrical: (window.PADA_ICONS && window.PADA_ICONS.electrical) || [],
     Mechanical: [
       { name: "Gear", svg: '<circle cx="50" cy="50" r="32" stroke-width="10" stroke-dasharray="8 6"/><circle cx="50" cy="50" r="24"/><circle cx="50" cy="50" r="8"/>' },
       { name: "Nut", svg: '<path d="M30 38l20-12 20 12v24l-20 12-20-12z"/><circle cx="50" cy="50" r="10"/>' },
