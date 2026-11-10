@@ -29,6 +29,7 @@
     { id: "eraser", label: "Eraser", key: "e" },
   ];
   const TOOL_BY_KEY = Object.fromEntries(TOOLS.map((t) => [t.key, t.id]));
+  TOOL_BY_KEY.b = "magnifier";
 
   // Inline SVG icons (24x24 grid, stroke uses currentColor)
   const ICONS = {
@@ -1578,6 +1579,7 @@
     renderStyle();
     placeVideoUI();
     placeDeckUI();
+    renderMagnifier();
   }
 
   // Applies the shape's opacity and blur around its normal drawing
@@ -1728,7 +1730,7 @@
   }
 
   function drawMarquee(z) {
-    if (!gesture || gesture.type !== "marquee") return;
+    if (!gesture || (gesture.type !== "marquee" && gesture.type !== "mag")) return;
     const r = normalize(gesture.rect);
     ctx.save();
     ctx.strokeStyle = ACCENT;
@@ -1895,6 +1897,10 @@
       if (colBorder) {
         selected = new Set([colBorder.s.id]);
         gesture = { type: "colw", id: colBorder.s.id, idx: colBorder.idx, startX: p.x, startW: colBorder.widths, before };
+        return;
+      }
+      if (tool === "magnifier") {
+        gesture = { type: "mag", rect: { x1: p.x, y1: p.y, x2: p.x, y2: p.y } };
         return;
       }
       if (noteHandleAt(p)) {
@@ -2129,6 +2135,10 @@
         });
         break;
       }
+      case "mag":
+        gesture.rect.x2 = p.x;
+        gesture.rect.y2 = p.y;
+        break;
       case "erase":
         eraseAt(p);
         break;
@@ -2172,8 +2182,13 @@
       drawing = null;
     }
     const before = gesture && gesture.before;
+    const finished = gesture;
     gesture = null;
     snapGuides = null;
+    if (finished && finished.type === "mag") {
+      const r = normalize(finished.rect);
+      if (r.x2 - r.x1 > 10 && r.y2 - r.y1 > 10) openMagnifier(r);
+    }
     updateCursor();
 
     // A new note opens straight into editing; the edit records the undo step
@@ -2624,6 +2639,22 @@
     calcKbd.textContent = "C";
     calcBtn.appendChild(calcKbd);
     toolbarEl.appendChild(calcBtn);
+
+    // Magnifier (B): select an area of the board to see it enlarged in its own window
+    const magBtn = document.createElement("button");
+    magBtn.className = "tool";
+    magBtn.dataset.tool = "magnifier";
+    magBtn.title = "Magnifier (B)";
+    magBtn.setAttribute("aria-label", "Magnifier");
+    magBtn.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5M8.5 11h5M11 8.5v5"/></svg>';
+    const magKbd = document.createElement("kbd");
+    magKbd.textContent = "B";
+    magBtn.appendChild(magKbd);
+    magBtn.addEventListener("click", () => setTool("magnifier"));
+    toolbarEl.appendChild(magBtn);
 
     calcMenuEl = document.createElement("div");
     calcMenuEl.id = "calc-menu";
@@ -4859,6 +4890,144 @@
     openCellMenu();
     render();
   });
+
+  /* ---------- Magnifier: an enlarged view of a selected area, in its own window ---------- */
+
+  let magEl = null;
+  let magCanvas = null;
+  let magRect = null; // the selected area of the board (world units)
+  let magM = 1.5; // enlargement: 1.5 times at least
+  let magDrag = null;
+  let magGrow = null;
+
+  // Window size on the screen: the area as it is seen now, times the enlargement (never wider than the screen)
+  function magSize() {
+    const z = board().camera.zoom;
+    const rw = (magRect.x2 - magRect.x1) * z;
+    const rh = (magRect.y2 - magRect.y1) * z;
+    let w = rw * magM;
+    let h = rh * magM;
+    const maxW = window.innerWidth - 16;
+    if (w > maxW) {
+      w = maxW;
+      h = (w * rh) / rw;
+    }
+    return { w, h, rw, rh };
+  }
+
+  function placeMagnifier() {
+    if (!magEl) return;
+    const { w, h } = magSize();
+    magCanvas.style.width = w + "px";
+    magCanvas.style.height = h + "px";
+    magEl.querySelector(".mg-name").textContent = `Magnifier ${magM.toFixed(1)}x`;
+    if (!magEl.dataset.placed) {
+      magEl.style.left = Math.max(8, window.innerWidth - w - 40) + "px";
+      magEl.style.top = "84px";
+      magEl.dataset.placed = "1";
+    }
+    magEl.style.left = Math.min(window.innerWidth - w - 8, Math.max(0, parseFloat(magEl.style.left) || 0)) + "px";
+  }
+
+  function openMagnifier(r) {
+    magRect = r;
+    magM = 1.5;
+    if (!magEl) buildMagnifier();
+    placeMagnifier();
+    renderMagnifier();
+  }
+
+  function buildMagnifier() {
+    magEl = document.createElement("div");
+    magEl.id = "magnifier";
+    magEl.innerHTML =
+      '<div class="mg-head"><button class="mg-x" title="Close" aria-label="Close">×</button>' +
+      '<span class="mg-name"></span>' +
+      '<div class="mg-zoom"><button data-m="-1" title="Smaller" aria-label="Smaller">−</button>' +
+      '<button data-m="1" title="Larger" aria-label="Larger">+</button></div></div>' +
+      '<div class="mg-body"><canvas></canvas></div><div class="mg-grip" title="Drag to resize"></div>';
+    document.body.appendChild(magEl);
+    magCanvas = magEl.querySelector("canvas");
+
+    magEl.querySelector(".mg-x").addEventListener("click", () => {
+      magEl.remove();
+      magEl = null;
+      magCanvas = null;
+      magRect = null;
+    });
+    magEl.querySelector(".mg-zoom").addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      magM = Math.max(1.5, magM + 0.5 * Number(b.dataset.m));
+      placeMagnifier();
+      renderMagnifier();
+    });
+
+    const head = magEl.querySelector(".mg-head");
+    head.addEventListener("pointerdown", (e) => {
+      if (e.target.closest("button")) return;
+      head.setPointerCapture(e.pointerId);
+      magDrag = { dx: e.clientX - magEl.offsetLeft, dy: e.clientY - magEl.offsetTop };
+    });
+    head.addEventListener("pointermove", (e) => {
+      if (!magDrag) return;
+      const { w, h } = magSize();
+      magEl.style.left = Math.min(window.innerWidth - w - 8, Math.max(0, e.clientX - magDrag.dx)) + "px";
+      magEl.style.top = Math.min(window.innerHeight - h - 40, Math.max(0, e.clientY - magDrag.dy)) + "px";
+    });
+    head.addEventListener("pointerup", () => {
+      magDrag = null;
+    });
+
+    // Corner handle: resize keeping the proportions; never smaller than 1.5 times, never wider than the screen
+    const grip = magEl.querySelector(".mg-grip");
+    grip.addEventListener("pointerdown", (e) => {
+      grip.setPointerCapture(e.pointerId);
+      magGrow = { x: e.clientX, w: magCanvas.clientWidth };
+    });
+    grip.addEventListener("pointermove", (e) => {
+      if (!magGrow) return;
+      const { rw } = magSize();
+      const minW = rw * 1.5;
+      const maxW = window.innerWidth - 16;
+      const w = Math.min(maxW, Math.max(minW, magGrow.w + (e.clientX - magGrow.x)));
+      magM = w / rw;
+      placeMagnifier();
+      renderMagnifier();
+    });
+    grip.addEventListener("pointerup", () => {
+      magGrow = null;
+    });
+  }
+
+  // Draws the selected area, enlarged, into the magnifier window
+  function renderMagnifier() {
+    if (!magEl || !magRect) return;
+    const { w, h } = magSize();
+    const dpr = window.devicePixelRatio || 1;
+    const W = Math.max(1, Math.round(w * dpr));
+    const H = Math.max(1, Math.round(h * dpr));
+    if (magCanvas.width !== W) magCanvas.width = W;
+    if (magCanvas.height !== H) magCanvas.height = H;
+    const mctx = magCanvas.getContext("2d");
+    const prev = ctx;
+    ctx = mctx;
+    try {
+      mctx.setTransform(1, 0, 0, 1, 0, 0);
+      mctx.fillStyle = "#ffffff";
+      mctx.fillRect(0, 0, W, H);
+      const sx = W / (magRect.x2 - magRect.x1);
+      const sy = H / (magRect.y2 - magRect.y1);
+      mctx.setTransform(sx, 0, 0, sy, -magRect.x1 * sx, -magRect.y1 * sy);
+      mctx.strokeStyle = "#1d1b2e";
+      mctx.lineWidth = 2;
+      mctx.lineCap = "round";
+      mctx.lineJoin = "round";
+      for (const s of shapesOf()) drawWithStyle(s);
+    } finally {
+      ctx = prev;
+    }
+  }
 
   /* ---------- Fonts from src/fonts ---------- */
 
