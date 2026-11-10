@@ -1347,8 +1347,10 @@ body {
 
 #calc .calc-h {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   width: 100%;
   padding: 5px 6px;
   border: 0;
@@ -1359,19 +1361,27 @@ body {
   text-align: right;
 }
 
+#calc .calc-n {
+  font-size: 12px;
+  color: #8d8aa6;
+  font-variant-numeric: tabular-nums;
+}
+
+#calc .calc-eq {
+  flex: 1;
+  text-align: right;
+  font-size: 14px;
+  color: #1d1b2e;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 #calc .calc-h:hover {
   background: #f3f1fb;
 }
 
-#calc .calc-h span {
-  font-size: 12px;
-  color: #8d8aa6;
-}
-
-#calc .calc-h b {
-  font-size: 14px;
-  color: #1d1b2e;
-}
 
 #calc .calc-empty {
   padding: 6px 0;
@@ -1605,4 +1615,18 @@ body {
   * {
     transition: none !important;
   }
+}
+
+
+/* Small windows: the toolbar icons shrink to 75%, then to 50% */
+@media (max-width: 1000px) {
+  #toolbar .tool { width: 32px; height: 32px; }
+  #toolbar .tool svg { width: 17px; height: 17px; }
+  #toolbar .tool kbd { font-size: 7px; }
+}
+
+@media (max-width: 640px) {
+  #toolbar .tool { width: 21px; height: 21px; border-radius: 5px; }
+  #toolbar .tool svg { width: 11px; height: 11px; }
+  #toolbar .tool kbd { font-size: 5px; right: 1px; bottom: 0; }
 }

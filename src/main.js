@@ -2369,6 +2369,7 @@
     }
     if (e.ctrlKey || e.metaKey || e.altKey) return;
 
+    if (k === "b" && magnifySelection()) return;
     const id = TOOL_BY_KEY[k];
     if (id) setTool(id);
   });
@@ -2653,7 +2654,9 @@
     const magKbd = document.createElement("kbd");
     magKbd.textContent = "B";
     magBtn.appendChild(magKbd);
-    magBtn.addEventListener("click", () => setTool("magnifier"));
+    magBtn.addEventListener("click", () => {
+      if (!magnifySelection()) setTool("magnifier");
+    });
     toolbarEl.appendChild(magBtn);
 
     calcMenuEl = document.createElement("div");
@@ -4151,9 +4154,15 @@
       return `<button data-k="${k}" class="fn">${label}</button>`;
     }).join("");
     const stdKeys = CALC_STD.map(([k, l, c]) => `<button data-k="${k}" class="${c || "num"}">${l}</button>`).join("");
+    // Oldest first, numbered (1), (2)...; the newest is at the bottom
     const hist = calc.history.length
       ? calc.history
-          .map((h, i) => `<button class="calc-h" data-h="${i}"><span>${h.expr}</span><b>= ${h.result}</b></button>`)
+          .map((h, i) => ({ h, i }))
+          .reverse()
+          .map(({ h, i }) => {
+            const n = calc.history.length - i;
+            return `<button class="calc-h" data-h="${i}"><span class="calc-n">(${n})</span><span class="calc-eq">${h.expr} = ${h.result}</span></button>`;
+          })
           .join("")
       : '<div class="calc-empty">No calculations yet</div>';
     const shown = calc.error ? "Error" : calc.expr ? calcPreview() : "0";
@@ -4168,7 +4177,7 @@
       </div>
       <div class="calc-keys ${sci ? "sci" : ""}">${sci ? sciKeys : ""}${stdKeys}</div>
       <div class="calc-hist">
-        <div class="calc-hhead"><span>History (last 10)</span><button class="calc-clear">Clear</button></div>
+        <div class="calc-hhead"><span></span><button class="calc-clear">Clear</button></div>
         ${hist}
       </div>`;
   }
@@ -4901,6 +4910,26 @@
   let magGrow = null;
 
   // Window size on the screen: the area as it is seen now, times the enlargement (never wider than the screen)
+  // The selected shapes, enlarged in the magnifier window
+  function magnifySelection() {
+    const sel = shapesOf().filter((s) => selected.has(s.id));
+    if (!sel.length) return false;
+    let b = null;
+    for (const s of sel) {
+      const bb = bounds(s);
+      if (!b) b = { ...bb };
+      else {
+        b.x1 = Math.min(b.x1, bb.x1);
+        b.y1 = Math.min(b.y1, bb.y1);
+        b.x2 = Math.max(b.x2, bb.x2);
+        b.y2 = Math.max(b.y2, bb.y2);
+      }
+    }
+    const pad = 12;
+    openMagnifier({ x1: b.x1 - pad, y1: b.y1 - pad, x2: b.x2 + pad, y2: b.y2 + pad });
+    return true;
+  }
+
   function magSize() {
     const z = board().camera.zoom;
     const rw = (magRect.x2 - magRect.x1) * z;
