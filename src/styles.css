@@ -1647,3 +1647,16 @@ body {
   #tabs .tab-menu-btn { left: 2px; }
   #tabs .tab-add { width: 11px; height: 11px; font-size: 8px; }
 }
+
+/* Sub-menus: scroll when there are more items than fit on the screen */
+.tm-sub {
+  max-height: calc(100vh - 16px);
+  overflow-y: auto;
+}
+
+/* Clip Art names: smaller, each on one line */
+#tab-menu button[data-act="clip"] {
+  height: 24px;
+  font-size: 11px;
+  white-space: nowrap;
+}
