@@ -5042,12 +5042,12 @@
 
   // fonts.js (written from the src/fonts folder) lists the extra fonts; each one is loaded and offered
   function loadFontList() {
-    loadScript("fonts/fonts.js", () => window.PADA_FONTS)
+    loadScript("src/fonts/fonts.js", () => window.PADA_FONTS)
       .then(() => {
         for (const f of window.PADA_FONTS || []) {
           const family = "PADA " + f.label;
           FAMILIES["font-" + f.key] = { label: f.label, css: `"${family}", system-ui, sans-serif` };
-          const face = new FontFace(family, `url("fonts/${f.file}")`);
+          const face = new FontFace(family, `url("src/fonts/${f.file}")`);
           face
             .load()
             .then((loaded) => {
