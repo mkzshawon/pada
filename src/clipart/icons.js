@@ -1399,6 +1399,128 @@ window.PADA_ICONS = {
         "name": "Wireless Network Diagram",
         "svg": "<circle cx=\"50\" cy=\"60\" r=\"6\"/><path d=\"M36 46a20 20 0 0 1 28 0\"/><path d=\"M26 34a34 34 0 0 1 48 0\"/><rect x=\"14\" y=\"70\" width=\"20\" height=\"16\" rx=\"2\"/><rect x=\"66\" y=\"70\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"M50 66v4M24 70v-6M76 70v-6\"/>"
       }
+    ],
+    "Server and Data Center": [
+      {
+        "name": "Rack Server",
+        "svg": "<rect x=\"12\" y=\"20\" width=\"76\" height=\"14\" rx=\"2\"/><rect x=\"12\" y=\"38\" width=\"76\" height=\"14\" rx=\"2\"/><rect x=\"12\" y=\"56\" width=\"76\" height=\"14\" rx=\"2\"/><rect x=\"12\" y=\"74\" width=\"76\" height=\"8\" rx=\"2\"/><path d=\"M20 27h4M20 45h4M20 63h4\"/>"
+      },
+      {
+        "name": "Tower Server",
+        "svg": "<rect x=\"30\" y=\"8\" width=\"40\" height=\"84\" rx=\"3\"/><path d=\"M30 20h40\"/><path d=\"M40 34h20M40 46h20M40 58h20\"/><circle cx=\"50\" cy=\"78\" r=\"5\"/>"
+      },
+      {
+        "name": "Blade Server",
+        "svg": "<rect x=\"10\" y=\"10\" width=\"80\" height=\"80\" rx=\"3\"/><rect x=\"18\" y=\"18\" width=\"64\" height=\"16\"/><rect x=\"18\" y=\"40\" width=\"64\" height=\"16\"/><rect x=\"18\" y=\"62\" width=\"64\" height=\"16\"/>"
+      },
+      {
+        "name": "Server Rack Cabinet",
+        "svg": "<rect x=\"24\" y=\"8\" width=\"52\" height=\"84\" rx=\"3\"/><path d=\"M24 20h52M24 80h52\"/><path d=\"M36 34h28M36 48h28M36 62h28\"/><circle cx=\"68\" cy=\"28\" r=\"2\"/>"
+      },
+      {
+        "name": "Database Server",
+        "svg": "<ellipse cx=\"50\" cy=\"20\" rx=\"28\" ry=\"10\"/><path d=\"M22 20v22c0 6 56 6 56 0V20\"/><path d=\"M22 42v22c0 6 56 6 56 0V42\"/><path d=\"M22 64v16c0 6 56 6 56 0V64\"/>"
+      },
+      {
+        "name": "Web Server",
+        "svg": "<rect x=\"12\" y=\"16\" width=\"76\" height=\"60\" rx=\"3\"/><path d=\"M12 28h76\"/><circle cx=\"20\" cy=\"22\" r=\"1.5\"/><path d=\"M30 46a20 20 0 0 1 40 0M50 26v40M30 46h40\"/><path d=\"M40 84h20M50 76v8\"/>"
+      },
+      {
+        "name": "Application Server",
+        "svg": "<rect x=\"12\" y=\"16\" width=\"76\" height=\"60\" rx=\"3\"/><path d=\"M12 28h76\"/><path d=\"M28 46l-8 6 8 6M72 46l8 6-8 6M56 42l-12 20\"/><path d=\"M40 84h20M50 76v8\"/>"
+      },
+      {
+        "name": "File Server",
+        "svg": "<rect x=\"12\" y=\"16\" width=\"76\" height=\"60\" rx=\"3\"/><path d=\"M12 28h76\"/><path d=\"M26 44h14v22H26zM42 44h14v22H42zM58 44h14v22H58z\"/><path d=\"M40 84h20M50 76v8\"/>"
+      },
+      {
+        "name": "Mail Server",
+        "svg": "<rect x=\"12\" y=\"16\" width=\"76\" height=\"60\" rx=\"3\"/><path d=\"M12 28h76\"/><rect x=\"24\" y=\"42\" width=\"52\" height=\"26\"/><path d=\"M24 42l26 16 26-16\"/><path d=\"M40 84h20M50 76v8\"/>"
+      },
+      {
+        "name": "DNS Server",
+        "svg": "<rect x=\"12\" y=\"16\" width=\"76\" height=\"60\" rx=\"3\"/><path d=\"M12 28h76\"/><circle cx=\"50\" cy=\"50\" r=\"14\"/><path d=\"M36 50h28M50 36c-8 6-8 22 0 28M50 36c8 6 8 22 0 28\"/><path d=\"M40 84h20M50 76v8\"/>"
+      },
+      {
+        "name": "DHCP Server",
+        "svg": "<rect x=\"12\" y=\"16\" width=\"76\" height=\"60\" rx=\"3\"/><path d=\"M12 28h76\"/><path d=\"M26 56V44M42 56V44M58 56V44M74 56V44\"/><path d=\"M26 44h48\"/><path d=\"M40 84h20M50 76v8\"/>"
+      },
+      {
+        "name": "Proxy Server",
+        "svg": "<rect x=\"12\" y=\"16\" width=\"76\" height=\"60\" rx=\"3\"/><path d=\"M12 28h76\"/><path d=\"M24 50h16M60 50h16\"/><path d=\"M40 44h20v12H40z\"/><path d=\"M40 84h20M50 76v8\"/>"
+      },
+      {
+        "name": "Virtual Server",
+        "svg": "<rect x=\"12\" y=\"16\" width=\"76\" height=\"60\" rx=\"3\"/><path d=\"M12 28h76\"/><rect x=\"22\" y=\"38\" width=\"20\" height=\"20\" rx=\"2\"/><rect x=\"58\" y=\"38\" width=\"20\" height=\"20\" rx=\"2\"/><path d=\"M42 48h16\"/><path d=\"M40 84h20M50 76v8\"/>"
+      },
+      {
+        "name": "Storage Server",
+        "svg": "<rect x=\"12\" y=\"16\" width=\"76\" height=\"60\" rx=\"3\"/><path d=\"M12 28h76\"/><path d=\"M22 36h56M22 46h56M22 56h56\"/><circle cx=\"70\" cy=\"66\" r=\"2\"/><path d=\"M40 84h20M50 76v8\"/>"
+      },
+      {
+        "name": "Network Attached Storage (NAS)",
+        "svg": "<rect x=\"12\" y=\"30\" width=\"76\" height=\"40\" rx=\"3\"/><path d=\"M12 42h76M12 58h76\"/><path d=\"M24 36h4M24 52h4M24 66h4\"/><path d=\"M60 36h20M60 52h20\"/>"
+      },
+      {
+        "name": "Storage Area Network (SAN)",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"30\" height=\"20\" rx=\"2\"/><rect x=\"60\" y=\"14\" width=\"30\" height=\"20\" rx=\"2\"/><rect x=\"35\" y=\"66\" width=\"30\" height=\"20\" rx=\"2\"/><path d=\"M25 34v18h50V34M50 52v14\"/><path d=\"M40 76h20\"/>"
+      },
+      {
+        "name": "Server Hard Drive",
+        "svg": "<rect x=\"12\" y=\"26\" width=\"76\" height=\"48\" rx=\"4\"/><circle cx=\"50\" cy=\"50\" r=\"16\"/><path d=\"M50 50L60 42\"/><path d=\"M76 40h4\"/>"
+      },
+      {
+        "name": "Server Power Supply",
+        "svg": "<rect x=\"16\" y=\"20\" width=\"68\" height=\"60\" rx=\"3\"/><circle cx=\"50\" cy=\"50\" r=\"18\"/><path d=\"M50 32v36M32 50h36\"/><path d=\"M84 50h8\"/>"
+      },
+      {
+        "name": "Server Cooling Fan",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"38\"/><path d=\"M50 44C44 34 46 20 52 14C58 30 58 40 50 44Z\"/><path transform=\"rotate(120 50 50)\" d=\"M50 44C44 34 46 20 52 14C58 30 58 40 50 44Z\"/><path transform=\"rotate(240 50 50)\" d=\"M50 44C44 34 46 20 52 14C58 30 58 40 50 44Z\"/><circle cx=\"50\" cy=\"50\" r=\"5\"/>"
+      },
+      {
+        "name": "Data Center Building",
+        "svg": "<path d=\"M10 90h80\"/><path d=\"M16 90V40L50 18L84 40V90\"/><path d=\"M28 56h8M28 70h8M64 56h8M64 70h8\"/><path d=\"M44 90V74h12v16\"/>"
+      },
+      {
+        "name": "Data Center Server Room",
+        "svg": "<rect x=\"8\" y=\"10\" width=\"84\" height=\"80\" rx=\"3\"/><rect x=\"18\" y=\"20\" width=\"14\" height=\"60\"/><rect x=\"36\" y=\"20\" width=\"14\" height=\"60\"/><rect x=\"54\" y=\"20\" width=\"14\" height=\"60\"/><rect x=\"72\" y=\"20\" width=\"10\" height=\"60\"/>"
+      },
+      {
+        "name": "Server Cooling System",
+        "svg": "<rect x=\"12\" y=\"20\" width=\"76\" height=\"60\" rx=\"3\"/><path d=\"M50 20v60\"/><path d=\"M22 40c8-8 16 8 24 0M54 60c8-8 16 8 24 0\"/>"
+      },
+      {
+        "name": "Precision Air Conditioning (PAC)",
+        "svg": "<rect x=\"16\" y=\"14\" width=\"68\" height=\"72\" rx=\"4\"/><path d=\"M28 30h44\"/><path d=\"M28 44h44M28 58h44\"/><circle cx=\"50\" cy=\"74\" r=\"5\"/>"
+      },
+      {
+        "name": "Data Center UPS System",
+        "svg": "<rect x=\"14\" y=\"26\" width=\"72\" height=\"48\" rx=\"4\"/><path d=\"M28 50h8M42 50h8M56 50h8M70 50h4\"/><path d=\"M14 40h-4M86 40h4\"/><path d=\"M48 36l-6 14h8l-6 14\"/>"
+      },
+      {
+        "name": "Data Center Battery Bank",
+        "svg": "<rect x=\"10\" y=\"30\" width=\"80\" height=\"44\" rx=\"4\"/><path d=\"M22 40v24M34 40v24M46 40v24M58 40v24M70 40v24\"/><path d=\"M14 52h4M86 52h4\"/>"
+      },
+      {
+        "name": "Raised Floor System",
+        "svg": "<path d=\"M8 40L24 24H92L76 40z\"/><path d=\"M8 40v40h68V40\"/><path d=\"M76 40v40L92 64V24\"/><path d=\"M24 40v40M42 40v40M60 40v40\"/>"
+      },
+      {
+        "name": "Server Monitoring Console",
+        "svg": "<rect x=\"12\" y=\"14\" width=\"76\" height=\"52\" rx=\"3\"/><path d=\"M22 50l10-10 8 8 10-14 10 12 8-6\"/><path d=\"M42 66h16v10H42M30 84h40\"/>"
+      },
+      {
+        "name": "Backup Storage System",
+        "svg": "<path d=\"M26 40L74 40L74 80L26 80Z\"/><path d=\"M26 40L40 20H86L74 40\"/><path d=\"M40 20v60\"/><path d=\"M50 56a8 8 0 1 1 8 8\"/><path d=\"M50 56l-4 4 4 4\"/>"
+      },
+      {
+        "name": "Data Center Network Topology",
+        "svg": "<rect x=\"38\" y=\"8\" width=\"24\" height=\"16\" rx=\"2\"/><rect x=\"10\" y=\"42\" width=\"24\" height=\"16\" rx=\"2\"/><rect x=\"38\" y=\"42\" width=\"24\" height=\"16\" rx=\"2\"/><rect x=\"66\" y=\"42\" width=\"24\" height=\"16\" rx=\"2\"/><rect x=\"10\" y=\"76\" width=\"24\" height=\"16\" rx=\"2\"/><rect x=\"66\" y=\"76\" width=\"24\" height=\"16\" rx=\"2\"/><path d=\"M50 24v18M22 42v-8h56v8M22 58v18M78 58v18\"/>"
+      },
+      {
+        "name": "Data Center Infrastructure Diagram",
+        "svg": "<rect x=\"12\" y=\"10\" width=\"76\" height=\"20\" rx=\"2\"/><rect x=\"12\" y=\"40\" width=\"34\" height=\"20\" rx=\"2\"/><rect x=\"54\" y=\"40\" width=\"34\" height=\"20\" rx=\"2\"/><rect x=\"12\" y=\"70\" width=\"34\" height=\"20\" rx=\"2\"/><rect x=\"54\" y=\"70\" width=\"34\" height=\"20\" rx=\"2\"/><path d=\"M50 30v10M29 40v-0M71 40v-0M50 50v0M29 60v10M71 60v10\"/>"
+      }
     ]
   }
 };
