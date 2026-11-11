@@ -216,7 +216,72 @@ window.PADA_ICONS = {
       "svg": "<circle cx=\"50\" cy=\"50\" r=\"34\"/><circle cx=\"50\" cy=\"50\" r=\"12\"/><path d=\"M46 16h8l-4 8z\"/><path transform=\"rotate(90 50 50)\" d=\"M46 16h8l-4 8z\"/><path transform=\"rotate(180 50 50)\" d=\"M46 16h8l-4 8z\"/><path transform=\"rotate(270 50 50)\" d=\"M46 16h8l-4 8z\"/>"
     }
   ],
-  "Electrical Protection and Control": [],
+  "Electrical Protection and Control": [
+    {
+      "name": "Protective Relay",
+      "svg": "<rect x=\"20\" y=\"24\" width=\"60\" height=\"52\" rx=\"4\"/><circle cx=\"32\" cy=\"62\" r=\"3\"/><circle cx=\"68\" cy=\"38\" r=\"3\"/><path d=\"M32 62L68 38\"/>"
+    },
+    {
+      "name": "Differential Protection Relay (87G)",
+      "svg": "<circle cx=\"34\" cy=\"50\" r=\"18\"/><circle cx=\"66\" cy=\"50\" r=\"18\"/><path d=\"M50 40v20\"/>"
+    },
+    {
+      "name": "Overcurrent Relay (50/51)",
+      "svg": "<path d=\"M12 16v68h76\"/><path d=\"M18 24C26 24 34 60 52 62S78 70 84 74\"/>"
+    },
+    {
+      "name": "Earth Fault Relay",
+      "svg": "<rect x=\"22\" y=\"18\" width=\"56\" height=\"44\" rx=\"4\"/><path d=\"M50 62v8M36 70h28M42 78h16M47 86h6\"/>"
+    },
+    {
+      "name": "Voltage Transformer",
+      "svg": "<circle cx=\"50\" cy=\"50\" r=\"32\"/><path d=\"M34 40L50 66L66 40\"/>"
+    },
+    {
+      "name": "Ammeter",
+      "svg": "<circle cx=\"50\" cy=\"50\" r=\"34\"/><path d=\"M26 66a32 32 0 0 1 48 0\"/><path d=\"M50 62L66 40\"/><circle cx=\"50\" cy=\"62\" r=\"3\"/>"
+    },
+    {
+      "name": "Voltmeter",
+      "svg": "<circle cx=\"50\" cy=\"50\" r=\"34\"/><path d=\"M26 66a32 32 0 0 1 48 0\"/><path d=\"M36 36L50 64L64 36\"/>"
+    },
+    {
+      "name": "Wattmeter",
+      "svg": "<circle cx=\"50\" cy=\"50\" r=\"34\"/><path d=\"M26 64l8-18 8 18 8-18 8 18 8-18\"/>"
+    },
+    {
+      "name": "Energy Meter",
+      "svg": "<rect x=\"18\" y=\"20\" width=\"64\" height=\"60\" rx=\"6\"/><circle cx=\"50\" cy=\"50\" r=\"16\"/><path d=\"M50 50L58 40\"/>"
+    },
+    {
+      "name": "Frequency Meter",
+      "svg": "<circle cx=\"50\" cy=\"50\" r=\"34\"/><path d=\"M50 50L70 40\"/><path d=\"M30 66c4-6 8-6 12 0s8 6 12 0\"/>"
+    },
+    {
+      "name": "Synchronoscope",
+      "svg": "<circle cx=\"50\" cy=\"50\" r=\"34\"/><path d=\"M50 50L50 26\"/><path d=\"M50 50L68 66\" stroke-dasharray=\"4 4\"/><circle cx=\"50\" cy=\"50\" r=\"4\"/>"
+    },
+    {
+      "name": "Control Panel",
+      "svg": "<rect x=\"14\" y=\"16\" width=\"72\" height=\"68\" rx=\"4\"/><circle cx=\"32\" cy=\"36\" r=\"6\"/><circle cx=\"68\" cy=\"36\" r=\"6\"/><rect x=\"28\" y=\"56\" width=\"44\" height=\"16\" rx=\"2\"/>"
+    },
+    {
+      "name": "Switchgear Panel",
+      "svg": "<rect x=\"18\" y=\"12\" width=\"64\" height=\"76\" rx=\"3\"/><path d=\"M18 40h64M18 66h64\"/><rect x=\"30\" y=\"20\" width=\"16\" height=\"12\"/><rect x=\"54\" y=\"48\" width=\"16\" height=\"12\"/><rect x=\"30\" y=\"74\" width=\"16\" height=\"6\"/>"
+    },
+    {
+      "name": "Emergency Stop Button",
+      "svg": "<path d=\"M26 66a24 24 0 0 1 48 0z\"/><path d=\"M20 76h60\"/>"
+    },
+    {
+      "name": "Electrical Contactor",
+      "svg": "<rect x=\"32\" y=\"12\" width=\"36\" height=\"18\" rx=\"2\"/><path d=\"M50 30v10M40 40h20\"/><path d=\"M28 50v40M50 50v40M72 50v40\"/><path d=\"M22 60h12M44 60h12M66 60h12\"/>"
+    },
+    {
+      "name": "Thermal Overload Relay",
+      "svg": "<rect x=\"20\" y=\"20\" width=\"60\" height=\"60\" rx=\"4\"/><path d=\"M30 38h40\"/><path d=\"M30 62c5-10 10-10 15 0s10 10 15 0\"/>"
+    }
+  ],
   "Renewable Energy": [],
   "Electrical Circuit and Drawing Symbols": []
 }
