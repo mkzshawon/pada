@@ -621,6 +621,88 @@ window.PADA_ICONS = {
         "name": "Waterproofing Membrane",
         "svg": "<path d=\"M10 36h80v40H10z\"/><path d=\"M10 56c10-8 20 8 30 0s20 8 30 0 14 4 20 0\"/>"
       }
+    ],
+    "Roads and Transportation Engineering": [
+      {
+        "name": "Asphalt Road",
+        "svg": "<path d=\"M36 10L14 90M64 10L86 90\"/><path d=\"M50 16v8M50 36v10M50 62v12\"/>"
+      },
+      {
+        "name": "Concrete Road",
+        "svg": "<path d=\"M36 10L14 90M64 10L86 90\"/><path d=\"M26 30h48M20 52h60M16 74h68\"/>"
+      },
+      {
+        "name": "Highway",
+        "svg": "<path d=\"M30 10L12 90M70 10L88 90\"/><path d=\"M50 14v10M50 36v10M50 58v10M50 80v8\"/>"
+      },
+      {
+        "name": "Railway Track",
+        "svg": "<path d=\"M34 10L22 90M66 10L78 90\"/><path d=\"M28 24h44M25 44h50M22 64h56M19 84h62\"/>"
+      },
+      {
+        "name": "Railway Bridge",
+        "svg": "<path d=\"M8 30h84M8 36h84\"/><path d=\"M14 74c10-40 62-40 72 0\"/><path d=\"M26 56v18M74 56v18\"/><path d=\"M8 74h84\"/>"
+      },
+      {
+        "name": "Road Intersection",
+        "svg": "<path d=\"M36 8v34M64 8v34M36 58v34M64 58v34M8 42h34M8 58h34M58 42h34M58 58h34\"/>"
+      },
+      {
+        "name": "Roundabout",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"30\"/><circle cx=\"50\" cy=\"50\" r=\"12\"/><path d=\"M50 8v14M50 78v14M8 50h14M78 50h14\"/>"
+      },
+      {
+        "name": "Road Divider",
+        "svg": "<rect x=\"10\" y=\"44\" width=\"80\" height=\"12\"/><path d=\"M10 36h80M10 64h80\"/>"
+      },
+      {
+        "name": "Footpath",
+        "svg": "<path d=\"M8 36h84M8 80h84\"/><path d=\"M28 36v44M48 36v44M68 36v44\"/><path d=\"M8 58h84\"/>"
+      },
+      {
+        "name": "Road Drain",
+        "svg": "<path d=\"M8 40h84v30H8z\"/><path d=\"M18 40v30M30 40v30M42 40v30M54 40v30M66 40v30M78 40v30\"/>"
+      },
+      {
+        "name": "Road Cross Section",
+        "svg": "<path d=\"M8 40Q50 28 92 40\"/><path d=\"M8 44h84M8 56h84M8 68h84M8 80h84\"/>"
+      },
+      {
+        "name": "Road Pavement Layers",
+        "svg": "<rect x=\"8\" y=\"30\" width=\"84\" height=\"50\"/><path d=\"M8 46h84M8 62h84\"/>"
+      },
+      {
+        "name": "Road Signboard",
+        "svg": "<path d=\"M50 44v46M38 90h24\"/><path d=\"M18 12h64l8 9-8 9H18z\"/>"
+      },
+      {
+        "name": "Traffic Signal",
+        "svg": "<path d=\"M50 60v30M38 90h24\"/><rect x=\"36\" y=\"10\" width=\"28\" height=\"50\" rx=\"4\"/><circle cx=\"50\" cy=\"22\" r=\"5\"/><circle cx=\"50\" cy=\"36\" r=\"5\"/><circle cx=\"50\" cy=\"50\" r=\"5\"/>"
+      },
+      {
+        "name": "Street Light Pole",
+        "svg": "<path d=\"M30 90V18h30\"/><path d=\"M52 18v-4h14l-2 4z\"/><path d=\"M22 90h16\"/>"
+      },
+      {
+        "name": "Road Safety Barrier",
+        "svg": "<path d=\"M8 38h84M8 48h84\"/><path d=\"M20 38v44M50 38v44M80 38v44\"/>"
+      },
+      {
+        "name": "Highway Overpass",
+        "svg": "<path d=\"M8 40h84M8 50h84\"/><path d=\"M20 50v30M80 50v30\"/><path d=\"M14 92h72\"/>"
+      },
+      {
+        "name": "Underpass",
+        "svg": "<path d=\"M8 30h84\"/><path d=\"M20 30v8c0 12 10 22 30 22s30-10 30-22v-8\"/><path d=\"M8 90h84\"/>"
+      },
+      {
+        "name": "Pedestrian Crossing",
+        "svg": "<rect x=\"18\" y=\"20\" width=\"10\" height=\"60\"/><rect x=\"38\" y=\"20\" width=\"10\" height=\"60\"/><rect x=\"58\" y=\"20\" width=\"10\" height=\"60\"/><rect x=\"78\" y=\"20\" width=\"8\" height=\"60\"/>"
+      },
+      {
+        "name": "Road Roller",
+        "svg": "<rect x=\"12\" y=\"50\" width=\"48\" height=\"26\" rx=\"6\"/><path d=\"M60 58h18l10 14v4H60z\"/><circle cx=\"36\" cy=\"84\" r=\"6\"/><circle cx=\"74\" cy=\"84\" r=\"6\"/>"
+      }
     ]
   }
 };
