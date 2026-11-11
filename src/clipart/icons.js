@@ -457,6 +457,88 @@ window.PADA_ICONS = {
         "name": "Structural Grid Plan",
         "svg": "<path d=\"M20 10v80M50 10v80M80 10v80M10 25h80M10 55h80M10 80h80\"/>"
       }
+    ],
+    "Structural Engineering Components": [
+      {
+        "name": "Reinforced Cement Concrete (RCC) Column",
+        "svg": "<rect x=\"34\" y=\"10\" width=\"32\" height=\"80\"/><rect x=\"44\" y=\"20\" width=\"12\" height=\"60\"/>"
+      },
+      {
+        "name": "Steel Column",
+        "svg": "<path d=\"M30 10h40v8H54v64h16v8H30v-8h16V18H30z\"/>"
+      },
+      {
+        "name": "RCC Beam",
+        "svg": "<rect x=\"8\" y=\"36\" width=\"84\" height=\"28\"/><path d=\"M14 46h72M14 54h72\"/>"
+      },
+      {
+        "name": "Steel Beam (I-Beam)",
+        "svg": "<path d=\"M10 30h80v8H56v24h34v8H10v-8h34V38H10z\"/>"
+      },
+      {
+        "name": "RCC Slab",
+        "svg": "<rect x=\"12\" y=\"16\" width=\"76\" height=\"68\"/><path d=\"M12 33h76M12 50h76M12 67h76M29 16v68M46 16v68M63 16v68M80 16v68\"/>"
+      },
+      {
+        "name": "Reinforced Concrete Wall",
+        "svg": "<rect x=\"30\" y=\"8\" width=\"40\" height=\"84\"/><path d=\"M36 8v84M64 8v84\"/>"
+      },
+      {
+        "name": "Retaining Wall",
+        "svg": "<path d=\"M26 10h14v58h36v12H26z\"/><path d=\"M68 40h16M68 54h16M68 68h16M68 82h16\"/>"
+      },
+      {
+        "name": "Shear Wall",
+        "svg": "<rect x=\"30\" y=\"8\" width=\"40\" height=\"84\"/><path d=\"M30 8L70 92M70 8L30 92\"/>"
+      },
+      {
+        "name": "Concrete Footing",
+        "svg": "<path d=\"M38 10v48M62 10v48\"/><path d=\"M22 58h56v10H22z\"/><path d=\"M10 88h80\"/>"
+      },
+      {
+        "name": "Isolated Footing",
+        "svg": "<rect x=\"16\" y=\"16\" width=\"68\" height=\"68\"/><rect x=\"38\" y=\"38\" width=\"24\" height=\"24\"/>"
+      },
+      {
+        "name": "Combined Footing",
+        "svg": "<path d=\"M26 10v44M74 10v44\"/><path d=\"M12 54h76v14H12z\"/>"
+      },
+      {
+        "name": "Raft Foundation",
+        "svg": "<path d=\"M16 10v40M50 10v40M84 10v40\"/><path d=\"M8 50h84v18H8z\"/><path d=\"M8 74h84\"/>"
+      },
+      {
+        "name": "Pile Foundation",
+        "svg": "<path d=\"M50 10v48\"/><path d=\"M16 58h68v10H16z\"/><path d=\"M26 68v24M50 68v24M74 68v24\"/>"
+      },
+      {
+        "name": "Pile Cap",
+        "svg": "<path d=\"M50 10v40\"/><path d=\"M22 50h56v20H22z\"/><path d=\"M34 70v20M66 70v20\"/>"
+      },
+      {
+        "name": "Reinforcement Bar (Rebar)",
+        "svg": "<path d=\"M6 50h88\"/><path d=\"M16 42l6 16M30 42l6 16M44 42l6 16M58 42l6 16M72 42l6 16\"/>"
+      },
+      {
+        "name": "Reinforcement Cage",
+        "svg": "<rect x=\"30\" y=\"12\" width=\"40\" height=\"76\"/><path d=\"M30 24h40M30 40h40M30 56h40M30 72h40\"/>"
+      },
+      {
+        "name": "Beam-Column Joint",
+        "svg": "<path d=\"M38 8v84M62 8v84\"/><path d=\"M8 38h30M62 38h30M8 62h30M62 62h30\"/>"
+      },
+      {
+        "name": "Steel Truss",
+        "svg": "<path d=\"M8 74h84M8 26h84M8 74L28 26L48 74L68 26L88 74M28 26v48M68 26v48\"/>"
+      },
+      {
+        "name": "Steel Connection",
+        "svg": "<rect x=\"14\" y=\"16\" width=\"14\" height=\"68\"/><rect x=\"72\" y=\"16\" width=\"14\" height=\"68\"/><path d=\"M28 34h44v32H28z\"/><circle cx=\"50\" cy=\"42\" r=\"3\"/><circle cx=\"50\" cy=\"58\" r=\"3\"/>"
+      },
+      {
+        "name": "Expansion Joint",
+        "svg": "<path d=\"M10 66h36v16H10z\"/><path d=\"M54 66h36v16H54z\"/><path d=\"M46 66v16M54 66v16\"/><path d=\"M50 60l-4 6 4 6-4 6\"/>"
+      }
     ]
   }
 };
