@@ -785,6 +785,88 @@ window.PADA_ICONS = {
         "name": "River Cross Section",
         "svg": "<path d=\"M6 30h88\"/><path d=\"M6 30Q24 30 30 60T50 80T70 60T94 30\"/><path d=\"M14 46h10M46 58h10M76 46h10\"/>"
       }
+    ],
+    "Surveying and Geotechnical Equipment": [
+      {
+        "name": "Total Station",
+        "svg": "<rect x=\"36\" y=\"30\" width=\"28\" height=\"22\" rx=\"3\"/><circle cx=\"50\" cy=\"41\" r=\"6\"/><path d=\"M50 30V18h-8\"/><path d=\"M44 52v22M56 52v22M30 74h40\"/>"
+      },
+      {
+        "name": "Theodolite",
+        "svg": "<circle cx=\"50\" cy=\"34\" r=\"16\"/><path d=\"M34 34h32M50 18v32\"/><path d=\"M50 50v28M36 90h28M50 78L30 90M50 78L70 90\"/>"
+      },
+      {
+        "name": "Automatic Level",
+        "svg": "<rect x=\"34\" y=\"26\" width=\"32\" height=\"24\" rx=\"3\"/><circle cx=\"50\" cy=\"38\" r=\"6\"/><path d=\"M50 26V14\"/><path d=\"M50 50v26M36 90h28M50 76L30 90M50 76L70 90\"/>"
+      },
+      {
+        "name": "Digital Level",
+        "svg": "<rect x=\"30\" y=\"20\" width=\"40\" height=\"30\" rx=\"3\"/><rect x=\"38\" y=\"28\" width=\"24\" height=\"12\"/><path d=\"M50 50v26M36 90h28M50 76L30 90M50 76L70 90\"/>"
+      },
+      {
+        "name": "Surveying Tripod",
+        "svg": "<path d=\"M50 10v40\"/><path d=\"M50 50L24 90M50 50L76 90M50 50v40\"/><path d=\"M36 60h28\"/>"
+      },
+      {
+        "name": "Levelling Staff",
+        "svg": "<rect x=\"42\" y=\"8\" width=\"16\" height=\"84\"/><path d=\"M42 20h8M42 32h8M42 44h8M42 56h8M42 68h8M42 80h8\"/><path d=\"M50 8v84\" stroke-dasharray=\"2 4\"/>"
+      },
+      {
+        "name": "Measuring Tape",
+        "svg": "<circle cx=\"34\" cy=\"50\" r=\"20\"/><circle cx=\"34\" cy=\"50\" r=\"8\"/><path d=\"M54 50h36\"/><path d=\"M68 50v-6M76 50v-6M84 50v-6M68 50v6M76 50v6M84 50v6\"/>"
+      },
+      {
+        "name": "Surveying Prism",
+        "svg": "<path d=\"M30 32h40l-10 36H40z\"/><path d=\"M40 32L50 18L60 32\"/><path d=\"M50 68v22M38 90h24\"/>"
+      },
+      {
+        "name": "GPS Survey Receiver",
+        "svg": "<path d=\"M30 28a24 24 0 0 1 40 0\"/><path d=\"M38 36a12 12 0 0 1 24 0\"/><circle cx=\"50\" cy=\"44\" r=\"4\"/><path d=\"M50 48v42M38 90h24\"/>"
+      },
+      {
+        "name": "Laser Distance Meter",
+        "svg": "<rect x=\"16\" y=\"36\" width=\"60\" height=\"28\" rx=\"4\"/><circle cx=\"66\" cy=\"50\" r=\"6\"/><path d=\"M76 50h16M80 44v12\"/><path d=\"M32 64v14M40 64v14\"/>"
+      },
+      {
+        "name": "Plumb Bob",
+        "svg": "<path d=\"M50 8v56\"/><path d=\"M42 64h16l-4 8v8h-8v-8z\"/><path d=\"M50 84v6\"/><path d=\"M42 90h16\"/>"
+      },
+      {
+        "name": "Spirit Level",
+        "svg": "<rect x=\"8\" y=\"40\" width=\"84\" height=\"20\" rx=\"4\"/><path d=\"M40 40v20M60 40v20\"/><circle cx=\"50\" cy=\"50\" r=\"3\"/>"
+      },
+      {
+        "name": "Surveying Compass",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"34\"/><path d=\"M50 22L58 50L50 78L42 50z\"/><path d=\"M50 16v8\"/>"
+      },
+      {
+        "name": "Soil Sampling Auger",
+        "svg": "<path d=\"M50 8v50\"/><path d=\"M36 58h28M38 66h24M42 74h16\"/><path d=\"M42 80L50 92L58 80\"/>"
+      },
+      {
+        "name": "Cone Penetration Test (CPT) Equipment",
+        "svg": "<path d=\"M50 8v48\"/><path d=\"M42 56h16v18H42z\"/><path d=\"M50 74L42 92h16z\"/><path d=\"M30 92h40\"/>"
+      },
+      {
+        "name": "Standard Penetration Test (SPT) Equipment",
+        "svg": "<path d=\"M50 8v54\"/><circle cx=\"50\" cy=\"20\" r=\"6\"/><path d=\"M40 62h20v20H40z\"/><path d=\"M30 92h40\"/>"
+      },
+      {
+        "name": "Soil Testing Apparatus",
+        "svg": "<path d=\"M28 20h44v56H28z\"/><path d=\"M36 20V12h28v8\"/><path d=\"M36 40h28M36 60h28\"/><path d=\"M50 76v10M40 90h20\"/>"
+      },
+      {
+        "name": "Borehole Drilling Rig",
+        "svg": "<path d=\"M16 90h68\"/><path d=\"M26 90V26L50 12L74 26v64\"/><path d=\"M50 26v64\"/><path d=\"M42 40h16M42 56h16\"/>"
+      },
+      {
+        "name": "Plate Load Test Apparatus",
+        "svg": "<rect x=\"18\" y=\"76\" width=\"64\" height=\"8\"/><path d=\"M50 16v58\"/><path d=\"M38 16h24\"/><path d=\"M42 16V10h16v6\"/><path d=\"M30 60h40\"/>"
+      },
+      {
+        "name": "Soil Compaction Equipment",
+        "svg": "<rect x=\"16\" y=\"54\" width=\"48\" height=\"24\" rx=\"6\"/><path d=\"M64 60h16l8 14v6H64z\"/><circle cx=\"34\" cy=\"84\" r=\"6\"/><circle cx=\"76\" cy=\"84\" r=\"6\"/><path d=\"M40 54V36h20v18\"/>"
+      }
     ]
   }
 };
