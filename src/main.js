@@ -1652,7 +1652,67 @@
     ctx.restore();
   }
 
+  // Clip art: drawn from its vector paths as lines (no picture file), so it stays sharp at any size
+  function clipParts(svgInner) {
+    const cache = (window.PADA_CLIP_CACHE ||= new Map());
+    if (cache.has(svgInner)) return cache.get(svgInner);
+    const doc = new DOMParser().parseFromString(
+      `<svg xmlns="http://www.w3.org/2000/svg">${svgInner}</svg>`,
+      "image/svg+xml"
+    );
+    const parts = [];
+    for (const el of Array.from(doc.documentElement.children)) {
+      const num = (n) => Number(el.getAttribute(n) || 0);
+      const tag = el.localName;
+      let p;
+      if (tag === "path") p = new Path2D(el.getAttribute("d") || "");
+      else if (tag === "circle") {
+        p = new Path2D();
+        p.arc(num("cx"), num("cy"), num("r"), 0, Math.PI * 2);
+      } else if (tag === "ellipse") {
+        p = new Path2D();
+        p.ellipse(num("cx"), num("cy"), num("rx"), num("ry"), 0, 0, Math.PI * 2);
+      } else if (tag === "rect") {
+        p = new Path2D();
+        p.roundRect(num("x"), num("y"), num("width"), num("height"), num("rx"));
+      } else continue;
+      const m = (el.getAttribute("transform") || "").match(/rotate\(\s*([-\d.]+)(?:[\s,]+([-\d.]+)[\s,]+([-\d.]+))?\s*\)/);
+      if (m) {
+        const cx = Number(m[2] || 0);
+        const cy = Number(m[3] || 0);
+        const mat = new DOMMatrix().translate(cx, cy).rotate(Number(m[1])).translate(-cx, -cy);
+        const turned = new Path2D();
+        turned.addPath(p, mat);
+        p = turned;
+      }
+      const dash = (el.getAttribute("stroke-dasharray") || "").split(/[\s,]+/).filter(Boolean).map(Number);
+      parts.push({ path: p, dash, width: Number(el.getAttribute("stroke-width") || 3) });
+    }
+    cache.set(svgInner, parts);
+    return parts;
+  }
+
+  function drawClip(s) {
+    const b = bounds(s);
+    ctx.save();
+    ctx.translate(b.x1, b.y1);
+    ctx.scale((b.x2 - b.x1) / 100, (b.y2 - b.y1) / 100);
+    ctx.strokeStyle = s.stroke || "#1d1b2e";
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    for (const part of clipParts(s.svg)) {
+      ctx.lineWidth = part.width * 0.5;
+      ctx.setLineDash(part.dash);
+      ctx.stroke(part.path);
+    }
+    ctx.restore();
+  }
+
   function drawShape(s) {
+    if (s.type === "clip") {
+      drawClip(s);
+      return;
+    }
     if (s.type === "clip") {
       drawClip(s);
       return;
@@ -2580,10 +2640,10 @@
     if (eraserMenuEl) eraserMenuEl.style.display = eraserMenuOpen ? "flex" : "none";
   }
 
-  function eraseAll() {
+  async function eraseAll() {
     finishEditing();
     if (!shapesOf().length) return;
-    if (!confirm("Delete the drawn shapes on this tab? (Inserted files will stay.)")) return;
+    if (!(await askBox("Delete the drawn shapes on this tab? (Inserted files will stay.)", "Delete", "Cancel"))) return;
     const before = snapshot();
     board().shapes = shapesOf().filter(isMediaShape);
     selected = new Set();
@@ -4565,10 +4625,38 @@
   }
 
   // On start: if an auto-saved session exists, ask whether to restore it
+  // An in-page question box, used instead of confirm(): in Electron, confirm() leaves the window
+  // without keyboard focus, so typing in text and notes stopped working afterwards
+  function askBox(message, yesText, noText) {
+    return new Promise((resolve) => {
+      const box = document.createElement("div");
+      box.id = "pagebox";
+      box.innerHTML =
+        '<div class="pb-card"><div>' + message + "</div>" +
+        '<div class="pb-row"><button data-r="no">' + noText + '</button><button data-r="yes">' + yesText + "</button></div></div>";
+      document.body.appendChild(box);
+      const done = (ok) => {
+        box.remove();
+        window.focus();
+        resolve(ok);
+      };
+      box.addEventListener("click", (e) => {
+        const r = e.target.dataset.r;
+        if (r) done(r === "yes");
+      });
+      box.addEventListener("keydown", (e) => {
+        e.stopPropagation();
+        if (e.key === "Enter") done(true);
+        else if (e.key === "Escape") done(false);
+      });
+      box.querySelector('[data-r="yes"]').focus();
+    });
+  }
+
   async function offerRestore() {
     if (!window.padaDesktop || !window.padaDesktop.loadAutosave) return;
     const text = await window.padaDesktop.loadAutosave();
-    if (text && confirm("Restore the last auto-saved session?")) {
+    if (text && (await askBox("Restore the last auto-saved session?", "Restore", "Start new"))) {
       try {
         await restoreBoards(JSON.parse(text));
       } catch (err) {
@@ -4677,6 +4765,31 @@
   }
 
   function insertClipArt(ci, i) {
+    const subject = Object.keys(CLIP_ART)[ci];
+    const art = CLIP_ART[subject][i];
+    if (!art) return;
+    const c = screenToWorld(window.innerWidth / 2, window.innerHeight / 2);
+    const size = 200;
+    const before = snapshot();
+    const s = {
+      id: newId(),
+      type: "clip",
+      svg: art.svg,
+      stroke: "#1d1b2e",
+      x0: c.x - size / 2,
+      y0: c.y - size / 2,
+      x1: c.x + size / 2,
+      y1: c.y + size / 2,
+      transparency: 0,
+      blur: 0,
+    };
+    shapesOf().push(s);
+    selected = new Set([s.id]);
+    commit(before);
+    render();
+  }
+
+  function insertClipArtOld(ci, i) {
     const subject = Object.keys(CLIP_ART)[ci];
     const art = CLIP_ART[subject][i];
     if (!art) return;
