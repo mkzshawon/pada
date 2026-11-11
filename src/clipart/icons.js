@@ -1063,6 +1063,56 @@ window.PADA_ICONS = {
         "name": "Rainwater Harvesting System",
         "svg": "<path d=\"M10 36L50 12L90 36\"/><path d=\"M78 36v34\"/><rect x=\"26\" y=\"70\" width=\"48\" height=\"16\"/>"
       }
+    ],
+    "Environmental and Municipal Engineering": [
+      {
+        "name": "Wastewater Treatment Tank",
+        "svg": "<rect x=\"16\" y=\"28\" width=\"68\" height=\"56\" rx=\"4\"/><path d=\"M16 46h68\"/><path d=\"M30 60c6-4 10 4 16 0s10 4 16 0 6 4 8 0\"/>"
+      },
+      {
+        "name": "Sedimentation Tank",
+        "svg": "<rect x=\"16\" y=\"28\" width=\"68\" height=\"56\" rx=\"4\"/><path d=\"M28 84L50 62L72 84\"/><path d=\"M28 40h44\"/><path d=\"M50 46v10\"/>"
+      },
+      {
+        "name": "Aeration Tank",
+        "svg": "<rect x=\"16\" y=\"28\" width=\"68\" height=\"56\" rx=\"4\"/><circle cx=\"34\" cy=\"70\" r=\"3\"/><circle cx=\"50\" cy=\"66\" r=\"3\"/><circle cx=\"66\" cy=\"72\" r=\"3\"/><path d=\"M34 60c-4-6 4-10 0-16M66 60c-4-6 4-10 0-16\"/>"
+      },
+      {
+        "name": "Clarifier",
+        "svg": "<ellipse cx=\"50\" cy=\"40\" rx=\"36\" ry=\"10\"/><path d=\"M14 40v26c0 6 72 6 72 0V40\"/><path d=\"M50 40L50 76M40 62L50 76L60 62\"/>"
+      },
+      {
+        "name": "Sludge Digester",
+        "svg": "<path d=\"M30 26h40v58c0 6-40 6-40 0z\"/><path d=\"M30 26c0-8 40-8 40 0\"/><path d=\"M42 40c-6 6 6 10 0 16M58 50c-6 6 6 10 0 16\"/><path d=\"M50 26V14\"/>"
+      },
+      {
+        "name": "Solid Waste Container",
+        "svg": "<path d=\"M22 34h56l-6 56H28z\"/><path d=\"M18 34h64\"/><path d=\"M40 26h20v8H40z\"/><path d=\"M40 50h20\"/>"
+      },
+      {
+        "name": "Recycling Bin",
+        "svg": "<path d=\"M22 34h56l-6 56H28z\"/><path d=\"M18 34h64\"/><path d=\"M42 58l8-12 8 12M50 46v16\"/>"
+      },
+      {
+        "name": "Landfill Section",
+        "svg": "<path d=\"M8 80h84\"/><path d=\"M8 80Q20 40 40 56T70 44Q82 40 92 52\"/><path d=\"M8 80V92M92 80V92\"/><path d=\"M20 66h8M50 60h8M74 56h8\"/>"
+      },
+      {
+        "name": "Rainwater Collection System",
+        "svg": "<path d=\"M10 36L50 12L90 36\"/><path d=\"M78 36v34\"/><rect x=\"26\" y=\"70\" width=\"48\" height=\"16\"/><path d=\"M50 26v4\"/>"
+      },
+      {
+        "name": "Groundwater Recharge Pit",
+        "svg": "<path d=\"M8 30h84\"/><path d=\"M24 30v50h52V30\"/><path d=\"M34 46h32M34 60h32M34 74h32\"/><path d=\"M50 14v12M44 20l6 6 6-6\"/>"
+      },
+      {
+        "name": "Flood Drainage System",
+        "svg": "<path d=\"M8 30Q20 22 30 30T50 30T70 30T92 30\"/><path d=\"M8 50Q20 42 30 50T50 50T70 50T92 50\"/><path d=\"M30 60v30M30 90h40\"/><path d=\"M50 60v30M62 60v30\"/><path d=\"M42 74l8 16\"/>"
+      },
+      {
+        "name": "Environmental Monitoring Station",
+        "svg": "<path d=\"M50 90V40\"/><path d=\"M36 90h28\"/><path d=\"M30 30a28 28 0 0 1 40 0\"/><path d=\"M38 40a14 14 0 0 1 24 0\"/><circle cx=\"50\" cy=\"26\" r=\"4\"/>"
+      }
     ]
   }
 };
