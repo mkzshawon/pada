@@ -1521,6 +1521,168 @@ window.PADA_ICONS = {
         "name": "Data Center Infrastructure Diagram",
         "svg": "<rect x=\"12\" y=\"10\" width=\"76\" height=\"20\" rx=\"2\"/><rect x=\"12\" y=\"40\" width=\"34\" height=\"20\" rx=\"2\"/><rect x=\"54\" y=\"40\" width=\"34\" height=\"20\" rx=\"2\"/><rect x=\"12\" y=\"70\" width=\"34\" height=\"20\" rx=\"2\"/><rect x=\"54\" y=\"70\" width=\"34\" height=\"20\" rx=\"2\"/><path d=\"M50 30v10M29 40v-0M71 40v-0M50 50v0M29 60v10M71 60v10\"/>"
       }
+    ],
+    "Programming and Software": [
+      {
+        "name": "Programming Code Symbol",
+        "svg": "<path d=\"M34 28L14 50l20 22M66 28l20 22-20 22M56 22L44 78\"/>"
+      },
+      {
+        "name": "Source Code Editor",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"3\"/><path d=\"M10 26h80\"/><path d=\"M20 38h24M26 50h36M26 62h18M20 74h30\"/>"
+      },
+      {
+        "name": "Integrated Development Environment (IDE)",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"3\"/><path d=\"M10 26h80M34 26v60M34 56h56\"/>"
+      },
+      {
+        "name": "Code Brackets",
+        "svg": "<path d=\"M36 14H26v72h10M64 14h10v72H64\"/>"
+      },
+      {
+        "name": "HTML Code Symbol",
+        "svg": "<path d=\"M22 10h40l16 16v64H22z\"/><path d=\"M42 44l-8 8 8 8M58 44l8 8-8 8\"/>"
+      },
+      {
+        "name": "CSS Code Symbol",
+        "svg": "<path d=\"M22 10h40l16 16v64H22z\"/><path d=\"M36 46h28M36 56h18M36 66h24\"/><path d=\"M42 36c0 6 16 6 16 0\"/>"
+      },
+      {
+        "name": "JavaScript Code Symbol",
+        "svg": "<rect x=\"10\" y=\"10\" width=\"80\" height=\"80\" rx=\"4\"/><path d=\"M46 28v34c0 8-4 12-10 12\"/><path d=\"M64 36c-4-4-12-4-12 2 0 8 14 4 14 12 0 6-8 6-12 2\"/>"
+      },
+      {
+        "name": "PHP Code Symbol",
+        "svg": "<ellipse cx=\"50\" cy=\"48\" rx=\"40\" ry=\"26\"/><path d=\"M26 48h10M46 48h10M66 48h10\"/>"
+      },
+      {
+        "name": "Python Code Symbol",
+        "svg": "<path d=\"M50 14h24c6 0 8 4 8 10v16H42c-6 0-8 4-8 10\"/><path d=\"M50 86H26c-6 0-8-4-8-10V60h40c6 0 8-4 8-10\"/>"
+      },
+      {
+        "name": "Java Code Symbol",
+        "svg": "<path d=\"M22 44h48v26a14 14 0 0 1-14 14H36a14 14 0 0 1-14-14z\"/><path d=\"M70 50h6a8 8 0 0 1 0 16h-6\"/><path d=\"M34 22c-4 6 4 8 0 14M50 22c-4 6 4 8 0 14M64 22c-4 6 4 8 0 14\"/>"
+      },
+      {
+        "name": "C Programming Symbol",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"38\"/><path d=\"M62 36a18 18 0 1 0 0 28\"/>"
+      },
+      {
+        "name": "C++ Programming Symbol",
+        "svg": "<circle cx=\"40\" cy=\"50\" r=\"30\"/><path d=\"M50 38a14 14 0 1 0 0 24\"/><path d=\"M76 36v28M62 50h28\"/>"
+      },
+      {
+        "name": "C# Programming Symbol",
+        "svg": "<circle cx=\"40\" cy=\"50\" r=\"30\"/><path d=\"M50 38a14 14 0 1 0 0 24\"/><path d=\"M68 36l-4 28M78 36l-4 28M62 46h24M60 56h24\"/>"
+      },
+      {
+        "name": "SQL Code Symbol",
+        "svg": "<ellipse cx=\"50\" cy=\"22\" rx=\"30\" ry=\"10\"/><path d=\"M20 22v56c0 6 60 6 60 0V22\"/><path d=\"M20 50c0 6 60 6 60 0\"/>"
+      },
+      {
+        "name": "XML Document",
+        "svg": "<path d=\"M22 10h40l16 16v64H22z\"/><path d=\"M40 52l-6 6 6 6M52 52l6 6-6 6\"/><path d=\"M44 48l-4 16\"/>"
+      },
+      {
+        "name": "JSON Document",
+        "svg": "<path d=\"M22 10h40l16 16v64H22z\"/><path d=\"M44 42c-4 0-4 4-4 6v4c0 2-2 4-6 4 4 0 6 2 6 4v4c0 2 0 6 4 6M56 42c4 0 4 4 4 6v4c0 2 2 4 6 4-4 0-6 2-6 4v4c0 2 0 6-4 6\"/>"
+      },
+      {
+        "name": "API Integration",
+        "svg": "<rect x=\"10\" y=\"36\" width=\"26\" height=\"28\" rx=\"3\"/><rect x=\"64\" y=\"36\" width=\"26\" height=\"28\" rx=\"3\"/><path d=\"M36 50h28\"/><path d=\"M58 44l6 6-6 6M42 44l-6 6 6 6\"/>"
+      },
+      {
+        "name": "REST API",
+        "svg": "<path d=\"M10 40h80M58 26l14 14-14 14\"/><path d=\"M90 60H10M42 46l-14 14 14 14\"/>"
+      },
+      {
+        "name": "Web Development",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"36\"/><ellipse cx=\"50\" cy=\"50\" rx=\"16\" ry=\"36\"/><path d=\"M14 50h72\"/>"
+      },
+      {
+        "name": "Frontend Development",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"3\"/><path d=\"M10 28h80\"/><path d=\"M20 40h30v40H20z\"/><path d=\"M58 40h22M58 52h22M58 64h14\"/>"
+      },
+      {
+        "name": "Backend Development",
+        "svg": "<rect x=\"12\" y=\"16\" width=\"76\" height=\"22\" rx=\"3\"/><rect x=\"12\" y=\"44\" width=\"76\" height=\"22\" rx=\"3\"/><rect x=\"12\" y=\"72\" width=\"76\" height=\"12\" rx=\"3\"/><path d=\"M22 27h4M22 55h4M22 78h4\"/>"
+      },
+      {
+        "name": "Full Stack Development",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"40\" rx=\"3\"/><path d=\"M10 26h80\"/><rect x=\"10\" y=\"62\" width=\"80\" height=\"24\" rx=\"3\"/><path d=\"M30 40h40\"/>"
+      },
+      {
+        "name": "Software Application",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"4\"/><path d=\"M10 28h80\"/><rect x=\"22\" y=\"40\" width=\"16\" height=\"16\"/><rect x=\"42\" y=\"40\" width=\"16\" height=\"16\"/><rect x=\"62\" y=\"40\" width=\"16\" height=\"16\"/><rect x=\"22\" y=\"62\" width=\"16\" height=\"16\"/><rect x=\"42\" y=\"62\" width=\"16\" height=\"16\"/>"
+      },
+      {
+        "name": "Desktop Application",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"54\" rx=\"3\"/><path d=\"M42 68h16v10H42M30 84h40\"/><path d=\"M22 26h56v30H22z\"/>"
+      },
+      {
+        "name": "Mobile Application",
+        "svg": "<rect x=\"32\" y=\"8\" width=\"36\" height=\"84\" rx=\"6\"/><path d=\"M40 20h20M40 80h20\"/><rect x=\"40\" y=\"30\" width=\"8\" height=\"8\"/><rect x=\"52\" y=\"30\" width=\"8\" height=\"8\"/><rect x=\"40\" y=\"42\" width=\"8\" height=\"8\"/><rect x=\"52\" y=\"42\" width=\"8\" height=\"8\"/>"
+      },
+      {
+        "name": "Web Application",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"3\"/><path d=\"M10 28h80\"/><path d=\"M20 40h60M20 52h60M20 64h30\"/><rect x=\"58\" y=\"60\" width=\"22\" height=\"10\"/>"
+      },
+      {
+        "name": "Software Architecture Diagram",
+        "svg": "<rect x=\"36\" y=\"10\" width=\"28\" height=\"14\"/><rect x=\"14\" y=\"42\" width=\"28\" height=\"14\"/><rect x=\"58\" y=\"42\" width=\"28\" height=\"14\"/><rect x=\"36\" y=\"74\" width=\"28\" height=\"14\"/><path d=\"M50 24v8M42 42v-6M58 42v-6M50 56v18\"/>"
+      },
+      {
+        "name": "Flowchart",
+        "svg": "<ellipse cx=\"50\" cy=\"16\" rx=\"18\" ry=\"8\"/><rect x=\"34\" y=\"34\" width=\"32\" height=\"14\"/><path d=\"M50 40l16 14-16 14-16-14z\"/><path d=\"M50 24v10M50 80v10\"/>"
+      },
+      {
+        "name": "Algorithm Flow Diagram",
+        "svg": "<rect x=\"34\" y=\"8\" width=\"32\" height=\"14\"/><path d=\"M50 22v12\"/><path d=\"M50 34L70 50L50 66L30 50Z\"/><path d=\"M50 66v12\"/><rect x=\"34\" y=\"78\" width=\"32\" height=\"14\"/><path d=\"M30 50H12V16H34\"/>"
+      },
+      {
+        "name": "Debugging Symbol",
+        "svg": "<ellipse cx=\"50\" cy=\"56\" rx=\"20\" ry=\"26\"/><path d=\"M50 30V86M30 46H16M30 66H16M70 46h14M70 66h14\"/><path d=\"M38 30c0-8 6-12 12-12s12 4 12 12M36 22L28 12M64 22l8-10\"/>"
+      },
+      {
+        "name": "Bug Tracking",
+        "svg": "<rect x=\"14\" y=\"14\" width=\"72\" height=\"72\" rx=\"4\"/><path d=\"M26 34l6 6 10-12M26 60l6 6 10-12M52 34h22M52 60h22\"/>"
+      },
+      {
+        "name": "Software Testing",
+        "svg": "<rect x=\"22\" y=\"14\" width=\"56\" height=\"74\" rx=\"3\"/><path d=\"M36 14v-4h28v4\"/><path d=\"M34 40l6 6 12-12M34 62l6 6 12-12\"/>"
+      },
+      {
+        "name": "Unit Testing",
+        "svg": "<rect x=\"14\" y=\"30\" width=\"30\" height=\"34\"/><rect x=\"56\" y=\"30\" width=\"30\" height=\"34\"/><path d=\"M22 46l6 6 10-12\"/><path d=\"M64 46l6 6 10-12\"/>"
+      },
+      {
+        "name": "Quality Assurance (QA)",
+        "svg": "<circle cx=\"50\" cy=\"40\" r=\"24\"/><path d=\"M40 40l8 8 14-16\"/><path d=\"M36 60L30 90l20-8 20 8-6-30\"/>"
+      },
+      {
+        "name": "Software Deployment",
+        "svg": "<path d=\"M16 46L50 30l34 16v34L50 96 16 80z\"/><path d=\"M16 46l34 16 34-16M50 62v30\"/><path d=\"M50 14v22M42 22l8-8 8 8\"/>"
+      },
+      {
+        "name": "Software Update",
+        "svg": "<path d=\"M78 50A28 28 0 1 1 68 28\"/><path d=\"M68 14v14H54\"/>"
+      },
+      {
+        "name": "Version Control",
+        "svg": "<circle cx=\"28\" cy=\"16\" r=\"6\"/><circle cx=\"28\" cy=\"84\" r=\"6\"/><circle cx=\"72\" cy=\"50\" r=\"6\"/><path d=\"M28 22v56\"/><path d=\"M28 50c0-14 44-6 44 0\"/>"
+      },
+      {
+        "name": "Code Repository",
+        "svg": "<path d=\"M10 26h28l8 10h44v48H10z\"/><path d=\"M40 56l-6 6 6 6M60 56l6 6-6 6\"/>"
+      },
+      {
+        "name": "Terminal / Command Prompt",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"4\"/><path d=\"M10 28h80\"/><path d=\"M22 46l10 8-10 8M40 64h22\"/>"
+      },
+      {
+        "name": "Command Line Interface (CLI)",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"4\"/><path d=\"M10 28h80\"/><path d=\"M20 42h10M20 54h30M20 66h14\"/><path d=\"M58 60h14\"/>"
+      }
     ]
   }
 };
