@@ -2581,10 +2581,10 @@
     if (eraserMenuEl) eraserMenuEl.style.display = eraserMenuOpen ? "flex" : "none";
   }
 
-  function eraseAll() {
+  async function eraseAll() {
     finishEditing();
     if (!shapesOf().length) return;
-    if (!confirm("Delete the drawn shapes on this tab? (Inserted files will stay.)")) return;
+    if (!(await askBox("Delete the drawn shapes on this tab? (Inserted files will stay.)", "Delete", "Cancel"))) return;
     const before = snapshot();
     board().shapes = shapesOf().filter(isMediaShape);
     selected = new Set();
@@ -2818,7 +2818,6 @@
           <button data-act="save-image">Image</button>
           <hr />
           <button data-act="board-save">Save board (.pada)</button>
-          <button data-act="autosave">Auto-save: ${autosaveOn ? "On" : "Off"}</button>
         </div></div>
       <hr />
       <button data-act="rename">Rename</button>
@@ -2836,7 +2835,6 @@
       else if (act === "clip") insertClipPath(b.dataset.path);
       else if (act === "board-save") saveBoardFile();
       else if (act === "board-open") openBoardFile();
-      else if (act === "autosave") autosaveOn = !autosaveOn;
       else if (act === "bg") setBoardBg(index, b.dataset.bg);
       else if (act === "grid") setBoardGrid(index, b.dataset.grid);
       else if (act === "save-image" || act === "save-pdf") {
@@ -4488,6 +4486,7 @@
   // Loads a saved session back: pictures, videos (from their files), and the tabs
   async function restoreBoards(data) {
     if (!data || data.app !== "PADA" || !Array.isArray(data.boards)) throw new Error("not a PADA board file");
+    finishEditing();
     let maxId = idCounter;
     for (const [ref, src] of Object.entries(data.images || {})) {
       IMAGE_STORE.set(Number(ref), src);
@@ -4566,12 +4565,41 @@
   }
 
   // On start: if an auto-saved session exists, ask whether to restore it
+  // An in-page question box, used instead of confirm(): in Electron, confirm() leaves the window
+  // without keyboard focus, so typing in text and notes stopped working afterwards
+  function askBox(message, yesText, noText) {
+    return new Promise((resolve) => {
+      const box = document.createElement("div");
+      box.id = "pagebox";
+      box.innerHTML =
+        '<div class="pb-card"><div>' + message + "</div>" +
+        '<div class="pb-row"><button data-r="no">' + noText + '</button><button data-r="yes">' + yesText + "</button></div></div>";
+      document.body.appendChild(box);
+      const done = (ok) => {
+        box.remove();
+        window.focus();
+        resolve(ok);
+      };
+      box.addEventListener("click", (e) => {
+        const r = e.target.dataset.r;
+        if (r) done(r === "yes");
+      });
+      box.addEventListener("keydown", (e) => {
+        e.stopPropagation();
+        if (e.key === "Enter") done(true);
+        else if (e.key === "Escape") done(false);
+      });
+      box.querySelector('[data-r="yes"]').focus();
+    });
+  }
+
   async function offerRestore() {
     if (!window.padaDesktop || !window.padaDesktop.loadAutosave) return;
     const text = await window.padaDesktop.loadAutosave();
-    if (text && confirm("Restore the last auto-saved session?")) {
+    if (text && (await askBox("Restore the last auto-saved session?", "Restore", "Start new"))) {
       try {
         await restoreBoards(JSON.parse(text));
+        window.focus();
       } catch (err) {
         alert("Could not restore the session: " + err.message);
       }
