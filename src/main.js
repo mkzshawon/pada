@@ -4654,12 +4654,7 @@
       { name: "Spring", svg: '<path d="M50 6v14M50 80v14"/><path d="M50 20l-16 8 32 8-32 8 32 8-32 8 16 8"/>' },
       { name: "Pulley", svg: '<circle cx="50" cy="50" r="30"/><circle cx="50" cy="50" r="6"/><path d="M50 20V6M20 50H6"/>' },
     ],
-    Civil: [
-      { name: "Bridge", svg: '<path d="M5 62h90M5 80h90"/><path d="M5 62c10-35 80-35 90 0"/><path d="M25 62V40M50 62V32M75 62V40"/>' },
-      { name: "Building", svg: '<rect x="25" y="12" width="50" height="78"/><path d="M35 26h8M57 26h8M35 42h8M57 42h8M35 58h8M57 58h8M43 90V76h14v14"/>' },
-      { name: "Road", svg: '<path d="M30 92L42 10M70 92L58 10"/><path d="M50 14v8M50 34v10M50 58v12M50 80v10"/>' },
-      { name: "Dam", svg: '<path d="M5 30h90"/><path d="M15 30l10 60h50l10-60"/><path d="M5 20c20 6 40 6 45 0s20-6 45 0"/>' },
-    ],
+    Civil: (window.PADA_ICONS && window.PADA_ICONS.civil) || {},
     Computer: [
       { name: "Monitor", svg: '<rect x="12" y="14" width="76" height="54" rx="3"/><path d="M45 68h10v12h-10M32 86h36"/>' },
       { name: "Laptop", svg: '<rect x="22" y="20" width="56" height="42" rx="3"/><path d="M10 72h80l-6 9H16z"/>' },
