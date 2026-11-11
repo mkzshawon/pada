@@ -316,6 +316,63 @@ window.PADA_ICONS = {
       "svg": "<rect x=\"14\" y=\"26\" width=\"72\" height=\"48\" rx=\"4\"/><path d=\"M24 44h12M30 38v12M24 56h12M60 44h12M66 38v12M60 56h12\"/>"
     }
   ],
-  "Electrical Circuit and Drawing Symbols": []
+  "Electrical Circuit and Drawing Symbols": [
+    {
+      "name": "Single Phase AC Source",
+      "svg": "<circle cx=\"50\" cy=\"50\" r=\"30\"/><path d=\"M50 6v14M50 80v14\"/><path d=\"M35 50c5-8 10-8 15 0s10 8 15 0\"/>"
+    },
+    {
+      "name": "Three Phase AC Source",
+      "svg": "<circle cx=\"50\" cy=\"50\" r=\"30\"/><path d=\"M50 6v14M36 80v14M64 80v14\"/><path d=\"M35 50c5-8 10-8 15 0s10 8 15 0\"/>"
+    },
+    {
+      "name": "DC Voltage Source",
+      "svg": "<path d=\"M50 6v14M50 80v14\"/><circle cx=\"50\" cy=\"50\" r=\"30\"/><path d=\"M38 44h24M44 56h12\"/>"
+    },
+    {
+      "name": "Ground Symbol",
+      "svg": "<path d=\"M50 6v30\"/><path d=\"M30 36h40L50 70Z\"/>"
+    },
+    {
+      "name": "Earth Symbol",
+      "svg": "<path d=\"M50 6v44M24 50h52M34 62h32M44 74h12\"/>"
+    },
+    {
+      "name": "Electrical Connection Point",
+      "svg": "<circle cx=\"50\" cy=\"50\" r=\"5\"/><path d=\"M50 10v35M50 55v35M10 50h35M55 50h35\"/>"
+    },
+    {
+      "name": "Open Circuit",
+      "svg": "<circle cx=\"20\" cy=\"50\" r=\"3\"/><circle cx=\"80\" cy=\"50\" r=\"3\"/><path d=\"M23 50h28M55 50h22\"/>"
+    },
+    {
+      "name": "Closed Circuit",
+      "svg": "<rect x=\"18\" y=\"26\" width=\"64\" height=\"48\" rx=\"2\"/>"
+    },
+    {
+      "name": "Arrow / Current Direction",
+      "svg": "<path d=\"M12 50h70\"/><path d=\"M72 50l-12-8M72 50l-12 8\"/>"
+    },
+    {
+      "name": "Voltage Measurement Symbol",
+      "svg": "<circle cx=\"50\" cy=\"50\" r=\"30\"/><path d=\"M44 36h12M50 30v12\"/><path d=\"M44 64h12\"/>"
+    },
+    {
+      "name": "Electrical Junction",
+      "svg": "<circle cx=\"50\" cy=\"44\" r=\"5\"/><path d=\"M10 44h35M55 44h35M50 49v37\"/>"
+    },
+    {
+      "name": "Three Phase Connection",
+      "svg": "<path d=\"M20 36h60M20 48h60M20 60h60\"/><path d=\"M42 68l8-8\"/>"
+    },
+    {
+      "name": "Star Connection",
+      "svg": "<circle cx=\"50\" cy=\"16\" r=\"4\"/><circle cx=\"24\" cy=\"74\" r=\"4\"/><circle cx=\"76\" cy=\"74\" r=\"4\"/><path d=\"M50 20V50M28 71L50 50M72 71L50 50\"/>"
+    },
+    {
+      "name": "Delta Connection",
+      "svg": "<path d=\"M50 14L84 80H16Z\"/><circle cx=\"50\" cy=\"14\" r=\"4\"/><circle cx=\"84\" cy=\"80\" r=\"4\"/><circle cx=\"16\" cy=\"80\" r=\"4\"/>"
+    }
+  ]
 }
 };
