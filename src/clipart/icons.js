@@ -1114,5 +1114,169 @@ window.PADA_ICONS = {
         "svg": "<path d=\"M50 90V40\"/><path d=\"M36 90h28\"/><path d=\"M30 30a28 28 0 0 1 40 0\"/><path d=\"M38 40a14 14 0 0 1 24 0\"/><circle cx=\"50\" cy=\"26\" r=\"4\"/>"
       }
     ]
+  },
+  "computer": {
+    "Hardware Components": [
+      {
+        "name": "Desktop Computer",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"56\" height=\"42\" rx=\"3\"/><path d=\"M38 56v10M26 66h24\"/><rect x=\"72\" y=\"30\" width=\"18\" height=\"52\" rx=\"2\"/><path d=\"M76 40h10M76 50h10\"/>"
+      },
+      {
+        "name": "Laptop Computer",
+        "svg": "<rect x=\"22\" y=\"18\" width=\"56\" height=\"40\" rx=\"3\"/><path d=\"M10 72h80l-6 8H16z\"/>"
+      },
+      {
+        "name": "Notebook Computer",
+        "svg": "<path d=\"M14 24Q30 18 48 26V82Q30 74 14 80z\"/><path d=\"M86 24Q70 18 52 26V82Q70 74 86 80z\"/>"
+      },
+      {
+        "name": "Workstation",
+        "svg": "<rect x=\"14\" y=\"10\" width=\"72\" height=\"48\" rx=\"3\"/><path d=\"M50 58v10M36 68h28\"/><path d=\"M28 80h44v8H28z\"/>"
+      },
+      {
+        "name": "Computer Monitor",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"54\" rx=\"3\"/><path d=\"M42 68h16v10H42M30 84h40\"/>"
+      },
+      {
+        "name": "LCD Display",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"54\" rx=\"3\"/><path d=\"M30 26h40M30 40h40M30 54h40\"/><path d=\"M42 68h16v10H42M30 84h40\"/>"
+      },
+      {
+        "name": "LED Display",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"54\" rx=\"3\"/><circle cx=\"30\" cy=\"30\" r=\"2\"/><circle cx=\"50\" cy=\"30\" r=\"2\"/><circle cx=\"70\" cy=\"30\" r=\"2\"/><circle cx=\"30\" cy=\"46\" r=\"2\"/><circle cx=\"50\" cy=\"46\" r=\"2\"/><circle cx=\"70\" cy=\"46\" r=\"2\"/><path d=\"M42 68h16v10H42M30 84h40\"/>"
+      },
+      {
+        "name": "Computer Keyboard",
+        "svg": "<rect x=\"8\" y=\"30\" width=\"84\" height=\"40\" rx=\"4\"/><path d=\"M18 40h6M30 40h6M42 40h6M54 40h6M66 40h6M78 40h4M18 50h6M30 50h6M42 50h6M54 50h6M66 50h6M78 50h4M26 60h48\"/>"
+      },
+      {
+        "name": "Computer Mouse",
+        "svg": "<rect x=\"32\" y=\"12\" width=\"36\" height=\"76\" rx=\"18\"/><path d=\"M50 12v30M32 42h36\"/>"
+      },
+      {
+        "name": "Touchpad",
+        "svg": "<rect x=\"14\" y=\"30\" width=\"72\" height=\"44\" rx=\"4\"/><path d=\"M14 66h72\"/><circle cx=\"40\" cy=\"48\" r=\"8\"/>"
+      },
+      {
+        "name": "CPU / Processor",
+        "svg": "<rect x=\"28\" y=\"28\" width=\"44\" height=\"44\"/><rect x=\"40\" y=\"40\" width=\"20\" height=\"20\"/><path d=\"M36 14v14M50 14v14M64 14v14M36 72v14M50 72v14M64 72v14M14 36h14M14 50h14M14 64h14M72 36h14M72 50h14M72 64h14\"/>"
+      },
+      {
+        "name": "Microprocessor Chip",
+        "svg": "<rect x=\"22\" y=\"30\" width=\"56\" height=\"40\" rx=\"2\"/><path d=\"M42 30a8 8 0 0 0 16 0\"/><path d=\"M30 30V20M42 30V20M54 30V20M66 30V20M30 70V80M42 70V80M54 70V80M66 70V80\"/>"
+      },
+      {
+        "name": "Motherboard",
+        "svg": "<rect x=\"10\" y=\"10\" width=\"80\" height=\"80\" rx=\"3\"/><rect x=\"26\" y=\"26\" width=\"20\" height=\"20\"/><path d=\"M56 22h26M56 32h26M56 42h26\"/><path d=\"M26 60h46M26 70h46\"/>"
+      },
+      {
+        "name": "RAM Module",
+        "svg": "<rect x=\"8\" y=\"36\" width=\"84\" height=\"28\" rx=\"2\"/><path d=\"M18 36v28M30 36v28M42 36v28M54 36v28M66 36v28M78 36v28\"/><path d=\"M14 64v6M86 64v6\"/>"
+      },
+      {
+        "name": "ROM Chip",
+        "svg": "<rect x=\"24\" y=\"24\" width=\"52\" height=\"52\"/><path d=\"M42 24a8 8 0 0 0 16 0\"/><path d=\"M34 14v10M50 14v10M66 14v10M34 76v10M50 76v10M66 76v10\"/>"
+      },
+      {
+        "name": "Graphics Processing Unit (GPU)",
+        "svg": "<rect x=\"10\" y=\"30\" width=\"80\" height=\"40\" rx=\"4\"/><circle cx=\"34\" cy=\"50\" r=\"12\"/><circle cx=\"66\" cy=\"50\" r=\"12\"/><path d=\"M28 50h12M60 50h12\"/>"
+      },
+      {
+        "name": "Graphics Card",
+        "svg": "<rect x=\"14\" y=\"30\" width=\"72\" height=\"40\" rx=\"3\"/><path d=\"M14 40h-6v22h6\"/><circle cx=\"60\" cy=\"50\" r=\"10\"/><path d=\"M30 70v-6M40 70v-6\"/>"
+      },
+      {
+        "name": "Hard Disk Drive (HDD)",
+        "svg": "<rect x=\"12\" y=\"26\" width=\"76\" height=\"48\" rx=\"4\"/><circle cx=\"50\" cy=\"50\" r=\"16\"/><path d=\"M50 50L60 42\"/><path d=\"M76 40h4\"/>"
+      },
+      {
+        "name": "Solid State Drive (SSD)",
+        "svg": "<rect x=\"12\" y=\"26\" width=\"76\" height=\"48\" rx=\"4\"/><rect x=\"26\" y=\"38\" width=\"20\" height=\"24\"/><path d=\"M58 38h16M58 48h16M58 58h16\"/>"
+      },
+      {
+        "name": "Optical Disc Drive",
+        "svg": "<rect x=\"10\" y=\"40\" width=\"80\" height=\"24\" rx=\"4\"/><circle cx=\"50\" cy=\"52\" r=\"6\"/><path d=\"M76 52h4\"/>"
+      },
+      {
+        "name": "Power Supply Unit (PSU)",
+        "svg": "<rect x=\"16\" y=\"20\" width=\"68\" height=\"60\" rx=\"3\"/><circle cx=\"50\" cy=\"50\" r=\"18\"/><path d=\"M50 32v36M32 50h36\"/><path d=\"M84 50h8\"/>"
+      },
+      {
+        "name": "Computer Cooling Fan",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"38\"/><path d=\"M50 44C44 34 46 20 52 14C58 30 58 40 50 44Z\"/><path transform=\"rotate(120 50 50)\" d=\"M50 44C44 34 46 20 52 14C58 30 58 40 50 44Z\"/><path transform=\"rotate(240 50 50)\" d=\"M50 44C44 34 46 20 52 14C58 30 58 40 50 44Z\"/><circle cx=\"50\" cy=\"50\" r=\"5\"/>"
+      },
+      {
+        "name": "CPU Heat Sink",
+        "svg": "<rect x=\"20\" y=\"10\" width=\"60\" height=\"10\"/><path d=\"M26 20v60M36 20v60M46 20v60M56 20v60M66 20v60\"/><rect x=\"20\" y=\"80\" width=\"60\" height=\"6\"/>"
+      },
+      {
+        "name": "Computer Cabinet / Case",
+        "svg": "<rect x=\"30\" y=\"8\" width=\"40\" height=\"84\" rx=\"3\"/><path d=\"M30 20h40\"/><circle cx=\"50\" cy=\"40\" r=\"6\"/><path d=\"M40 70h20M40 80h20\"/>"
+      },
+      {
+        "name": "USB Flash Drive",
+        "svg": "<rect x=\"34\" y=\"8\" width=\"32\" height=\"34\" rx=\"4\"/><path d=\"M42 42v44h16V42\"/><path d=\"M50 62v8\"/>"
+      },
+      {
+        "name": "Memory Card",
+        "svg": "<path d=\"M26 10h36l14 14v66H26z\"/><path d=\"M36 30h20v14H36M36 70h30\"/>"
+      },
+      {
+        "name": "USB Port",
+        "svg": "<rect x=\"22\" y=\"34\" width=\"56\" height=\"32\" rx=\"4\"/><rect x=\"36\" y=\"44\" width=\"28\" height=\"12\"/>"
+      },
+      {
+        "name": "HDMI Port",
+        "svg": "<path d=\"M18 36h64l-8 28H26z\"/><path d=\"M36 48h4M46 48h8M60 48h4\"/>"
+      },
+      {
+        "name": "Ethernet Port",
+        "svg": "<rect x=\"20\" y=\"26\" width=\"60\" height=\"48\" rx=\"3\"/><rect x=\"34\" y=\"40\" width=\"32\" height=\"20\"/><path d=\"M40 60v-6M46 60v-6M52 60v-6M58 60v-6\"/>"
+      },
+      {
+        "name": "Computer Speaker",
+        "svg": "<rect x=\"24\" y=\"12\" width=\"52\" height=\"76\" rx=\"6\"/><circle cx=\"50\" cy=\"66\" r=\"14\"/><circle cx=\"50\" cy=\"30\" r=\"6\"/>"
+      },
+      {
+        "name": "Headphone",
+        "svg": "<path d=\"M18 62V46a32 32 0 0 1 64 0v16\"/><rect x=\"12\" y=\"58\" width=\"16\" height=\"26\" rx=\"4\"/><rect x=\"72\" y=\"58\" width=\"16\" height=\"26\" rx=\"4\"/>"
+      },
+      {
+        "name": "Microphone",
+        "svg": "<rect x=\"38\" y=\"10\" width=\"24\" height=\"44\" rx=\"12\"/><path d=\"M26 44a24 24 0 0 0 48 0\"/><path d=\"M50 68v14M36 86h28\"/>"
+      },
+      {
+        "name": "Webcam",
+        "svg": "<circle cx=\"50\" cy=\"36\" r=\"20\"/><circle cx=\"50\" cy=\"36\" r=\"8\"/><path d=\"M50 56v20M36 88h28\"/>"
+      },
+      {
+        "name": "Printer",
+        "svg": "<rect x=\"14\" y=\"36\" width=\"72\" height=\"34\" rx=\"3\"/><path d=\"M26 36V14h48v22\"/><path d=\"M26 70v16h48V70\"/><path d=\"M74 50h4\"/>"
+      },
+      {
+        "name": "Scanner",
+        "svg": "<rect x=\"12\" y=\"20\" width=\"76\" height=\"60\" rx=\"3\"/><rect x=\"22\" y=\"30\" width=\"56\" height=\"40\"/><path d=\"M22 50h56\"/>"
+      },
+      {
+        "name": "UPS",
+        "svg": "<rect x=\"14\" y=\"26\" width=\"72\" height=\"48\" rx=\"4\"/><path d=\"M28 50h8M42 50h8M56 50h8M70 50h4\"/><path d=\"M14 40h-4M86 40h4\"/>"
+      },
+      {
+        "name": "Computer Battery",
+        "svg": "<rect x=\"12\" y=\"32\" width=\"70\" height=\"36\" rx=\"4\"/><path d=\"M82 44h6v12h-6\"/><path d=\"M22 44v12M34 44v12M46 44v12\"/>"
+      },
+      {
+        "name": "Motherboard Expansion Slot",
+        "svg": "<rect x=\"10\" y=\"40\" width=\"80\" height=\"20\" rx=\"2\"/><path d=\"M20 40v20M28 40v20M34 40v20M40 40v20M46 40v20M52 40v20M58 40v20M64 40v20M70 40v20M76 40v20\"/>"
+      },
+      {
+        "name": "PCI Express Card",
+        "svg": "<path d=\"M10 40h60v20H10z\"/><path d=\"M70 44h20v12H70z\"/><path d=\"M30 60v8M38 60v8M46 60v8M54 60v8M62 60v8\"/>"
+      },
+      {
+        "name": "Computer Cable Connector",
+        "svg": "<rect x=\"30\" y=\"20\" width=\"40\" height=\"60\" rx=\"4\"/><path d=\"M42 36h16v28H42z\"/><path d=\"M50 80v10\"/>"
+      }
+    ]
   }
 };

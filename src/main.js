@@ -4655,12 +4655,7 @@
       { name: "Pulley", svg: '<circle cx="50" cy="50" r="30"/><circle cx="50" cy="50" r="6"/><path d="M50 20V6M20 50H6"/>' },
     ],
     Civil: (window.PADA_ICONS && window.PADA_ICONS.civil) || {},
-    Computer: [
-      { name: "Monitor", svg: '<rect x="12" y="14" width="76" height="54" rx="3"/><path d="M45 68h10v12h-10M32 86h36"/>' },
-      { name: "Laptop", svg: '<rect x="22" y="20" width="56" height="42" rx="3"/><path d="M10 72h80l-6 9H16z"/>' },
-      { name: "Chip", svg: '<rect x="28" y="28" width="44" height="44"/><rect x="40" y="40" width="20" height="20"/><path d="M36 16v12M50 16v12M64 16v12M36 72v12M50 72v12M64 72v12M16 36h12M16 50h12M16 64h12M72 36h12M72 50h12M72 64h12"/>' },
-      { name: "Server", svg: '<ellipse cx="50" cy="22" rx="30" ry="10"/><path d="M20 22v56c0 6 60 6 60 0V22"/><path d="M20 50c0 6 60 6 60 0"/>' },
-    ],
+    Computer: (window.PADA_ICONS && window.PADA_ICONS.computer) || {},
     "Science & IT": [
       { name: "Atom", svg: '<circle cx="50" cy="50" r="7"/><ellipse cx="50" cy="50" rx="42" ry="16"/><ellipse cx="50" cy="50" rx="42" ry="16" transform="rotate(60 50 50)"/><ellipse cx="50" cy="50" rx="42" ry="16" transform="rotate(-60 50 50)"/>' },
       { name: "Globe", svg: '<circle cx="50" cy="50" r="38"/><ellipse cx="50" cy="50" rx="16" ry="38"/><path d="M12 50h76M18 30h64M18 70h64"/>' },
