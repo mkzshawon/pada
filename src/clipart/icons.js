@@ -1683,6 +1683,128 @@ window.PADA_ICONS = {
         "name": "Command Line Interface (CLI)",
         "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"4\"/><path d=\"M10 28h80\"/><path d=\"M20 42h10M20 54h30M20 66h14\"/><path d=\"M58 60h14\"/>"
       }
+    ],
+    "Database and Data Management": [
+      {
+        "name": "Database Cylinder Symbol",
+        "svg": "<ellipse cx=\"50\" cy=\"22\" rx=\"30\" ry=\"10\"/><path d=\"M20 22v56c0 6 60 6 60 0V22\"/><path d=\"M20 50c0 6 60 6 60 0\"/>"
+      },
+      {
+        "name": "Relational Database",
+        "svg": "<ellipse cx=\"34\" cy=\"22\" rx=\"22\" ry=\"8\"/><path d=\"M12 22v44c0 5 44 5 44 0V22\"/><path d=\"M12 44c0 5 44 5 44 0\"/><path d=\"M56 44h12M68 44v0\"/><ellipse cx=\"78\" cy=\"58\" rx=\"14\" ry=\"6\"/><path d=\"M64 58v20c0 3 28 3 28 0V58\"/><path d=\"M50 56h14\"/>"
+      },
+      {
+        "name": "SQL Database",
+        "svg": "<ellipse cx=\"50\" cy=\"22\" rx=\"30\" ry=\"10\"/><path d=\"M20 22v56c0 6 60 6 60 0V22\"/><path d=\"M20 50c0 6 60 6 60 0\"/><path d=\"M40 60h20M40 70h14\"/>"
+      },
+      {
+        "name": "MySQL Database",
+        "svg": "<ellipse cx=\"50\" cy=\"22\" rx=\"30\" ry=\"10\"/><path d=\"M20 22v56c0 6 60 6 60 0V22\"/><path d=\"M20 50c0 6 60 6 60 0\"/><path d=\"M34 62c4-6 8 6 12 0s8 6 12 0\"/>"
+      },
+      {
+        "name": "PostgreSQL Database",
+        "svg": "<ellipse cx=\"50\" cy=\"22\" rx=\"30\" ry=\"10\"/><path d=\"M20 22v56c0 6 60 6 60 0V22\"/><path d=\"M20 50c0 6 60 6 60 0\"/><circle cx=\"50\" cy=\"66\" r=\"6\"/>"
+      },
+      {
+        "name": "Oracle Database",
+        "svg": "<ellipse cx=\"50\" cy=\"22\" rx=\"30\" ry=\"10\"/><path d=\"M20 22v56c0 6 60 6 60 0V22\"/><path d=\"M20 50c0 6 60 6 60 0\"/><ellipse cx=\"50\" cy=\"66\" rx=\"12\" ry=\"6\"/>"
+      },
+      {
+        "name": "Microsoft SQL Server",
+        "svg": "<rect x=\"12\" y=\"14\" width=\"76\" height=\"72\" rx=\"3\"/><path d=\"M12 28h76\"/><ellipse cx=\"50\" cy=\"56\" rx=\"18\" ry=\"9\"/><path d=\"M32 56v14c0 4 36 4 36 0V56\"/>"
+      },
+      {
+        "name": "SQLite Database",
+        "svg": "<ellipse cx=\"50\" cy=\"22\" rx=\"30\" ry=\"10\"/><path d=\"M20 22v56c0 6 60 6 60 0V22\"/><path d=\"M20 50c0 6 60 6 60 0\"/><path d=\"M36 62h28\"/>"
+      },
+      {
+        "name": "MongoDB Database",
+        "svg": "<path d=\"M50 8c-14 16-16 34-8 52 4 8 6 18 8 28 2-10 4-20 8-28 8-18 6-36-8-52z\"/><path d=\"M50 30v60\"/>"
+      },
+      {
+        "name": "NoSQL Database",
+        "svg": "<ellipse cx=\"50\" cy=\"22\" rx=\"30\" ry=\"10\"/><path d=\"M20 22v56c0 6 60 6 60 0V22\"/><path d=\"M20 50c0 6 60 6 60 0\"/><path d=\"M36 60h28M36 70h28\"/>"
+      },
+      {
+        "name": "Database Table",
+        "svg": "<rect x=\"12\" y=\"16\" width=\"76\" height=\"68\" rx=\"2\"/><path d=\"M12 32h76M12 50h76M12 68h76M37 16v68M62 16v68\"/>"
+      },
+      {
+        "name": "Database Record",
+        "svg": "<rect x=\"12\" y=\"36\" width=\"76\" height=\"28\" rx=\"2\"/><path d=\"M28 36v28M50 36v28M72 36v28\"/>"
+      },
+      {
+        "name": "Database Field",
+        "svg": "<rect x=\"20\" y=\"40\" width=\"60\" height=\"20\" rx=\"2\"/><path d=\"M34 50h32\"/><path d=\"M14 50h4M82 50h4\"/>"
+      },
+      {
+        "name": "Database Schema",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"34\" height=\"26\" rx=\"2\"/><rect x=\"56\" y=\"14\" width=\"34\" height=\"26\" rx=\"2\"/><rect x=\"33\" y=\"60\" width=\"34\" height=\"26\" rx=\"2\"/><path d=\"M27 40v8h22M73 40v8h-22M50 60v-12\"/>"
+      },
+      {
+        "name": "Database Relationship",
+        "svg": "<rect x=\"10\" y=\"30\" width=\"30\" height=\"40\" rx=\"2\"/><rect x=\"60\" y=\"30\" width=\"30\" height=\"40\" rx=\"2\"/><path d=\"M40 50h20M46 44l-6 6 6 6M54 44l6 6-6 6\"/>"
+      },
+      {
+        "name": "Entity Relationship Diagram (ERD)",
+        "svg": "<rect x=\"8\" y=\"34\" width=\"26\" height=\"22\"/><ellipse cx=\"50\" cy=\"20\" rx=\"12\" ry=\"7\"/><ellipse cx=\"50\" cy=\"80\" rx=\"12\" ry=\"7\"/><rect x=\"66\" y=\"34\" width=\"26\" height=\"22\"/><path d=\"M34 45h32M50 27v-0M50 73v0\"/><path d=\"M50 27L50 36M50 64L50 73\"/>"
+      },
+      {
+        "name": "Primary Key",
+        "svg": "<circle cx=\"28\" cy=\"50\" r=\"14\"/><path d=\"M42 50h46M76 50v12M86 50v10\"/>"
+      },
+      {
+        "name": "Foreign Key",
+        "svg": "<circle cx=\"28\" cy=\"50\" r=\"14\"/><circle cx=\"28\" cy=\"50\" r=\"5\"/><path d=\"M42 50h46M76 50v12M86 50v10\"/><path d=\"M60 40v-8\"/>"
+      },
+      {
+        "name": "Database Query",
+        "svg": "<ellipse cx=\"50\" cy=\"22\" rx=\"30\" ry=\"10\"/><path d=\"M20 22v56c0 6 60 6 60 0V22\"/><path d=\"M20 50c0 6 60 6 60 0\"/><path d=\"M50 56a6 6 0 1 1 0-12 6 6 0 0 1 0 12z\"/>"
+      },
+      {
+        "name": "SQL Query Editor",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"3\"/><path d=\"M10 26h80\"/><path d=\"M20 40h24M20 52h36M20 64h20M52 64h22\"/>"
+      },
+      {
+        "name": "Database Connection",
+        "svg": "<ellipse cx=\"22\" cy=\"50\" rx=\"10\" ry=\"16\"/><ellipse cx=\"78\" cy=\"50\" rx=\"10\" ry=\"16\"/><path d=\"M32 40h36M32 60h36\"/>"
+      },
+      {
+        "name": "Database Backup",
+        "svg": "<ellipse cx=\"50\" cy=\"22\" rx=\"30\" ry=\"10\"/><path d=\"M20 22v56c0 6 60 6 60 0V22\"/><path d=\"M20 50c0 6 60 6 60 0\"/><path d=\"M40 62l10 10 10-10M50 52v20\"/>"
+      },
+      {
+        "name": "Database Restore",
+        "svg": "<ellipse cx=\"50\" cy=\"22\" rx=\"30\" ry=\"10\"/><path d=\"M20 22v56c0 6 60 6 60 0V22\"/><path d=\"M20 50c0 6 60 6 60 0\"/><path d=\"M40 74l10-10 10 10M50 64V44\"/>"
+      },
+      {
+        "name": "Database Replication",
+        "svg": "<ellipse cx=\"24\" cy=\"24\" rx=\"12\" ry=\"6\"/><path d=\"M12 24v40c0 3 24 3 24 0V24\"/><ellipse cx=\"76\" cy=\"60\" rx=\"12\" ry=\"6\"/><path d=\"M64 60v16c0 3 24 3 24 0V60\"/><path d=\"M36 40L60 52\"/><path d=\"M52 44l8 8-8 4\"/>"
+      },
+      {
+        "name": "Database Synchronization",
+        "svg": "<path d=\"M78 50A28 28 0 1 1 68 28\"/><path d=\"M68 14v14H54\"/><path d=\"M22 50A28 28 0 0 1 32 72\"/><path d=\"M32 86v-14H46\"/>"
+      },
+      {
+        "name": "Data Warehouse",
+        "svg": "<path d=\"M14 90h72\"/><path d=\"M14 90V36L50 16L86 36V90\"/><path d=\"M28 60h10v30H28zM46 50h10v40H46zM64 66h10v24H64z\"/>"
+      },
+      {
+        "name": "Data Lake",
+        "svg": "<path d=\"M8 60c10-14 24-14 34 0s24 14 34 0 12-8 16-4\"/><path d=\"M8 78c10-14 24-14 34 0s24 14 34 0 12-8 16-4\"/><path d=\"M8 42c10-14 24-14 34 0s24 14 34 0 12-8 16-4\"/>"
+      },
+      {
+        "name": "Data Pipeline",
+        "svg": "<ellipse cx=\"18\" cy=\"50\" rx=\"8\" ry=\"14\"/><path d=\"M26 50h16M42 36h16v28H42z\"/><path d=\"M58 50h16\"/><ellipse cx=\"82\" cy=\"50\" rx=\"8\" ry=\"14\"/><path d=\"M42 40h-6\"/>"
+      },
+      {
+        "name": "Data Migration",
+        "svg": "<ellipse cx=\"18\" cy=\"26\" rx=\"10\" ry=\"5\"/><path d=\"M8 26v44c0 3 20 3 20 0V26\"/><path d=\"M36 50h28M56 44l8 6-8 6\"/><ellipse cx=\"82\" cy=\"74\" rx=\"10\" ry=\"5\"/><path d=\"M72 74v-40\"/>"
+      },
+      {
+        "name": "Database Management System",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"3\"/><ellipse cx=\"32\" cy=\"50\" rx=\"10\" ry=\"16\"/><path d=\"M50 36h30M50 50h30M50 64h30\"/>"
+      }
     ]
   }
 };
