@@ -949,6 +949,120 @@ window.PADA_ICONS = {
         "name": "Wheelbarrow",
         "svg": "<path d=\"M18 40h60l-8 26H28z\"/><path d=\"M10 30l10 10\"/><path d=\"M78 40L90 30\"/><circle cx=\"50\" cy=\"78\" r=\"7\"/><path d=\"M28 66L50 78M72 66L50 78\"/>"
       }
+    ],
+    "Water Supply Plumbing and Drainage": [
+      {
+        "name": "Water Storage Tank",
+        "svg": "<ellipse cx=\"50\" cy=\"20\" rx=\"28\" ry=\"8\"/><path d=\"M22 20v56c0 4 56 4 56 0V20\"/><path d=\"M30 84v6M70 84v6\"/>"
+      },
+      {
+        "name": "Underground Water Tank",
+        "svg": "<path d=\"M8 36h84\"/><path d=\"M14 36v40h72V36\"/><path d=\"M20 50h10M70 50h10\"/>"
+      },
+      {
+        "name": "Overhead Water Tank",
+        "svg": "<ellipse cx=\"50\" cy=\"28\" rx=\"26\" ry=\"8\"/><path d=\"M24 28v26c0 4 52 4 52 0V28\"/><path d=\"M34 58L26 90M66 58L74 90M42 58L40 90M58 58L60 90\"/>"
+      },
+      {
+        "name": "Water Supply Pipeline",
+        "svg": "<path d=\"M8 40h84M8 60h84\"/><path d=\"M40 50h20M54 44l6 6-6 6\"/>"
+      },
+      {
+        "name": "PVC Pipe",
+        "svg": "<path d=\"M10 42h66M10 58h66\"/><path d=\"M76 36h14v28H76z\"/>"
+      },
+      {
+        "name": "GI Pipe",
+        "svg": "<path d=\"M10 42h80M10 58h80\"/><path d=\"M14 42v16M20 42v16M26 42v16\"/>"
+      },
+      {
+        "name": "HDPE Pipe",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"36\"/><circle cx=\"50\" cy=\"50\" r=\"26\"/><circle cx=\"50\" cy=\"50\" r=\"16\"/>"
+      },
+      {
+        "name": "Pipe Elbow",
+        "svg": "<path d=\"M24 90V42Q24 24 42 24H86M36 90V46Q36 36 46 36H86\"/>"
+      },
+      {
+        "name": "Pipe Tee",
+        "svg": "<path d=\"M8 40h84M8 60h84\"/><path d=\"M42 60v30h16V60\"/>"
+      },
+      {
+        "name": "Pipe Reducer",
+        "svg": "<path d=\"M8 40h34M8 60h34\"/><path d=\"M42 36L70 44V56L42 64\"/><path d=\"M70 44h22M70 56h22\"/>"
+      },
+      {
+        "name": "Pipe Flange",
+        "svg": "<path d=\"M10 42h80M10 58h80\"/><path d=\"M46 30h8v40h-8z\"/>"
+      },
+      {
+        "name": "Gate Valve",
+        "svg": "<path d=\"M8 50h30M62 50h30\"/><path d=\"M38 40h24v20H38z\"/><path d=\"M50 40V20M36 20h28\"/>"
+      },
+      {
+        "name": "Globe Valve",
+        "svg": "<path d=\"M8 50h24M68 50h24\"/><circle cx=\"50\" cy=\"56\" r=\"14\"/><path d=\"M50 42V22M36 22h28\"/>"
+      },
+      {
+        "name": "Butterfly Valve",
+        "svg": "<path d=\"M8 50h84\"/><path d=\"M50 30v40\"/><ellipse cx=\"50\" cy=\"50\" rx=\"4\" ry=\"18\"/><path d=\"M50 22V10M42 10h16\"/>"
+      },
+      {
+        "name": "Check Valve",
+        "svg": "<path d=\"M8 50h24M68 50h24\"/><path d=\"M32 40h36v20H32z\"/><path d=\"M40 60L60 40\"/>"
+      },
+      {
+        "name": "Water Pump",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"30\"/><path d=\"M42 36v28l22-14z\"/><path d=\"M8 50h12M80 50h12\"/>"
+      },
+      {
+        "name": "Centrifugal Pump",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"30\"/><circle cx=\"50\" cy=\"50\" r=\"12\"/><path d=\"M50 38V22M50 62v16M38 50H22M62 50h16\"/>"
+      },
+      {
+        "name": "Water Meter",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"28\"/><path d=\"M50 50L62 38\"/><path d=\"M8 50h14M78 50h14\"/>"
+      },
+      {
+        "name": "Water Filter",
+        "svg": "<rect x=\"34\" y=\"14\" width=\"32\" height=\"72\" rx=\"6\"/><path d=\"M34 40h32M34 62h32\"/><path d=\"M50 14V6M50 86v8\"/>"
+      },
+      {
+        "name": "Water Treatment Plant",
+        "svg": "<rect x=\"10\" y=\"50\" width=\"22\" height=\"36\"/><ellipse cx=\"60\" cy=\"50\" rx=\"20\" ry=\"6\"/><path d=\"M40 50v36M80 50v36\"/><path d=\"M80 50h10\"/>"
+      },
+      {
+        "name": "Sewer Pipeline",
+        "svg": "<path d=\"M8 40h84M8 62h84\"/><rect x=\"18\" y=\"30\" width=\"10\" height=\"10\"/><rect x=\"72\" y=\"30\" width=\"10\" height=\"10\"/>"
+      },
+      {
+        "name": "Manhole",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"36\"/><circle cx=\"50\" cy=\"50\" r=\"26\"/><path d=\"M40 44h20M40 56h20\"/>"
+      },
+      {
+        "name": "Inspection Chamber",
+        "svg": "<rect x=\"30\" y=\"30\" width=\"40\" height=\"40\"/><path d=\"M30 46h40\"/><path d=\"M8 50h22M70 50h22\"/>"
+      },
+      {
+        "name": "Drainage Channel",
+        "svg": "<path d=\"M8 36h84\"/><path d=\"M14 36v34h72V36\"/><path d=\"M26 36v34M42 36v34M58 36v34M74 36v34\"/>"
+      },
+      {
+        "name": "Stormwater Drain",
+        "svg": "<path d=\"M8 40h84\"/><rect x=\"30\" y=\"50\" width=\"40\" height=\"30\"/><path d=\"M38 50v30M50 50v30M62 50v30\"/>"
+      },
+      {
+        "name": "Septic Tank",
+        "svg": "<rect x=\"10\" y=\"30\" width=\"80\" height=\"48\" rx=\"4\"/><path d=\"M50 30v48\"/><path d=\"M20 30V20h10v10M70 30V20h10v10\"/>"
+      },
+      {
+        "name": "Sewage Treatment Plant",
+        "svg": "<rect x=\"8\" y=\"46\" width=\"22\" height=\"34\"/><rect x=\"38\" y=\"46\" width=\"22\" height=\"34\"/><rect x=\"68\" y=\"46\" width=\"22\" height=\"34\"/><path d=\"M30 63h8M60 63h8\"/>"
+      },
+      {
+        "name": "Rainwater Harvesting System",
+        "svg": "<path d=\"M10 36L50 12L90 36\"/><path d=\"M78 36v34\"/><rect x=\"26\" y=\"70\" width=\"48\" height=\"16\"/>"
+      }
     ]
   }
 };
