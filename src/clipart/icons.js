@@ -539,6 +539,88 @@ window.PADA_ICONS = {
         "name": "Expansion Joint",
         "svg": "<path d=\"M10 66h36v16H10z\"/><path d=\"M54 66h36v16H54z\"/><path d=\"M46 66v16M54 66v16\"/><path d=\"M50 60l-4 6 4 6-4 6\"/>"
       }
+    ],
+    "Construction Materials": [
+      {
+        "name": "Cement Bag",
+        "svg": "<path d=\"M36 10h28v10l10 8v56H26V28l10-8z\"/><path d=\"M36 40h28\"/>"
+      },
+      {
+        "name": "Concrete Block",
+        "svg": "<rect x=\"10\" y=\"30\" width=\"80\" height=\"40\"/><rect x=\"24\" y=\"40\" width=\"20\" height=\"20\"/><rect x=\"56\" y=\"40\" width=\"20\" height=\"20\"/>"
+      },
+      {
+        "name": "Clay Brick",
+        "svg": "<rect x=\"10\" y=\"32\" width=\"80\" height=\"36\"/><path d=\"M50 32v18M30 50v18M70 50v18\"/>"
+      },
+      {
+        "name": "Sand Pile",
+        "svg": "<path d=\"M8 80Q50 10 92 80\"/><path d=\"M8 80h84\"/><path d=\"M30 70h4M44 60h4M58 66h4M70 74h4M40 78h4M62 80h4\"/>"
+      },
+      {
+        "name": "Stone Aggregate",
+        "svg": "<path d=\"M14 70l10-14 12 4 6-10 14 6-4 14-16 6-14-2z\"/><path d=\"M52 80l8-12 14 2 6 10-10 6-14-2z\"/><path d=\"M28 40l8-6 10 4-2 10-10 2-6-6z\"/>"
+      },
+      {
+        "name": "Ready-Mix Concrete",
+        "svg": "<path d=\"M18 74L30 30H70L82 74Z\"/><path d=\"M30 30L26 20H74L70 30\"/>"
+      },
+      {
+        "name": "Reinforcing Steel Bar",
+        "svg": "<path d=\"M8 36h84M8 50h84M8 64h84\"/>"
+      },
+      {
+        "name": "Structural Steel Section",
+        "svg": "<path d=\"M24 14v72h64V72H38V14z\"/>"
+      },
+      {
+        "name": "Steel Plate",
+        "svg": "<rect x=\"12\" y=\"34\" width=\"76\" height=\"32\"/><circle cx=\"24\" cy=\"50\" r=\"3\"/><circle cx=\"50\" cy=\"50\" r=\"3\"/><circle cx=\"76\" cy=\"50\" r=\"3\"/>"
+      },
+      {
+        "name": "Steel Pipe",
+        "svg": "<path d=\"M10 36h80M10 64h80\"/><ellipse cx=\"90\" cy=\"50\" rx=\"6\" ry=\"14\"/><ellipse cx=\"10\" cy=\"50\" rx=\"6\" ry=\"14\"/>"
+      },
+      {
+        "name": "Timber / Wooden Plank",
+        "svg": "<rect x=\"8\" y=\"38\" width=\"84\" height=\"24\"/><path d=\"M20 46c10-2 16 2 28 0M52 54c10-2 16 2 28 0\"/>"
+      },
+      {
+        "name": "Plywood Sheet",
+        "svg": "<path d=\"M14 30h72v44H14z\"/><path d=\"M14 30L26 22h72l-12 8\"/><path d=\"M86 30v44\"/>"
+      },
+      {
+        "name": "Glass Panel",
+        "svg": "<rect x=\"20\" y=\"12\" width=\"60\" height=\"76\"/><path d=\"M30 34l20-20M30 54l40-40\"/>"
+      },
+      {
+        "name": "Ceramic Tile",
+        "svg": "<rect x=\"16\" y=\"16\" width=\"68\" height=\"68\"/><rect x=\"28\" y=\"28\" width=\"44\" height=\"44\"/>"
+      },
+      {
+        "name": "Marble Slab",
+        "svg": "<rect x=\"10\" y=\"30\" width=\"80\" height=\"40\"/><path d=\"M14 58C28 46 36 62 50 50S70 42 86 52\"/>"
+      },
+      {
+        "name": "Asphalt",
+        "svg": "<path d=\"M10 40h80v44H10z\"/><path d=\"M10 56h80M10 72h80\"/>"
+      },
+      {
+        "name": "Bitumen Drum",
+        "svg": "<ellipse cx=\"50\" cy=\"20\" rx=\"26\" ry=\"8\"/><path d=\"M24 20v60c0 4 52 4 52 0V20\"/><path d=\"M24 40h52M24 60h52\"/>"
+      },
+      {
+        "name": "Roofing Sheet",
+        "svg": "<path d=\"M8 30l10 10 10-10 10 10 10-10 10 10 10-10 10 10 10-10 10 10v40H8z\"/>"
+      },
+      {
+        "name": "Geotextile",
+        "svg": "<rect x=\"10\" y=\"10\" width=\"80\" height=\"80\"/><path d=\"M10 26h80M10 42h80M10 58h80M10 74h80M26 10v80M42 10v80M58 10v80M74 10v80\"/>"
+      },
+      {
+        "name": "Waterproofing Membrane",
+        "svg": "<path d=\"M10 36h80v40H10z\"/><path d=\"M10 56c10-8 20 8 30 0s20 8 30 0 14 4 20 0\"/>"
+      }
     ]
   }
 };
