@@ -867,6 +867,88 @@ window.PADA_ICONS = {
         "name": "Soil Compaction Equipment",
         "svg": "<rect x=\"16\" y=\"54\" width=\"48\" height=\"24\" rx=\"6\"/><path d=\"M64 60h16l8 14v6H64z\"/><circle cx=\"34\" cy=\"84\" r=\"6\"/><circle cx=\"76\" cy=\"84\" r=\"6\"/><path d=\"M40 54V36h20v18\"/>"
       }
+    ],
+    "Construction Machinery and Tools": [
+      {
+        "name": "Excavator",
+        "svg": "<rect x=\"10\" y=\"74\" width=\"56\" height=\"12\" rx=\"6\"/><path d=\"M24 74V56h22l6 18\"/><path d=\"M46 56L74 30L86 46\"/><path d=\"M74 30L84 62\"/><path d=\"M84 62l8 6-4 6h-8\"/>"
+      },
+      {
+        "name": "Bulldozer",
+        "svg": "<rect x=\"12\" y=\"74\" width=\"60\" height=\"12\" rx=\"6\"/><path d=\"M24 74V52h30l8 10\"/><path d=\"M8 40h10v34\"/><path d=\"M18 56L24 52\"/>"
+      },
+      {
+        "name": "Wheel Loader",
+        "svg": "<circle cx=\"28\" cy=\"78\" r=\"10\"/><circle cx=\"74\" cy=\"78\" r=\"10\"/><path d=\"M18 68h54V44H36L26 56H18z\"/><path d=\"M72 44V30\"/><path d=\"M68 30h18l4 10H68\"/>"
+      },
+      {
+        "name": "Backhoe Loader",
+        "svg": "<circle cx=\"26\" cy=\"78\" r=\"9\"/><circle cx=\"74\" cy=\"78\" r=\"9\"/><path d=\"M16 68h60V48H50L40 58H16z\"/><path d=\"M76 48L92 22\"/><path d=\"M92 22l-4 14\"/>"
+      },
+      {
+        "name": "Motor Grader",
+        "svg": "<circle cx=\"22\" cy=\"78\" r=\"8\"/><circle cx=\"78\" cy=\"78\" r=\"8\"/><path d=\"M22 70h50V50H40\"/><path d=\"M8 58h70M50 58L60 74\"/>"
+      },
+      {
+        "name": "Tower Crane",
+        "svg": "<path d=\"M50 90V14\"/><path d=\"M14 22h72\"/><path d=\"M50 14L84 22\"/><path d=\"M80 22v40\"/><path d=\"M76 62h8v10h-8\"/><rect x=\"18\" y=\"16\" width=\"10\" height=\"10\"/><path d=\"M40 90h20\"/>"
+      },
+      {
+        "name": "Mobile Crane",
+        "svg": "<rect x=\"8\" y=\"64\" width=\"34\" height=\"18\"/><circle cx=\"20\" cy=\"84\" r=\"6\"/><circle cx=\"36\" cy=\"84\" r=\"6\"/><path d=\"M42 74h18V64H42\"/><path d=\"M46 64L86 18\"/><path d=\"M86 18v40M80 58h12\"/>"
+      },
+      {
+        "name": "Concrete Mixer",
+        "svg": "<path d=\"M22 66L28 30H62L70 66\"/><path d=\"M22 66h48\"/><path d=\"M10 74h14M62 74h18\"/><circle cx=\"24\" cy=\"80\" r=\"6\"/><circle cx=\"60\" cy=\"80\" r=\"6\"/>"
+      },
+      {
+        "name": "Concrete Pump",
+        "svg": "<rect x=\"10\" y=\"66\" width=\"36\" height=\"16\"/><circle cx=\"22\" cy=\"86\" r=\"5\"/><circle cx=\"38\" cy=\"86\" r=\"5\"/><path d=\"M46 66V46L80 20\"/><path d=\"M80 20L92 40\"/><path d=\"M60 46L70 40\"/>"
+      },
+      {
+        "name": "Concrete Vibrator",
+        "svg": "<path d=\"M50 8v58\"/><path d=\"M42 66h16l-2 22H44z\"/><path d=\"M36 20h28\"/><path d=\"M50 30c-6 6 6 10 0 16\"/>"
+      },
+      {
+        "name": "Road Roller (Drum)",
+        "svg": "<circle cx=\"50\" cy=\"62\" r=\"24\"/><path d=\"M50 38V24h18l8 14\"/><path d=\"M26 62h48\"/>"
+      },
+      {
+        "name": "Asphalt Paver",
+        "svg": "<rect x=\"10\" y=\"72\" width=\"60\" height=\"12\" rx=\"6\"/><path d=\"M14 72V50h40l16 22\"/><path d=\"M18 50V34h22v16\"/><path d=\"M66 72h22\"/>"
+      },
+      {
+        "name": "Dump Truck",
+        "svg": "<path d=\"M12 72L22 36H60L66 72z\"/><path d=\"M66 72V52h16l10 10v10z\"/><circle cx=\"28\" cy=\"80\" r=\"6\"/><circle cx=\"76\" cy=\"80\" r=\"6\"/>"
+      },
+      {
+        "name": "Forklift",
+        "svg": "<path d=\"M30 14V84M38 14V84\"/><path d=\"M38 74h32M38 66h32\"/><path d=\"M54 50h30v30H54\"/><circle cx=\"30\" cy=\"86\" r=\"4\"/><circle cx=\"70\" cy=\"86\" r=\"4\"/>"
+      },
+      {
+        "name": "Pile Driving Machine",
+        "svg": "<path d=\"M40 8v74M60 8v74\"/><path d=\"M40 8h20\"/><rect x=\"44\" y=\"30\" width=\"12\" height=\"14\"/><path d=\"M50 44v30\"/><rect x=\"34\" y=\"78\" width=\"32\" height=\"8\"/>"
+      },
+      {
+        "name": "Drilling Machine",
+        "svg": "<rect x=\"34\" y=\"12\" width=\"32\" height=\"24\" rx=\"4\"/><path d=\"M50 36v44\"/><path d=\"M42 80L50 92L58 80\"/><path d=\"M38 24h24\"/>"
+      },
+      {
+        "name": "Welding Machine",
+        "svg": "<rect x=\"16\" y=\"30\" width=\"48\" height=\"40\" rx=\"4\"/><path d=\"M28 40h24M28 60h24\"/><path d=\"M64 50h14l10-10\"/><path d=\"M64 50h14l10 10\"/>"
+      },
+      {
+        "name": "Scaffolding",
+        "svg": "<path d=\"M16 8v84M84 8v84\"/><path d=\"M16 26h68M16 52h68M16 78h68\"/><path d=\"M16 26L84 52M16 52L84 78\"/>"
+      },
+      {
+        "name": "Construction Ladder",
+        "svg": "<path d=\"M34 8v84M66 8v84\"/><path d=\"M34 22h32M34 38h32M34 54h32M34 70h32\"/>"
+      },
+      {
+        "name": "Wheelbarrow",
+        "svg": "<path d=\"M18 40h60l-8 26H28z\"/><path d=\"M10 30l10 10\"/><path d=\"M78 40L90 30\"/><circle cx=\"50\" cy=\"78\" r=\"7\"/><path d=\"M28 66L50 78M72 66L50 78\"/>"
+      }
     ]
   }
 };
