@@ -703,6 +703,88 @@ window.PADA_ICONS = {
         "name": "Road Roller",
         "svg": "<rect x=\"12\" y=\"50\" width=\"48\" height=\"26\" rx=\"6\"/><path d=\"M60 58h18l10 14v4H60z\"/><circle cx=\"36\" cy=\"84\" r=\"6\"/><circle cx=\"74\" cy=\"84\" r=\"6\"/>"
       }
+    ],
+    "Bridges and Hydraulic Structures": [
+      {
+        "name": "RCC Bridge",
+        "svg": "<path d=\"M6 40h88M6 52h88\"/><path d=\"M22 52v38M50 52v38M78 52v38\"/><path d=\"M6 90h88\"/>"
+      },
+      {
+        "name": "Steel Bridge",
+        "svg": "<path d=\"M6 46h88\"/><path d=\"M6 46L26 22h48l20 24\"/><path d=\"M26 22L50 46L74 22M50 22v24\"/><path d=\"M22 60v30M78 60v30\"/>"
+      },
+      {
+        "name": "Suspension Bridge",
+        "svg": "<path d=\"M6 60h88\"/><path d=\"M14 90V20M86 90V20\"/><path d=\"M6 60Q50 110 94 60\"/><path d=\"M14 20Q50 60 86 20\"/><path d=\"M28 42v18M40 50v10M50 50v10M60 50v10M72 42v18\"/>"
+      },
+      {
+        "name": "Cable-Stayed Bridge",
+        "svg": "<path d=\"M6 62h88\"/><path d=\"M42 90V14\"/><path d=\"M42 14L92 62M42 14L6 62M42 14L26 62M42 14L70 62\"/><path d=\"M14 90h8M78 90h8\"/>"
+      },
+      {
+        "name": "Arch Bridge",
+        "svg": "<path d=\"M6 62h88\"/><path d=\"M8 62Q50 4 92 62\"/><path d=\"M22 62v-20M36 62v-30M50 62v-34M64 62v-30M78 62v-20\"/><path d=\"M6 90h88\"/>"
+      },
+      {
+        "name": "Bridge Pier",
+        "svg": "<path d=\"M40 40h20v36H40z\"/><path d=\"M34 76h32v6H34z\"/><path d=\"M34 82h32\"/><path d=\"M6 40h88\"/>"
+      },
+      {
+        "name": "Bridge Abutment",
+        "svg": "<path d=\"M6 40h30v44\"/><path d=\"M6 40L6 84h38V40\"/><path d=\"M6 40h88\"/><path d=\"M36 40h58\"/>"
+      },
+      {
+        "name": "Bridge Deck",
+        "svg": "<path d=\"M6 40h88M6 52h88\"/><path d=\"M6 40v12M94 40v12\"/><path d=\"M14 52v10M30 52v10M46 52v10M62 52v10M78 52v10\"/><path d=\"M6 80h88\"/>"
+      },
+      {
+        "name": "Bridge Bearing",
+        "svg": "<rect x=\"20\" y=\"20\" width=\"60\" height=\"16\"/><path d=\"M30 36h40\"/><path d=\"M34 36v20h32V36\"/><path d=\"M14 56h72v14H14z\"/>"
+      },
+      {
+        "name": "Expansion Joint of Bridge",
+        "svg": "<path d=\"M6 46h38v16H6z\"/><path d=\"M56 46h38v16H56z\"/><path d=\"M44 46v16M56 46v16\"/><path d=\"M50 40l-4 6 4 6-4 6\"/>"
+      },
+      {
+        "name": "Concrete Dam",
+        "svg": "<path d=\"M6 20h88\"/><path d=\"M14 20L30 90H70L86 20\"/><path d=\"M20 90h60\"/><path d=\"M6 90h88\"/><path d=\"M50 20v70\"/>"
+      },
+      {
+        "name": "Embankment",
+        "svg": "<path d=\"M6 80h88\"/><path d=\"M6 80C30 80 36 40 50 40S72 80 94 80\"/><path d=\"M26 66h8M62 66h8\"/>"
+      },
+      {
+        "name": "Flood Protection Wall",
+        "svg": "<path d=\"M6 84h88\"/><path d=\"M26 84V22h48v62\"/><path d=\"M26 22h48\"/><path d=\"M14 84V72M86 84V72\"/><path d=\"M20 60c8-6 16 6 24 0s16 6 24 0 8 4 8 4\"/>"
+      },
+      {
+        "name": "River Training Structure",
+        "svg": "<path d=\"M6 40h88\"/><path d=\"M6 60h88\"/><path d=\"M24 40v40M50 40v40M76 40v40\"/><path d=\"M6 80h88\"/>"
+      },
+      {
+        "name": "Canal",
+        "svg": "<path d=\"M6 30L24 70H76L94 30\"/><path d=\"M6 30h88\"/><path d=\"M14 52h72\"/>"
+      },
+      {
+        "name": "Culvert",
+        "svg": "<path d=\"M10 44h80M10 72h80\"/><path d=\"M20 44v28M80 44v28\"/><path d=\"M30 44Q50 22 70 44\"/><path d=\"M30 72Q50 94 70 72\"/>"
+      },
+      {
+        "name": "Sluice Gate",
+        "svg": "<path d=\"M20 90V14M80 90V14\"/><path d=\"M20 14h60\"/><rect x=\"30\" y=\"26\" width=\"40\" height=\"22\"/><path d=\"M30 60h40v30H30z\"/><path d=\"M40 48v-4M60 48v-4M50 48v-8\"/>"
+      },
+      {
+        "name": "Spillway",
+        "svg": "<path d=\"M6 36h30v54\"/><path d=\"M36 36h20\"/><path d=\"M56 36Q72 46 80 88\"/><path d=\"M80 88H94\"/><path d=\"M6 90h88\"/>"
+      },
+      {
+        "name": "Retaining Structure",
+        "svg": "<path d=\"M26 10h14v58h36v12H26z\"/><path d=\"M68 40h16M68 54h16M68 68h16M68 82h16\"/>"
+      },
+      {
+        "name": "River Cross Section",
+        "svg": "<path d=\"M6 30h88\"/><path d=\"M6 30Q24 30 30 60T50 80T70 60T94 30\"/><path d=\"M14 46h10M46 58h10M76 46h10\"/>"
+      }
     ]
   }
 };
