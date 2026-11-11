@@ -1598,6 +1598,7 @@
 
   // Clip art: drawn from its vector paths as lines (no picture file), so it stays sharp at any size
   function clipParts(svgInner) {
+    svgInner = svgInner.replace(/<metadata[\s\S]*?<\/metadata>/g, "").replace(/<\?xml[^>]*\?>/g, "");
     const cache = (window.PADA_CLIP_CACHE ||= new Map());
     if (cache.has(svgInner)) return cache.get(svgInner);
     const doc = new DOMParser().parseFromString(
@@ -1654,6 +1655,7 @@
 
   // Clip art: drawn from its vector paths as lines (no picture file), so it stays sharp at any size
   function clipParts(svgInner) {
+    svgInner = svgInner.replace(/<metadata[\s\S]*?<\/metadata>/g, "").replace(/<\?xml[^>]*\?>/g, "");
     const cache = (window.PADA_CLIP_CACHE ||= new Map());
     if (cache.has(svgInner)) return cache.get(svgInner);
     const doc = new DOMParser().parseFromString(
