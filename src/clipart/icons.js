@@ -1277,6 +1277,128 @@ window.PADA_ICONS = {
         "name": "Computer Cable Connector",
         "svg": "<rect x=\"30\" y=\"20\" width=\"40\" height=\"60\" rx=\"4\"/><path d=\"M42 36h16v28H42z\"/><path d=\"M50 80v10\"/>"
       }
+    ],
+    "Networking and Communication": [
+      {
+        "name": "Network Router",
+        "svg": "<rect x=\"14\" y=\"48\" width=\"72\" height=\"30\" rx=\"4\"/><path d=\"M30 48V20M70 48V20\"/><path d=\"M26 62h8M42 62h8M58 62h8\"/>"
+      },
+      {
+        "name": "Network Switch",
+        "svg": "<rect x=\"10\" y=\"40\" width=\"80\" height=\"30\" rx=\"3\"/><rect x=\"18\" y=\"50\" width=\"8\" height=\"10\"/><rect x=\"30\" y=\"50\" width=\"8\" height=\"10\"/><rect x=\"42\" y=\"50\" width=\"8\" height=\"10\"/><rect x=\"54\" y=\"50\" width=\"8\" height=\"10\"/><rect x=\"66\" y=\"50\" width=\"8\" height=\"10\"/>"
+      },
+      {
+        "name": "Managed Ethernet Switch",
+        "svg": "<rect x=\"10\" y=\"40\" width=\"80\" height=\"30\" rx=\"3\"/><rect x=\"18\" y=\"50\" width=\"8\" height=\"10\"/><rect x=\"30\" y=\"50\" width=\"8\" height=\"10\"/><rect x=\"42\" y=\"50\" width=\"8\" height=\"10\"/><circle cx=\"72\" cy=\"55\" r=\"5\"/>"
+      },
+      {
+        "name": "Unmanaged Ethernet Switch",
+        "svg": "<rect x=\"10\" y=\"40\" width=\"80\" height=\"30\" rx=\"3\"/><rect x=\"18\" y=\"50\" width=\"8\" height=\"10\"/><rect x=\"30\" y=\"50\" width=\"8\" height=\"10\"/><rect x=\"42\" y=\"50\" width=\"8\" height=\"10\"/><path d=\"M66 55h14\"/>"
+      },
+      {
+        "name": "Network Hub",
+        "svg": "<rect x=\"10\" y=\"40\" width=\"80\" height=\"30\" rx=\"3\"/><circle cx=\"24\" cy=\"55\" r=\"3\"/><circle cx=\"38\" cy=\"55\" r=\"3\"/><circle cx=\"52\" cy=\"55\" r=\"3\"/><circle cx=\"66\" cy=\"55\" r=\"3\"/><path d=\"M76 55h4\"/>"
+      },
+      {
+        "name": "Wireless Router",
+        "svg": "<rect x=\"18\" y=\"56\" width=\"64\" height=\"26\" rx=\"4\"/><path d=\"M34 56V30M66 56V30\"/><path d=\"M38 24a14 14 0 0 1 24 0\"/><path d=\"M30 16a24 24 0 0 1 40 0\"/>"
+      },
+      {
+        "name": "Wi-Fi Access Point",
+        "svg": "<ellipse cx=\"50\" cy=\"62\" rx=\"32\" ry=\"10\"/><path d=\"M28 62V56M72 62V56\"/><path d=\"M38 40a16 16 0 0 1 24 0\"/><path d=\"M28 30a30 30 0 0 1 44 0\"/>"
+      },
+      {
+        "name": "Modem",
+        "svg": "<rect x=\"14\" y=\"44\" width=\"72\" height=\"30\" rx=\"4\"/><path d=\"M28 60h10M46 60h10M64 60h6\"/><path d=\"M30 44V32M70 44V32\"/>"
+      },
+      {
+        "name": "Fiber Optic Modem",
+        "svg": "<rect x=\"14\" y=\"44\" width=\"72\" height=\"30\" rx=\"4\"/><path d=\"M28 60h10M46 60h10\"/><path d=\"M70 52c8 0 8 16 0 16\"/>"
+      },
+      {
+        "name": "Optical Network Terminal (ONT)",
+        "svg": "<rect x=\"20\" y=\"30\" width=\"60\" height=\"50\" rx=\"4\"/><circle cx=\"34\" cy=\"50\" r=\"5\"/><rect x=\"50\" y=\"46\" width=\"18\" height=\"10\"/><path d=\"M50 70h20\"/>"
+      },
+      {
+        "name": "Firewall Appliance",
+        "svg": "<rect x=\"12\" y=\"34\" width=\"76\" height=\"32\" rx=\"3\"/><path d=\"M12 50h76M50 34v16M30 50v16M70 50v16\"/>"
+      },
+      {
+        "name": "Network Gateway",
+        "svg": "<rect x=\"38\" y=\"36\" width=\"24\" height=\"28\" rx=\"3\"/><path d=\"M14 50h24M62 50h24\"/><circle cx=\"14\" cy=\"50\" r=\"4\"/><circle cx=\"86\" cy=\"50\" r=\"4\"/>"
+      },
+      {
+        "name": "Network Bridge",
+        "svg": "<rect x=\"12\" y=\"40\" width=\"30\" height=\"20\"/><rect x=\"58\" y=\"40\" width=\"30\" height=\"20\"/><path d=\"M42 50h16\"/>"
+      },
+      {
+        "name": "Network Repeater",
+        "svg": "<path d=\"M50 90V40\"/><path d=\"M36 90h28\"/><path d=\"M28 36a22 22 0 0 1 44 0\"/><path d=\"M36 36a14 14 0 0 1 28 0\"/><circle cx=\"50\" cy=\"36\" r=\"4\"/>"
+      },
+      {
+        "name": "Network Adapter",
+        "svg": "<rect x=\"24\" y=\"16\" width=\"52\" height=\"30\" rx=\"3\"/><path d=\"M36 26h4M46 26h4M56 26h4M36 36h4M46 36h4M56 36h4\"/><path d=\"M50 46v14M38 60h24\"/><path d=\"M42 70h16v14H42z\"/>"
+      },
+      {
+        "name": "Ethernet Network Card",
+        "svg": "<path d=\"M10 30h80v50H10z\"/><rect x=\"58\" y=\"44\" width=\"22\" height=\"22\"/><path d=\"M62 52h14M62 58h14\"/><path d=\"M24 80v4M34 80v4M44 80v4\"/>"
+      },
+      {
+        "name": "Fiber Optic Cable",
+        "svg": "<rect x=\"8\" y=\"40\" width=\"84\" height=\"20\" rx=\"10\"/><path d=\"M8 50h84\"/>"
+      },
+      {
+        "name": "Ethernet Cable",
+        "svg": "<path d=\"M8 44h60M8 56h60\"/><rect x=\"68\" y=\"38\" width=\"22\" height=\"24\" rx=\"2\"/><path d=\"M74 62v-6M80 62v-6M86 62v-6\"/>"
+      },
+      {
+        "name": "RJ45 Connector",
+        "svg": "<path d=\"M24 14h52v56H24z\"/><path d=\"M34 70h32v12H34z\"/><path d=\"M34 22v22M42 22v22M50 22v22M58 22v22M66 22v22\"/>"
+      },
+      {
+        "name": "Fiber Optic Connector",
+        "svg": "<rect x=\"34\" y=\"14\" width=\"32\" height=\"26\" rx=\"4\"/><path d=\"M42 40h16v28H42z\"/><circle cx=\"50\" cy=\"27\" r=\"4\"/><path d=\"M50 68v20\"/>"
+      },
+      {
+        "name": "Network Patch Panel",
+        "svg": "<rect x=\"10\" y=\"30\" width=\"80\" height=\"40\" rx=\"2\"/><rect x=\"18\" y=\"38\" width=\"8\" height=\"8\"/><rect x=\"30\" y=\"38\" width=\"8\" height=\"8\"/><rect x=\"42\" y=\"38\" width=\"8\" height=\"8\"/><rect x=\"54\" y=\"38\" width=\"8\" height=\"8\"/><rect x=\"66\" y=\"38\" width=\"8\" height=\"8\"/><rect x=\"18\" y=\"52\" width=\"8\" height=\"8\"/><rect x=\"30\" y=\"52\" width=\"8\" height=\"8\"/><rect x=\"42\" y=\"52\" width=\"8\" height=\"8\"/><rect x=\"54\" y=\"52\" width=\"8\" height=\"8\"/><rect x=\"66\" y=\"52\" width=\"8\" height=\"8\"/>"
+      },
+      {
+        "name": "Network Rack",
+        "svg": "<rect x=\"26\" y=\"8\" width=\"48\" height=\"84\"/><path d=\"M26 28h48M26 48h48M26 68h48\"/><path d=\"M34 16h6M34 38h6M34 58h6M34 78h6\"/>"
+      },
+      {
+        "name": "Network Cabinet",
+        "svg": "<rect x=\"24\" y=\"8\" width=\"52\" height=\"84\" rx=\"3\"/><path d=\"M24 20h52\"/><path d=\"M36 40h28M36 50h28M36 60h28\"/><circle cx=\"68\" cy=\"30\" r=\"2\"/>"
+      },
+      {
+        "name": "Network Antenna",
+        "svg": "<path d=\"M50 90V30\"/><path d=\"M36 90h28\"/><path d=\"M34 26L50 10L66 26\"/><path d=\"M42 36h16\"/>"
+      },
+      {
+        "name": "Wireless Communication Tower",
+        "svg": "<path d=\"M50 8V26\"/><path d=\"M36 90L50 26L64 90\"/><path d=\"M42 58h16M38 74h24\"/><path d=\"M40 58L56 74M60 58L44 74\"/>"
+      },
+      {
+        "name": "Satellite Dish",
+        "svg": "<path d=\"M16 50a34 34 0 0 0 68 0\"/><path d=\"M50 50L64 26\"/><circle cx=\"66\" cy=\"22\" r=\"4\"/><path d=\"M40 84h20M50 84v6\"/>"
+      },
+      {
+        "name": "Network Server Connection",
+        "svg": "<rect x=\"10\" y=\"20\" width=\"36\" height=\"16\" rx=\"2\"/><rect x=\"10\" y=\"42\" width=\"36\" height=\"16\" rx=\"2\"/><rect x=\"10\" y=\"64\" width=\"36\" height=\"16\" rx=\"2\"/><path d=\"M46 28h14M46 50h14M46 72h14\"/><path d=\"M60 28v44\"/><rect x=\"68\" y=\"40\" width=\"22\" height=\"20\" rx=\"2\"/>"
+      },
+      {
+        "name": "LAN Network Diagram",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"8\"/><circle cx=\"20\" cy=\"20\" r=\"7\"/><circle cx=\"80\" cy=\"20\" r=\"7\"/><circle cx=\"20\" cy=\"80\" r=\"7\"/><circle cx=\"80\" cy=\"80\" r=\"7\"/><path d=\"M50 42L24 26M50 58L24 74M50 42L76 26M50 58L76 74\"/>"
+      },
+      {
+        "name": "WAN Network Diagram",
+        "svg": "<circle cx=\"16\" cy=\"50\" r=\"8\"/><circle cx=\"84\" cy=\"50\" r=\"8\"/><path d=\"M24 50h18M58 50h18\"/><path d=\"M42 34a12 12 0 0 1 16 0 12 12 0 0 1 0 32 12 12 0 0 1-16 0 12 12 0 0 1 0-32z\"/>"
+      },
+      {
+        "name": "Wireless Network Diagram",
+        "svg": "<circle cx=\"50\" cy=\"60\" r=\"6\"/><path d=\"M36 46a20 20 0 0 1 28 0\"/><path d=\"M26 34a34 34 0 0 1 48 0\"/><rect x=\"14\" y=\"70\" width=\"20\" height=\"16\" rx=\"2\"/><rect x=\"66\" y=\"70\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"M50 66v4M24 70v-6M76 70v-6\"/>"
+      }
     ]
   }
 };
