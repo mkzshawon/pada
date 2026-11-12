@@ -2867,6 +2867,128 @@ window.PADA_ICONS = {
         "name": "Extraction Apparatus",
         "svg": "<rect x=\"30\" y=\"20\" width=\"40\" height=\"38\" rx=\"2\"/><path d=\"M50 20V10\"/><path d=\"M38 40h24\"/><path d=\"M50 58v10\"/><path d=\"M40 68h20l-6 14h-8z\"/><path d=\"M26 30h4M70 30h4\"/>"
       }
+    ],
+    "Atomic Structure and Molecular": [
+      {
+        "name": "Atomic Model",
+        "svg": "<ellipse cx=\"50\" cy=\"50\" rx=\"42\" ry=\"16\"/><ellipse cx=\"50\" cy=\"50\" rx=\"42\" ry=\"16\" transform=\"rotate(60 50 50)\"/><ellipse cx=\"50\" cy=\"50\" rx=\"42\" ry=\"16\" transform=\"rotate(-60 50 50)\"/><circle cx=\"50\" cy=\"50\" r=\"6\"/>"
+      },
+      {
+        "name": "Bohr Atomic Model",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"6\"/><circle cx=\"50\" cy=\"50\" r=\"18\"/><circle cx=\"50\" cy=\"50\" r=\"34\"/><circle cx=\"68\" cy=\"50\" r=\"3\"/><circle cx=\"50\" cy=\"16\" r=\"3\"/><circle cx=\"24\" cy=\"66\" r=\"3\"/>"
+      },
+      {
+        "name": "Electron Shell Diagram",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"6\"/><circle cx=\"50\" cy=\"50\" r=\"18\" stroke-dasharray=\"4 4\"/><circle cx=\"50\" cy=\"50\" r=\"34\" stroke-dasharray=\"4 4\"/><circle cx=\"50\" cy=\"32\" r=\"3\"/><circle cx=\"66\" cy=\"66\" r=\"3\"/><circle cx=\"16\" cy=\"50\" r=\"3\"/>"
+      },
+      {
+        "name": "Proton Symbol",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"30\"/><path d=\"M50 36v28M36 50h28\"/>"
+      },
+      {
+        "name": "Neutron Symbol",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"30\"/><path d=\"M38 40v20M38 40l12 20M50 40v20\"/>"
+      },
+      {
+        "name": "Electron Symbol",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"30\"/><path d=\"M38 38h24M38 50h18M38 62h24M38 38v24\"/>"
+      },
+      {
+        "name": "Atomic Nucleus",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"10\"/><circle cx=\"44\" cy=\"46\" r=\"4\"/><circle cx=\"56\" cy=\"46\" r=\"4\"/><circle cx=\"50\" cy=\"56\" r=\"4\"/><circle cx=\"50\" cy=\"50\" r=\"34\" stroke-dasharray=\"4 4\"/>"
+      },
+      {
+        "name": "Isotope Representation",
+        "svg": "<path d=\"M14 50h72\"/><circle cx=\"30\" cy=\"50\" r=\"8\"/><circle cx=\"50\" cy=\"50\" r=\"8\"/><circle cx=\"70\" cy=\"50\" r=\"8\"/><path d=\"M26 36v-10M74 36v-10M50 26v-6\"/>"
+      },
+      {
+        "name": "Ion Structure",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"10\"/><circle cx=\"50\" cy=\"50\" r=\"30\" stroke-dasharray=\"4 4\"/><path d=\"M76 24h10M81 19v10\"/>"
+      },
+      {
+        "name": "Cation Symbol",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"28\"/><path d=\"M42 50h16M50 42v16\"/><path d=\"M76 20v-0\"/><path d=\"M80 14h10M85 9v10\"/>"
+      },
+      {
+        "name": "Anion Symbol",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"28\"/><path d=\"M42 50h16\"/><path d=\"M80 14h10\"/>"
+      },
+      {
+        "name": "Chemical Bond",
+        "svg": "<circle cx=\"28\" cy=\"50\" r=\"12\"/><circle cx=\"72\" cy=\"50\" r=\"12\"/><path d=\"M40 50h20\"/>"
+      },
+      {
+        "name": "Single Covalent Bond",
+        "svg": "<circle cx=\"24\" cy=\"50\" r=\"10\"/><circle cx=\"76\" cy=\"50\" r=\"10\"/><path d=\"M34 50h32\"/>"
+      },
+      {
+        "name": "Double Covalent Bond",
+        "svg": "<circle cx=\"24\" cy=\"50\" r=\"10\"/><circle cx=\"76\" cy=\"50\" r=\"10\"/><path d=\"M34 46h32M34 54h32\"/>"
+      },
+      {
+        "name": "Triple Covalent Bond",
+        "svg": "<circle cx=\"24\" cy=\"50\" r=\"10\"/><circle cx=\"76\" cy=\"50\" r=\"10\"/><path d=\"M34 44h32M34 50h32M34 56h32\"/>"
+      },
+      {
+        "name": "Ionic Bond",
+        "svg": "<circle cx=\"24\" cy=\"50\" r=\"12\"/><circle cx=\"76\" cy=\"50\" r=\"12\"/><path d=\"M36 50h28\" stroke-dasharray=\"3 4\"/><path d=\"M50 40v0\"/><path d=\"M48 38l4 4-4 4\"/>"
+      },
+      {
+        "name": "Metallic Bond",
+        "svg": "<circle cx=\"24\" cy=\"30\" r=\"8\"/><circle cx=\"50\" cy=\"30\" r=\"8\"/><circle cx=\"76\" cy=\"30\" r=\"8\"/><circle cx=\"24\" cy=\"66\" r=\"8\"/><circle cx=\"50\" cy=\"66\" r=\"8\"/><circle cx=\"76\" cy=\"66\" r=\"8\"/><path d=\"M14 46h72M14 54h72\" stroke-dasharray=\"2 4\"/>"
+      },
+      {
+        "name": "Hydrogen Bond",
+        "svg": "<circle cx=\"24\" cy=\"50\" r=\"10\"/><circle cx=\"76\" cy=\"50\" r=\"10\"/><circle cx=\"50\" cy=\"50\" r=\"5\"/><path d=\"M34 50h10M56 50h10\" stroke-dasharray=\"3 4\"/>"
+      },
+      {
+        "name": "Polar Molecule",
+        "svg": "<circle cx=\"34\" cy=\"50\" r=\"12\"/><circle cx=\"66\" cy=\"50\" r=\"12\"/><path d=\"M46 50h8\"/><path d=\"M14 22l-6 0M86 22h6\"/><path d=\"M18 12h-0\"/><path d=\"M24 22h4M76 22h4\"/><path d=\"M22 14l0 0\"/><path d=\"M14 10v8M86 10v8\"/>"
+      },
+      {
+        "name": "Nonpolar Molecule",
+        "svg": "<circle cx=\"34\" cy=\"50\" r=\"12\"/><circle cx=\"66\" cy=\"50\" r=\"12\"/><path d=\"M46 50h8\"/><path d=\"M22 20h56\" stroke-dasharray=\"3 4\"/>"
+      },
+      {
+        "name": "Molecular Orbital",
+        "svg": "<ellipse cx=\"50\" cy=\"50\" rx=\"36\" ry=\"14\"/><ellipse cx=\"50\" cy=\"50\" rx=\"10\" ry=\"30\"/><path d=\"M14 50h72\" stroke-dasharray=\"4 4\"/>"
+      },
+      {
+        "name": "Electron Pair",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"28\"/><circle cx=\"40\" cy=\"44\" r=\"3\"/><circle cx=\"60\" cy=\"56\" r=\"3\"/><path d=\"M50 22v12\" stroke-dasharray=\"0\"/><path d=\"M50 68v-0\"/>"
+      },
+      {
+        "name": "Lewis Dot Structure",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"12\"/><circle cx=\"50\" cy=\"20\" r=\"3\"/><circle cx=\"50\" cy=\"80\" r=\"3\"/><circle cx=\"20\" cy=\"50\" r=\"3\"/><circle cx=\"80\" cy=\"50\" r=\"3\"/><path d=\"M50 14v0\"/>"
+      },
+      {
+        "name": "Molecular Geometry",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"8\"/><circle cx=\"50\" cy=\"14\" r=\"6\"/><circle cx=\"82\" cy=\"70\" r=\"6\"/><circle cx=\"18\" cy=\"70\" r=\"6\"/><path d=\"M50 42V20M54 46L78 66M46 46L22 66\"/>"
+      },
+      {
+        "name": "Linear Molecular Structure",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"10\"/><circle cx=\"16\" cy=\"50\" r=\"8\"/><circle cx=\"84\" cy=\"50\" r=\"8\"/><path d=\"M24 50h16M60 50h16\"/>"
+      },
+      {
+        "name": "Bent Molecular Structure",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"10\"/><circle cx=\"20\" cy=\"30\" r=\"8\"/><circle cx=\"80\" cy=\"30\" r=\"8\"/><path d=\"M42 46L26 36M58 46L74 36\"/>"
+      },
+      {
+        "name": "Trigonal Planar Structure",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"10\"/><circle cx=\"50\" cy=\"14\" r=\"7\"/><circle cx=\"18\" cy=\"72\" r=\"7\"/><circle cx=\"82\" cy=\"72\" r=\"7\"/><path d=\"M50 40V21M45 55L24 68M55 55L76 68\"/>"
+      },
+      {
+        "name": "Tetrahedral Structure",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"8\"/><circle cx=\"50\" cy=\"16\" r=\"6\"/><circle cx=\"18\" cy=\"70\" r=\"6\"/><circle cx=\"82\" cy=\"70\" r=\"6\"/><circle cx=\"50\" cy=\"84\" r=\"6\" stroke-dasharray=\"3 3\"/><path d=\"M50 42V22M45 54L22 66M55 54L78 66M50 58V78\" stroke-dasharray=\"4 4\"/>"
+      },
+      {
+        "name": "Octahedral Structure",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"8\"/><circle cx=\"50\" cy=\"16\" r=\"6\"/><circle cx=\"50\" cy=\"84\" r=\"6\"/><circle cx=\"16\" cy=\"50\" r=\"6\"/><circle cx=\"84\" cy=\"50\" r=\"6\"/><path d=\"M50 42V22M50 58V78M42 50H22M58 50H78\"/><path d=\"M28 28L72 72M72 28L28 72\" stroke-dasharray=\"4 4\"/>"
+      },
+      {
+        "name": "Ball and Stick Molecular Model",
+        "svg": "<circle cx=\"50\" cy=\"26\" r=\"10\"/><circle cx=\"26\" cy=\"72\" r=\"10\"/><circle cx=\"74\" cy=\"72\" r=\"10\"/><path d=\"M45 33L31 64M55 33L69 64M36 72h28\"/>"
+      }
     ]
   }
 };
