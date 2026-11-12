@@ -3131,6 +3131,108 @@ window.PADA_ICONS = {
         "name": "Organic Reaction Mechanism",
         "svg": "<path d=\"M32 46Q50 14 68 46 M61 40L68 46L66 54\"/><circle cx=\"20\" cy=\"62\" r=\"8\"/><circle cx=\"80\" cy=\"62\" r=\"8\"/><path d=\"M50.0 66.0L50.0 84.0 M44 78L50 86L56 78\"/><circle cx=\"50\" cy=\"94\" r=\"6\"/>"
       }
+    ],
+    "Inorganic and Chemical Compounds": [
+      {
+        "name": "Water Molecule (H2O)",
+        "svg": "<circle cx=\"50\" cy=\"56\" r=\"9\"/><circle cx=\"28\" cy=\"34\" r=\"5\"/><circle cx=\"72\" cy=\"34\" r=\"5\"/><path d=\"M43.6 49.6L31.5 37.5 M56.4 49.6L68.5 37.5\"/>"
+      },
+      {
+        "name": "Hydrogen Gas (H2)",
+        "svg": "<circle cx=\"36\" cy=\"50\" r=\"6\"/><circle cx=\"64\" cy=\"50\" r=\"6\"/><path d=\"M42.0 50.0L58.0 50.0\"/>"
+      },
+      {
+        "name": "Oxygen Gas (O2)",
+        "svg": "<circle cx=\"34\" cy=\"50\" r=\"9\"/><circle cx=\"66\" cy=\"50\" r=\"9\"/><path d=\"M43.0 53.0L57.0 53.0 M43.0 47.0L57.0 47.0\"/>"
+      },
+      {
+        "name": "Nitrogen Gas (N2)",
+        "svg": "<circle cx=\"34\" cy=\"50\" r=\"9\"/><circle cx=\"66\" cy=\"50\" r=\"9\"/><path d=\"M43.0 50.0L57.0 50.0 M43.0 53.0L57.0 53.0 M43.0 47.0L57.0 47.0\"/>"
+      },
+      {
+        "name": "Carbon Dioxide (CO2)",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"6\"/><circle cx=\"16\" cy=\"50\" r=\"9\"/><circle cx=\"84\" cy=\"50\" r=\"9\"/><path d=\"M44.0 47.0L25.0 47.0 M44.0 53.0L25.0 53.0\"/><path d=\"M56.0 53.0L75.0 53.0 M56.0 47.0L75.0 47.0\"/>"
+      },
+      {
+        "name": "Carbon Monoxide (CO)",
+        "svg": "<circle cx=\"36\" cy=\"50\" r=\"6\"/><circle cx=\"66\" cy=\"50\" r=\"9\"/><path d=\"M42.0 50.0L57.0 50.0 M42.0 53.0L57.0 53.0 M42.0 47.0L57.0 47.0\"/>"
+      },
+      {
+        "name": "Ammonia (NH3)",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"9\"/><circle cx=\"50\" cy=\"20\" r=\"5\"/><circle cx=\"24\" cy=\"68\" r=\"5\"/><circle cx=\"76\" cy=\"68\" r=\"5\"/><path d=\"M50.0 41.0L50.0 25.0 M42.6 55.1L28.1 65.2 M57.4 55.1L71.9 65.2\"/>"
+      },
+      {
+        "name": "Methane (CH4)",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"8\"/><circle cx=\"50\" cy=\"16\" r=\"5\"/><circle cx=\"16\" cy=\"50\" r=\"5\"/><circle cx=\"84\" cy=\"50\" r=\"5\"/><circle cx=\"50\" cy=\"84\" r=\"5\"/><path d=\"M50.0 42.0L50.0 21.0 M42.0 50.0L21.0 50.0 M58.0 50.0L79.0 50.0 M50.0 58.0L50.0 79.0\"/>"
+      },
+      {
+        "name": "Hydrochloric Acid (HCl)",
+        "svg": "<circle cx=\"34\" cy=\"50\" r=\"6\"/><circle cx=\"68\" cy=\"50\" r=\"11\"/><path d=\"M40.0 50.0L57.0 50.0\"/>"
+      },
+      {
+        "name": "Sulfuric Acid (H2SO4)",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"11\"/><circle cx=\"50\" cy=\"16\" r=\"6\"/><circle cx=\"16\" cy=\"50\" r=\"6\"/><circle cx=\"84\" cy=\"50\" r=\"6\"/><circle cx=\"50\" cy=\"84\" r=\"6\"/><path d=\"M50.0 39.0L50.0 22.0 M39.0 50.0L22.0 50.0 M61.0 50.0L78.0 50.0 M50.0 61.0L50.0 78.0\"/>"
+      },
+      {
+        "name": "Nitric Acid (HNO3)",
+        "svg": "<circle cx=\"44\" cy=\"46\" r=\"8\"/><circle cx=\"44\" cy=\"18\" r=\"6\"/><circle cx=\"18\" cy=\"70\" r=\"6\"/><circle cx=\"74\" cy=\"70\" r=\"6\"/><circle cx=\"74\" cy=\"20\" r=\"4\"/><path d=\"M44.0 38.0L44.0 24.0 M38.1 51.4L22.4 65.9 M50.2 51.0L69.3 66.3 M74.0 64.0L74.0 24.0\"/>"
+      },
+      {
+        "name": "Sodium Hydroxide (NaOH)",
+        "svg": "<circle cx=\"24\" cy=\"50\" r=\"11\"/><circle cx=\"64\" cy=\"50\" r=\"8\"/><circle cx=\"86\" cy=\"34\" r=\"4\"/><path d=\"M70.5 45.3L82.8 36.4\"/>"
+      },
+      {
+        "name": "Potassium Hydroxide (KOH)",
+        "svg": "<circle cx=\"24\" cy=\"50\" r=\"13\"/><circle cx=\"64\" cy=\"50\" r=\"8\"/><circle cx=\"86\" cy=\"34\" r=\"4\"/><path d=\"M70.5 45.3L82.8 36.4\"/>"
+      },
+      {
+        "name": "Sodium Chloride (NaCl)",
+        "svg": "<path d=\"M22 22L50 22 M22 22L22 50 M50 22L22 22 M50 22L78 22 M50 22L50 50 M78 22L50 22 M78 22L78 50 M22 50L22 22 M22 50L50 50 M22 50L22 78 M50 50L50 22 M50 50L22 50 M50 50L78 50 M50 50L50 78 M78 50L78 22 M78 50L50 50 M78 50L78 78 M22 78L22 50 M22 78L50 78 M50 78L50 50 M50 78L22 78 M50 78L78 78 M78 78L78 50 M78 78L50 78\"/><circle cx=\"22\" cy=\"22\" r=\"8\"/><circle cx=\"50\" cy=\"22\" r=\"5\"/><circle cx=\"78\" cy=\"22\" r=\"8\"/><circle cx=\"22\" cy=\"50\" r=\"5\"/><circle cx=\"50\" cy=\"50\" r=\"8\"/><circle cx=\"78\" cy=\"50\" r=\"5\"/><circle cx=\"22\" cy=\"78\" r=\"8\"/><circle cx=\"50\" cy=\"78\" r=\"5\"/><circle cx=\"78\" cy=\"78\" r=\"8\"/>"
+      },
+      {
+        "name": "Calcium Carbonate (CaCO3)",
+        "svg": "<circle cx=\"20\" cy=\"50\" r=\"9\"/><circle cx=\"66\" cy=\"50\" r=\"4\"/><circle cx=\"66\" cy=\"24\" r=\"5\"/><circle cx=\"44\" cy=\"64\" r=\"5\"/><circle cx=\"88\" cy=\"64\" r=\"5\"/><path d=\"M66.0 46.0L66.0 29.0 M62.6 52.1L48.2 61.3 M69.4 52.1L83.8 61.3\"/>"
+      },
+      {
+        "name": "Sodium Bicarbonate (NaHCO3)",
+        "svg": "<circle cx=\"18\" cy=\"50\" r=\"9\"/><circle cx=\"66\" cy=\"50\" r=\"4\"/><circle cx=\"66\" cy=\"24\" r=\"5\"/><circle cx=\"44\" cy=\"64\" r=\"5\"/><circle cx=\"88\" cy=\"64\" r=\"5\"/><circle cx=\"66\" cy=\"8\" r=\"4\"/><path d=\"M66.0 46.0L66.0 29.0 M62.6 52.1L48.2 61.3 M69.4 52.1L83.8 61.3 M66.0 19.0L66.0 12.0\"/>"
+      },
+      {
+        "name": "Calcium Hydroxide (Ca(OH)2)",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"10\"/><circle cx=\"22\" cy=\"50\" r=\"7\"/><circle cx=\"78\" cy=\"50\" r=\"7\"/><circle cx=\"12\" cy=\"34\" r=\"4\"/><circle cx=\"88\" cy=\"34\" r=\"4\"/><path d=\"M40.0 50.0L29.0 50.0 M60.0 50.0L71.0 50.0 M18.3 44.1L14.1 37.4 M81.7 44.1L85.9 37.4\"/>"
+      },
+      {
+        "name": "Copper Sulfate (CuSO4)",
+        "svg": "<circle cx=\"20\" cy=\"50\" r=\"10\"/><circle cx=\"70\" cy=\"50\" r=\"6\"/><circle cx=\"70\" cy=\"22\" r=\"5\"/><circle cx=\"52\" cy=\"62\" r=\"5\"/><circle cx=\"88\" cy=\"62\" r=\"5\"/><path d=\"M70.0 44.0L70.0 27.0 M65.0 53.3L56.2 59.2 M75.0 53.3L83.8 59.2\"/>"
+      },
+      {
+        "name": "Potassium Permanganate (KMnO4)",
+        "svg": "<circle cx=\"18\" cy=\"50\" r=\"11\"/><circle cx=\"68\" cy=\"50\" r=\"6\"/><circle cx=\"68\" cy=\"22\" r=\"5\"/><circle cx=\"50\" cy=\"50\" r=\"5\"/><circle cx=\"88\" cy=\"50\" r=\"5\"/><circle cx=\"68\" cy=\"78\" r=\"5\"/><path d=\"M68.0 44.0L68.0 27.0 M62.0 50.0L55.0 50.0 M74.0 50.0L83.0 50.0 M68.0 56.0L68.0 73.0\"/>"
+      },
+      {
+        "name": "Sodium Carbonate (Na2CO3)",
+        "svg": "<circle cx=\"14\" cy=\"30\" r=\"7\"/><circle cx=\"14\" cy=\"70\" r=\"7\"/><circle cx=\"62\" cy=\"50\" r=\"6\"/><circle cx=\"62\" cy=\"22\" r=\"5\"/><circle cx=\"42\" cy=\"60\" r=\"5\"/><circle cx=\"84\" cy=\"60\" r=\"5\"/><path d=\"M20.5 32.7L56.5 47.7 M20.5 67.3L56.5 52.3 M62.0 44.0L62.0 27.0 M56.6 52.7L46.5 57.8 M67.5 52.5L79.4 57.9\"/>"
+      },
+      {
+        "name": "Hydrogen Peroxide (H2O2)",
+        "svg": "<circle cx=\"38\" cy=\"50\" r=\"8\"/><circle cx=\"62\" cy=\"50\" r=\"8\"/><circle cx=\"20\" cy=\"30\" r=\"4\"/><circle cx=\"80\" cy=\"70\" r=\"4\"/><path d=\"M46.0 50.0L54.0 50.0 M32.6 44.1L22.7 33.0 M67.4 55.9L77.3 67.0\"/>"
+      },
+      {
+        "name": "Calcium Oxide (CaO)",
+        "svg": "<circle cx=\"34\" cy=\"50\" r=\"10\"/><circle cx=\"68\" cy=\"50\" r=\"8\"/><path d=\"M44 50L58 50\"/>"
+      },
+      {
+        "name": "Magnesium Oxide (MgO)",
+        "svg": "<circle cx=\"34\" cy=\"50\" r=\"8\"/><circle cx=\"68\" cy=\"50\" r=\"8\"/><path d=\"M42 50L60 50\"/>"
+      },
+      {
+        "name": "Iron Oxide (Fe2O3)",
+        "svg": "<circle cx=\"30\" cy=\"34\" r=\"8\"/><circle cx=\"70\" cy=\"34\" r=\"8\"/><circle cx=\"22\" cy=\"72\" r=\"6\"/><circle cx=\"50\" cy=\"72\" r=\"6\"/><circle cx=\"78\" cy=\"72\" r=\"6\"/><path d=\"M28.4 41.8L23.2 66.1 M33.7 41.1L47.2 66.7 M66.3 41.1L52.8 66.7 M71.6 41.8L76.8 66.1 M28.0 72.0L44.0 72.0 M56.0 72.0L72.0 72.0\"/>"
+      },
+      {
+        "name": "Silica (SiO2)",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"8\"/><circle cx=\"50\" cy=\"18\" r=\"6\"/><circle cx=\"18\" cy=\"50\" r=\"6\"/><circle cx=\"82\" cy=\"50\" r=\"6\"/><circle cx=\"50\" cy=\"82\" r=\"6\"/><path d=\"M50.0 42.0L50.0 24.0 M42.0 50.0L24.0 50.0 M58.0 50.0L76.0 50.0 M50.0 58.0L50.0 76.0\"/>"
+      }
     ]
   }
 };
