@@ -3599,6 +3599,128 @@ window.PADA_ICONS = {
         "name": "Chemical Plant Layout",
         "svg": "<path d=\"M10 10H40V40H10Z\"/><path d=\"M60 10H90V40H60Z\"/><path d=\"M10 60H40V90H10Z\"/><path d=\"M60 60H90V90H60Z\"/><path d=\"M40 25L60 25\"/><path d=\"M40 75L60 75\"/><path d=\"M25 40L25 60\"/><path d=\"M75 40L75 60\"/><path d=\"M40 50L60 50\"/>"
       }
+    ],
+    "Flow and Process Symbols": [
+      {
+        "name": "Chemical Process Flow Arrow",
+        "svg": "<path d=\"M10 50L90 50 M81.0 54.95L90 50L81.0 45.05\"/><path d=\"M10 30L10 70\"/>"
+      },
+      {
+        "name": "Material Flow Arrow",
+        "svg": "<path d=\"M10 40H50V60H10Z\"/><path d=\"M50 50L90 50\"/><path d=\"M80.0 55.5L90 50L80.0 44.5\"/>"
+      },
+      {
+        "name": "Liquid Flow Arrow",
+        "svg": "<path d=\"M10 40q8-8 16 0t16 0 16 0 16 0\"/><path d=\"M10 60q8-8 16 0t16 0\"/><path d=\"M10 40L10 40\"/><path d=\"M10 70L84 70 M76.0 74.4L84 70L76.0 65.6\"/>"
+      },
+      {
+        "name": "Gas Flow Arrow",
+        "svg": "<path d=\"M10 50L90 50 M81.0 54.95L90 50L81.0 45.05\" stroke-dasharray=\"4 4\"/>"
+      },
+      {
+        "name": "Steam Flow Arrow",
+        "svg": "<path d=\"M10 70L90 70 M82.0 74.4L90 70L82.0 65.6\"/><path d=\"M30 48q-5-6 0-12t0-12\"/><path d=\"M50 48q-5-6 0-12t0-12\"/><path d=\"M70 48q-5-6 0-12t0-12\"/>"
+      },
+      {
+        "name": "Pipeline Connection",
+        "svg": "<path d=\"M6 50L40 50\"/><path d=\"M60 50L94 50\"/><path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M46 50L54 50\"/>"
+      },
+      {
+        "name": "Pipe Elbow",
+        "svg": "<path d=\"M20 88L20 44\"/><path d=\"M56 88L56 58\"/><path d=\"M20 44a36 36 0 0 1 36 36\"/>"
+      },
+      {
+        "name": "Pipe Tee",
+        "svg": "<path d=\"M6 40L94 40\"/><path d=\"M6 60L94 60\"/><path d=\"M40 40L40 94\"/><path d=\"M60 40L60 94\"/>"
+      },
+      {
+        "name": "Pipe Reducer",
+        "svg": "<path d=\"M6 40L36 40\"/><path d=\"M6 60L36 60\"/><path d=\"M36 40L64 30\"/><path d=\"M36 60L64 70\"/><path d=\"M64 30L94 30\"/><path d=\"M64 70L94 70\"/><path d=\"M64 30L64 70\"/>"
+      },
+      {
+        "name": "Pipe Flange",
+        "svg": "<path d=\"M6 40L94 40\"/><path d=\"M6 60L94 60\"/><path d=\"M40 28H48V72H40Z\"/><path d=\"M60 28H68V72H60Z\"/><path d=\"M48 40L60 40\"/><path d=\"M48 60L60 60\"/>"
+      },
+      {
+        "name": "Gate Valve",
+        "svg": "<path d=\"M6 50L30 50\"/><path d=\"M70 50L94 50\"/><path d=\"M30 36L50 50L30 64Z\"/><path d=\"M70 36L50 50L70 64Z\"/><path d=\"M50 50L50 24\"/><path d=\"M36 22L64 22\"/>"
+      },
+      {
+        "name": "Globe Valve",
+        "svg": "<path d=\"M6 50L30 50\"/><path d=\"M70 50L94 50\"/><path d=\"M36 54a14 14 0 1 0 28 0a14 14 0 1 0 -28 0\"/><path d=\"M50 40L50 22\"/><path d=\"M36 22L64 22\"/>"
+      },
+      {
+        "name": "Ball Valve",
+        "svg": "<path d=\"M6 50L24 50\"/><path d=\"M76 50L94 50\"/><path d=\"M24 50a26 26 0 1 0 52 0a26 26 0 1 0 -52 0\"/><path d=\"M26 50L74 50\"/>"
+      },
+      {
+        "name": "Butterfly Valve",
+        "svg": "<path d=\"M6 50L24 50\"/><path d=\"M76 50L94 50\"/><path d=\"M24 50a26 26 0 1 0 52 0a26 26 0 1 0 -52 0\"/><path d=\"M50 24L50 76\"/><path d=\"M50 20L50 10\"/>"
+      },
+      {
+        "name": "Check Valve",
+        "svg": "<path d=\"M6 50L30 50\"/><path d=\"M70 50L94 50\"/><path d=\"M30 36L30 64L70 50Z\"/><path d=\"M70 36L70 64\"/>"
+      },
+      {
+        "name": "Control Valve",
+        "svg": "<path d=\"M6 60L30 60\"/><path d=\"M70 60L94 60\"/><path d=\"M36 62a14 14 0 1 0 28 0a14 14 0 1 0 -28 0\"/><path d=\"M50 48L50 38\"/><path d=\"M32 38h36a4 4 0 0 1 0 8H32a4 4 0 0 1 0-8z\"/><path d=\"M50 30L50 18\"/>"
+      },
+      {
+        "name": "Pressure Gauge",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0\"/><path d=\"M50 50L66 36\"/><path d=\"M50 86L50 94\"/>"
+      },
+      {
+        "name": "Temperature Gauge",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0\"/><path d=\"M46 60V26a4 4 0 0 1 8 0V60a7 7 0 1 1-8 0z\"/><path d=\"M56 34L60 34\"/><path d=\"M56 46L60 46\"/>"
+      },
+      {
+        "name": "Flow Meter",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0\"/><path d=\"M30 60q5-8 10 0t10 0 10 0 10 0\"/>"
+      },
+      {
+        "name": "Level Indicator",
+        "svg": "<path d=\"M26 24H74V92H26Z\"/><path d=\"M26 50L74 50\"/><path d=\"M78 24L78 92\"/><path d=\"M74 50L82 50\"/>"
+      },
+      {
+        "name": "Pressure Transmitter",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0\"/><path d=\"M20 50L80 50\"/><path d=\"M36 58a14 14 0 0 1 28 0\"/><path d=\"M50 58L60 46\"/>"
+      },
+      {
+        "name": "Temperature Transmitter",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0\"/><path d=\"M20 50L80 50\"/><path d=\"M46 60V40a4 4 0 0 1 8 0V60a6 6 0 1 1-8 0z\"/>"
+      },
+      {
+        "name": "Flow Transmitter",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0\"/><path d=\"M20 50L80 50\"/><path d=\"M34 60q5-8 10 0t10 0 10 0\"/>"
+      },
+      {
+        "name": "Level Transmitter",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0\"/><path d=\"M20 50L80 50\"/><path d=\"M36 56L64 56\"/><path d=\"M36 62L64 62\"/>"
+      },
+      {
+        "name": "Process Pump Symbol",
+        "svg": "<path d=\"M26 50a24 24 0 1 0 48 0a24 24 0 1 0 -48 0\"/><path d=\"M38 38L62 50L38 62Z\"/><path d=\"M6 50L26 50\"/><path d=\"M74 50L94 50\"/>"
+      },
+      {
+        "name": "Process Compressor Symbol",
+        "svg": "<path d=\"M26 50a24 24 0 1 0 48 0a24 24 0 1 0 -48 0\"/><path d=\"M36 60L44 40L52 60L60 40L68 60\"/><path d=\"M6 50L26 50\"/><path d=\"M74 50L94 50\"/>"
+      },
+      {
+        "name": "Heat Exchanger Symbol",
+        "svg": "<path d=\"M28 30H72A4 4 0 0 1 76 34V66A4 4 0 0 1 72 70H28A4 4 0 0 1 24 66V34A4 4 0 0 1 28 30Z\"/><path d=\"M30 38L38 62L46 38L54 62L62 38L70 62\"/><path d=\"M6 50L24 50\"/><path d=\"M76 50L94 50\"/>"
+      },
+      {
+        "name": "Reactor Symbol",
+        "svg": "<path d=\"M46 22H54A16 16 0 0 1 70 38V68A16 16 0 0 1 54 84H46A16 16 0 0 1 30 68V38A16 16 0 0 1 46 22Z\"/><path d=\"M50 10L50 40\"/><path d=\"M38 44L62 44\"/><path d=\"M6 52L30 52\"/><path d=\"M70 52L94 52\"/>"
+      },
+      {
+        "name": "Storage Tank Symbol",
+        "svg": "<path d=\"M26 34Q50 14 74 34V88H26Z\"/><path d=\"M26 60L74 60\"/><path d=\"M6 60L26 60\"/><path d=\"M74 60L94 60\"/>"
+      },
+      {
+        "name": "Distillation Column Symbol",
+        "svg": "<path d=\"M48 10H52A12 12 0 0 1 64 22V78A12 12 0 0 1 52 90H48A12 12 0 0 1 36 78V22A12 12 0 0 1 48 10Z\"/><path d=\"M36 28L64 28\"/><path d=\"M36 46L64 46\"/><path d=\"M36 64L64 64\"/><path d=\"M64 36L84 36\"/><path d=\"M64 72L84 72\"/><path d=\"M50 90L50 96\"/>"
+      }
     ]
   }
 };
