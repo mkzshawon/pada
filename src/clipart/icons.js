@@ -3355,6 +3355,108 @@ window.PADA_ICONS = {
         "name": "Actinide Series",
         "svg": "<path d=\"M8.0 41.7V50.7A4.5 4.5 0 0 0 17.0 50.7M17.0 41.7V54.3\"/><path d=\"M6 38H19V58H6Z M20 38H33V58H20Z M34 38H47V58H34Z M48 38H61V58H48Z M62 38H75V58H62Z M76 38H89V58H76Z\"/>"
       }
+    ],
+    "Analytical and Laboratory Testing": [
+      {
+        "name": "Acid-Base Titration Setup",
+        "svg": "<path d=\"M12 12L12 92\"/><path d=\"M12 26L34 26\"/><path d=\"M42 14H54V60H42Z\"/><path d=\"M48 60L48 66\"/><path d=\"M44.0 70V96L30.0 92H66.0L52.0 96V70\"/>"
+      },
+      {
+        "name": "Redox Titration Setup",
+        "svg": "<path d=\"M12 12L12 92\"/><path d=\"M12 26L34 26\"/><path d=\"M42 14H54V60H42Z\"/><path d=\"M48 60L48 66\"/><path d=\"M44.0 70V96L30.0 92H66.0L52.0 96V70\"/><path d=\"M70 38L90 38\"/><path d=\"M84 33L90 38L84 43\"/><path d=\"M90 56L70 56\"/><path d=\"M76 51L70 56L76 61\"/>"
+      },
+      {
+        "name": "Complexometric Titration Setup",
+        "svg": "<path d=\"M12 12L12 92\"/><path d=\"M12 26L34 26\"/><path d=\"M42 14H54V60H42Z\"/><path d=\"M48 60L48 66\"/><path d=\"M40.0 70V96L29.0 92H59.0L48.0 96V70\"/><path d=\"M72 60l8-4 8 4v8l-8 4-8-4z\"/>"
+      },
+      {
+        "name": "Indicator Dropper",
+        "svg": "<path d=\"M48 8H52A8 8 0 0 1 60 16V24A8 8 0 0 1 52 32H48A8 8 0 0 1 40 24V16A8 8 0 0 1 48 8Z\"/><path d=\"M46 32L46 58\"/><path d=\"M54 32L54 58\"/><path d=\"M50 66c-4 6-4 9 0 9s4-3 0-9z\"/><path d=\"M38 72v14a6 6 0 0 0 12 0V72\"/><path d=\"M32 72L56 72\"/>"
+      },
+      {
+        "name": "Titration Burette Setup",
+        "svg": "<path d=\"M12 12L12 92\"/><path d=\"M12 26L36 26\"/><path d=\"M40 10H54V72H40Z\"/><path d=\"M40 20L46 20\"/><path d=\"M40 32L46 32\"/><path d=\"M40 44L46 44\"/><path d=\"M40 56L46 56\"/><path d=\"M40 72L54 72\"/><path d=\"M47 72L47 80\"/><path d=\"M47 80L50 88\"/>"
+      },
+      {
+        "name": "pH Indicator Scale",
+        "svg": "<path d=\"M10 40H90V70H10Z M10.0 58L10.0 70 M21.4 58L21.4 70 M32.8 58L32.8 70 M44.2 58L44.2 70 M55.6 58L55.6 70 M67.0 58L67.0 70 M78.4 58L78.4 70 M89.8 58L89.8 70 M50 20V34 M44 28L50 34L56 28 M11 18V30M11 22a4 4 0 1 0 0 8 M24 18V30M34 18V30M24 24H34\"/>"
+      },
+      {
+        "name": "Universal Indicator Chart",
+        "svg": "<path d=\"M12 16H22V28H12Z\"/><path d=\"M24 16H34V28H24Z\"/><path d=\"M36 16H46V28H36Z\"/><path d=\"M48 16H58V28H48Z\"/><path d=\"M60 16H70V28H60Z\"/><path d=\"M72 16H82V28H72Z\"/><path d=\"M84 16H94V28H84Z\"/><path d=\"M12 34H22V46H12Z\"/><path d=\"M24 34H34V46H24Z\"/><path d=\"M36 34H46V46H36Z\"/><path d=\"M48 34H58V46H48Z\"/><path d=\"M60 34H70V46H60Z\"/><path d=\"M72 34H82V46H72Z\"/><path d=\"M84 34H94V46H84Z\"/><path d=\"M12 52H22V64H12Z\"/><path d=\"M24 52H34V64H24Z\"/><path d=\"M36 52H46V64H36Z\"/><path d=\"M48 52H58V64H48Z\"/><path d=\"M60 52H70V64H60Z\"/><path d=\"M72 52H82V64H72Z\"/><path d=\"M84 52H94V64H84Z\"/><path d=\"M12 70H22V82H12Z\"/><path d=\"M24 70H34V82H24Z\"/><path d=\"M36 70H46V82H36Z\"/><path d=\"M48 70H58V82H48Z\"/><path d=\"M60 70H70V82H60Z\"/><path d=\"M72 70H82V82H72Z\"/><path d=\"M84 70H94V82H84Z\"/>"
+      },
+      {
+        "name": "Litmus Paper",
+        "svg": "<path d=\"M22 16H78V84H22Z\"/><path d=\"M50 16L50 84\"/><path d=\"M36 36L36 46\"/><path d=\"M64 60L64 70\"/>"
+      },
+      {
+        "name": "Filter Paper Testing",
+        "svg": "<path d=\"M14 62H86V80H14Z\"/><path d=\"M50 14c-4 6-6 9-6 12a6 6 0 0 0 12 0c0-3-2-6-6-12z\"/><path d=\"M30 62q20-8 40 0\"/><path d=\"M22 50L78 50\"/>"
+      },
+      {
+        "name": "Gravimetric Analysis Setup",
+        "svg": "<path d=\"M14 30L86 30\"/><path d=\"M50 16L50 30\"/><path d=\"M50 16L40 16\"/><path d=\"M20 30L14 50\"/><path d=\"M20 30L26 50\"/><path d=\"M14 50L26 50\"/><path d=\"M74 30L68 50\"/><path d=\"M74 30L80 50\"/><path d=\"M68 50L80 50\"/><path d=\"M40 66H60V90H40Z\"/><path d=\"M40 78L60 78\"/><path d=\"M38 66L62 66\"/>"
+      },
+      {
+        "name": "Volumetric Analysis Setup",
+        "svg": "<path d=\"M42 10V36L22 74a10 10 0 0 0 9 14h38a10 10 0 0 0 9-14L58 36V10\"/><path d=\"M38 10L62 10\"/><path d=\"M40 30L60 30\"/><path d=\"M46 28L54 28\"/>"
+      },
+      {
+        "name": "Sample Collection Bottle",
+        "svg": "<path d=\"M38 20H62V28H38Z\"/><path d=\"M42 28L42 38\"/><path d=\"M58 28L58 38\"/><path d=\"M38 38H62A8 8 0 0 1 70 46V80A8 8 0 0 1 62 88H38A8 8 0 0 1 30 80V46A8 8 0 0 1 38 38Z\"/><path d=\"M40 56H60V74H40Z\"/><path d=\"M50 6L50 18\"/><path d=\"M44 12L50 18L56 12\"/>"
+      },
+      {
+        "name": "Chemical Sample Container",
+        "svg": "<path d=\"M26 12H74V24H26Z\"/><path d=\"M34 24H66A6 6 0 0 1 72 30V82A6 6 0 0 1 66 88H34A6 6 0 0 1 28 82V30A6 6 0 0 1 34 24Z\"/><path d=\"M34 44H66V68H34Z\"/><path d=\"M38 50L62 50\"/><path d=\"M38 58L54 58\"/>"
+      },
+      {
+        "name": "Laboratory Sample Rack",
+        "svg": "<path d=\"M18 26V66a6 6 0 0 0 12 0V26\"/><path d=\"M36 26V66a6 6 0 0 0 12 0V26\"/><path d=\"M54 26V66a6 6 0 0 0 12 0V26\"/><path d=\"M72 26V66a6 6 0 0 0 12 0V26\"/><path d=\"M12 66H88V74H12Z\"/><path d=\"M12 28L88 28\"/>"
+      },
+      {
+        "name": "Test Tube Sample",
+        "svg": "<path d=\"M40 14H60V22H40Z\"/><path d=\"M42 22v56a10 10 0 0 0 16 0V22\"/><path d=\"M42 56L58 56\"/>"
+      },
+      {
+        "name": "Centrifuge Tube",
+        "svg": "<path d=\"M38 8H62V16H38Z\"/><path d=\"M40 16V66L50 90L60 66V16\"/><path d=\"M40 36L46 36\"/><path d=\"M40 52L46 52\"/><path d=\"M40 66L60 66\"/>"
+      },
+      {
+        "name": "Spectral Analysis Chart",
+        "svg": "<path d=\"M12 14L12 88L88 88\"/><path d=\"M14 70c8-4 10-40 16-40s8 36 14 36 8-30 14-30 8 26 14 26 8-18 14-18 8 12 12 12\"/>"
+      },
+      {
+        "name": "Chromatogram",
+        "svg": "<path d=\"M12 14L12 88L88 88\"/><path d=\"M14 78L26 78L30 40L34 78L44 78L50 22L56 78L68 78L74 52L78 78L86 78\"/>"
+      },
+      {
+        "name": "Calibration Curve",
+        "svg": "<path d=\"M12 14L12 88L88 88\"/><path d=\"M18 76L80 22\"/><path d=\"M19 72a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\"/><path d=\"M31 62a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\"/><path d=\"M45 50a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\"/><path d=\"M57 40a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\"/><path d=\"M71 26a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\"/>"
+      },
+      {
+        "name": "Standard Solution Bottle",
+        "svg": "<path d=\"M38 14H62V22H38Z\"/><path d=\"M42 22L42 32\"/><path d=\"M58 22L58 32\"/><path d=\"M38 32H62A8 8 0 0 1 70 40V80A8 8 0 0 1 62 88H38A8 8 0 0 1 30 80V40A8 8 0 0 1 38 32Z\"/><path d=\"M30 52L70 52\"/><path d=\"M42 68L48 74L60 62\"/>"
+      },
+      {
+        "name": "Reference Solution",
+        "svg": "<path d=\"M12 30H36V40H12Z\"/><path d=\"M16 40H32A4 4 0 0 1 36 44V82A4 4 0 0 1 32 86H16A4 4 0 0 1 12 82V44A4 4 0 0 1 16 40Z\"/><path d=\"M64 30H88V40H64Z\"/><path d=\"M68 40H84A4 4 0 0 1 88 44V82A4 4 0 0 1 84 86H68A4 4 0 0 1 64 82V44A4 4 0 0 1 68 40Z\"/><path d=\"M42 46L58 46\"/><path d=\"M42 58L58 58\"/>"
+      },
+      {
+        "name": "Pipette Calibration Apparatus",
+        "svg": "<path d=\"M38 8H54V16H38Z\"/><path d=\"M42 16V40a8 8 0 0 0 0 0\"/><path d=\"M36 40H56V64H36Z\"/><path d=\"M46 64V84L50 92L54 84V64\"/><path d=\"M70 10L70 90\"/><path d=\"M70 20L76 20\"/><path d=\"M70 40L76 40\"/><path d=\"M70 60L76 60\"/><path d=\"M70 80L76 80\"/>"
+      },
+      {
+        "name": "Analytical Testing Bench",
+        "svg": "<path d=\"M8 70L92 70\"/><path d=\"M16 70L16 90\"/><path d=\"M84 70L84 90\"/><path d=\"M30.0 36V62L20.0 70H48.0L38.0 62V36\"/><path d=\"M58 50H80V70H58Z\"/><path d=\"M58 50L80 50\"/><path d=\"M50 28L50 36\"/>"
+      },
+      {
+        "name": "Laboratory Data Recording Sheet",
+        "svg": "<path d=\"M16 12H78V88H16Z\"/><path d=\"M16 30L78 30\"/><path d=\"M16 46L78 46\"/><path d=\"M16 62L78 62\"/><path d=\"M16 78L78 78\"/><path d=\"M36 12L36 88\"/><path d=\"M58 12L58 88\"/><path d=\"M80 30L90 12L94 16L84 34\"/>"
+      },
+      {
+        "name": "Chemical Quality Control Testing",
+        "svg": "<path d=\"M45.0 12V38L28.0 84H72.0L55.0 38V12\"/><path d=\"M36 62L46 72L64 50\"/>"
+      }
     ]
   }
 };
