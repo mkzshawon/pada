@@ -4663,12 +4663,7 @@
       { name: "Cloud", svg: '<path d="M28 74h44a18 18 0 0 0 0-36 26 26 0 0 0-50 6 14 14 0 0 0 6 30z"/>' },
     ],
     Chemistry: (window.PADA_ICONS && window.PADA_ICONS.chemistry) || {},
-    Physics: [
-      { name: "Pendulum", svg: '<path d="M18 10h64"/><path d="M50 10L26 78"/><circle cx="26" cy="82" r="9"/>' },
-      { name: "Lens", svg: '<path d="M50 8c-14 16-14 68 0 84 14-16 14-68 0-84z"/><path d="M8 50h84"/>' },
-      { name: "Magnet", svg: '<path d="M22 14v46a28 28 0 0 0 56 0V14H64v46a14 14 0 0 1-28 0V14z"/>' },
-      { name: "Wave", svg: '<path d="M5 50c10-30 20-30 30 0s20 30 30 0 20-30 30 0"/>' },
-    ],
+    Physics: (window.PADA_ICONS && window.PADA_ICONS.physics) || {},
   };
 
   function clipArtSrc(inner) {

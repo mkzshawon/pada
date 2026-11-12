@@ -3926,5 +3926,85 @@ window.PADA_ICONS = {
         "svg": "<path d=\"M14 88L86 88\"/><path d=\"M22 88L22 36L50 22L78 36L78 88\"/><path d=\"M40 88L40 64L60 64L60 88\"/><path d=\"M30 52q8-8 16 0t16 0\"/><path d=\"M46 36a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
       }
     ]
+  },
+  "physics": {
+    "Basic Components Laboratory": [
+      {
+        "name": "Laboratory Table",
+        "svg": "<path d=\"M8 38L92 38 M18 38L18 88 M82 38L82 88 M18 72L82 72\"/>"
+      },
+      {
+        "name": "Physics Laboratory Setup",
+        "svg": "<path d=\"M8 88L92 88 M24 88L24 14 M24 14L36 14 M24 30L60 30 M60 30L60 58 M52 66a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/>"
+      },
+      {
+        "name": "Retort Stand",
+        "svg": "<path d=\"M18 88L82 88 M50 88L50 12 M50 30L76 30 M76 30L76 40 M70 40L82 40\"/>"
+      },
+      {
+        "name": "Clamp Stand",
+        "svg": "<path d=\"M18 88L82 88 M40 88L40 12 M40 28L70 28 M70 28L70 40 M64 40L76 40 M64 40L64 50 M76 40L76 50\"/>"
+      },
+      {
+        "name": "Laboratory Tripod",
+        "svg": "<path d=\"M22 36A28 8 0 1 0 78 36A28 8 0 1 0 22 36 M22 36L50 88 M78 36L50 88 M50 44L50 88\"/>"
+      },
+      {
+        "name": "Spring Balance",
+        "svg": "<path d=\"M50 6L50 16 M36 30a14 14 0 1 0 28 0a14 14 0 1 0 -28 0 M50 44L50 56 M50 56L56 58.2L44 60.5L56 62.8L44 65.0L56 67.2L44 69.5L56 71.8L44 74.0L50 74 M50 74L50 82 M44 88a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M50 16L62 24\"/>"
+      },
+      {
+        "name": "Digital Weighing Scale",
+        "svg": "<path d=\"M14 80L86 80 M14 80L14 70 M86 80L86 70 M14 70L86 70 M50 70L50 52 M30 22H70V52H30Z\"/>"
+      },
+      {
+        "name": "Measuring Cylinder",
+        "svg": "<path d=\"M34 12L34 86 M66 12L66 86 M34 86L66 86 M34 12L38 12 M62 12L66 12 M34 30L42 30 M34 46L42 46 M34 62L42 62 M34 74L42 74\"/>"
+      },
+      {
+        "name": "Stopwatch",
+        "svg": "<path d=\"M18 56a32 32 0 1 0 64 0a32 32 0 1 0 -64 0 M50 24L50 12 M42 12L58 12 M50 56L50 24 M50 56L66 68\"/>"
+      },
+      {
+        "name": "Vernier Caliper",
+        "svg": "<path d=\"M8 46L92 46 M8 38L8 54 M30 38L30 54 M30 46L30 28 M30 28L70 28 M70 28L70 38 M70 38L92 38\"/>"
+      },
+      {
+        "name": "Micrometer Screw Gauge",
+        "svg": "<path d=\"M14 40L14 60 M14 40L40 40 M14 60L40 60 M40 40L40 60 M40 50L60 50 M60 38L60 62 M60 38L86 38 M60 62L86 62 M86 38L86 62 M76 38L76 62 M14 40L6 40\"/>"
+      },
+      {
+        "name": "Measuring Tape",
+        "svg": "<path d=\"M12 50a18 18 0 1 0 36 0a18 18 0 1 0 -36 0 M48 50L90 50 M90 50L90 58 M80 50L80 58 M70 50L70 58 M90 58L80 58\"/>"
+      },
+      {
+        "name": "Meter Scale",
+        "svg": "<path d=\"M6 40L94 40 M6 40L6 60 M94 40L94 60 M6 60L94 60 M6.0 60L6.0 50 M14.8 60L14.8 50 M23.6 60L23.6 50 M32.4 60L32.4 50 M41.2 60L41.2 50 M50.0 60L50.0 50 M58.8 60L58.8 50 M67.6 60L67.6 50 M76.4 60L76.4 50 M85.2 60L85.2 50 M94.0 60L94.0 50\"/>"
+      },
+      {
+        "name": "Laboratory Thermometer",
+        "svg": "<path d=\"M42 60V16A8 8 0 0 1 58 16V60A14 14 0 1 1 42 60Z M58 30L66 30 M58 44L66 44\"/>"
+      },
+      {
+        "name": "Digital Thermometer",
+        "svg": "<path d=\"M30 8H70V36H30Z M50 36L50 70 M50 70Q56 80 50 88Q44 80 50 70Z M40 18L60 18\"/>"
+      },
+      {
+        "name": "Digital Multimeter",
+        "svg": "<path d=\"M26 14H74V64H26Z M40 64A10 10 0 0 1 60 64 M50 64L50 50 M50 64L50 76 M38 76L62 76 M38 76L38 90 M62 76L62 90 M26 22L16 22\"/>"
+      },
+      {
+        "name": "Analog Meter",
+        "svg": "<path d=\"M14 56a36 36 0 1 0 72 0a36 36 0 1 0 -72 0 M50 56L66 36 M50 92L38 92 M50 20L50 28 M50 92L62 92\"/>"
+      },
+      {
+        "name": "Scientific Calculator",
+        "svg": "<path d=\"M20 6H80V94H20Z M20 18L80 18 M20 32L80 32 M20 46L80 46 M20 60L80 60 M20 74L80 74 M20 88L80 88 M40 18L40 88 M60 18L60 88\"/>"
+      },
+      {
+        "name": "Laboratory Power Supply",
+        "svg": "<path d=\"M20 40H80V84H20Z M40 40L40 30 M34 24a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M60 36a4 4 0 1 0 8 0a4 4 0 1 0 -8 0 M20 50L8 50 M8 50L8 92 M8 92L20 92 M80 50L92 50\"/>"
+      }
+    ]
   }
 };
