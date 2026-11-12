@@ -2213,6 +2213,88 @@ window.PADA_ICONS = {
         "name": "Electronic Document",
         "svg": "<path d=\"M22 10h40l16 16v64H22z\"/><path d=\"M62 10v16h16\"/><path d=\"M32 44h36M32 56h36M32 68h22\"/><path d=\"M52 80l10-10 4 4-10 10-6 2z\"/>"
       }
+    ],
+    "Operating Systems Administration": [
+      {
+        "name": "Operating System",
+        "svg": "<rect x=\"8\" y=\"12\" width=\"84\" height=\"76\" rx=\"4\"/><path d=\"M8 26h84\"/><path d=\"M18 38h30M18 50h40M18 62h24\"/><circle cx=\"16\" cy=\"19\" r=\"1.5\"/><circle cx=\"22\" cy=\"19\" r=\"1.5\"/>"
+      },
+      {
+        "name": "Windows Computer System",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"54\" rx=\"3\"/><path d=\"M42 68h16v10H42M30 84h40\"/><path d=\"M22 24h24v20H22zM50 24h24v20H50zM22 48h24v14H22zM50 48h24v14H50z\"/>"
+      },
+      {
+        "name": "Linux Operating System",
+        "svg": "<path d=\"M50 10c-10 0-14 10-14 20 0 6-4 10-6 16-4 12-2 26-2 30h40c0-4 2-18-2-30-2-6-6-10-6-16 0-10-4-20-10-20z\"/><circle cx=\"44\" cy=\"26\" r=\"2\"/><circle cx=\"56\" cy=\"26\" r=\"2\"/><path d=\"M34 88h8M58 88h8\"/>"
+      },
+      {
+        "name": "macOS Computer System",
+        "svg": "<rect x=\"16\" y=\"14\" width=\"68\" height=\"50\" rx=\"3\"/><path d=\"M42 64h16v10H42M30 84h40\"/><path d=\"M50 22c-4 0-8 4-8 10s4 10 8 10 8-4 8-10-4-10-8-10z\"/><path d=\"M50 16v4\"/>"
+      },
+      {
+        "name": "Android Operating System",
+        "svg": "<rect x=\"28\" y=\"8\" width=\"44\" height=\"84\" rx=\"6\"/><path d=\"M36 20h28M36 80h28\"/><path d=\"M38 44a12 12 0 0 1 24 0z\"/><path d=\"M42 38v-4M58 38v-4\"/><path d=\"M38 48v16h24V48\"/><path d=\"M44 64v8M56 64v8\"/>"
+      },
+      {
+        "name": "iOS Operating System",
+        "svg": "<rect x=\"28\" y=\"8\" width=\"44\" height=\"84\" rx=\"6\"/><path d=\"M36 20h28M36 80h28\"/><rect x=\"36\" y=\"30\" width=\"10\" height=\"10\" rx=\"2\"/><rect x=\"54\" y=\"30\" width=\"10\" height=\"10\" rx=\"2\"/><rect x=\"36\" y=\"46\" width=\"10\" height=\"10\" rx=\"2\"/><rect x=\"54\" y=\"46\" width=\"10\" height=\"10\" rx=\"2\"/>"
+      },
+      {
+        "name": "File System",
+        "svg": "<path d=\"M12 30h30l6 8h40v44H12z\"/><path d=\"M12 42h76\"/><path d=\"M24 54h22M24 64h14\"/>"
+      },
+      {
+        "name": "Folder Directory",
+        "svg": "<path d=\"M12 30h30l6 8h40v44H12z\"/><path d=\"M12 42h76\"/><path d=\"M50 52v20M44 66l6 6 6-6\"/>"
+      },
+      {
+        "name": "File Document",
+        "svg": "<path d=\"M22 10h40l16 16v64H22z\"/><path d=\"M62 10v16h16\"/><path d=\"M32 44h36M32 56h36M32 68h22\"/>"
+      },
+      {
+        "name": "System Settings",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"14\"/><circle cx=\"50\" cy=\"50\" r=\"5\"/><path d=\"M50 14v10M50 76v10M14 50h10M76 50h10M24 24l7 7M69 69l7 7M76 24l-7 7M31 69l-7 7\"/><circle cx=\"50\" cy=\"50\" r=\"30\"/>"
+      },
+      {
+        "name": "System Configuration",
+        "svg": "<path d=\"M14 26h72M14 50h72M14 74h72\"/><circle cx=\"34\" cy=\"26\" r=\"7\" fill=\"none\"/><circle cx=\"62\" cy=\"50\" r=\"7\"/><circle cx=\"42\" cy=\"74\" r=\"7\"/>"
+      },
+      {
+        "name": "Task Manager",
+        "svg": "<rect x=\"12\" y=\"14\" width=\"76\" height=\"72\" rx=\"3\"/><path d=\"M12 28h76\"/><path d=\"M22 72V54M36 72V42M50 72V60M64 72V46\"/><path d=\"M74 72V52\"/>"
+      },
+      {
+        "name": "Process Management",
+        "svg": "<circle cx=\"34\" cy=\"50\" r=\"18\"/><circle cx=\"34\" cy=\"50\" r=\"6\"/><path d=\"M34 32v-4M34 72v-4M16 50h4M48 50h4M21 37l3 3M44 60l3 3M21 63l3-3M44 40l3-3\"/><circle cx=\"70\" cy=\"34\" r=\"10\"/><circle cx=\"70\" cy=\"66\" r=\"10\"/><path d=\"M52 50h8\"/>"
+      },
+      {
+        "name": "CPU Usage Monitor",
+        "svg": "<rect x=\"28\" y=\"28\" width=\"44\" height=\"44\" rx=\"3\"/><rect x=\"40\" y=\"40\" width=\"20\" height=\"20\"/><path d=\"M36 14v14M50 14v14M64 14v14M36 72v14M50 72v14M64 72v14M14 36h14M14 50h14M14 64h14M72 36h14M72 50h14M72 64h14\"/>"
+      },
+      {
+        "name": "RAM Usage Monitor",
+        "svg": "<rect x=\"8\" y=\"36\" width=\"84\" height=\"28\" rx=\"2\"/><path d=\"M18 36v28M30 36v28M42 36v28M54 36v28M66 36v28M78 36v28\"/><path d=\"M14 64v6M86 64v6\"/><path d=\"M20 22h60\"/><path d=\"M20 14h36\" stroke-dasharray=\"4 4\"/>"
+      },
+      {
+        "name": "Disk Usage Monitor",
+        "svg": "<rect x=\"12\" y=\"26\" width=\"76\" height=\"48\" rx=\"4\"/><circle cx=\"50\" cy=\"50\" r=\"16\"/><path d=\"M50 50V34\"/><path d=\"M50 50L62 44\"/><path d=\"M76 40h4\"/>"
+      },
+      {
+        "name": "System Performance Monitor",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"54\" rx=\"3\"/><path d=\"M42 68h16v10H42M30 84h40\"/><path d=\"M20 56l12-14 10 8 12-18 14 10 10-8\"/>"
+      },
+      {
+        "name": "System Log",
+        "svg": "<path d=\"M22 10h40l16 16v64H22z\"/><path d=\"M62 10v16h16\"/><path d=\"M32 40h8M48 40h20M32 52h8M48 52h20M32 64h8M48 64h14\"/><path d=\"M32 78h36\"/>"
+      },
+      {
+        "name": "System Administrator",
+        "svg": "<circle cx=\"50\" cy=\"32\" r=\"14\"/><path d=\"M24 86c0-16 12-26 26-26s26 10 26 26\"/><path d=\"M72 14l4 4-10 10M62 24l-4 4\" /><circle cx=\"76\" cy=\"18\" r=\"4\"/>"
+      },
+      {
+        "name": "Remote Desktop Connection",
+        "svg": "<rect x=\"8\" y=\"12\" width=\"56\" height=\"42\" rx=\"3\"/><path d=\"M8 24h56\"/><path d=\"M32 54v8M22 62h20\"/><rect x=\"58\" y=\"44\" width=\"34\" height=\"40\" rx=\"3\"/><path d=\"M64 84h22\"/><path d=\"M48 36c-6 6-6 14 0 20 6-6 6-14 0-20z\" stroke-dasharray=\"3 3\"/><path d=\"M52 60h16\"/>"
+      }
     ]
   }
 };
