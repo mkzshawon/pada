@@ -2111,6 +2111,108 @@ window.PADA_ICONS = {
         "name": "Cloud Infrastructure Architecture",
         "svg": "<path d=\"M26 40h48a14 14 0 0 0 0-26 20 20 0 0 0-38 4 11 11 0 0 0-10 22z\"/><rect x=\"36\" y=\"52\" width=\"28\" height=\"12\" rx=\"2\"/><rect x=\"36\" y=\"70\" width=\"28\" height=\"12\" rx=\"2\"/><path d=\"M50 52v-12M50 64v6\"/>"
       }
+    ],
+    "Net Web Digital Communication": [
+      {
+        "name": "Internet Globe",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"36\"/><ellipse cx=\"50\" cy=\"50\" rx=\"16\" ry=\"36\"/><path d=\"M14 50h72\"/>"
+      },
+      {
+        "name": "World Wide Web",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"36\"/><ellipse cx=\"50\" cy=\"50\" rx=\"16\" ry=\"36\"/><path d=\"M14 50h72\"/><path d=\"M50 14v72\" stroke-dasharray=\"4 4\"/>"
+      },
+      {
+        "name": "Website",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"3\"/><path d=\"M10 28h80\"/><circle cx=\"18\" cy=\"21\" r=\"1.5\"/><circle cx=\"25\" cy=\"21\" r=\"1.5\"/><path d=\"M22 40h56M22 52h36M22 64h24\"/><rect x=\"62\" y=\"58\" width=\"16\" height=\"12\"/>"
+      },
+      {
+        "name": "Web Browser",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"3\"/><path d=\"M10 28h80\"/><circle cx=\"18\" cy=\"21\" r=\"1.5\"/><circle cx=\"25\" cy=\"21\" r=\"1.5\"/><path d=\"M30 42h40v30H30z\"/><path d=\"M30 42l6-6h28\"/>"
+      },
+      {
+        "name": "Search Engine",
+        "svg": "<circle cx=\"42\" cy=\"42\" r=\"26\"/><path d=\"M61 61l26 26\"/><path d=\"M30 42h24M42 30v24\"/>"
+      },
+      {
+        "name": "Domain Name",
+        "svg": "<path d=\"M12 40h22v20H12z\"/><path d=\"M34 50h16\"/><path d=\"M50 50h8M58 50h8\"/><rect x=\"66\" y=\"40\" width=\"22\" height=\"20\" rx=\"2\"/><path d=\"M18 50h10\"/>"
+      },
+      {
+        "name": "Domain Name System",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"12\"/><circle cx=\"18\" cy=\"22\" r=\"7\"/><circle cx=\"82\" cy=\"22\" r=\"7\"/><circle cx=\"18\" cy=\"78\" r=\"7\"/><circle cx=\"82\" cy=\"78\" r=\"7\"/><path d=\"M25 26L40 42M75 26L60 42M25 74L40 58M75 74L60 58\"/>"
+      },
+      {
+        "name": "URL Web Address",
+        "svg": "<rect x=\"10\" y=\"30\" width=\"80\" height=\"40\" rx=\"6\"/><path d=\"M26 50h24\"/><path d=\"M26 44h14M26 56h14\"/><path d=\"M58 44l-4 0M58 56h10\"/><path d=\"M50 50h-0\"/><path d=\"M68 44a6 6 0 1 1 0 12\"/>"
+      },
+      {
+        "name": "HTTP Protocol",
+        "svg": "<path d=\"M14 36h72M14 64h72\"/><path d=\"M26 36V64M74 36V64\"/><path d=\"M36 44l6 12 6-12 6 12 6-12\"/><path d=\"M14 50h12M74 50h12\" stroke-dasharray=\"3 4\"/>"
+      },
+      {
+        "name": "HTTPS Secure Connection",
+        "svg": "<rect x=\"26\" y=\"46\" width=\"48\" height=\"36\" rx=\"4\"/><path d=\"M36 46V36a14 14 0 0 1 28 0v10\"/><circle cx=\"50\" cy=\"62\" r=\"4\"/><path d=\"M50 66v6\"/>"
+      },
+      {
+        "name": "Web Hosting",
+        "svg": "<rect x=\"16\" y=\"14\" width=\"68\" height=\"18\" rx=\"2\"/><rect x=\"16\" y=\"38\" width=\"68\" height=\"18\" rx=\"2\"/><rect x=\"16\" y=\"62\" width=\"68\" height=\"18\" rx=\"2\"/><circle cx=\"26\" cy=\"23\" r=\"2\"/><circle cx=\"26\" cy=\"47\" r=\"2\"/><circle cx=\"26\" cy=\"71\" r=\"2\"/><path d=\"M40 23h30M40 47h30M40 71h30\"/>"
+      },
+      {
+        "name": "Web Server Connection",
+        "svg": "<rect x=\"8\" y=\"30\" width=\"30\" height=\"40\" rx=\"2\"/><path d=\"M14 40h18M14 50h18M14 60h18\"/><path d=\"M38 50h24\"/><circle cx=\"72\" cy=\"50\" r=\"18\"/><path d=\"M54 50h36M72 32c-8 6-8 30 0 36M72 32c8 6 8 30 0 36\"/>"
+      },
+      {
+        "name": "Email",
+        "svg": "<rect x=\"12\" y=\"26\" width=\"76\" height=\"50\" rx=\"2\"/><path d=\"M12 26l38 28 38-28\"/>"
+      },
+      {
+        "name": "Email Server",
+        "svg": "<rect x=\"16\" y=\"12\" width=\"68\" height=\"20\" rx=\"2\"/><rect x=\"16\" y=\"40\" width=\"68\" height=\"20\" rx=\"2\"/><rect x=\"16\" y=\"68\" width=\"68\" height=\"20\" rx=\"2\"/><path d=\"M26 22h4M26 50h4M26 78h4\"/><path d=\"M50 22h18M50 50h18\"/>"
+      },
+      {
+        "name": "File Transfer Protocol",
+        "svg": "<path d=\"M14 40h30v30H14z\"/><path d=\"M14 40l8-8h14\"/><path d=\"M56 30h30v30H56z\"/><path d=\"M56 30l8-8h14\"/><path d=\"M50 40h4M50 52h4M48 46l4-4\"/><path d=\"M44 56h-14M56 62l0 0\"/>"
+      },
+      {
+        "name": "File Download",
+        "svg": "<path d=\"M26 60v20h48V60\"/><path d=\"M50 14v46M36 46l14 14 14-14\"/>"
+      },
+      {
+        "name": "File Upload",
+        "svg": "<path d=\"M26 60v20h48V60\"/><path d=\"M50 60V14M36 28l14-14 14 14\"/>"
+      },
+      {
+        "name": "Video Conference",
+        "svg": "<rect x=\"10\" y=\"22\" width=\"52\" height=\"40\" rx=\"3\"/><path d=\"M62 38l28-14v40l-28-14z\"/><circle cx=\"36\" cy=\"42\" r=\"6\"/><path d=\"M26 56c2-4 18-4 20 0\"/>"
+      },
+      {
+        "name": "Online Meeting",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"54\" rx=\"3\"/><circle cx=\"34\" cy=\"38\" r=\"8\"/><circle cx=\"66\" cy=\"38\" r=\"8\"/><path d=\"M22 58c2-6 20-6 24 0M54 58c2-6 20-6 24 0\"/><path d=\"M42 68h16v10H42M30 84h40\"/>"
+      },
+      {
+        "name": "Digital Communication",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"34\" height=\"26\" rx=\"4\"/><path d=\"M18 40l-4 6 8-2\"/><rect x=\"56\" y=\"60\" width=\"34\" height=\"26\" rx=\"4\"/><path d=\"M82 86l4-6-8 2\"/><path d=\"M28 26h18M28 32h10M66 68h18M66 74h10\"/>"
+      },
+      {
+        "name": "Instant Messaging",
+        "svg": "<path d=\"M12 18h56v38H34l-16 14V56H12z\"/><path d=\"M76 40h14v28H84l-8 8v-8H76z\"/><path d=\"M22 30h36M22 40h22\"/>"
+      },
+      {
+        "name": "Social Network",
+        "svg": "<circle cx=\"50\" cy=\"26\" r=\"10\"/><circle cx=\"22\" cy=\"72\" r=\"10\"/><circle cx=\"78\" cy=\"72\" r=\"10\"/><path d=\"M44 33L28 64M56 33L72 64M32 72h36\"/>"
+      },
+      {
+        "name": "QR Code",
+        "svg": "<rect x=\"14\" y=\"14\" width=\"26\" height=\"26\"/><rect x=\"60\" y=\"14\" width=\"26\" height=\"26\"/><rect x=\"14\" y=\"60\" width=\"26\" height=\"26\"/><rect x=\"22\" y=\"22\" width=\"10\" height=\"10\"/><rect x=\"68\" y=\"22\" width=\"10\" height=\"10\"/><rect x=\"22\" y=\"68\" width=\"10\" height=\"10\"/><path d=\"M50 14v12M50 34v6M50 50v10M46 56h12M60 46h8M60 60v26M74 60h12M74 74v12M86 60v4M86 82h-4\"/>"
+      },
+      {
+        "name": "Digital Signature",
+        "svg": "<rect x=\"14\" y=\"16\" width=\"72\" height=\"68\" rx=\"3\"/><path d=\"M26 34h48M26 46h22\"/><path d=\"M28 74c6-14 10-20 14-14 4 6-4 14 6 10s10-16 16-12c6 4 4 12 14 6\" />"
+      },
+      {
+        "name": "Electronic Document",
+        "svg": "<path d=\"M22 10h40l16 16v64H22z\"/><path d=\"M62 10v16h16\"/><path d=\"M32 44h36M32 56h36M32 68h22\"/><path d=\"M52 80l10-10 4 4-10 10-6 2z\"/>"
+      }
     ]
   }
 };
