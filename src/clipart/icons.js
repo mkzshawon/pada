@@ -2029,6 +2029,88 @@ window.PADA_ICONS = {
         "name": "AI Model Deployment",
         "svg": "<rect x=\"12\" y=\"34\" width=\"34\" height=\"32\" rx=\"3\"/><path d=\"M46 50h16M56 44l6 6-6 6\"/><path d=\"M68 40a12 12 0 0 1 22 6 9 9 0 0 1-2 18H70a10 10 0 0 1-2-24z\"/>"
       }
+    ],
+    "Cloud Computing Virtualization": [
+      {
+        "name": "Cloud Computing",
+        "svg": "<path d=\"M24 72h48a16 16 0 0 0 0-32 24 24 0 0 0-46 4 14 14 0 0 0-2 28z\"/><rect x=\"42\" y=\"46\" width=\"16\" height=\"16\" rx=\"2\"/><path d=\"M46 46v-4M54 46v-4M46 62v4M54 62v4M42 50h-4M42 58h-4M58 50h4M58 58h4\"/>"
+      },
+      {
+        "name": "Public Cloud",
+        "svg": "<path d=\"M24 72h48a16 16 0 0 0 0-32 24 24 0 0 0-46 4 14 14 0 0 0-2 28z\"/><circle cx=\"50\" cy=\"52\" r=\"10\"/><path d=\"M40 52h20M50 42v20\"/><path d=\"M45 44c3 3 3 13 0 16M55 44c-3 3-3 13 0 16\"/>"
+      },
+      {
+        "name": "Private Cloud",
+        "svg": "<path d=\"M24 72h48a16 16 0 0 0 0-32 24 24 0 0 0-46 4 14 14 0 0 0-2 28z\"/><rect x=\"42\" y=\"50\" width=\"16\" height=\"14\" rx=\"2\"/><path d=\"M45 50v-4a5 5 0 0 1 10 0v4\"/>"
+      },
+      {
+        "name": "Hybrid Cloud",
+        "svg": "<path d=\"M24 72h48a16 16 0 0 0 0-32 24 24 0 0 0-46 4 14 14 0 0 0-2 28z\"/><path d=\"M50 30v44\" stroke-dasharray=\"4 4\"/>"
+      },
+      {
+        "name": "Cloud Storage",
+        "svg": "<path d=\"M24 72h48a16 16 0 0 0 0-32 24 24 0 0 0-46 4 14 14 0 0 0-2 28z\"/><path d=\"M40 46h20v16H40z\"/><path d=\"M50 50v8M46 54l4 4 4-4\"/>"
+      },
+      {
+        "name": "Cloud Database",
+        "svg": "<path d=\"M24 72h48a16 16 0 0 0 0-32 24 24 0 0 0-46 4 14 14 0 0 0-2 28z\"/><ellipse cx=\"50\" cy=\"48\" rx=\"10\" ry=\"4\"/><path d=\"M40 48v12c0 2 20 2 20 0V48\"/><path d=\"M40 54c0 2 20 2 20 0\"/>"
+      },
+      {
+        "name": "Cloud Server",
+        "svg": "<path d=\"M24 72h48a16 16 0 0 0 0-32 24 24 0 0 0-46 4 14 14 0 0 0-2 28z\"/><rect x=\"40\" y=\"42\" width=\"20\" height=\"8\" rx=\"1\"/><rect x=\"40\" y=\"52\" width=\"20\" height=\"8\" rx=\"1\"/><path d=\"M44 46h4M44 56h4\"/>"
+      },
+      {
+        "name": "Cloud Network",
+        "svg": "<path d=\"M24 72h48a16 16 0 0 0 0-32 24 24 0 0 0-46 4 14 14 0 0 0-2 28z\"/><circle cx=\"44\" cy=\"50\" r=\"3\"/><circle cx=\"56\" cy=\"46\" r=\"3\"/><circle cx=\"56\" cy=\"58\" r=\"3\"/><path d=\"M44 50L56 46M44 50L56 58M56 46v12\"/>"
+      },
+      {
+        "name": "Cloud Backup",
+        "svg": "<path d=\"M24 72h48a16 16 0 0 0 0-32 24 24 0 0 0-46 4 14 14 0 0 0-2 28z\"/><path d=\"M56 46a8 8 0 1 0 2 8\"/><path d=\"M58 40v6h-6\"/>"
+      },
+      {
+        "name": "Cloud Security",
+        "svg": "<path d=\"M24 72h48a16 16 0 0 0 0-32 24 24 0 0 0-46 4 14 14 0 0 0-2 28z\"/><path d=\"M50 40l9 3v7c0 6-4 10-9 12-5-2-9-6-9-12v-7z\"/><path d=\"M46 52l3 3 5-6\"/>"
+      },
+      {
+        "name": "Virtual Machine",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"3\"/><path d=\"M10 26h80\"/><rect x=\"22\" y=\"36\" width=\"56\" height=\"40\" rx=\"2\"/><path d=\"M34 52h32\"/><path d=\"M40 60h20\"/>"
+      },
+      {
+        "name": "Hypervisor",
+        "svg": "<rect x=\"18\" y=\"16\" width=\"20\" height=\"16\" rx=\"2\"/><rect x=\"42\" y=\"16\" width=\"20\" height=\"16\" rx=\"2\"/><rect x=\"66\" y=\"16\" width=\"16\" height=\"16\" rx=\"2\"/><path d=\"M8 46h84\"/><path d=\"M8 46v0\"/><rect x=\"8\" y=\"46\" width=\"84\" height=\"8\" rx=\"2\"/><rect x=\"14\" y=\"68\" width=\"72\" height=\"16\" rx=\"2\"/><path d=\"M28 36v10M52 36v10M74 36v10M50 16\"/>"
+      },
+      {
+        "name": "Container",
+        "svg": "<rect x=\"10\" y=\"26\" width=\"80\" height=\"48\" rx=\"2\"/><path d=\"M22 26v48M34 26v48M46 26v48M58 26v48M70 26v48M82 26v48\"/>"
+      },
+      {
+        "name": "Docker Container",
+        "svg": "<rect x=\"14\" y=\"34\" width=\"16\" height=\"14\"/><rect x=\"34\" y=\"34\" width=\"16\" height=\"14\"/><rect x=\"54\" y=\"34\" width=\"16\" height=\"14\"/><rect x=\"34\" y=\"18\" width=\"16\" height=\"14\"/><rect x=\"54\" y=\"18\" width=\"16\" height=\"14\"/><rect x=\"74\" y=\"34\" width=\"12\" height=\"14\"/><path d=\"M8 58c6 16 60 16 80 0\"/><path d=\"M8 58h80\"/>"
+      },
+      {
+        "name": "Kubernetes Cluster",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"22\"/><circle cx=\"50\" cy=\"50\" r=\"6\"/><path d=\"M50 28V44M50 56v16M28 50h16M56 50h16M34 34l10 10M56 56l10 10M66 34l-10 10M44 56l-10 10\"/><circle cx=\"50\" cy=\"12\" r=\"4\"/><circle cx=\"84\" cy=\"50\" r=\"4\"/><circle cx=\"50\" cy=\"88\" r=\"4\"/><circle cx=\"16\" cy=\"50\" r=\"4\"/>"
+      },
+      {
+        "name": "Virtual Desktop",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"54\" rx=\"3\"/><path d=\"M42 68h16v10H42M30 84h40\"/><path d=\"M32 52c0 6 8 6 10 2 2 4 10 4 10 0 0-4 6-4 6 0 0 4 4 4 4 0 0-6 10-4 8 0\"/>"
+      },
+      {
+        "name": "Virtual Network",
+        "svg": "<circle cx=\"22\" cy=\"30\" r=\"7\"/><circle cx=\"78\" cy=\"30\" r=\"7\"/><circle cx=\"50\" cy=\"70\" r=\"7\"/><circle cx=\"22\" cy=\"70\" r=\"0\"/><path d=\"M29 32L43 64M71 32L57 64M29 30H71\" stroke-dasharray=\"5 5\"/>"
+      },
+      {
+        "name": "Virtual Private Cloud (VPC)",
+        "svg": "<rect x=\"8\" y=\"10\" width=\"84\" height=\"80\" rx=\"4\" stroke-dasharray=\"6 5\"/><rect x=\"18\" y=\"26\" width=\"26\" height=\"22\" rx=\"2\"/><rect x=\"56\" y=\"26\" width=\"26\" height=\"22\" rx=\"2\"/><rect x=\"18\" y=\"58\" width=\"26\" height=\"22\" rx=\"2\"/><rect x=\"56\" y=\"58\" width=\"26\" height=\"22\" rx=\"2\"/>"
+      },
+      {
+        "name": "Cloud Application",
+        "svg": "<path d=\"M24 72h48a16 16 0 0 0 0-32 24 24 0 0 0-46 4 14 14 0 0 0-2 28z\"/><rect x=\"40\" y=\"40\" width=\"8\" height=\"8\"/><rect x=\"52\" y=\"40\" width=\"8\" height=\"8\"/><rect x=\"40\" y=\"52\" width=\"8\" height=\"8\"/><rect x=\"52\" y=\"52\" width=\"8\" height=\"8\"/>"
+      },
+      {
+        "name": "Cloud Infrastructure Architecture",
+        "svg": "<path d=\"M26 40h48a14 14 0 0 0 0-26 20 20 0 0 0-38 4 11 11 0 0 0-10 22z\"/><rect x=\"36\" y=\"52\" width=\"28\" height=\"12\" rx=\"2\"/><rect x=\"36\" y=\"70\" width=\"28\" height=\"12\" rx=\"2\"/><path d=\"M50 52v-12M50 64v6\"/>"
+      }
     ]
   }
 };
