@@ -2500,5 +2500,129 @@ window.PADA_ICONS = {
         "svg": "<path d=\"M14 48L50 18l36 30v38H14z\"/><circle cx=\"50\" cy=\"62\" r=\"10\"/><path d=\"M50 52v-2M50 72v2M40 62h2M58 62h2\"/>"
       }
     ]
+  },
+  "chemistry": {
+    "Laboratory Glassware and Equipment": [
+      {
+        "name": "Beaker",
+        "svg": "<path d=\"M24 14v72h52V14\"/><path d=\"M18 14h12M70 14h12\"/>"
+      },
+      {
+        "name": "Graduated Beaker",
+        "svg": "<path d=\"M24 14v72h52V14\"/><path d=\"M18 14h12M70 14h12\"/><path d=\"M24 34h10M24 50h6M24 66h10\"/>"
+      },
+      {
+        "name": "Conical Flask (Erlenmeyer Flask)",
+        "svg": "<path d=\"M40 12h20M42 12v26L18 80a6 6 0 0 0 5 8h54a6 6 0 0 0 5-8L58 38V12\"/>"
+      },
+      {
+        "name": "Volumetric Flask",
+        "svg": "<path d=\"M40 8h20M42 8v32M58 8v32\"/><path d=\"M42 40C26 46 18 58 18 72a22 22 0 0 0 44 0c0-14-8-26-20-32\"/>"
+      },
+      {
+        "name": "Round Bottom Flask",
+        "svg": "<rect x=\"38\" y=\"8\" width=\"24\" height=\"8\"/><path d=\"M42 16v22M58 16v22\"/><circle cx=\"50\" cy=\"66\" r=\"24\"/>"
+      },
+      {
+        "name": "Flat Bottom Flask",
+        "svg": "<path d=\"M42 10v24L24 80h52L58 34V10\"/><path d=\"M36 10h28\"/>"
+      },
+      {
+        "name": "Florence Flask",
+        "svg": "<path d=\"M44 8v40M56 8v40\"/><path d=\"M44 48C30 52 22 62 22 74a28 28 0 0 0 56 0c0-12-8-22-22-26\"/>"
+      },
+      {
+        "name": "Distillation Flask",
+        "svg": "<path d=\"M40 10h20M42 10v26L24 70a18 18 0 0 0 16 16h20a18 18 0 0 0 16-16L58 36V10\"/><path d=\"M58 30h22l8-8\"/>"
+      },
+      {
+        "name": "Test Tube",
+        "svg": "<path d=\"M38 10v64a8 8 0 0 0 16 0V10\"/><path d=\"M34 10h32\"/>"
+      },
+      {
+        "name": "Boiling Tube",
+        "svg": "<path d=\"M34 10v60a12 12 0 0 0 32 0V10\"/>"
+      },
+      {
+        "name": "Test Tube Rack",
+        "svg": "<path d=\"M10 50h80M10 82h80\"/><path d=\"M14 50v32M86 50v32\"/><path d=\"M30 50V22M50 50V22M70 50V22\"/><path d=\"M26 22h8M46 22h8M66 22h8\"/>"
+      },
+      {
+        "name": "Measuring Cylinder",
+        "svg": "<path d=\"M34 12v72h32V12\"/><path d=\"M30 12h40\"/><path d=\"M34 84h32\"/><path d=\"M34 26h10M34 40h6M34 54h10M34 68h6\"/>"
+      },
+      {
+        "name": "Graduated Cylinder",
+        "svg": "<path d=\"M38 12v64L30 86h40L62 76V12\"/><path d=\"M34 12h32\"/><path d=\"M38 26h8M38 40h8M38 54h8\"/>"
+      },
+      {
+        "name": "Burette",
+        "svg": "<path d=\"M38 8h24M42 8v64M58 8v64\"/><rect x=\"44\" y=\"76\" width=\"12\" height=\"6\"/><path d=\"M50 82v8\"/>"
+      },
+      {
+        "name": "Pipette",
+        "svg": "<path d=\"M42 8h16M44 8v50M56 8v50\"/><circle cx=\"50\" cy=\"70\" r=\"12\"/>"
+      },
+      {
+        "name": "Volumetric Pipette",
+        "svg": "<path d=\"M44 8h12M45 8v30M55 8v30\"/><path d=\"M44 38c-6 0-14 10-14 18s12 18 20 18 20-10 20-18-8-18-14-18z\"/><path d=\"M50 74v12\"/>"
+      },
+      {
+        "name": "Pasteur Pipette",
+        "svg": "<path d=\"M50 30v56\"/><path d=\"M42 30h16\"/><path d=\"M42 30c0-16 16-16 16 0\"/><path d=\"M47 86h6\"/>"
+      },
+      {
+        "name": "Dropper",
+        "svg": "<rect x=\"40\" y=\"10\" width=\"20\" height=\"24\" rx=\"8\"/><path d=\"M46 34v38M54 34v38\"/><path d=\"M50 84c-4 6-4 8 0 8s4-2 0-8z\"/>"
+      },
+      {
+        "name": "Glass Funnel",
+        "svg": "<path d=\"M16 16h68L58 52v34h-16V52z\"/>"
+      },
+      {
+        "name": "Separating Funnel",
+        "svg": "<path d=\"M18 14h64l-20 42v12H38V56z\"/><path d=\"M32 8h36\"/><path d=\"M50 68v20M44 88h12\"/>"
+      },
+      {
+        "name": "Thistle Funnel",
+        "svg": "<path d=\"M22 24h56C78 42 60 50 56 58v32H44V58C40 50 22 42 22 24z\"/>"
+      },
+      {
+        "name": "Watch Glass",
+        "svg": "<ellipse cx=\"50\" cy=\"50\" rx=\"40\" ry=\"18\"/><path d=\"M22 50a28 10 0 0 0 56 0\"/>"
+      },
+      {
+        "name": "Petri Dish",
+        "svg": "<ellipse cx=\"50\" cy=\"56\" rx=\"38\" ry=\"10\"/><path d=\"M12 56v6a38 10 0 0 0 76 0v-6\"/><path d=\"M12 56V40a38 10 0 0 1 76 0v16\"/>"
+      },
+      {
+        "name": "Glass Stirring Rod",
+        "svg": "<rect x=\"46\" y=\"8\" width=\"8\" height=\"84\" rx=\"4\"/>"
+      },
+      {
+        "name": "Glass Condenser",
+        "svg": "<rect x=\"36\" y=\"18\" width=\"28\" height=\"60\"/><path d=\"M44 18v60M56 18v60\"/><path d=\"M48 8v10M52 78v10\"/>"
+      },
+      {
+        "name": "Reagent Bottle",
+        "svg": "<rect x=\"38\" y=\"8\" width=\"24\" height=\"10\" rx=\"2\"/><path d=\"M42 18v8C26 32 24 40 24 52v30a4 4 0 0 0 4 4h44a4 4 0 0 0 4-4V52c0-12-2-20-18-26v-8\"/><rect x=\"32\" y=\"50\" width=\"36\" height=\"22\"/>"
+      },
+      {
+        "name": "Wash Bottle",
+        "svg": "<path d=\"M40 36c-6 0-10 4-10 10v34a6 6 0 0 0 6 6h28a6 6 0 0 0 6-6V46c0-6-4-10-10-10\"/><path d=\"M44 36v-8h12v8M50 28V16l16-6\"/>"
+      },
+      {
+        "name": "Glass Vial",
+        "svg": "<rect x=\"40\" y=\"26\" width=\"20\" height=\"10\" rx=\"2\"/><path d=\"M42 36v40a8 8 0 0 0 16 0V36\"/>"
+      },
+      {
+        "name": "Crucible",
+        "svg": "<path d=\"M18 40h64l-8 40H26z\"/><path d=\"M18 40a32 6 0 0 1 64 0\"/>"
+      },
+      {
+        "name": "Evaporating Dish",
+        "svg": "<path d=\"M16 40h68c0 20-14 34-34 34S16 60 16 40z\"/><path d=\"M16 40c0-6 10-10 34-10s34 4 34 10\"/>"
+      }
+    ]
   }
 };

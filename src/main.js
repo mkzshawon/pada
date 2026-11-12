@@ -4662,12 +4662,7 @@
       { name: "Wi-Fi", svg: '<path d="M18 42a44 44 0 0 1 64 0"/><path d="M30 56a28 28 0 0 1 40 0"/><path d="M42 68a12 12 0 0 1 16 0"/><circle cx="50" cy="82" r="3"/>' },
       { name: "Cloud", svg: '<path d="M28 74h44a18 18 0 0 0 0-36 26 26 0 0 0-50 6 14 14 0 0 0 6 30z"/>' },
     ],
-    Chemistry: [
-      { name: "Flask", svg: '<path d="M40 12h20M44 12v25L22 75a8 8 0 0 0 7 12h42a8 8 0 0 0 7-12L56 37V12"/><path d="M32 64h36"/>' },
-      { name: "Test tube", svg: '<path d="M38 12h24M42 12v62a8 8 0 0 0 16 0V12"/><path d="M42 52h16"/>' },
-      { name: "Benzene", svg: '<path d="M50 10l34 20v40L50 90 16 70V30z"/><circle cx="50" cy="50" r="18"/>' },
-      { name: "Molecule", svg: '<circle cx="50" cy="28" r="9"/><circle cx="24" cy="74" r="9"/><circle cx="76" cy="74" r="9"/><path d="M45 35L30 67M55 35L70 67M33 74h34"/>' },
-    ],
+    Chemistry: (window.PADA_ICONS && window.PADA_ICONS.chemistry) || {},
     Physics: [
       { name: "Pendulum", svg: '<path d="M18 10h64"/><path d="M50 10L26 78"/><circle cx="26" cy="82" r="9"/>' },
       { name: "Lens", svg: '<path d="M50 8c-14 16-14 68 0 84 14-16 14-68 0-84z"/><path d="M8 50h84"/>' },
