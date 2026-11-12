@@ -2623,6 +2623,128 @@ window.PADA_ICONS = {
         "name": "Evaporating Dish",
         "svg": "<path d=\"M16 40h68c0 20-14 34-34 34S16 60 16 40z\"/><path d=\"M16 40c0-6 10-10 34-10s34 4 34 10\"/>"
       }
+    ],
+    "Laboratory and Measuring Instruments": [
+      {
+        "name": "Analytical Balance",
+        "svg": "<path d=\"M14 34h72\"/><path d=\"M50 14v20\"/><path d=\"M50 14h-8M50 14h8\"/><path d=\"M26 34L16 56h20z\"/><path d=\"M74 34L64 56h20z\"/><path d=\"M28 72h44v8H28z\"/>"
+      },
+      {
+        "name": "Digital Laboratory Balance",
+        "svg": "<rect x=\"18\" y=\"20\" width=\"64\" height=\"18\" rx=\"3\"/><rect x=\"30\" y=\"26\" width=\"18\" height=\"6\"/><path d=\"M18 38h64v40H18z\"/><path d=\"M34 58h32\"/><path d=\"M50 38v-4\"/>"
+      },
+      {
+        "name": "Triple Beam Balance",
+        "svg": "<path d=\"M14 36h72\"/><path d=\"M50 22v14\"/><path d=\"M34 14h32\"/><path d=\"M28 36L18 56h20zM72 36L62 56h20z\"/><path d=\"M36 88h28M50 36v52\"/><path d=\"M42 36v10M58 36v6\"/>"
+      },
+      {
+        "name": "pH Meter",
+        "svg": "<rect x=\"16\" y=\"30\" width=\"68\" height=\"40\" rx=\"4\"/><rect x=\"26\" y=\"38\" width=\"48\" height=\"16\"/><path d=\"M34 46h4M44 46h4M54 46h4M64 46h4\"/><path d=\"M50 70v20\"/>"
+      },
+      {
+        "name": "pH Electrode",
+        "svg": "<path d=\"M42 10h16v56a8 8 0 0 1-16 0z\"/><path d=\"M42 30h16\"/><path d=\"M50 74v10\"/><circle cx=\"50\" cy=\"86\" r=\"4\"/><path d=\"M42 10v-0\"/>"
+      },
+      {
+        "name": "Conductivity Meter",
+        "svg": "<rect x=\"16\" y=\"30\" width=\"68\" height=\"40\" rx=\"4\"/><rect x=\"26\" y=\"38\" width=\"48\" height=\"16\"/><path d=\"M30 46h10l4-4 4 8 4-8 4 4h10\"/><path d=\"M50 70v20\"/>"
+      },
+      {
+        "name": "Digital Thermometer",
+        "svg": "<rect x=\"30\" y=\"10\" width=\"40\" height=\"30\" rx=\"3\"/><rect x=\"38\" y=\"18\" width=\"24\" height=\"14\"/><path d=\"M50 40v34a10 10 0 1 1-6 0\"/><path d=\"M40 70h8\"/>"
+      },
+      {
+        "name": "Laboratory Thermometer",
+        "svg": "<path d=\"M42 8h16v64a12 12 0 1 1-16 0z\"/><path d=\"M42 8h0\"/><path d=\"M50 62V22\"/><path d=\"M58 20h6M58 30h4M58 40h6M58 50h4\"/><circle cx=\"50\" cy=\"78\" r=\"6\"/>"
+      },
+      {
+        "name": "Hydrometer",
+        "svg": "<path d=\"M42 10h16\"/><path d=\"M50 10v30\"/><path d=\"M42 40h16v10l-6 26h-4l-6-26z\"/><path d=\"M44 52h12\"/><path d=\"M44 60h12\" stroke-dasharray=\"2 3\"/>"
+      },
+      {
+        "name": "Barometer",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"36\"/><circle cx=\"50\" cy=\"50\" r=\"28\" stroke-dasharray=\"3 5\"/><path d=\"M50 50L70 34\"/><circle cx=\"50\" cy=\"50\" r=\"4\"/><path d=\"M28 66A28 28 0 0 1 36 30\"/>"
+      },
+      {
+        "name": "Hygrometer",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"36\"/><path d=\"M50 50L64 40\"/><path d=\"M50 14v8M86 50h-8M14 50h8\"/><path d=\"M42 66c0-6 2-8 8-8s8 2 8 8\"/>"
+      },
+      {
+        "name": "Stopwatch",
+        "svg": "<circle cx=\"50\" cy=\"56\" r=\"30\"/><path d=\"M50 56V38\"/><path d=\"M50 56l12 6\"/><path d=\"M42 10h16M50 10v16\"/><path d=\"M76 30l6-6\"/>"
+      },
+      {
+        "name": "Spectrophotometer",
+        "svg": "<rect x=\"12\" y=\"50\" width=\"76\" height=\"30\" rx=\"3\"/><path d=\"M28 50V34h44v16\"/><path d=\"M50 34V14\"/><path d=\"M40 14h20\"/><path d=\"M26 62h10M60 62h14\"/>"
+      },
+      {
+        "name": "Colorimeter",
+        "svg": "<rect x=\"20\" y=\"30\" width=\"60\" height=\"44\" rx=\"3\"/><path d=\"M34 30V16h32v14\"/><path d=\"M28 52h8M64 52h8\"/><path d=\"M42 74h16\"/><path d=\"M50 74v12\"/>"
+      },
+      {
+        "name": "UV-Visible Spectrometer",
+        "svg": "<rect x=\"12\" y=\"48\" width=\"76\" height=\"32\" rx=\"3\"/><path d=\"M26 48V30h48v18\"/><path d=\"M50 30V12\"/><path d=\"M26 64h12M62 64h12\"/><path d=\"M34 22c6 0 8 4 16 4s10-4 16-4\"/>"
+      },
+      {
+        "name": "Infrared Spectrometer",
+        "svg": "<rect x=\"12\" y=\"48\" width=\"76\" height=\"32\" rx=\"3\"/><path d=\"M26 48V30h48v18\"/><path d=\"M26 64h12M62 64h12\"/><path d=\"M26 22c8-8 14 8 22 0s14 8 26 0\" stroke-dasharray=\"3 3\"/>"
+      },
+      {
+        "name": "Chromatography Instrument",
+        "svg": "<rect x=\"12\" y=\"14\" width=\"76\" height=\"72\" rx=\"4\"/><path d=\"M12 30h76\"/><path d=\"M24 70L36 46L48 60L60 40L76 70\"/><path d=\"M24 80h52\"/>"
+      },
+      {
+        "name": "Gas Chromatograph",
+        "svg": "<rect x=\"12\" y=\"14\" width=\"76\" height=\"72\" rx=\"4\"/><path d=\"M12 30h76\"/><path d=\"M26 66h10v-14h10v20h10v-26h10v32\"/><path d=\"M24 80h52\"/>"
+      },
+      {
+        "name": "HPLC Instrument",
+        "svg": "<rect x=\"12\" y=\"14\" width=\"76\" height=\"72\" rx=\"4\"/><path d=\"M12 30h76\"/><path d=\"M24 40h52M24 52h52M24 64h52\" stroke-dasharray=\"6 4\"/><circle cx=\"72\" cy=\"22\" r=\"2\"/>"
+      },
+      {
+        "name": "Centrifuge",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"36\"/><circle cx=\"50\" cy=\"50\" r=\"6\"/><path d=\"M50 50L30 30M50 50L70 30M50 50L30 70M50 50L70 70\"/><circle cx=\"30\" cy=\"30\" r=\"0\"/><path d=\"M36 14h28\"/>"
+      },
+      {
+        "name": "Magnetic Stirrer",
+        "svg": "<rect x=\"12\" y=\"66\" width=\"76\" height=\"20\" rx=\"3\"/><circle cx=\"50\" cy=\"66\" r=\"3\"/><path d=\"M26 52a24 24 0 0 0 48 0\"/><path d=\"M50 50v4\"/><path d=\"M26 32h48\" stroke-dasharray=\"4 4\"/>"
+      },
+      {
+        "name": "Hot Plate",
+        "svg": "<rect x=\"12\" y=\"62\" width=\"76\" height=\"22\" rx=\"3\"/><path d=\"M22 52a8 8 0 0 1 16 0M42 46a8 8 0 0 1 16 0M62 52a8 8 0 0 1 16 0\"/><path d=\"M26 42c-2-4 2-6 0-10M50 36c-2-4 2-6 0-10M74 42c-2-4 2-6 0-10\"/>"
+      },
+      {
+        "name": "Heating Mantle",
+        "svg": "<path d=\"M22 46h56v8a28 28 0 0 1-56 0z\"/><path d=\"M28 46V30a22 22 0 0 1 44 0v16\"/><path d=\"M50 16V8\"/><path d=\"M34 62h32\"/>"
+      },
+      {
+        "name": "Laboratory Oven",
+        "svg": "<rect x=\"12\" y=\"12\" width=\"76\" height=\"76\" rx=\"4\"/><rect x=\"22\" y=\"24\" width=\"56\" height=\"44\" rx=\"2\"/><path d=\"M22 76h56\"/><path d=\"M30 34h16M30 44h16M30 54h16\"/><circle cx=\"72\" cy=\"30\" r=\"2\"/>"
+      },
+      {
+        "name": "Muffle Furnace",
+        "svg": "<rect x=\"12\" y=\"20\" width=\"76\" height=\"60\" rx=\"6\"/><path d=\"M26 34h48v32H26z\"/><path d=\"M26 80h48\"/><path d=\"M26 50c4-6 8 6 12 0s8 6 12 0 8 6 12 0\"/>"
+      },
+      {
+        "name": "Water Bath",
+        "svg": "<path d=\"M12 40h76v38a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6z\"/><path d=\"M12 40c6-4 6-8 0-12\"/><path d=\"M26 60c4-4 8 4 12 0s8 4 12 0 8 4 12 0\"/><path d=\"M26 72c4-4 8 4 12 0s8 4 12 0 8 4 12 0\"/>"
+      },
+      {
+        "name": "Autoclave",
+        "svg": "<rect x=\"10\" y=\"26\" width=\"80\" height=\"48\" rx=\"24\"/><path d=\"M26 26V16h48v10\"/><circle cx=\"72\" cy=\"50\" r=\"6\"/><path d=\"M26 74v8M74 74v8\"/>"
+      },
+      {
+        "name": "Fume Hood",
+        "svg": "<rect x=\"10\" y=\"10\" width=\"80\" height=\"80\" rx=\"3\"/><path d=\"M10 24h80\"/><rect x=\"22\" y=\"34\" width=\"56\" height=\"40\"/><path d=\"M22 54h56\"/><path d=\"M36 60v-6M50 60v-6M64 60v-6\"/>"
+      },
+      {
+        "name": "Laboratory Refrigerator",
+        "svg": "<rect x=\"24\" y=\"8\" width=\"52\" height=\"84\" rx=\"4\"/><path d=\"M24 40h52\"/><path d=\"M34 22v8M34 50v14\"/><path d=\"M34 66v4\"/>"
+      },
+      {
+        "name": "Laboratory Freezer",
+        "svg": "<rect x=\"24\" y=\"8\" width=\"52\" height=\"84\" rx=\"4\"/><path d=\"M24 40h52\"/><path d=\"M50 16v16M42 22l8 4 8-4M42 26l8-4 8 4\"/><path d=\"M34 58v14\"/>"
+      }
     ]
   }
 };
