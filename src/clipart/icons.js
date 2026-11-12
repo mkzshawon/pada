@@ -1813,7 +1813,7 @@ window.PADA_ICONS = {
       },
       {
         "name": "Digital Padlock",
-        "svg": "<rect x=\"26\" y=\"44\" width=\"48\" height=\"40\" rx=\"4\"/><path d=\"M36 44V32a14 14 0 0 1 28 0v12\"/><circle cx=\"42\" cy=\"58\" r=\"2\"/><circle cx=\"50\" cy=\"58\" r=\"2\"/><circle cx=\"58\" cy=\"58\" r=\"2\"/><circle cx=\"42\" cy=\"68\" r=\"2\"/><circle cx=\"50\" cy=\"68\" r=\"2\"/><circle cx=\"58\" cy=\"68\" r=\"2\"/>"
+        "svg": "<rect x=\"26\" y=\"44\" width=\"48\" height=\"40\" rx=\"4\"/><path d=\"M36 44V32a14 14 0 0 1 28 0v12\"/><path d=\"M36 72V58l-3 3\"/><rect x=\"46\" y=\"58\" width=\"8\" height=\"14\" rx=\"4\"/><path d=\"M64 72V58l-3 3\"/>"
       },
       {
         "name": "Open Padlock",
@@ -1825,7 +1825,7 @@ window.PADA_ICONS = {
       },
       {
         "name": "Firewall",
-        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"2\"/><path d=\"M10 34h80M10 54h80M10 74h80M36 14v20M64 14v20M22 34v20M50 34v20M78 34v20M36 54v20M64 54v20M22 74v12M50 74v12M78 74v12\"/>"
+        "svg": "<path d=\"M50 10c6 8 12 12 12 22a12 12 0 0 1-24 0c0-6 4-8 6-14 2 4 4 6 6 6-2-6-2-12 0-14z\"/><rect x=\"10\" y=\"44\" width=\"80\" height=\"42\" rx=\"2\"/><path d=\"M10 58h80M10 72h80M30 44v14M70 44v14M20 58v14M50 58v14M80 58v14M30 72v14M70 72v14\"/>"
       },
       {
         "name": "Antivirus Protection",
@@ -1926,6 +1926,108 @@ window.PADA_ICONS = {
       {
         "name": "Security Monitoring Dashboard",
         "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"54\" rx=\"3\"/><path d=\"M42 68h16v10H42M30 84h40\"/><path d=\"M50 22L62 27v10c0 8-6 14-12 17-6-3-12-9-12-17V27z\"/>"
+      }
+    ],
+    "AI and Machine Learning": [
+      {
+        "name": "Artificial Intelligence",
+        "svg": "<rect x=\"26\" y=\"26\" width=\"48\" height=\"48\" rx=\"6\"/><path d=\"M26 38H14M26 50H14M26 62H14M74 38h12M74 50h12M74 62h12M38 26V14M50 26V14M62 26V14M38 74v12M50 74v12M62 74v12\"/><path d=\"M42 40c-6 0-6 6-3 8-3 2-3 8 3 8M58 40c6 0 6 6 3 8 3 2 3 8-3 8M50 40v28\"/>"
+      },
+      {
+        "name": "Neural Network",
+        "svg": "<circle cx=\"18\" cy=\"30\" r=\"6\"/><circle cx=\"18\" cy=\"50\" r=\"6\"/><circle cx=\"18\" cy=\"70\" r=\"6\"/><circle cx=\"50\" cy=\"20\" r=\"6\"/><circle cx=\"50\" cy=\"40\" r=\"6\"/><circle cx=\"50\" cy=\"60\" r=\"6\"/><circle cx=\"50\" cy=\"80\" r=\"6\"/><circle cx=\"82\" cy=\"40\" r=\"6\"/><circle cx=\"82\" cy=\"60\" r=\"6\"/><path d=\"M24 30L44 40M24 30L44 60M24 50L44 20M24 50L44 60M24 70L44 40M24 70L44 80M56 20L76 40M56 40L76 60M56 60L76 40M56 80L76 60\"/>"
+      },
+      {
+        "name": "Artificial Neuron",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"14\"/><path d=\"M8 30L36 46M8 50h28M8 70L36 54M64 50h28\"/>"
+      },
+      {
+        "name": "Machine Learning",
+        "svg": "<path d=\"M12 84H88M12 84V14\"/><path d=\"M22 70L40 50L54 60L78 30\"/><circle cx=\"78\" cy=\"30\" r=\"4\"/><circle cx=\"40\" cy=\"50\" r=\"4\"/>"
+      },
+      {
+        "name": "Deep Learning",
+        "svg": "<path d=\"M50 14L86 30L50 46L14 30z\"/><path d=\"M14 46L50 62L86 46\"/><path d=\"M14 62L50 78L86 62\"/>"
+      },
+      {
+        "name": "Generative AI",
+        "svg": "<path d=\"M40 18l4 10 10 4-10 4-4 10-4-10-10-4 10-4z\"/><path d=\"M70 40l3 7 7 3-7 3-3 7-3-7-7-3 7-3z\"/><path d=\"M22 74c10-10 20-10 30 0s20 10 30 0\"/>"
+      },
+      {
+        "name": "Large Language Model",
+        "svg": "<path d=\"M14 16h72v52H50L30 84V68H14z\"/><path d=\"M26 30h48M26 42h36M26 54h24\"/>"
+      },
+      {
+        "name": "AI Chatbot",
+        "svg": "<rect x=\"22\" y=\"30\" width=\"56\" height=\"44\" rx=\"8\"/><circle cx=\"40\" cy=\"50\" r=\"5\"/><circle cx=\"60\" cy=\"50\" r=\"5\"/><path d=\"M50 30V16M46 16h8\"/><path d=\"M36 64h28\"/>"
+      },
+      {
+        "name": "Natural Language Processing",
+        "svg": "<path d=\"M12 14h56v40H34L20 66V54H12z\"/><path d=\"M22 26h36M22 38h22\"/><path d=\"M70 56l10 10-10 10\"/><path d=\"M84 66h6\"/>"
+      },
+      {
+        "name": "Computer Vision",
+        "svg": "<path d=\"M14 50c10-16 26-22 36-22s26 6 36 22c-10 16-26 22-36 22S24 66 14 50z\"/><circle cx=\"50\" cy=\"50\" r=\"10\"/><path d=\"M14 30V14h16M86 30V14H70M14 70v16h16M86 70v16H70\"/>"
+      },
+      {
+        "name": "Image Recognition",
+        "svg": "<rect x=\"12\" y=\"16\" width=\"76\" height=\"68\" rx=\"3\"/><path d=\"M12 68l22-22 16 16 10-10 28 26\"/><circle cx=\"72\" cy=\"34\" r=\"6\"/><path d=\"M58 24h28v20H58z\"/>"
+      },
+      {
+        "name": "Speech Recognition",
+        "svg": "<rect x=\"38\" y=\"12\" width=\"24\" height=\"44\" rx=\"12\"/><path d=\"M26 44a24 24 0 0 0 48 0\"/><path d=\"M50 68v14M36 84h28\"/><path d=\"M14 40v20M86 40v20\"/>"
+      },
+      {
+        "name": "Robotics",
+        "svg": "<rect x=\"20\" y=\"82\" width=\"60\" height=\"8\"/><path d=\"M50 82V56L28 34\"/><circle cx=\"50\" cy=\"56\" r=\"4\"/><circle cx=\"28\" cy=\"34\" r=\"4\"/><path d=\"M28 34L64 20\"/><path d=\"M58 14l8 6-6 8\"/>"
+      },
+      {
+        "name": "Intelligent Robot",
+        "svg": "<rect x=\"24\" y=\"30\" width=\"52\" height=\"44\" rx=\"8\"/><circle cx=\"40\" cy=\"48\" r=\"5\"/><circle cx=\"60\" cy=\"48\" r=\"5\"/><path d=\"M50 30V16M46 16h8\"/><path d=\"M36 62h28\"/><path d=\"M24 44H12M76 44h12\"/>"
+      },
+      {
+        "name": "AI Processor",
+        "svg": "<rect x=\"28\" y=\"28\" width=\"44\" height=\"44\" rx=\"3\"/><circle cx=\"42\" cy=\"42\" r=\"3\"/><circle cx=\"58\" cy=\"42\" r=\"3\"/><circle cx=\"50\" cy=\"58\" r=\"3\"/><path d=\"M42 42L50 58L58 42\"/><path d=\"M36 14v14M50 14v14M64 14v14M36 72v14M50 72v14M64 72v14M14 36h14M14 50h14M14 64h14M72 36h14M72 50h14M72 64h14\"/>"
+      },
+      {
+        "name": "GPU Computing",
+        "svg": "<rect x=\"10\" y=\"30\" width=\"80\" height=\"40\" rx=\"4\"/><path d=\"M22 42v16M30 42v16M38 42v16M46 42v16M54 42v16M62 42v16M70 42v16\"/>"
+      },
+      {
+        "name": "Training Dataset",
+        "svg": "<rect x=\"12\" y=\"20\" width=\"76\" height=\"56\" rx=\"3\"/><path d=\"M12 36h76M12 52h76M12 68h76M40 20v56M64 20v56\"/><path d=\"M50 82v8M42 86l8 4 8-4\"/>"
+      },
+      {
+        "name": "Machine Learning Dataset",
+        "svg": "<path d=\"M12 14v72h76\"/><circle cx=\"26\" cy=\"66\" r=\"4\"/><circle cx=\"38\" cy=\"52\" r=\"4\"/><circle cx=\"50\" cy=\"60\" r=\"4\"/><circle cx=\"62\" cy=\"38\" r=\"4\"/><circle cx=\"74\" cy=\"28\" r=\"4\"/><circle cx=\"30\" cy=\"34\" r=\"4\"/>"
+      },
+      {
+        "name": "Data Classification",
+        "svg": "<path d=\"M12 14v72h76\"/><circle cx=\"24\" cy=\"26\" r=\"4\"/><circle cx=\"34\" cy=\"38\" r=\"4\"/><circle cx=\"26\" cy=\"46\" r=\"4\"/><circle cx=\"64\" cy=\"58\" r=\"4\"/><circle cx=\"76\" cy=\"70\" r=\"4\"/><circle cx=\"72\" cy=\"50\" r=\"4\"/><path d=\"M48 14L44 86\" stroke-dasharray=\"4 4\"/>"
+      },
+      {
+        "name": "Decision Tree",
+        "svg": "<rect x=\"36\" y=\"10\" width=\"28\" height=\"14\" rx=\"2\"/><rect x=\"12\" y=\"44\" width=\"28\" height=\"14\" rx=\"2\"/><rect x=\"60\" y=\"44\" width=\"28\" height=\"14\" rx=\"2\"/><rect x=\"12\" y=\"78\" width=\"16\" height=\"12\" rx=\"2\"/><rect x=\"72\" y=\"78\" width=\"16\" height=\"12\" rx=\"2\"/><path d=\"M50 24v10M50 34H26v10M50 34h24v10M26 58v20M74 58v20\"/>"
+      },
+      {
+        "name": "Regression Model",
+        "svg": "<path d=\"M12 14v72h76\"/><circle cx=\"24\" cy=\"66\" r=\"4\"/><circle cx=\"36\" cy=\"58\" r=\"4\"/><circle cx=\"48\" cy=\"46\" r=\"4\"/><circle cx=\"60\" cy=\"40\" r=\"4\"/><circle cx=\"72\" cy=\"28\" r=\"4\"/><path d=\"M18 72L80 24\"/>"
+      },
+      {
+        "name": "Clustering Model",
+        "svg": "<ellipse cx=\"30\" cy=\"40\" rx=\"18\" ry=\"16\" stroke-dasharray=\"4 4\"/><ellipse cx=\"72\" cy=\"36\" rx=\"16\" ry=\"14\" stroke-dasharray=\"4 4\"/><ellipse cx=\"48\" cy=\"74\" rx=\"20\" ry=\"12\" stroke-dasharray=\"4 4\"/><circle cx=\"28\" cy=\"34\" r=\"4\"/><circle cx=\"22\" cy=\"46\" r=\"4\"/><circle cx=\"34\" cy=\"46\" r=\"4\"/><circle cx=\"72\" cy=\"30\" r=\"4\"/><circle cx=\"80\" cy=\"42\" r=\"4\"/><circle cx=\"66\" cy=\"44\" r=\"4\"/><circle cx=\"48\" cy=\"72\" r=\"4\"/><circle cx=\"60\" cy=\"68\" r=\"4\"/><circle cx=\"36\" cy=\"72\" r=\"4\"/>"
+      },
+      {
+        "name": "Predictive Analytics",
+        "svg": "<path d=\"M12 84V14M12 84h76\"/><path d=\"M20 70L36 52L52 60\"/><path d=\"M52 60L84 30\" stroke-dasharray=\"5 5\"/><circle cx=\"84\" cy=\"30\" r=\"4\"/>"
+      },
+      {
+        "name": "AI Model Training",
+        "svg": "<path d=\"M22 22A28 28 0 0 1 78 22\"/><path d=\"M76 14v8h-8\"/><rect x=\"26\" y=\"40\" width=\"48\" height=\"36\" rx=\"4\"/><path d=\"M34 58h8M46 58h8M58 58h8\"/>"
+      },
+      {
+        "name": "AI Model Deployment",
+        "svg": "<rect x=\"12\" y=\"34\" width=\"34\" height=\"32\" rx=\"3\"/><path d=\"M46 50h16M56 44l6 6-6 6\"/><path d=\"M68 40a12 12 0 0 1 22 6 9 9 0 0 1-2 18H70a10 10 0 0 1-2-24z\"/>"
       }
     ]
   }
