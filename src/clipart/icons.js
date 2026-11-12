@@ -2295,6 +2295,88 @@ window.PADA_ICONS = {
         "name": "Remote Desktop Connection",
         "svg": "<rect x=\"8\" y=\"12\" width=\"56\" height=\"42\" rx=\"3\"/><path d=\"M8 24h56\"/><path d=\"M32 54v8M22 62h20\"/><rect x=\"58\" y=\"44\" width=\"34\" height=\"40\" rx=\"3\"/><path d=\"M64 84h22\"/><path d=\"M48 36c-6 6-6 14 0 20 6-6 6-14 0-20z\" stroke-dasharray=\"3 3\"/><path d=\"M52 60h16\"/>"
       }
+    ],
+    "Data Analytics and Visualization": [
+      {
+        "name": "Data Analytics",
+        "svg": "<path d=\"M12 14v72h76\"/><path d=\"M24 70L40 52L54 60L70 36L84 26\"/><circle cx=\"40\" cy=\"52\" r=\"3\"/><circle cx=\"70\" cy=\"36\" r=\"3\"/>"
+      },
+      {
+        "name": "Data Science",
+        "svg": "<path d=\"M14 84h72\"/><path d=\"M14 84V14\"/><path d=\"M26 74v-12M40 74V52M54 74V40M68 74V30\"/><path d=\"M26 58c12-22 30-40 52-44\" />"
+      },
+      {
+        "name": "Data Mining",
+        "svg": "<circle cx=\"42\" cy=\"42\" r=\"26\"/><path d=\"M61 61l26 26\"/><path d=\"M30 46l8-8 6 6 10-12\"/><circle cx=\"30\" cy=\"46\" r=\"2\"/><circle cx=\"54\" cy=\"32\" r=\"2\"/>"
+      },
+      {
+        "name": "Bar Chart",
+        "svg": "<path d=\"M12 14v72h76\"/><rect x=\"22\" y=\"48\" width=\"12\" height=\"36\"/><rect x=\"42\" y=\"34\" width=\"12\" height=\"50\"/><rect x=\"62\" y=\"20\" width=\"12\" height=\"64\"/>"
+      },
+      {
+        "name": "Line Chart",
+        "svg": "<path d=\"M12 14v72h76\"/><path d=\"M22 70L40 50L56 60L80 30\"/><circle cx=\"22\" cy=\"70\" r=\"3\"/><circle cx=\"40\" cy=\"50\" r=\"3\"/><circle cx=\"56\" cy=\"60\" r=\"3\"/><circle cx=\"80\" cy=\"30\" r=\"3\"/>"
+      },
+      {
+        "name": "Pie Chart",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"36\"/><path d=\"M50 50V14\"/><path d=\"M50 50L82 66\"/>"
+      },
+      {
+        "name": "Area Chart",
+        "svg": "<path d=\"M12 14v72h76\"/><path d=\"M14 66L34 46L52 58L76 28V86H14z\"/>"
+      },
+      {
+        "name": "Histogram",
+        "svg": "<path d=\"M12 14v72h76\"/><rect x=\"18\" y=\"56\" width=\"12\" height=\"28\"/><rect x=\"32\" y=\"36\" width=\"12\" height=\"48\"/><rect x=\"46\" y=\"22\" width=\"12\" height=\"62\"/><rect x=\"60\" y=\"44\" width=\"12\" height=\"40\"/><rect x=\"74\" y=\"62\" width=\"12\" height=\"22\"/>"
+      },
+      {
+        "name": "Scatter Plot",
+        "svg": "<path d=\"M12 14v72h76\"/><circle cx=\"26\" cy=\"66\" r=\"4\"/><circle cx=\"36\" cy=\"50\" r=\"4\"/><circle cx=\"48\" cy=\"58\" r=\"4\"/><circle cx=\"58\" cy=\"36\" r=\"4\"/><circle cx=\"70\" cy=\"42\" r=\"4\"/><circle cx=\"78\" cy=\"24\" r=\"4\"/>"
+      },
+      {
+        "name": "Dashboard Analytics",
+        "svg": "<rect x=\"10\" y=\"10\" width=\"80\" height=\"80\" rx=\"4\"/><rect x=\"20\" y=\"20\" width=\"26\" height=\"22\"/><rect x=\"54\" y=\"20\" width=\"26\" height=\"22\"/><path d=\"M22 72L34 58L46 64L58 50\"/><path d=\"M58 72h22M58 62h22\" />"
+      },
+      {
+        "name": "Business Intelligence",
+        "svg": "<rect x=\"10\" y=\"10\" width=\"80\" height=\"80\" rx=\"4\"/><path d=\"M26 70V50M40 70V38M54 70V56M68 70V32\"/><path d=\"M22 28h56\"/><circle cx=\"76\" cy=\"50\" r=\"0\"/>"
+      },
+      {
+        "name": "Statistical Analysis",
+        "svg": "<path d=\"M14 84h72M14 84V14\"/><path d=\"M26 84V58h12v26M42 84V40h12v44M58 84V26h12v58\"/><path d=\"M26 46c10-8 14-10 32-14\"/>"
+      },
+      {
+        "name": "Spreadsheet",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"2\"/><path d=\"M10 34h80M10 54h80M10 74h80M36 14v72M62 14v72\"/>"
+      },
+      {
+        "name": "Excel Workbook",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"2\"/><path d=\"M10 34h80M36 14v72M62 14v72\"/><path d=\"M16 14h14M16 14V6\"/><path d=\"M42 44l12 12M54 44L42 56\"/><path d=\"M68 44l12 12M80 44L68 56\"/>"
+      },
+      {
+        "name": "Pivot Table",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"2\"/><path d=\"M10 34h80M10 54h80M36 14v72M62 14v72\"/><path d=\"M14 22h16M14 42h16M40 22h16M66 22h16\"/><path d=\"M40 64h16M66 60h16M66 70h16\"/>"
+      },
+      {
+        "name": "Data Report",
+        "svg": "<path d=\"M22 10h40l16 16v64H22z\"/><path d=\"M62 10v16h16\"/><path d=\"M32 44h10v26H32zM48 56h10v14H48zM64 38h4v32h-4z\"/>"
+      },
+      {
+        "name": "Key Performance Indicator",
+        "svg": "<path d=\"M14 66a36 36 0 0 1 72 0\"/><path d=\"M50 66L70 38\"/><circle cx=\"50\" cy=\"66\" r=\"5\"/><path d=\"M14 66h6M80 66h6M24 40l5 5M76 40l-5 5M50 30v6\"/>"
+      },
+      {
+        "name": "Real-Time Data Monitoring",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"54\" rx=\"3\"/><path d=\"M42 68h16v10H42M30 84h40\"/><path d=\"M20 56l10-10 8 6 10-14 10 8 10-6 10 4\"/><circle cx=\"80\" cy=\"22\" r=\"0\"/>"
+      },
+      {
+        "name": "Data Comparison",
+        "svg": "<path d=\"M12 14v72h76\"/><path d=\"M22 66L38 40L54 58L78 26\" stroke-dasharray=\"5 4\"/><path d=\"M22 74L38 60L54 70L78 48\"/>"
+      },
+      {
+        "name": "Data Visualization",
+        "svg": "<rect x=\"10\" y=\"10\" width=\"80\" height=\"80\" rx=\"4\"/><circle cx=\"34\" cy=\"60\" r=\"8\"/><rect x=\"50\" y=\"30\" width=\"12\" height=\"40\"/><path d=\"M68 70L78 40\"/><circle cx=\"78\" cy=\"40\" r=\"4\"/>"
+      }
     ]
   }
 };
