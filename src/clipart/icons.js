@@ -2745,6 +2745,128 @@ window.PADA_ICONS = {
         "name": "Laboratory Freezer",
         "svg": "<rect x=\"24\" y=\"8\" width=\"52\" height=\"84\" rx=\"4\"/><path d=\"M24 40h52\"/><path d=\"M50 16v16M42 22l8 4 8-4M42 26l8-4 8 4\"/><path d=\"M34 58v14\"/>"
       }
+    ],
+    "Heating Cooling and Separation Apparatus": [
+      {
+        "name": "Bunsen Burner",
+        "svg": "<path d=\"M36 90h28\"/><path d=\"M50 90V58\"/><rect x=\"42\" y=\"36\" width=\"16\" height=\"22\"/><path d=\"M42 36V26h16v10\"/><path d=\"M50 26c-6-6-4-12 0-16 4 4 6 10 0 16\"/><path d=\"M42 80h16\"/>"
+      },
+      {
+        "name": "Alcohol Burner",
+        "svg": "<path d=\"M30 90h40\"/><path d=\"M34 90V70h32v20\"/><path d=\"M34 70h32\"/><path d=\"M50 70V50\"/><path d=\"M50 50c-6-6-4-12 0-16 4 4 6 10 0 16\"/><path d=\"M42 20v10h16V20\"/>"
+      },
+      {
+        "name": "Laboratory Gas Burner",
+        "svg": "<path d=\"M30 90h40\"/><path d=\"M50 90V60\"/><rect x=\"40\" y=\"46\" width=\"20\" height=\"14\"/><path d=\"M50 46c-8-8-4-16 0-22 4 6 8 14 0 22\"/><path d=\"M36 60h28\"/>"
+      },
+      {
+        "name": "Tripod Stand",
+        "svg": "<path d=\"M14 36h72\"/><path d=\"M50 36V14\"/><path d=\"M50 36L24 90M50 36L76 90M50 36v54\"/><path d=\"M50 36l0 0\"/><path d=\"M34 60h32\"/>"
+      },
+      {
+        "name": "Wire Gauze",
+        "svg": "<rect x=\"16\" y=\"22\" width=\"68\" height=\"56\"/><path d=\"M16 36h68M16 50h68M16 64h68M30 22v56M44 22v56M58 22v56M72 22v56\"/>"
+      },
+      {
+        "name": "Retort Stand",
+        "svg": "<path d=\"M30 90h40\"/><path d=\"M50 90V12\"/><path d=\"M50 26H76M50 26h-6\"/><rect x=\"66\" y=\"26\" width=\"0\" height=\"0\"/><path d=\"M40 40h22v12H40z\"/><path d=\"M62 32v12\"/>"
+      },
+      {
+        "name": "Clamp Holder",
+        "svg": "<path d=\"M50 90V20\"/><path d=\"M50 20H26v10\"/><path d=\"M26 30h6\"/><path d=\"M50 40h18v10\"/><path d=\"M68 50l-6 6\"/><path d=\"M36 90h28\"/>"
+      },
+      {
+        "name": "Test Tube Holder",
+        "svg": "<path d=\"M16 50h30\"/><path d=\"M46 40h30v20H46\"/><path d=\"M76 40l8 10-8 10\"/><path d=\"M26 42v16M34 42v16\"/>"
+      },
+      {
+        "name": "Crucible Tongs",
+        "svg": "<path d=\"M30 14L70 84\"/><path d=\"M40 14L80 84\"/><path d=\"M22 30L38 14M78 84L62 90\"/><path d=\"M52 82l8 8\"/>"
+      },
+      {
+        "name": "Laboratory Tongs",
+        "svg": "<path d=\"M34 12L54 74\"/><path d=\"M48 12L66 74\"/><path d=\"M26 22h14M56 74h14\"/><path d=\"M54 74c4 6 10 8 14 4\"/><circle cx=\"40\" cy=\"20\" r=\"0\"/>"
+      },
+      {
+        "name": "Condenser",
+        "svg": "<rect x=\"30\" y=\"30\" width=\"40\" height=\"40\"/><path d=\"M42 30V12M58 30V12M42 70v18M58 70v18\"/><path d=\"M36 42h28M36 58h28\"/>"
+      },
+      {
+        "name": "Liebig Condenser",
+        "svg": "<rect x=\"36\" y=\"30\" width=\"28\" height=\"44\" rx=\"3\"/><path d=\"M44 30V16M56 30V16M44 74v12M56 74v12\"/><path d=\"M50 30V74\"/><path d=\"M30 46h-10M70 46h10\"/>"
+      },
+      {
+        "name": "Graham Condenser",
+        "svg": "<rect x=\"36\" y=\"30\" width=\"28\" height=\"44\" rx=\"3\"/><path d=\"M42 30V16M58 30V16M42 74v12M58 74v12\"/><path d=\"M42 40c4 4 8-4 8 4s4-4 8 4\"/><path d=\"M42 56c4 4 8-4 8 4s4-4 8 4\"/>"
+      },
+      {
+        "name": "Reflux Apparatus",
+        "svg": "<path d=\"M30 90h40\"/><path d=\"M42 84V66c0-14 0-14 0-26h16c0 12 0 12 0 26v18\"/><path d=\"M42 40h16\"/><path d=\"M50 14v12M46 14h8\"/><path d=\"M26 78h10M64 78h10\"/><path d=\"M42 76h16\"/>"
+      },
+      {
+        "name": "Distillation Apparatus",
+        "svg": "<path d=\"M16 84h30l-8-24H24z\"/><path d=\"M28 60V36h14v24\"/><path d=\"M42 42h20l16-8\"/><path d=\"M62 34h18\"/><path d=\"M76 34v40\"/><path d=\"M68 74h16\"/>"
+      },
+      {
+        "name": "Fractional Distillation Column",
+        "svg": "<rect x=\"40\" y=\"10\" width=\"20\" height=\"78\" rx=\"3\"/><path d=\"M40 24h20M40 38h20M40 52h20M40 66h20\"/><path d=\"M50 10V0\"/><path d=\"M60 40h18\"/>"
+      },
+      {
+        "name": "Simple Distillation Setup",
+        "svg": "<path d=\"M14 84h30l-8-24H22z\"/><path d=\"M26 60V36h14v24\"/><path d=\"M40 42h18l12-8\"/><path d=\"M70 34h16\"/><path d=\"M80 34v46\"/><path d=\"M72 80h16\"/>"
+      },
+      {
+        "name": "Vacuum Distillation Setup",
+        "svg": "<path d=\"M14 84h30l-8-24H22z\"/><path d=\"M26 60V36h14v24\"/><path d=\"M40 42h18l12-8\"/><path d=\"M70 34h16\"/><path d=\"M80 34v46\"/><path d=\"M72 80h16\"/><path d=\"M84 26h-10\"/><path d=\"M88 14v4\"/>"
+      },
+      {
+        "name": "Rotary Evaporator",
+        "svg": "<rect x=\"40\" y=\"10\" width=\"20\" height=\"36\" rx=\"2\"/><path d=\"M50 46v10\"/><ellipse cx=\"50\" cy=\"66\" rx=\"14\" ry=\"14\"/><path d=\"M36 66h28\"/><path d=\"M30 88h40\"/>"
+      },
+      {
+        "name": "Soxhlet Extractor",
+        "svg": "<rect x=\"36\" y=\"30\" width=\"28\" height=\"36\" rx=\"2\"/><path d=\"M50 30V12\"/><path d=\"M42 12h16\"/><path d=\"M36 42h28\"/><path d=\"M50 66v12\"/><path d=\"M40 78h20l-6 12h-8z\"/><path d=\"M48 12V24\"/><path d=\"M30 36h6M64 36h6\"/>"
+      },
+      {
+        "name": "Filtration Apparatus",
+        "svg": "<path d=\"M30 20h40l-6 16H36z\"/><path d=\"M36 36L50 66L64 36\"/><path d=\"M50 66v16\"/><path d=\"M40 82h20\"/><path d=\"M42 24h16\"/>"
+      },
+      {
+        "name": "Vacuum Filtration Apparatus",
+        "svg": "<path d=\"M26 20h48l-8 20H34z\"/><path d=\"M34 40L50 66L66 40\"/><path d=\"M50 66v10\"/><path d=\"M26 82h48\"/><path d=\"M76 50h12v14\"/><path d=\"M80 64l4 14\"/>"
+      },
+      {
+        "name": "Buchner Funnel",
+        "svg": "<path d=\"M20 22h60l-14 30H34z\"/><path d=\"M34 52h32\"/><path d=\"M50 52v20\"/><path d=\"M42 72h16\"/><path d=\"M26 30h48\" stroke-dasharray=\"2 4\"/>"
+      },
+      {
+        "name": "Filter Paper",
+        "svg": "<path d=\"M16 16h68L50 86z\"/><path d=\"M26 30h48\"/>"
+      },
+      {
+        "name": "Separatory Funnel Setup",
+        "svg": "<path d=\"M26 14h48l-18 34v14H44V48z\"/><path d=\"M30 8h40\"/><path d=\"M50 62v22M42 88h16\"/><path d=\"M14 40h10M76 40h10\"/><path d=\"M14 28h10M76 28h10\"/>"
+      },
+      {
+        "name": "Crystallization Dish",
+        "svg": "<ellipse cx=\"50\" cy=\"50\" rx=\"38\" ry=\"14\"/><path d=\"M12 50v10a38 14 0 0 0 76 0V50\"/><path d=\"M36 46l8 4 6-6 8 6 6-4\"/>"
+      },
+      {
+        "name": "Desiccator",
+        "svg": "<ellipse cx=\"50\" cy=\"22\" rx=\"32\" ry=\"8\"/><path d=\"M18 22v38a32 14 0 0 0 64 0V22\"/><path d=\"M18 22c0 14 0 14 0 14\"/><path d=\"M34 52h32\"/><circle cx=\"50\" cy=\"16\" r=\"4\"/>"
+      },
+      {
+        "name": "Drying Oven",
+        "svg": "<rect x=\"12\" y=\"12\" width=\"76\" height=\"76\" rx=\"4\"/><rect x=\"22\" y=\"24\" width=\"56\" height=\"48\" rx=\"2\"/><path d=\"M22 80h56\"/><path d=\"M30 36h40M30 48h40M30 60h40\"/><circle cx=\"74\" cy=\"20\" r=\"2\"/>"
+      },
+      {
+        "name": "Freeze Dryer",
+        "svg": "<rect x=\"12\" y=\"12\" width=\"76\" height=\"76\" rx=\"4\"/><rect x=\"22\" y=\"22\" width=\"56\" height=\"40\" rx=\"2\"/><path d=\"M30 42l8-8M46 42l8-8M62 42l8-8\"/><path d=\"M50 62l-6 8M50 62l6 8M50 62v12\"/><path d=\"M22 76h56\"/>"
+      },
+      {
+        "name": "Extraction Apparatus",
+        "svg": "<rect x=\"30\" y=\"20\" width=\"40\" height=\"38\" rx=\"2\"/><path d=\"M50 20V10\"/><path d=\"M38 40h24\"/><path d=\"M50 58v10\"/><path d=\"M40 68h20l-6 14h-8z\"/><path d=\"M26 30h4M70 30h4\"/>"
+      }
     ]
   }
 };
