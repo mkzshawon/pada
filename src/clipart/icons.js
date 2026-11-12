@@ -1805,6 +1805,128 @@ window.PADA_ICONS = {
         "name": "Database Management System",
         "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"3\"/><ellipse cx=\"32\" cy=\"50\" rx=\"10\" ry=\"16\"/><path d=\"M50 36h30M50 50h30M50 64h30\"/>"
       }
+    ],
+    "Cyber and Information Security": [
+      {
+        "name": "Security Shield",
+        "svg": "<path d=\"M50 8L86 20v28c0 22-16 38-36 46C30 86 14 70 14 48V20z\"/><rect x=\"38\" y=\"46\" width=\"24\" height=\"22\" rx=\"2\"/><path d=\"M42 46v-6a8 8 0 0 1 16 0v6\"/>"
+      },
+      {
+        "name": "Digital Padlock",
+        "svg": "<rect x=\"26\" y=\"44\" width=\"48\" height=\"40\" rx=\"4\"/><path d=\"M36 44V32a14 14 0 0 1 28 0v12\"/><circle cx=\"42\" cy=\"58\" r=\"2\"/><circle cx=\"50\" cy=\"58\" r=\"2\"/><circle cx=\"58\" cy=\"58\" r=\"2\"/><circle cx=\"42\" cy=\"68\" r=\"2\"/><circle cx=\"50\" cy=\"68\" r=\"2\"/><circle cx=\"58\" cy=\"68\" r=\"2\"/>"
+      },
+      {
+        "name": "Open Padlock",
+        "svg": "<rect x=\"26\" y=\"46\" width=\"48\" height=\"38\" rx=\"4\"/><path d=\"M36 46V34a14 14 0 0 1 28-6\"/>"
+      },
+      {
+        "name": "Closed Padlock",
+        "svg": "<rect x=\"26\" y=\"44\" width=\"48\" height=\"40\" rx=\"4\"/><path d=\"M36 44V32a14 14 0 0 1 28 0v12\"/><circle cx=\"50\" cy=\"62\" r=\"4\"/><path d=\"M50 66v8\"/>"
+      },
+      {
+        "name": "Firewall",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"2\"/><path d=\"M10 34h80M10 54h80M10 74h80M36 14v20M64 14v20M22 34v20M50 34v20M78 34v20M36 54v20M64 54v20M22 74v12M50 74v12M78 74v12\"/>"
+      },
+      {
+        "name": "Antivirus Protection",
+        "svg": "<path d=\"M50 8L86 20v28c0 22-16 38-36 46C30 86 14 70 14 48V20z\"/><path d=\"M34 50l12 12 22-24\"/>"
+      },
+      {
+        "name": "Malware",
+        "svg": "<ellipse cx=\"50\" cy=\"56\" rx=\"18\" ry=\"24\"/><path d=\"M50 32v48M32 46H18M32 66H18M68 46h14M68 66h14\"/><path d=\"M40 32c0-8 4-12 10-12s10 4 10 12M38 24l-8-10M62 24l8-10\"/>"
+      },
+      {
+        "name": "Computer Virus",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"18\"/><path d=\"M50 16V6M50 84v10M16 50H6M84 50h10M26 26l-7-7M74 74l7 7M74 26l7-7M26 74l-7 7\"/>"
+      },
+      {
+        "name": "Trojan Horse",
+        "svg": "<path d=\"M34 84L30 56 22 46 36 16 48 22 60 14 76 30 74 42 66 84Z\"/><circle cx=\"60\" cy=\"36\" r=\"2\"/><path d=\"M40 84v-8M60 84v-6\"/>"
+      },
+      {
+        "name": "Ransomware",
+        "svg": "<rect x=\"26\" y=\"44\" width=\"48\" height=\"40\" rx=\"4\"/><path d=\"M36 44V32a14 14 0 0 1 28 0v12\"/><path d=\"M58 56c-2-3-12-3-12 1s12 2 12 6-10 4-12 1M50 52v18\"/>"
+      },
+      {
+        "name": "Phishing Attack",
+        "svg": "<rect x=\"56\" y=\"30\" width=\"34\" height=\"24\" rx=\"2\"/><path d=\"M56 30l17 12 17-12\"/><path d=\"M28 14v56a16 16 0 0 1-32 0\"/><path d=\"M28 14l8 8\"/>"
+      },
+      {
+        "name": "Hacker Symbol",
+        "svg": "<path d=\"M50 10c-16 0-24 14-24 30v10l-6 26h60l-6-26V40c0-16-8-30-24-30z\"/><path d=\"M40 40h8M52 40h8\"/>"
+      },
+      {
+        "name": "Ethical Hacking",
+        "svg": "<path d=\"M50 10c-16 0-24 14-24 30v10l-6 26h60l-6-26V40c0-16-8-30-24-30z\"/><path d=\"M38 58l8 8 16-16\"/>"
+      },
+      {
+        "name": "Penetration Testing",
+        "svg": "<circle cx=\"42\" cy=\"42\" r=\"22\"/><path d=\"M58 58l28 28\"/><rect x=\"34\" y=\"40\" width=\"16\" height=\"14\"/><path d=\"M38 40v-4a4 4 0 0 1 8 0v4\"/>"
+      },
+      {
+        "name": "Network Intrusion",
+        "svg": "<circle cx=\"20\" cy=\"50\" r=\"8\"/><circle cx=\"80\" cy=\"30\" r=\"8\"/><circle cx=\"80\" cy=\"70\" r=\"8\"/><path d=\"M28 50h30M58 50l14-16M58 50l14 16\"/><path d=\"M48 50h22M62 44l8 6-8 6\"/>"
+      },
+      {
+        "name": "Intrusion Detection System",
+        "svg": "<path d=\"M50 8L86 20v28c0 22-16 38-36 46C30 86 14 70 14 48V20z\"/><path d=\"M30 48c10-12 30-12 40 0-10 12-30 12-40 0z\"/><circle cx=\"50\" cy=\"48\" r=\"5\"/>"
+      },
+      {
+        "name": "Intrusion Prevention System",
+        "svg": "<path d=\"M50 8L86 20v28c0 22-16 38-36 46C30 86 14 70 14 48V20z\"/><path d=\"M38 38l24 24M62 38L38 62\"/>"
+      },
+      {
+        "name": "Encryption",
+        "svg": "<rect x=\"26\" y=\"44\" width=\"48\" height=\"40\" rx=\"4\"/><path d=\"M36 44V32a14 14 0 0 1 28 0v12\"/><path d=\"M36 58h8M48 58h4M56 58h8M36 70h8M48 70h4M56 70h8\"/>"
+      },
+      {
+        "name": "Decryption",
+        "svg": "<rect x=\"26\" y=\"44\" width=\"48\" height=\"40\" rx=\"4\"/><path d=\"M36 44V32a14 14 0 0 1 28-8\"/><path d=\"M36 58h8M48 58h4M56 58h8M36 70h8M48 70h4M56 70h8\"/>"
+      },
+      {
+        "name": "Digital Certificate",
+        "svg": "<rect x=\"14\" y=\"14\" width=\"72\" height=\"50\" rx=\"3\"/><path d=\"M26 28h48M26 40h30\"/><circle cx=\"66\" cy=\"66\" r=\"12\"/><path d=\"M58 78L54 92l8-4 4 6 4-12\"/>"
+      },
+      {
+        "name": "Public Key",
+        "svg": "<circle cx=\"32\" cy=\"50\" r=\"16\"/><circle cx=\"32\" cy=\"50\" r=\"5\"/><path d=\"M48 50h40M74 50v10M84 50v10\"/>"
+      },
+      {
+        "name": "Private Key",
+        "svg": "<circle cx=\"32\" cy=\"50\" r=\"16\"/><rect x=\"26\" y=\"46\" width=\"12\" height=\"10\"/><path d=\"M48 50h40M74 50v10M84 50v10\"/>"
+      },
+      {
+        "name": "Authentication",
+        "svg": "<circle cx=\"46\" cy=\"32\" r=\"14\"/><path d=\"M22 84c0-16 11-26 24-26s24 10 24 26\"/><path d=\"M72 30l6 6 12-12\"/>"
+      },
+      {
+        "name": "Two-Factor Authentication",
+        "svg": "<rect x=\"30\" y=\"8\" width=\"40\" height=\"84\" rx=\"6\"/><path d=\"M40 80h20\"/><rect x=\"40\" y=\"40\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"M44 40v-4a6 6 0 0 1 12 0v4\"/>"
+      },
+      {
+        "name": "Biometric Authentication",
+        "svg": "<path d=\"M26 60c0-14 10-26 24-26s24 12 24 26v10\"/><path d=\"M34 62c0-8 4-16 16-16s16 8 16 16v12\"/><path d=\"M42 66c0-4 2-8 8-8s8 4 8 8v22\"/><path d=\"M50 58v22\"/>"
+      },
+      {
+        "name": "Fingerprint Scanner",
+        "svg": "<rect x=\"20\" y=\"14\" width=\"60\" height=\"72\" rx=\"4\"/><path d=\"M38 66c0-10 4-18 12-18s12 8 12 18\"/><path d=\"M44 56c0-4 2-6 6-6s6 2 6 6v6\"/><path d=\"M50 46v14\"/>"
+      },
+      {
+        "name": "Face Recognition",
+        "svg": "<path d=\"M24 14H14v10M76 14h10v10M14 76v10h10M86 76v10H76\"/><ellipse cx=\"50\" cy=\"46\" rx=\"18\" ry=\"22\"/><circle cx=\"43\" cy=\"42\" r=\"2\"/><circle cx=\"57\" cy=\"42\" r=\"2\"/><path d=\"M42 58c4 4 12 4 16 0\"/>"
+      },
+      {
+        "name": "Secure Network",
+        "svg": "<circle cx=\"18\" cy=\"30\" r=\"7\"/><circle cx=\"18\" cy=\"70\" r=\"7\"/><path d=\"M25 30L38 50M25 70L38 50\"/><path d=\"M60 14L82 22v18c0 14-10 24-22 30-12-6-22-16-22-30V22z\"/><path d=\"M52 46l6 6 12-12\"/>"
+      },
+      {
+        "name": "VPN Connection",
+        "svg": "<circle cx=\"14\" cy=\"50\" r=\"6\"/><circle cx=\"86\" cy=\"50\" r=\"6\"/><path d=\"M20 50h22M58 50h22\"/><rect x=\"42\" y=\"40\" width=\"16\" height=\"20\" rx=\"2\"/><path d=\"M45 40v-6a5 5 0 0 1 10 0v6\"/>"
+      },
+      {
+        "name": "Security Monitoring Dashboard",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"54\" rx=\"3\"/><path d=\"M42 68h16v10H42M30 84h40\"/><path d=\"M50 22L62 27v10c0 8-6 14-12 17-6-3-12-9-12-17V27z\"/>"
+      }
     ]
   }
 };
