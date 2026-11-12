@@ -2377,6 +2377,128 @@ window.PADA_ICONS = {
         "name": "Data Visualization",
         "svg": "<rect x=\"10\" y=\"10\" width=\"80\" height=\"80\" rx=\"4\"/><circle cx=\"34\" cy=\"60\" r=\"8\"/><rect x=\"50\" y=\"30\" width=\"12\" height=\"40\"/><path d=\"M68 70L78 40\"/><circle cx=\"78\" cy=\"40\" r=\"4\"/>"
       }
+    ],
+    "Digital Electronics and Embedded Systems": [
+      {
+        "name": "Microcontroller",
+        "svg": "<rect x=\"26\" y=\"26\" width=\"48\" height=\"48\" rx=\"3\"/><rect x=\"40\" y=\"40\" width=\"20\" height=\"20\"/><path d=\"M36 14v12M50 14v12M64 14v12M36 74v12M50 74v12M64 74v12M14 36h12M14 50h12M14 64h12M74 36h12M74 50h12M74 64h12\"/>"
+      },
+      {
+        "name": "Arduino Board",
+        "svg": "<rect x=\"10\" y=\"22\" width=\"80\" height=\"56\" rx=\"6\"/><path d=\"M26 50c-6-8-14-8-14 0s8 8 14 0 14-8 22 0-8 8-14 0\"/><path d=\"M60 38v24M70 38v24\"/>"
+      },
+      {
+        "name": "Raspberry Pi Board",
+        "svg": "<rect x=\"10\" y=\"22\" width=\"80\" height=\"56\" rx=\"4\"/><rect x=\"18\" y=\"32\" width=\"36\" height=\"36\" rx=\"2\"/><path d=\"M62 30h18M62 40h18M62 50h18M62 60h18M62 70h18\"/><circle cx=\"34\" cy=\"46\" r=\"4\"/><circle cx=\"44\" cy=\"58\" r=\"4\"/>"
+      },
+      {
+        "name": "Embedded System",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"6\"/><rect x=\"36\" y=\"36\" width=\"28\" height=\"28\"/><path d=\"M26 26h8M66 26h8M26 74h8M66 74h8\"/>"
+      },
+      {
+        "name": "Sensor Module",
+        "svg": "<rect x=\"28\" y=\"34\" width=\"44\" height=\"30\" rx=\"3\"/><circle cx=\"50\" cy=\"49\" r=\"6\"/><path d=\"M50 34V18M28 46H12M72 46h16M38 64v14M62 64v14\"/>"
+      },
+      {
+        "name": "Temperature Sensor",
+        "svg": "<path d=\"M42 62V20a8 8 0 0 1 16 0v42a14 14 0 1 1-16 0z\"/><path d=\"M50 30v40\"/><circle cx=\"50\" cy=\"72\" r=\"5\"/><path d=\"M60 30h6M60 42h4M60 54h6\"/>"
+      },
+      {
+        "name": "Humidity Sensor",
+        "svg": "<path d=\"M50 14c-14 18-22 30-22 42a22 22 0 0 0 44 0c0-12-8-24-22-42z\"/><path d=\"M40 60a10 10 0 0 0 10 10\"/>"
+      },
+      {
+        "name": "Pressure Sensor",
+        "svg": "<circle cx=\"50\" cy=\"54\" r=\"34\"/><path d=\"M50 54L70 36\"/><circle cx=\"50\" cy=\"54\" r=\"4\"/><path d=\"M22 66A34 34 0 0 1 36 24M50 20v6M78 66A34 34 0 0 0 64 24\"/>"
+      },
+      {
+        "name": "Motion Sensor",
+        "svg": "<circle cx=\"40\" cy=\"30\" r=\"8\"/><path d=\"M28 86V58l8-10 4-14 10 2 2 12 6 12v26\"/><path d=\"M72 40a16 16 0 0 1 0 20M82 30a30 30 0 0 1 0 40\"/>"
+      },
+      {
+        "name": "Ultrasonic Sensor",
+        "svg": "<circle cx=\"34\" cy=\"50\" r=\"18\"/><circle cx=\"34\" cy=\"50\" r=\"6\"/><path d=\"M60 36a20 20 0 0 1 0 28M70 26a32 32 0 0 1 0 48M80 16a44 44 0 0 1 0 68\"/>"
+      },
+      {
+        "name": "Light Sensor",
+        "svg": "<circle cx=\"50\" cy=\"50\" r=\"14\"/><path d=\"M50 16v8M50 76v8M16 50h8M76 50h8M26 26l6 6M68 68l6 6M74 26l-6 6M26 74l6-6\"/>"
+      },
+      {
+        "name": "Relay Module",
+        "svg": "<rect x=\"12\" y=\"30\" width=\"30\" height=\"40\" rx=\"2\"/><path d=\"M18 40l4-4 4 4-4 4 4 4-4 4\"/><path d=\"M4 40h8M4 60h8\"/><path d=\"M42 60h10\"/><path d=\"M52 60l16-14\"/><path d=\"M68 60h22\"/>"
+      },
+      {
+        "name": "LCD Module",
+        "svg": "<rect x=\"10\" y=\"26\" width=\"80\" height=\"48\" rx=\"3\"/><rect x=\"20\" y=\"36\" width=\"60\" height=\"28\"/><path d=\"M28 44h4M38 44h4M48 44h4M58 44h4M68 44h4\"/><path d=\"M14 80v6M86 80v6\"/>"
+      },
+      {
+        "name": "LED Display Module",
+        "svg": "<rect x=\"14\" y=\"14\" width=\"72\" height=\"72\" rx=\"3\"/><path d=\"M34 26h32M34 50h32M34 74h32M28 30v16M72 30v16M28 56v16M72 56v16\"/>"
+      },
+      {
+        "name": "Breadboard",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"3\"/><path d=\"M22 14v72M78 14v72\"/><circle cx=\"36\" cy=\"30\" r=\"1.5\"/><circle cx=\"50\" cy=\"30\" r=\"1.5\"/><circle cx=\"64\" cy=\"30\" r=\"1.5\"/><circle cx=\"36\" cy=\"44\" r=\"1.5\"/><circle cx=\"50\" cy=\"44\" r=\"1.5\"/><circle cx=\"64\" cy=\"44\" r=\"1.5\"/><circle cx=\"36\" cy=\"58\" r=\"1.5\"/><circle cx=\"50\" cy=\"58\" r=\"1.5\"/><circle cx=\"64\" cy=\"58\" r=\"1.5\"/><circle cx=\"36\" cy=\"72\" r=\"1.5\"/><circle cx=\"50\" cy=\"72\" r=\"1.5\"/><circle cx=\"64\" cy=\"72\" r=\"1.5\"/>"
+      },
+      {
+        "name": "Electronic Circuit Board",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"3\"/><path d=\"M22 30h30v20h26M22 70h18V50\"/><circle cx=\"22\" cy=\"30\" r=\"3\"/><circle cx=\"78\" cy=\"50\" r=\"3\"/><rect x=\"58\" y=\"62\" width=\"14\" height=\"10\"/>"
+      },
+      {
+        "name": "Printed Circuit Board",
+        "svg": "<rect x=\"10\" y=\"14\" width=\"80\" height=\"72\" rx=\"3\"/><circle cx=\"28\" cy=\"28\" r=\"4\"/><circle cx=\"72\" cy=\"28\" r=\"4\"/><circle cx=\"50\" cy=\"50\" r=\"4\"/><circle cx=\"28\" cy=\"72\" r=\"4\"/><circle cx=\"72\" cy=\"72\" r=\"4\"/><path d=\"M28 28h22L50 50M72 28v16M50 54v12M28 72h44\"/>"
+      },
+      {
+        "name": "Integrated Circuit",
+        "svg": "<rect x=\"22\" y=\"28\" width=\"56\" height=\"44\" rx=\"2\"/><path d=\"M42 28a8 8 0 0 0 16 0\"/><path d=\"M30 28V16M42 28V16M58 28V16M70 28V16M30 72V84M42 72V84M58 72V84M70 72V84\"/>"
+      },
+      {
+        "name": "Logic Gate AND",
+        "svg": "<path d=\"M14 30h30M14 70h30M70 50h16\"/><path d=\"M44 24h10a26 26 0 0 1 0 52H44z\"/>"
+      },
+      {
+        "name": "Logic Gate OR",
+        "svg": "<path d=\"M14 30h20M14 70h20M70 50h16\"/><path d=\"M34 24Q52 50 34 76Q64 80 80 50Q64 20 34 24z\"/>"
+      },
+      {
+        "name": "Logic Gate NOT",
+        "svg": "<path d=\"M24 24v52l44-26z\"/><circle cx=\"74\" cy=\"50\" r=\"5\"/><path d=\"M14 50h10M79 50h7\"/>"
+      },
+      {
+        "name": "Logic Gate NAND",
+        "svg": "<path d=\"M14 30h30M14 70h30\"/><path d=\"M44 24h10a26 26 0 0 1 0 52H44z\"/><circle cx=\"76\" cy=\"50\" r=\"4\"/><path d=\"M80 50h12\"/>"
+      },
+      {
+        "name": "Logic Gate NOR",
+        "svg": "<path d=\"M14 30h20M14 70h20\"/><path d=\"M34 24Q52 50 34 76Q64 80 76 50Q64 20 34 24z\"/><circle cx=\"80\" cy=\"50\" r=\"4\"/><path d=\"M84 50h10\"/>"
+      },
+      {
+        "name": "Logic Gate XOR",
+        "svg": "<path d=\"M14 30h20M14 70h20M70 50h16\"/><path d=\"M34 24Q52 50 34 76Q64 80 80 50Q64 20 34 24z\"/><path d=\"M26 24Q40 50 26 76\"/>"
+      },
+      {
+        "name": "Digital Signal Processor",
+        "svg": "<rect x=\"30\" y=\"30\" width=\"40\" height=\"40\" rx=\"3\"/><path d=\"M8 50c6-12 12-12 18 0s12 12 18 0\"/><path d=\"M72 50c6-12 12-12 18 0\"/>"
+      },
+      {
+        "name": "Analog-to-Digital Converter",
+        "svg": "<path d=\"M8 50c8-18 16-18 24 0s16 18 24 0\"/><path d=\"M62 66h8V34h8V66h8V34h8\"/>"
+      },
+      {
+        "name": "Digital-to-Analog Converter",
+        "svg": "<path d=\"M8 66h8V34h8V66h8V34h8\"/><path d=\"M62 50c8-18 16-18 24 0\"/>"
+      },
+      {
+        "name": "Internet of Things Device",
+        "svg": "<rect x=\"30\" y=\"30\" width=\"40\" height=\"44\" rx=\"6\"/><path d=\"M42 62h16\"/><path d=\"M38 46a16 16 0 0 1 24 0\"/><path d=\"M32 40a24 24 0 0 1 36 0\"/>"
+      },
+      {
+        "name": "IoT Gateway",
+        "svg": "<rect x=\"38\" y=\"38\" width=\"24\" height=\"24\" rx=\"3\"/><circle cx=\"16\" cy=\"30\" r=\"6\"/><circle cx=\"16\" cy=\"70\" r=\"6\"/><circle cx=\"84\" cy=\"50\" r=\"6\"/><path d=\"M22 30L38 44M22 70L38 56M62 50H78\"/><path d=\"M50 38V16M46 16h8\"/>"
+      },
+      {
+        "name": "Smart Home Controller",
+        "svg": "<path d=\"M14 48L50 18l36 30v38H14z\"/><circle cx=\"50\" cy=\"62\" r=\"10\"/><path d=\"M50 52v-2M50 72v2M40 62h2M58 62h2\"/>"
+      }
     ]
   }
 };
