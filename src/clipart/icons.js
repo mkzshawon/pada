@@ -3823,6 +3823,108 @@ window.PADA_ICONS = {
         "name": "Laboratory Emergency Exit",
         "svg": "<path d=\"M20 10H60V90H20Z\"/><path d=\"M50 50L76 50\"/><path d=\"M66 40L76 50L66 60\"/><path d=\"M20 90L60 90\"/>"
       }
+    ],
+    "Environmental and Water Treatment": [
+      {
+        "name": "Water Treatment Plant",
+        "svg": "<path d=\"M14 40V86H40V40\"/><path d=\"M14 40L40 40\"/><path d=\"M14 40L27 32L40 40\"/><path d=\"M52 28V86H78V28\"/><path d=\"M40 64L52 64\"/><path d=\"M20 15.6C16.8 20.4 15.2 23.6 20 26.8C24.8 23.6 23.2 20.4 20 15.6Z\"/><path d=\"M20 20L20 30\"/>"
+      },
+      {
+        "name": "Wastewater Treatment Plant",
+        "svg": "<path d=\"M12 36V86H42V36\"/><path d=\"M58 36V86H88V36\"/><path d=\"M42 60L58 60\"/><path d=\"M14 70q4.0 -3 8 0q4.0 3 8 0q4.0 -3 8 0q4.0 3 8 0\"/><path d=\"M60 70q4.0 -3 8 0q4.0 3 8 0q4.0 -3 8 0q4.0 3 8 0\"/><path d=\"M74 24L74 12\"/><path d=\"M68 18L74 12L80 18\"/>"
+      },
+      {
+        "name": "Sedimentation Tank",
+        "svg": "<path d=\"M26 20V70L50.0 84L74 70V20\"/><path d=\"M22 20L78 20\"/><path d=\"M38 46a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M54 52a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M46 60a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M58 40a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/><path d=\"M50 88L50 96\"/>"
+      },
+      {
+        "name": "Clarifier",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0\"/><path d=\"M50 50L50 18\"/><path d=\"M50 50L70 64\"/><path d=\"M50 50L50 50\"/><path d=\"M50 86L50 94\"/><path d=\"M46 50a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Aeration Tank",
+        "svg": "<path d=\"M24 22V90H76V22\"/><path d=\"M18 22L82 22\"/><path d=\"M30 80L70 80\"/><path d=\"M37 48a3 3 0 1 0 6 0a3 3 0 1 0 -6 0 M53 40a3 3 0 1 0 6 0a3 3 0 1 0 -6 0 M43 64a3 3 0 1 0 6 0a3 3 0 1 0 -6 0 M59 62a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\"/><path d=\"M42 74q4-4 0-8\"/><path d=\"M58 74q4-4 0-8\"/><path d=\"M46 30L46 36\"/><path d=\"M54 28L54 36\"/>"
+      },
+      {
+        "name": "Filtration Tank",
+        "svg": "<path d=\"M24 16V86H76V16\"/><path d=\"M18 16L82 16\"/><path d=\"M24 40L76 40\"/><path d=\"M24 52L76 52\"/><path d=\"M24 64L76 64\"/><path d=\"M50 86L50 96\"/>"
+      },
+      {
+        "name": "Activated Carbon Filter",
+        "svg": "<path d=\"M42 14H58A10 10 0 0 1 68 24V76A10 10 0 0 1 58 86H42A10 10 0 0 1 32 76V24A10 10 0 0 1 42 14Z\"/><path d=\"M40 36a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M56 36a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M48 46a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M40 56a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M56 56a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M48 66a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M40 76a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M56 76a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/><path d=\"M14 30L32 30\"/><path d=\"M68 70L86 70\"/>"
+      },
+      {
+        "name": "Reverse Osmosis System",
+        "svg": "<path d=\"M40 20H60V80H40Z\"/><path d=\"M50 20L50 80\"/><path d=\"M30 50L40 50\"/><path d=\"M60 50L70 50\"/><path d=\"M16 30L36 30\"/><path d=\"M16 62.8C12.4 68.2 10.6 71.8 16 75.4C21.4 71.8 19.6 68.2 16 62.8Z\"/><path d=\"M80 62.8C76.4 68.2 74.6 71.8 80 75.4C85.4 71.8 83.6 68.2 80 62.8Z\"/><path d=\"M14 88L86 88\"/>"
+      },
+      {
+        "name": "Membrane Filtration System",
+        "svg": "<path d=\"M10 50L90 50\"/><path d=\"M20 40a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M36 40a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M52 40a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M68 40a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M20 60a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M36 60a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M52 60a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M68 60a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M10 30L10 70\"/><path d=\"M90 30L90 70\"/>"
+      },
+      {
+        "name": "Ion Exchange Column",
+        "svg": "<path d=\"M46 12H54A12 12 0 0 1 66 24V76A12 12 0 0 1 54 88H46A12 12 0 0 1 34 76V24A12 12 0 0 1 46 12Z\"/><path d=\"M44 36a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M36 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M52 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M36 64a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M52 64a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M14 30L34 30\"/><path d=\"M66 70L86 70\"/>"
+      },
+      {
+        "name": "Water Softener",
+        "svg": "<path d=\"M42 20H58A8 8 0 0 1 66 28V74A8 8 0 0 1 58 82H42A8 8 0 0 1 34 74V28A8 8 0 0 1 42 20Z\"/><path d=\"M46 46a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M38 60a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M54 60a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M50 80.8C46.4 86.2 44.6 89.8 50 93.4C55.4 89.8 53.6 86.2 50 80.8Z\"/><path d=\"M50 82L50 76\"/>"
+      },
+      {
+        "name": "Chlorination System",
+        "svg": "<path d=\"M24 36H28A8 8 0 0 1 36 44V68A8 8 0 0 1 28 76H24A8 8 0 0 1 16 68V44A8 8 0 0 1 24 36Z\"/><path d=\"M26 36L26 26\"/><path d=\"M20 26L32 26\"/><path d=\"M36 56L54 56\"/><path d=\"M54 46V86H84V46\"/><path d=\"M58 70a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M70 74a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M64 80a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/><path d=\"M70 29.6C66.8 34.4 65.2 37.6 70 40.8C74.8 37.6 73.2 34.4 70 29.6Z\"/>"
+      },
+      {
+        "name": "Chemical Dosing System",
+        "svg": "<path d=\"M14 40V90H50V40\"/><path d=\"M50 62L64 62\"/><path d=\"M64 50H86V74H64Z\"/><path d=\"M75 50L75 36\"/><path d=\"M20 27.6C16.8 32.4 15.2 35.6 20 38.8C24.8 35.6 23.2 32.4 20 27.6Z\"/><path d=\"M30 24L30 36\"/>"
+      },
+      {
+        "name": "pH Adjustment System",
+        "svg": "<path d=\"M16 50a34 34 0 1 0 68 0a34 34 0 1 0 -68 0\"/><path d=\"M50 50L66 38\"/><path d=\"M50 50L50 50\"/><path d=\"M47 50a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\"/><path d=\"M24 68L36 58\"/><path d=\"M76 68L64 58\"/>"
+      },
+      {
+        "name": "Sludge Treatment System",
+        "svg": "<path d=\"M16 22V66L36.0 80L56 66V22\"/><path d=\"M25 40a3 3 0 1 0 6 0a3 3 0 1 0 -6 0 M37 50a3 3 0 1 0 6 0a3 3 0 1 0 -6 0 M29 60a3 3 0 1 0 6 0a3 3 0 1 0 -6 0 M41 64a3 3 0 1 0 6 0a3 3 0 1 0 -6 0 M21 70a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\"/><path d=\"M64 40H88V76H64Z\"/><path d=\"M76 40L76 30\"/><path d=\"M70 50L82 50\"/><path d=\"M70 60L82 60\"/><path d=\"M20 88L56 88\"/>"
+      },
+      {
+        "name": "Biological Treatment Reactor",
+        "svg": "<path d=\"M20 28V84H80V28\"/><path d=\"M30 44a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M46 56a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M62 44a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M38 70a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M56 70a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M47 36a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\"/><path d=\"M16 22L84 22\"/><path d=\"M30 84q4-4 0-8\"/><path d=\"M50 84q4-4 0-8\"/><path d=\"M70 84q4-4 0-8\"/>"
+      },
+      {
+        "name": "Air Pollution Monitoring Equipment",
+        "svg": "<path d=\"M46 36L46 90\"/><path d=\"M54 36L54 90\"/><path d=\"M36 90L64 90\"/><path d=\"M58 24H88V46H58Z\"/><path d=\"M64 46L82 46\"/><path d=\"M20 30q-6-8 0-16q6-8 0-16\"/><path d=\"M10 52h16\"/><path d=\"M10 60h12\"/>"
+      },
+      {
+        "name": "Gas Analyzer",
+        "svg": "<path d=\"M18 30H82V70H18Z\"/><path d=\"M28 40H44V60H28Z\"/><path d=\"M52 46L74 46\"/><path d=\"M52 56L74 56\"/><path d=\"M40 70L40 84\"/><path d=\"M60 70L60 84\"/><path d=\"M32 84L68 84\"/>"
+      },
+      {
+        "name": "Smoke Analyzer",
+        "svg": "<path d=\"M40 40H60V90H40Z\"/><path d=\"M36 40L64 40\"/><path d=\"M24 30a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M36 22a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M54 18a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M18 84L82 84\"/><path d=\"M44 48H56V48H44Z\"/>"
+      },
+      {
+        "name": "Industrial Emission Monitoring System",
+        "svg": "<path d=\"M40 46H60V86H40Z\"/><path d=\"M30 46L70 46\"/><path d=\"M14 14H46V36H14Z\"/><path d=\"M22 24L38 24\"/><path d=\"M30 36L30 46\"/><path d=\"M60 20L86 20\"/><path d=\"M74 20L74 10\"/><path d=\"M14 86L86 86\"/>"
+      },
+      {
+        "name": "Water Quality Testing Kit",
+        "svg": "<path d=\"M18 40H82V86H18Z\"/><path d=\"M32 28L32 40\"/><path d=\"M46 28L46 40\"/><path d=\"M60 28L60 40\"/><path d=\"M28 20L64 20\"/><path d=\"M76 15.6C72.8 20.4 71.2 23.6 76 26.8C80.8 23.6 79.2 20.4 76 15.6Z\"/><path d=\"M30 58L70 58\"/>"
+      },
+      {
+        "name": "Dissolved Oxygen Meter",
+        "svg": "<path d=\"M18 20H82A4 4 0 0 1 86 24V46A4 4 0 0 1 82 50H18A4 4 0 0 1 14 46V24A4 4 0 0 1 18 20Z\"/><path d=\"M44 36a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M50 50L50 70\"/><path d=\"M46 70H54A4 4 0 0 1 58 74V80A4 4 0 0 1 54 84H46A4 4 0 0 1 42 80V74A4 4 0 0 1 46 70Z\"/><path d=\"M10 90q10-6 20 0t20 0 20 0 20 0\"/><path d=\"M69 62a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\"/><path d=\"M58 74a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/>"
+      },
+      {
+        "name": "Turbidity Meter",
+        "svg": "<path d=\"M34 14H66V84H34Z\"/><path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M40 36a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M56 44a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M42 62a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M58 70a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/><path d=\"M14 50L34 50\"/><path d=\"M66 50L86 50\"/>"
+      },
+      {
+        "name": "Total Dissolved Solids Meter",
+        "svg": "<path d=\"M18 20H82V52H18Z\"/><path d=\"M30 36L54 36\"/><path d=\"M30 44L44 44\"/><path d=\"M60 66.4C55.2 73.6 52.8 78.4 60 83.2C67.2 78.4 64.8 73.6 60 66.4Z\"/><path d=\"M52 70a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M60 66a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M64 78a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M54 82a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/>"
+      },
+      {
+        "name": "Environmental Laboratory",
+        "svg": "<path d=\"M14 88L86 88\"/><path d=\"M22 88L22 36L50 22L78 36L78 88\"/><path d=\"M40 88L40 64L60 64L60 88\"/><path d=\"M30 52q8-8 16 0t16 0\"/><path d=\"M46 36a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
+      }
     ]
   }
 };
