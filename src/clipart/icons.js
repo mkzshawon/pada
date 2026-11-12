@@ -2989,6 +2989,148 @@ window.PADA_ICONS = {
         "name": "Ball and Stick Molecular Model",
         "svg": "<circle cx=\"50\" cy=\"26\" r=\"10\"/><circle cx=\"26\" cy=\"72\" r=\"10\"/><circle cx=\"74\" cy=\"72\" r=\"10\"/><path d=\"M45 33L31 64M55 33L69 64M36 72h28\"/>"
       }
+    ],
+    "Organic Structures and Compounds": [
+      {
+        "name": "Methane Molecule",
+        "svg": "<path d=\"M50.0 50.0L50.0 16.0 M50.0 50.0L50.0 84.0 M50.0 50.0L16.0 50.0 M50.0 50.0L84.0 50.0\"/><circle cx=\"50\" cy=\"16\" r=\"4\"/><circle cx=\"50\" cy=\"84\" r=\"4\"/><circle cx=\"16\" cy=\"50\" r=\"4\"/><circle cx=\"84\" cy=\"50\" r=\"4\"/><circle cx=\"50\" cy=\"50\" r=\"5\"/>"
+      },
+      {
+        "name": "Ethane Molecule",
+        "svg": "<path d=\"M34.0 50.0L66.0 50.0 M34.0 50.0L14.0 32.0 M34.0 50.0L14.0 68.0 M66.0 50.0L86.0 32.0 M66.0 50.0L86.0 68.0\"/>"
+      },
+      {
+        "name": "Propane Molecule",
+        "svg": "<path d=\"M14 62L34 38L54 62 M54.0 62.0L74.0 38.0 M54.0 62.0L74.0 80.0\"/>"
+      },
+      {
+        "name": "Butane Molecule",
+        "svg": "<path d=\"M12 60L30 40L48 60L66 40 M66.0 40.0L86.0 60.0\"/>"
+      },
+      {
+        "name": "Ethene Molecule",
+        "svg": "<path d=\"M34.0 53.0L66.0 53.0 M34.0 47.0L66.0 47.0 M34.0 50.0L24.0 34.0 M34.0 50.0L24.0 66.0 M66.0 50.0L76.0 34.0 M66.0 50.0L76.0 66.0\"/>"
+      },
+      {
+        "name": "Ethyne Molecule",
+        "svg": "<path d=\"M34.0 50.0L66.0 50.0 M34.0 56.0L66.0 56.0 M34.0 44.0L66.0 44.0 M34.0 50.0L14.0 50.0 M66.0 50.0L86.0 50.0\"/><circle cx=\"14\" cy=\"50\" r=\"4\"/><circle cx=\"86\" cy=\"50\" r=\"4\"/>"
+      },
+      {
+        "name": "Benzene Ring",
+        "svg": "<path d=\"M50.0 78.0L25.8 64.0L25.8 36.0L50.0 22.0L74.2 36.0L74.2 64.0Z\"/><circle cx=\"50\" cy=\"50\" r=\"16\"/>"
+      },
+      {
+        "name": "Cyclohexane Ring",
+        "svg": "<path d=\"M50.0 78.0L25.8 64.0L25.8 36.0L50.0 22.0L74.2 36.0L74.2 64.0Z\"/>"
+      },
+      {
+        "name": "Toluene Structure",
+        "svg": "<path d=\"M42.0 72.0L22.9 61.0L22.9 39.0L42.0 28.0L61.1 39.0L61.1 61.0Z M64.0 50.0L84.0 50.0\"/><circle cx=\"86\" cy=\"50\" r=\"4\"/>"
+      },
+      {
+        "name": "Phenol Structure",
+        "svg": "<path d=\"M40.0 72.0L20.9 61.0L20.9 39.0L40.0 28.0L59.1 39.0L59.1 61.0Z M62.0 50.0L80.0 36.0\"/><circle cx=\"84\" cy=\"32\" r=\"5\"/>"
+      },
+      {
+        "name": "Ethanol Structure",
+        "svg": "<path d=\"M14 62L34 40L54 62 M54.0 62.0L72.0 40.0\"/><circle cx=\"74\" cy=\"40\" r=\"5\"/>"
+      },
+      {
+        "name": "Methanol Structure",
+        "svg": "<path d=\"M20.0 62.0L46.0 42.0 M46.0 42.0L70.0 30.0\"/><circle cx=\"46\" cy=\"42\" r=\"5\"/>"
+      },
+      {
+        "name": "Acetic Acid Structure",
+        "svg": "<path d=\"M42.0 50.0L18.0 64.0 M42.0 50.0L68.0 64.0 M68.0 64.0L88.0 50.0\"/><path d=\"M45.0 50.0L45.0 22.0 M39.0 50.0L39.0 22.0\"/><circle cx=\"88\" cy=\"50\" r=\"4\"/>"
+      },
+      {
+        "name": "Formic Acid Structure",
+        "svg": "<path d=\"M42.0 50.0L16.0 50.0 M42.0 50.0L70.0 50.0 M70.0 50.0L88.0 36.0\"/><path d=\"M45.0 50.0L45.0 22.0 M39.0 50.0L39.0 22.0\"/><circle cx=\"88\" cy=\"36\" r=\"4\"/>"
+      },
+      {
+        "name": "Formaldehyde Structure",
+        "svg": "<path d=\"M40.0 53.0L76.0 53.0 M40.0 47.0L76.0 47.0 M40.0 50.0L22.0 32.0 M40.0 50.0L22.0 68.0\"/>"
+      },
+      {
+        "name": "Acetone Structure",
+        "svg": "<path d=\"M53.0 50.0L53.0 22.0 M47.0 50.0L47.0 22.0 M50.0 50.0L20.0 66.0 M50.0 50.0L80.0 66.0\"/>"
+      },
+      {
+        "name": "Glucose Structure",
+        "svg": "<path d=\"M46.0 74.0L26.9 63.0L26.9 41.0L46.0 30.0L65.1 41.0L65.1 63.0Z M68.0 52.0L86.0 38.0 M46.0 30.0L46.0 12.0 M68.0 62.0L86.0 70.0\"/><circle cx=\"86\" cy=\"38\" r=\"4\"/><circle cx=\"46\" cy=\"12\" r=\"4\"/><circle cx=\"86\" cy=\"70\" r=\"4\"/>"
+      },
+      {
+        "name": "Fructose Structure",
+        "svg": "<path d=\"M50.0 78.0L27.2 61.4L35.9 34.6L64.1 34.6L72.8 61.4Z M50.0 30.0L50.0 10.0 M74.0 44.0L90.0 36.0 M35.0 78.0L24.0 90.0\"/><circle cx=\"50\" cy=\"10\" r=\"4\"/>"
+      },
+      {
+        "name": "Sucrose Structure",
+        "svg": "<path d=\"M32.0 74.0L16.4 65.0L16.4 47.0L32.0 38.0L47.6 47.0L47.6 65.0Z M72.0 62.0L56.8 50.9L62.6 33.1L81.4 33.1L87.2 50.9Z M50.0 56.0L54.0 46.0\"/><circle cx=\"52\" cy=\"50\" r=\"4\"/>"
+      },
+      {
+        "name": "Amino Acid Structure",
+        "svg": "<path d=\"M50.0 50.0L24.0 36.0 M50.0 50.0L50.0 80.0 M50.0 50.0L72.0 36.0 M72.0 36.0L72.0 14.0\"/><path d=\"M72.0 36.0L72.0 14.0 M72.0 36.0L72.0 14.0\"/><circle cx=\"24\" cy=\"36\" r=\"5\"/><path d=\"M72.0 36.0L88.0 46.0\"/>"
+      },
+      {
+        "name": "Protein Structure",
+        "svg": "<path d=\"M12 50c10-18 20-18 26 0s16 18 26 0 16-18 24 0\"/>"
+      },
+      {
+        "name": "Peptide Bond",
+        "svg": "<path d=\"M12 60L30 40L50 60L70 40L88 60\"/><path d=\"M47.0 60.0L47.0 86.0 M53.0 60.0L53.0 86.0\"/><circle cx=\"30\" cy=\"40\" r=\"5\"/><circle cx=\"70\" cy=\"40\" r=\"5\"/>"
+      },
+      {
+        "name": "Polymer Chain",
+        "svg": "<path d=\"M22 46L38 58L54 46L70 58 M12.0 30.0L12.0 74.0 M12.0 30.0L16.0 30.0 M12.0 74.0L16.0 74.0 M88.0 30.0L88.0 74.0 M88.0 30.0L84.0 30.0 M88.0 74.0L84.0 74.0\"/>"
+      },
+      {
+        "name": "Polyethylene Structure",
+        "svg": "<path d=\"M22 46L38 58L54 46L70 58 M12.0 30.0L12.0 74.0 M12.0 30.0L16.0 30.0 M12.0 74.0L16.0 74.0 M88.0 30.0L88.0 74.0 M88.0 30.0L84.0 30.0 M88.0 74.0L84.0 74.0\"/>"
+      },
+      {
+        "name": "Polypropylene Structure",
+        "svg": "<path d=\"M22 46L38 58L54 46L70 58 M38.0 58.0L38.0 74.0 M70.0 58.0L70.0 74.0 M12.0 30.0L12.0 74.0 M12.0 30.0L16.0 30.0 M12.0 74.0L16.0 74.0 M88.0 30.0L88.0 74.0 M88.0 30.0L84.0 30.0 M88.0 74.0L84.0 74.0\"/>"
+      },
+      {
+        "name": "PVC Polymer Structure",
+        "svg": "<path d=\"M22 46L38 58L54 46L70 58 M38.0 58.0L38.0 74.0 M70.0 58.0L70.0 74.0 M12.0 30.0L12.0 74.0 M12.0 30.0L16.0 30.0 M12.0 74.0L16.0 74.0 M88.0 30.0L88.0 74.0 M88.0 30.0L84.0 30.0 M88.0 74.0L84.0 74.0\"/><circle cx=\"38\" cy=\"78\" r=\"4\"/><circle cx=\"70\" cy=\"78\" r=\"4\"/>"
+      },
+      {
+        "name": "Nylon Polymer Structure",
+        "svg": "<path d=\"M12 58L30 40L48 58L66 40L84 58 M48.0 58.0L48.0 84.0 M4.0 28.0L4.0 74.0 M4.0 28.0L8.0 28.0 M4.0 74.0L8.0 74.0 M94.0 28.0L94.0 74.0 M94.0 28.0L90.0 28.0 M94.0 74.0L90.0 74.0\"/><circle cx=\"30\" cy=\"40\" r=\"4\"/><circle cx=\"66\" cy=\"40\" r=\"4\"/>"
+      },
+      {
+        "name": "Ester Functional Group",
+        "svg": "<path d=\"M14.0 64.0L38.0 48.0 M62.0 48.0L86.0 64.0\"/><path d=\"M41.0 48.0L41.0 20.0 M35.0 48.0L35.0 20.0\"/><circle cx=\"62\" cy=\"48\" r=\"5\"/>"
+      },
+      {
+        "name": "Aldehyde Functional Group",
+        "svg": "<path d=\"M16.0 64.0L50.0 50.0 M50.0 50.0L80.0 64.0\"/><path d=\"M53.0 50.0L53.0 22.0 M47.0 50.0L47.0 22.0\"/><circle cx=\"80\" cy=\"64\" r=\"4\"/>"
+      },
+      {
+        "name": "Ketone Functional Group",
+        "svg": "<path d=\"M20.0 64.0L50.0 50.0 M50.0 50.0L80.0 64.0\"/><path d=\"M53.0 50.0L53.0 22.0 M47.0 50.0L47.0 22.0\"/>"
+      },
+      {
+        "name": "Carboxylic Acid Functional Group",
+        "svg": "<path d=\"M16.0 64.0L42.0 50.0 M42.0 50.0L68.0 50.0 M68.0 50.0L88.0 36.0\"/><path d=\"M45.0 50.0L45.0 22.0 M39.0 50.0L39.0 22.0\"/><circle cx=\"16\" cy=\"64\" r=\"5\"/><circle cx=\"88\" cy=\"36\" r=\"4\"/>"
+      },
+      {
+        "name": "Alcohol Functional Group",
+        "svg": "<path d=\"M16.0 64.0L50.0 40.0 M50.0 40.0L80.0 28.0\"/><circle cx=\"50\" cy=\"40\" r=\"5\"/><circle cx=\"80\" cy=\"28\" r=\"4\"/>"
+      },
+      {
+        "name": "Amine Functional Group",
+        "svg": "<path d=\"M18.0 66.0L50.0 50.0 M50.0 50.0L34.0 30.0 M50.0 50.0L66.0 30.0\"/><circle cx=\"50\" cy=\"50\" r=\"5\"/><circle cx=\"34\" cy=\"30\" r=\"4\"/><circle cx=\"66\" cy=\"30\" r=\"4\"/>"
+      },
+      {
+        "name": "Ether Functional Group",
+        "svg": "<path d=\"M16.0 64.0L44.0 50.0 M56.0 50.0L84.0 64.0\"/><circle cx=\"50\" cy=\"50\" r=\"6\"/>"
+      },
+      {
+        "name": "Organic Reaction Mechanism",
+        "svg": "<path d=\"M32 46Q50 14 68 46 M61 40L68 46L66 54\"/><circle cx=\"20\" cy=\"62\" r=\"8\"/><circle cx=\"80\" cy=\"62\" r=\"8\"/><path d=\"M50.0 66.0L50.0 84.0 M44 78L50 86L56 78\"/><circle cx=\"50\" cy=\"94\" r=\"6\"/>"
+      }
     ]
   }
 };
