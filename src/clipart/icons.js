@@ -3457,6 +3457,148 @@ window.PADA_ICONS = {
         "name": "Chemical Quality Control Testing",
         "svg": "<path d=\"M45.0 12V38L28.0 84H72.0L55.0 38V12\"/><path d=\"M36 62L46 72L64 50\"/>"
       }
+    ],
+    "Industrial and Processing Equipment": [
+      {
+        "name": "Chemical Reactor",
+        "svg": "<path d=\"M28 36Q28 30 50.0 30Q72 30 72 36V80Q72 86 50.0 86Q28 86 28 80Z\"/><path d=\"M50 12L50 30\"/><path d=\"M38 6H62V12H38Z\"/><path d=\"M50 46L50 70\"/><path d=\"M40 60L50 70L60 60\"/><path d=\"M18 58L28 58\"/><path d=\"M72 58L82 58\"/>"
+      },
+      {
+        "name": "Batch Reactor",
+        "svg": "<path d=\"M30 34Q30 28 50.0 28Q70 28 70 34V78Q70 84 50.0 84Q30 84 30 78Z\"/><path d=\"M50 12L50 28\"/><path d=\"M42 12L58 12\"/><path d=\"M50 84L50 94\"/><path d=\"M44 94L56 94\"/><path d=\"M36 50L64 50\"/>"
+      },
+      {
+        "name": "Continuous Stirred Tank Reactor",
+        "svg": "<path d=\"M32 34Q32 28 50.0 28Q68 28 68 34V78Q68 84 50.0 84Q32 84 32 78Z\"/><path d=\"M50 14L50 28\"/><path d=\"M50 50L50 70\"/><path d=\"M40 62L50 70L60 62\"/><path d=\"M8 40L30 40 M25.0 43.0L30 40L25.0 37.0\"/><path d=\"M92 62L72 62 M77.0 59.0L72 62L77.0 65.0\"/>"
+      },
+      {
+        "name": "Plug Flow Reactor",
+        "svg": "<path d=\"M10 30L60 30\"/><path d=\"M60 30a10 10 0 0 1 0 20\"/><path d=\"M60 50L20 50\"/><path d=\"M20 50a10 10 0 0 0 0 20\"/><path d=\"M20 70L90 70\"/><path d=\"M10 20L24 20 M19.0 23.0L24 20L19.0 17.0\"/>"
+      },
+      {
+        "name": "Industrial Mixing Tank",
+        "svg": "<path d=\"M18 38L18 84L82 84L82 38\"/><path d=\"M50 12L50 60\"/><path d=\"M36 64L64 64\"/><path d=\"M36 64L36 72\"/><path d=\"M64 64L64 72\"/><path d=\"M18 38L82 38\"/>"
+      },
+      {
+        "name": "Agitator",
+        "svg": "<path d=\"M40 8H60V22H40Z\"/><path d=\"M50 22L50 92\"/><path d=\"M32 70L68 70\"/><path d=\"M34 62L34 78\"/><path d=\"M66 62L66 78\"/><path d=\"M30 92L70 92\"/>"
+      },
+      {
+        "name": "Industrial Storage Tank",
+        "svg": "<path d=\"M26 30Q50 8 74 30V84H26Z\"/><path d=\"M26 84L20 94\"/><path d=\"M74 84L80 94\"/><path d=\"M26 58L74 58\"/><path d=\"M26 42L74 42\"/>"
+      },
+      {
+        "name": "Pressure Vessel",
+        "svg": "<path d=\"M28 34H72A16 16 0 0 1 88 50V50A16 16 0 0 1 72 66H28A16 16 0 0 1 12 50V50A16 16 0 0 1 28 34Z\"/><path d=\"M38 66L30 80\"/><path d=\"M62 66L70 80\"/><path d=\"M30 80L70 80\"/><path d=\"M44 22a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M50 28L50 34\"/>"
+      },
+      {
+        "name": "Chemical Storage Drum",
+        "svg": "<path d=\"M30 18Q50 12 70 18Q76 50 70 82Q50 88 30 82Q24 50 30 18Z\"/><path d=\"M26 34L74 34\"/><path d=\"M25 66L75 66\"/>"
+      },
+      {
+        "name": "Industrial Boiler",
+        "svg": "<path d=\"M40 44H60A20 20 0 0 1 80 64V64A20 20 0 0 1 60 84H40A20 20 0 0 1 20 64V64A20 20 0 0 1 40 44Z\"/><path d=\"M49.99 30a0.01 0.01 0 1 0 0.02 0a0.01 0.01 0 1 0 -0.02 0\"/><path d=\"M44 24H56A6 6 0 0 1 62 30V32A6 6 0 0 1 56 38H44A6 6 0 0 1 38 32V30A6 6 0 0 1 44 24Z\"/><path d=\"M70 44L70 14L80 14L80 40\"/><path d=\"M26 58H46V74H26Z\"/><path d=\"M62 82q-4-6 0-12q4 6 0 12z\"/><path d=\"M10 84L90 84\"/>"
+      },
+      {
+        "name": "Heat Exchanger",
+        "svg": "<path d=\"M20 30H80V70H20Z\"/><path d=\"M8 50L20 50\"/><path d=\"M80 50L92 50\"/><path d=\"M30 30L30 70\"/><path d=\"M50 30L50 70\"/><path d=\"M70 30L70 70\"/><path d=\"M32 40L48 60L52 40L68 60\"/>"
+      },
+      {
+        "name": "Shell and Tube Heat Exchanger",
+        "svg": "<path d=\"M36 32H64A18 18 0 0 1 82 50V50A18 18 0 0 1 64 68H36A18 18 0 0 1 18 50V50A18 18 0 0 1 36 32Z\"/><path d=\"M8 50L18 50\"/><path d=\"M82 50L92 50\"/><path d=\"M30 40L70 40\"/><path d=\"M30 50L70 50\"/><path d=\"M30 60L70 60\"/><path d=\"M50 24L50 32\"/><path d=\"M50 68L50 76\"/>"
+      },
+      {
+        "name": "Plate Heat Exchanger",
+        "svg": "<path d=\"M18 20L18 80\"/><path d=\"M30 20L30 80\"/><path d=\"M42 20L42 80\"/><path d=\"M54 20L54 80\"/><path d=\"M66 20L66 80\"/><path d=\"M18 30L24 36L30 30L36 36L42 30L48 36L54 30L60 36L66 30\"/><path d=\"M18 70L24 64L30 70L36 64L42 70L48 64L54 70L60 64L66 70\"/><path d=\"M66 50L90 50\"/><path d=\"M8 40L18 40\"/><path d=\"M8 60L18 60\"/>"
+      },
+      {
+        "name": "Cooling Tower",
+        "svg": "<path d=\"M30 16Q42 40 36 90\"/><path d=\"M70 16Q58 40 64 90\"/><path d=\"M30 16Q50 10 70 16\"/><path d=\"M36 90L64 90\"/><path d=\"M40 30L60 30\"/><path d=\"M38 44L62 44\"/><path d=\"M40 64L46 70\"/><path d=\"M54 64L60 70\"/><path d=\"M24 94L76 94\"/>"
+      },
+      {
+        "name": "Industrial Condenser",
+        "svg": "<path d=\"M36 14H64V84H36Z\"/><path d=\"M40 24L60 74\"/><path d=\"M60 24L40 74\"/><path d=\"M50 6L50 14\"/><path d=\"M50 84L50 94\"/><path d=\"M36 36L24 36\"/><path d=\"M64 70L76 70\"/>"
+      },
+      {
+        "name": "Industrial Pump",
+        "svg": "<path d=\"M20 56a24 24 0 1 0 48 0a24 24 0 1 0 -48 0\"/><path d=\"M20 56L10 56\"/><path d=\"M64 56L84 56L84 38\"/><path d=\"M36 36L44 44\"/><path d=\"M46 56a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Chemical Dosing Pump",
+        "svg": "<path d=\"M20 40H56V70H20Z\"/><path d=\"M56 50L78 50\"/><path d=\"M78 50L78 20\"/><path d=\"M80 24a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M48 25a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/><path d=\"M36 30L36 40\"/><path d=\"M46 30L46 40\"/>"
+      },
+      {
+        "name": "Industrial Compressor",
+        "svg": "<path d=\"M24 40H64V68H24Z\"/><path d=\"M64 54L84 54\"/><path d=\"M12 54L24 54\"/><path d=\"M40 40L40 20\"/><path d=\"M30 20L50 20\"/><path d=\"M40 68L40 84\"/><path d=\"M30 84L50 84\"/><path d=\"M70 74a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/>"
+      },
+      {
+        "name": "Distillation Column",
+        "svg": "<path d=\"M48 10H52A12 12 0 0 1 64 22V78A12 12 0 0 1 52 90H48A12 12 0 0 1 36 78V22A12 12 0 0 1 48 10Z\"/><path d=\"M36 24L64 24\"/><path d=\"M36 38L64 38\"/><path d=\"M36 52L64 52\"/><path d=\"M36 66L64 66\"/><path d=\"M36 80L64 80\"/><path d=\"M64 30L84 30\"/><path d=\"M64 72L84 72\"/><path d=\"M50 90L50 96\"/>"
+      },
+      {
+        "name": "Absorption Column",
+        "svg": "<path d=\"M48 10H52A12 12 0 0 1 64 22V78A12 12 0 0 1 52 90H48A12 12 0 0 1 36 78V22A12 12 0 0 1 48 10Z\"/><path d=\"M42 22L58 30L42 38L58 46L42 54L58 62L42 70L58 78\"/><path d=\"M64 30L84 30\"/><path d=\"M16 80L36 80\"/><path d=\"M50 96L50 88 M53.0 93.0L50 88L47.0 93.0\"/>"
+      },
+      {
+        "name": "Stripping Column",
+        "svg": "<path d=\"M48 10H52A12 12 0 0 1 64 22V78A12 12 0 0 1 52 90H48A12 12 0 0 1 36 78V22A12 12 0 0 1 48 10Z\"/><path d=\"M42 22L58 30L42 38L58 46L42 54L58 62L42 70L58 78\"/><path d=\"M20 64L36 64 M31.0 67.0L36 64L31.0 61.0\"/><path d=\"M64 30L80 30 M75.0 33.0L80 30L75.0 27.0\"/><path d=\"M50 96L50 90\"/>"
+      },
+      {
+        "name": "Fractionation Tower",
+        "svg": "<path d=\"M50 10H50A10 10 0 0 1 60 20V82A10 10 0 0 1 50 92H50A10 10 0 0 1 40 82V20A10 10 0 0 1 50 10Z\"/><path d=\"M40 26L30 26\"/><path d=\"M40 44L30 44\"/><path d=\"M40 62L30 62\"/><path d=\"M60 34L70 34\"/><path d=\"M60 54L70 54\"/><path d=\"M60 74L70 74\"/>"
+      },
+      {
+        "name": "Industrial Filter",
+        "svg": "<path d=\"M14 32H86V68H14Z\"/><path d=\"M30 32L30 68\"/><path d=\"M50 32L50 68\"/><path d=\"M70 32L70 68\"/><path d=\"M10 50L14 50\"/><path d=\"M86 50L90 50\"/><path d=\"M30 20L30 32\"/><path d=\"M70 20L70 32\"/><path d=\"M50 68L50 88\"/>"
+      },
+      {
+        "name": "Industrial Centrifuge",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0\"/><path d=\"M26 50a24 24 0 1 0 48 0a24 24 0 1 0 -48 0\"/><path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M72 18L84 12 M81.49560386520024 15.93547964039963L84 12L79.34897860680043 11.642229123600034\"/><path d=\"M50 86L50 94\"/>"
+      },
+      {
+        "name": "Industrial Dryer",
+        "svg": "<path d=\"M12 36H88V76H12Z\"/><path d=\"M22 52L78 52\"/><path d=\"M22 64L78 64\"/><path d=\"M26 26q-4-6 0-10M50 26q-4-6 0-10M74 26q-4-6 0-10\"/><path d=\"M22 76L20 86\"/><path d=\"M78 76L80 86\"/>"
+      },
+      {
+        "name": "Spray Dryer",
+        "svg": "<path d=\"M34 12H66V62H34Z\"/><path d=\"M34 62L50 90L66 62\"/><path d=\"M50 12L50 4\"/><path d=\"M30 40L20 40\"/><path d=\"M34 30L24 24\"/><path d=\"M44 74q2 3 0 5M50 76q2 3 0 5M56 74q2 3 0 5\"/><path d=\"M10 60L24 60 M19.0 63.0L24 60L19.0 57.0\"/>"
+      },
+      {
+        "name": "Crystallizer",
+        "svg": "<path d=\"M26 30H74V82H26Z\"/><path d=\"M26 40L74 40\"/><path d=\"M40 56L44 62L40 68L36 62Z\"/><path d=\"M56 64L60 70L56 76L52 70Z\"/><path d=\"M26 30L26 20\"/><path d=\"M74 30L74 20\"/>"
+      },
+      {
+        "name": "Evaporator",
+        "svg": "<path d=\"M30 36Q30 30 50.0 30Q70 30 70 36V74Q70 80 50.0 80Q30 80 30 74Z\"/><path d=\"M50 12L50 30\"/><path d=\"M36 52q4-6 8 0t8 0 8 0 8 0\"/><path d=\"M50 88L50 98\"/><path d=\"M50 22L50 10 M52.4 14.0L50 10L47.6 14.0\"/>"
+      },
+      {
+        "name": "Industrial Furnace",
+        "svg": "<path d=\"M16 44H84V86H16Z\"/><path d=\"M30 74q-4-8 0-14q4 6 4 0q4 8-4 14z\"/><path d=\"M30 44L30 20\"/><path d=\"M46 44L46 14\"/><path d=\"M46 14L68 14L68 44\"/><path d=\"M10 86L90 86\"/>"
+      },
+      {
+        "name": "Industrial Scrubber",
+        "svg": "<path d=\"M48 20H52A12 12 0 0 1 64 32V78A12 12 0 0 1 52 90H48A12 12 0 0 1 36 78V32A12 12 0 0 1 48 20Z\"/><path d=\"M50 20L50 8\"/><path d=\"M42 28L58 28\"/><path d=\"M42 42L58 42\"/><path d=\"M10 60L36 60\"/><path d=\"M36 60L30 56\"/><path d=\"M36 60L30 64\"/><path d=\"M64 80L88 80\"/>"
+      },
+      {
+        "name": "Industrial Pipeline",
+        "svg": "<path d=\"M6 50L40 50\"/><path d=\"M60 50L94 50\"/><path d=\"M40 40H60V60H40Z\"/><path d=\"M40 44L60 44\"/><path d=\"M40 56L60 56\"/><path d=\"M6 42L6 58\"/><path d=\"M94 42L94 58\"/>"
+      },
+      {
+        "name": "Chemical Process Control Panel",
+        "svg": "<path d=\"M14 14H86V86H14Z\"/><path d=\"M24 36a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M60 36a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M32 36L36 32\"/><path d=\"M30 64L44 64\"/><path d=\"M56 60L70 60\"/><path d=\"M56 68L70 68\"/>"
+      },
+      {
+        "name": "Process Flow Diagram (PFD)",
+        "svg": "<path d=\"M8 36H30V64H8Z\"/><path d=\"M38 20H60V40H38Z\"/><path d=\"M38 60H60V80H38Z\"/><path d=\"M68 36H92V64H68Z\"/><path d=\"M30 50L38 30L38 30\"/><path d=\"M30 50L38 70\"/><path d=\"M60 30L68 50\"/><path d=\"M60 70L68 50\"/>"
+      },
+      {
+        "name": "Piping and Instrumentation Diagram",
+        "svg": "<path d=\"M14 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/><path d=\"M42 36H62V64H42Z\"/><path d=\"M66 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/><path d=\"M34 50L42 50\"/><path d=\"M62 50L66 50\"/><path d=\"M24 20L24 40\"/><path d=\"M76 30L76 40\"/><path d=\"M24 60L24 80\"/><path d=\"M76 60L76 80\"/><path d=\"M50 20L50 36\"/>"
+      },
+      {
+        "name": "Chemical Plant Layout",
+        "svg": "<path d=\"M10 10H40V40H10Z\"/><path d=\"M60 10H90V40H60Z\"/><path d=\"M10 60H40V90H10Z\"/><path d=\"M60 60H90V90H60Z\"/><path d=\"M40 25L60 25\"/><path d=\"M40 75L60 75\"/><path d=\"M25 40L25 60\"/><path d=\"M75 40L75 60\"/><path d=\"M40 50L60 50\"/>"
+      }
     ]
   }
 };
