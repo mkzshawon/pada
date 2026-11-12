@@ -3721,6 +3721,108 @@ window.PADA_ICONS = {
         "name": "Distillation Column Symbol",
         "svg": "<path d=\"M48 10H52A12 12 0 0 1 64 22V78A12 12 0 0 1 52 90H48A12 12 0 0 1 36 78V22A12 12 0 0 1 48 10Z\"/><path d=\"M36 28L64 28\"/><path d=\"M36 46L64 46\"/><path d=\"M36 64L64 64\"/><path d=\"M64 36L84 36\"/><path d=\"M64 72L84 72\"/><path d=\"M50 90L50 96\"/>"
       }
+    ],
+    "Safety and Protection Equipment": [
+      {
+        "name": "Laboratory Safety Goggles",
+        "svg": "<path d=\"M14 50a16 16 0 1 0 32 0a16 16 0 1 0 -32 0\"/><path d=\"M54 50a16 16 0 1 0 32 0a16 16 0 1 0 -32 0\"/><path d=\"M46 46L54 46\"/><path d=\"M14 44L6 40\"/><path d=\"M86 44L94 40\"/><path d=\"M22 54q8 8 16 0\"/><path d=\"M62 54q8 8 16 0\"/>"
+      },
+      {
+        "name": "Safety Face Shield",
+        "svg": "<path d=\"M48 12H52A22 22 0 0 1 74 34V34A22 22 0 0 1 52 56H48A22 22 0 0 1 26 34V34A22 22 0 0 1 48 12Z\"/><path d=\"M32 40Q50 56 68 40\"/><path d=\"M50 56L50 66\"/><path d=\"M30 66Q50 96 70 66\"/><path d=\"M26 30L74 30\"/>"
+      },
+      {
+        "name": "Laboratory Coat",
+        "svg": "<path d=\"M34 12L14 22V86H86V22L66 12\"/><path d=\"M34 12L42 26L50 20L58 26L66 12\"/><path d=\"M50 20L50 86\"/><path d=\"M44 40L44 44\"/><path d=\"M44 62L44 66\"/><path d=\"M56 40L56 44\"/><path d=\"M56 62L56 66\"/>"
+      },
+      {
+        "name": "Chemical Resistant Gloves",
+        "svg": "<path d=\"M30 92V46\"/><path d=\"M30 46V24Q30 14 38 14T46 24V40\"/><path d=\"M46 40V16Q46 6 54 6T62 16V40\"/><path d=\"M62 40V22Q62 14 70 14T78 22V52Q78 80 60 92H36Q30 92 30 86\"/>"
+      },
+      {
+        "name": "Respirator Mask",
+        "svg": "<path d=\"M42 32H58A18 18 0 0 1 76 50V54A18 18 0 0 1 58 72H42A18 18 0 0 1 24 54V50A18 18 0 0 1 42 32Z\"/><path d=\"M36 62L64 62\"/><path d=\"M17 38H21A3 3 0 0 1 24 41V59A3 3 0 0 1 21 62H17A3 3 0 0 1 14 59V41A3 3 0 0 1 17 38Z\"/><path d=\"M79 38H83A3 3 0 0 1 86 41V59A3 3 0 0 1 83 62H79A3 3 0 0 1 76 59V41A3 3 0 0 1 79 38Z\"/><path d=\"M36 42L64 42\"/>"
+      },
+      {
+        "name": "Safety Helmet",
+        "svg": "<path d=\"M14 60Q14 16 50 16Q86 16 86 60\"/><path d=\"M6 60L94 60\"/><path d=\"M14 60L14 66\"/><path d=\"M86 60L86 66\"/><path d=\"M30 40Q50 30 70 40\"/>"
+      },
+      {
+        "name": "Safety Shoes",
+        "svg": "<path d=\"M14 30V70Q14 80 26 80H84Q90 80 90 72V66Q90 60 80 60H58Q52 60 48 50L40 30Z\"/><path d=\"M14 70L90 70\"/><path d=\"M40 30L40 44\"/>"
+      },
+      {
+        "name": "Chemical Spill Kit",
+        "svg": "<path d=\"M18 40H82A4 4 0 0 1 86 44V80A4 4 0 0 1 82 84H18A4 4 0 0 1 14 80V44A4 4 0 0 1 18 40Z\"/><path d=\"M14 56L86 56\"/><path d=\"M30 22L40 14L50 22V40\"/><path d=\"M56 26q6-8 14 0q-8 8-14 0\"/><path d=\"M30 70L38 64L46 70\"/>"
+      },
+      {
+        "name": "Emergency Shower",
+        "svg": "<path d=\"M50 6L50 36\"/><path d=\"M36 36L64 36\"/><path d=\"M30 40q-4 8 0 16M42 40q-4 8 0 16M58 40q-4 8 0 16M70 40q-4 8 0 16\"/><path d=\"M28 20L18 20\"/><path d=\"M18 20L18 90\"/><path d=\"M12 90L40 90\"/><path d=\"M50 64v20\"/>"
+      },
+      {
+        "name": "Eyewash Station",
+        "svg": "<path d=\"M16 60H84A6 6 0 0 1 90 66V82A6 6 0 0 1 84 88H16A6 6 0 0 1 10 82V66A6 6 0 0 1 16 60Z\"/><path d=\"M50 60L50 40\"/><path d=\"M50 40L40 40\"/><path d=\"M50 40L60 40\"/><path d=\"M34 40q-4 6 0 12M66 40q4 6 0 12\"/><path d=\"M26 30L26 46\"/><path d=\"M74 30L74 46\"/><path d=\"M22 24a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/><path d=\"M70 24a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Fire Extinguisher",
+        "svg": "<path d=\"M46 30H54A12 12 0 0 1 66 42V80A12 12 0 0 1 54 92H46A12 12 0 0 1 34 80V42A12 12 0 0 1 46 30Z\"/><path d=\"M50 30L50 20\"/><path d=\"M38 20L62 20\"/><path d=\"M50 20Q72 16 74 34\"/><path d=\"M74 34L74 44\"/><path d=\"M34 46L66 46\"/>"
+      },
+      {
+        "name": "Fire Blanket",
+        "svg": "<path d=\"M20 14H80V64H20Z\"/><path d=\"M30 26q0 8 6 8t4 10\"/><path d=\"M46 62q-8-8 0-16q6 8 2 16\"/><path d=\"M58 62q-8-8 0-16q6 8 2 16\"/><path d=\"M14 74L86 74\"/>"
+      },
+      {
+        "name": "Fume Extraction System",
+        "svg": "<path d=\"M14 20L86 20\"/><path d=\"M14 20L30 54H70L86 20\"/><path d=\"M50 54L50 70\"/><path d=\"M40 82a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/><path d=\"M46 78l4-4 4 4\"/>"
+      },
+      {
+        "name": "Chemical Waste Container",
+        "svg": "<path d=\"M30 30Q50 26 70 30V84Q50 90 30 84Z\"/><path d=\"M26 30L74 30\"/><path d=\"M26 20L74 20\"/><path d=\"M38 44H62V64H38Z\"/>"
+      },
+      {
+        "name": "Hazardous Waste Bin",
+        "svg": "<path d=\"M28 30L72 30\"/><path d=\"M34 30L38 86H62L66 30\"/><path d=\"M30 20L70 20\"/><path d=\"M50 40L50 50\"/><path d=\"M50 60L50 64\"/>"
+      },
+      {
+        "name": "Chemical Warning Symbol",
+        "svg": "<path d=\"M50 12L90 84L10 84Z\"/><path d=\"M50 36L50 58\"/><path d=\"M48 70a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/>"
+      },
+      {
+        "name": "Corrosive Material Symbol",
+        "svg": "<path d=\"M14 80L86 80\"/><path d=\"M30 80L30 64L40 60L46 68L54 60L62 68L70 64V80\"/><path d=\"M50 14q-6 10 0 16q6-6 0-16z\"/><path d=\"M48 46a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\"/>"
+      },
+      {
+        "name": "Toxic Material Symbol",
+        "svg": "<path d=\"M28 40a22 22 0 1 0 44 0a22 22 0 1 0 -44 0\"/><path d=\"M40 40L44 44\"/><path d=\"M60 40L56 44\"/><path d=\"M42 62V72H58V62\"/><path d=\"M46 72L46 80\"/><path d=\"M54 72L54 80\"/><path d=\"M22 68L78 92\"/><path d=\"M78 68L22 92\"/>"
+      },
+      {
+        "name": "Flammable Material Symbol",
+        "svg": "<path d=\"M50 10Q64 30 62 46Q74 40 74 28Q88 46 84 62Q80 86 50 90Q20 86 16 62Q12 46 26 36Q28 50 36 52Q32 32 50 10Z\"/>"
+      },
+      {
+        "name": "Explosive Material Symbol",
+        "svg": "<path d=\"M50.0 10.0L56.8 29.1L73.5 17.6L67.8 37.1L88.0 37.6L72.0 50.0L88.0 62.4L67.8 62.9L73.5 82.4L56.8 70.9L50.0 90.0L43.2 70.9L26.5 82.4L32.2 62.9L12.0 62.4L28.0 50.0L12.0 37.6L32.2 37.1L26.5 17.6L43.2 29.1Z\"/><path d=\"M44 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/>"
+      },
+      {
+        "name": "Oxidizing Material Symbol",
+        "svg": "<path d=\"M50 10Q62 30 60 46Q70 40 70 28Q84 44 80 60Q76 80 50 82Q24 80 20 60Q16 44 30 36Q32 48 38 50Q34 32 50 10Z\"/><path d=\"M40 68a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/>"
+      },
+      {
+        "name": "Environmental Hazard Symbol",
+        "svg": "<path d=\"M50 60L50 88\"/><path d=\"M50 70L36 56\"/><path d=\"M50 62L62 48\"/><path d=\"M36 56L30 50\"/><path d=\"M62 48L70 42\"/><path d=\"M14 90L86 90\"/><path d=\"M14 80q9-6 18 0t18 0 18 0 18 0 18 0\"/>"
+      },
+      {
+        "name": "Biohazard Symbol",
+        "svg": "<path d=\"M38 30a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/><path d=\"M20 62a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/><path d=\"M56 62a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/><path d=\"M44 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/>"
+      },
+      {
+        "name": "Radiation Warning Symbol",
+        "svg": "<path d=\"M50 44Q36 36 26 46Q34 26 50 30\"/><path d=\"M56 56Q70 60 74 74Q58 78 52 62\"/><path d=\"M44 56Q30 62 24 76Q42 86 52 60\"/><path d=\"M50 44L50 44\"/>"
+      },
+      {
+        "name": "Laboratory Emergency Exit",
+        "svg": "<path d=\"M20 10H60V90H20Z\"/><path d=\"M50 50L76 50\"/><path d=\"M66 40L76 50L66 60\"/><path d=\"M20 90L60 90\"/>"
+      }
     ]
   }
 };
