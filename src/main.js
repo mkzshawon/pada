@@ -4648,12 +4648,7 @@
   // Clip art: simple line drawings (SVG), grouped by subject
   const CLIP_ART = {
     Electrical: (window.PADA_ICONS && window.PADA_ICONS.electrical) || {},
-    Mechanical: [
-      { name: "Gear", svg: '<circle cx="50" cy="50" r="32" stroke-width="10" stroke-dasharray="8 6"/><circle cx="50" cy="50" r="24"/><circle cx="50" cy="50" r="8"/>' },
-      { name: "Nut", svg: '<path d="M30 38l20-12 20 12v24l-20 12-20-12z"/><circle cx="50" cy="50" r="10"/>' },
-      { name: "Spring", svg: '<path d="M50 6v14M50 80v14"/><path d="M50 20l-16 8 32 8-32 8 32 8-32 8 16 8"/>' },
-      { name: "Pulley", svg: '<circle cx="50" cy="50" r="30"/><circle cx="50" cy="50" r="6"/><path d="M50 20V6M20 50H6"/>' },
-    ],
+    Mechanical: (window.PADA_ICONS && window.PADA_ICONS.mechanical) || {},
     Civil: (window.PADA_ICONS && window.PADA_ICONS.civil) || {},
     Computer: (window.PADA_ICONS && window.PADA_ICONS.computer) || {},
     "Science & IT": [
