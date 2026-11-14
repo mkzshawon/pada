@@ -4005,6 +4005,1628 @@ window.PADA_ICONS = {
         "name": "Laboratory Power Supply",
         "svg": "<path d=\"M20 40H80V84H20Z M40 40L40 30 M34 24a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M60 36a4 4 0 1 0 8 0a4 4 0 1 0 -8 0 M20 50L8 50 M8 50L8 92 M8 92L20 92 M80 50L92 50\"/>"
       }
+    ],
+    "Classical Mechanics and Motion": [
+      {
+        "name": "Moving Object",
+        "svg": "<path d=\"M30 40H60V70H30Z M6 70L94 70 M60 55L90 55 M84.0 58.6L90 55L84.0 51.4\"/>"
+      },
+      {
+        "name": "Falling Object",
+        "svg": "<path d=\"M38 14H62V38H38Z M50 38L50 82 M46.4 76.0L50 82L53.6 76.0\"/>"
+      },
+      {
+        "name": "Inclined Plane",
+        "svg": "<path d=\"M8 80L92 80L92 30Z M40.0 61.0L57.2 50.7L49.0 37.0L31.8 47.2Z\"/>"
+      },
+      {
+        "name": "Pulley System",
+        "svg": "<path d=\"M38 30a12 12 0 1 0 24 0a12 12 0 1 0 -24 0 M50 18L50 6 M30 6L70 6 M38 30L38 50 M26 50H50V70H26Z M62 30L62 60 M56 60H76V80H56Z\"/>"
+      },
+      {
+        "name": "Fixed Pulley",
+        "svg": "<path d=\"M36 36a14 14 0 1 0 28 0a14 14 0 1 0 -28 0 M50 22L50 6 M30 6L70 6 M64 36L64 60 M54 60H74V82H54Z\"/>"
+      },
+      {
+        "name": "Movable Pulley",
+        "svg": "<path d=\"M36 50a14 14 0 1 0 28 0a14 14 0 1 0 -28 0 M50 36L50 12 M30 12L70 12 M50 64L50 80 M40 80H60V94H40Z\"/>"
+      },
+      {
+        "name": "Compound Pulley",
+        "svg": "<path d=\"M24 40a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M56 40a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M34 30L66 30 M34 50L66 50 M50 30L50 12 M30 12L70 12 M50 50L50 64 M40 64H60V82H40Z\"/>"
+      },
+      {
+        "name": "Lever",
+        "svg": "<path d=\"M8 40L92 40 M50 40L38 70H62Z M14 24H32V40H14Z M84 40L84 58 M80.4 52.0L84 58L87.6 52.0\"/>"
+      },
+      {
+        "name": "Fulcrum",
+        "svg": "<path d=\"M8 40L92 40 M50 40L38 70H62Z M30 70L70 70 M46 40a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Wheel and Axle",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0 M44 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M56 50L80 50 M50 56L50 80\"/>"
+      },
+      {
+        "name": "Spring and Mass System",
+        "svg": "<path d=\"M20 10L80 10 M50 10L50 22 M50 22L56 25.5L44 29.0L56 32.5L44 36.0L56 39.5L44 43.0L56 46.5L44 50.0L50 50 M38 50H62V70H38Z\"/>"
+      },
+      {
+        "name": "Simple Pendulum",
+        "svg": "<path d=\"M30 12L70 12 M50 12L50 50 M38 62a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/>"
+      },
+      {
+        "name": "Compound Pendulum",
+        "svg": "<path d=\"M34 12L66 12 M50 12L66 74 M56 84a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/>"
+      },
+      {
+        "name": "Ballistic Pendulum",
+        "svg": "<path d=\"M20 12L56 12 M30 12L30 44 M48 12L48 44 M26 44H52V62H26Z M84 53L52 53 M58.0 49.4L52 53L58.0 56.6\"/>"
+      },
+      {
+        "name": "Projectile Motion",
+        "svg": "<path d=\"M10 80Q50 -20 90 80 M6 80L94 80 M10 80L24 62\"/>"
+      },
+      {
+        "name": "Circular Motion",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0 M50 50L80 50 M50 20L64 12 M60.6 18.1L64 12L57.0 11.9\"/>"
+      },
+      {
+        "name": "Rotating Disc",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0 M50 20L50 80 M80 50A30 30 0 0 0 66 24 M72.0 27.6L66 24L65.7 31.0\"/>"
+      },
+      {
+        "name": "Flywheel",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0 M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M58 50L80 50 M50 58L50 80 M42 50L20 50 M50 42L50 20\"/>"
+      },
+      {
+        "name": "Gear Mechanism",
+        "svg": "<path d=\"M18 50a16 16 0 1 0 32 0a16 16 0 1 0 -32 0 M50 50a16 16 0 1 0 32 0a16 16 0 1 0 -32 0 M34 34L34 26 M34 66L34 74 M66 34L66 26 M66 66L66 74\"/>"
+      },
+      {
+        "name": "Friction Block",
+        "svg": "<path d=\"M30 50H60V80H30Z M6 80L94 80 M30 65L12 65 M18.0 61.4L12 65L18.0 68.6 M60 65L82 65 M76.0 68.6L82 65L76.0 61.4\"/>"
+      },
+      {
+        "name": "Collision of Two Objects",
+        "svg": "<path d=\"M14 56H36V78H14Z M64 56H86V78H64Z M6 78L94 78 M36 67L48 67 M42.0 70.6L48 67L42.0 63.4 M64 67L52 67 M58.0 63.4L52 67L58.0 70.6\"/>"
+      },
+      {
+        "name": "Newton's Cradle",
+        "svg": "<path d=\"M14 12L86 12 M22 12L22 42 M14 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M38 12L38 42 M30 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M54 12L54 42 M46 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M70 12L70 42 M62 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M86 12L86 42 M78 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/>"
+      },
+      {
+        "name": "Force Diagram",
+        "svg": "<path d=\"M38 38H62V62H38Z M50 38L50 12 M53.6 18.0L50 12L46.4 18.0 M50 62L50 88 M46.4 82.0L50 88L53.6 82.0 M62 50L88 50 M82.0 53.6L88 50L82.0 46.4 M38 50L12 50 M18.0 46.4L12 50L18.0 53.6\"/>"
+      },
+      {
+        "name": "Free-Body Diagram",
+        "svg": "<path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M50 42L50 14 M53.6 20.0L50 14L46.4 20.0 M50 58L50 86 M46.4 80.0L50 86L53.6 80.0 M58 50L86 50 M80.0 53.6L86 50L80.0 46.4 M42 50L14 50 M20.0 46.4L14 50L20.0 53.6\"/>"
+      },
+      {
+        "name": "Centripetal Force Illustration",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0 M75 50a5 5 0 1 0 10 0a5 5 0 1 0 -10 0 M75 50L56 50 M62.0 46.4L56 50L62.0 53.6\"/>"
+      },
+      {
+        "name": "Torque Illustration",
+        "svg": "<path d=\"M24 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M36 50L84 50 M84 50L84 76 M80.4 70.0L84 76L87.6 70.0\"/>"
+      },
+      {
+        "name": "Angular Momentum Illustration",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0 M75 50a5 5 0 1 0 10 0a5 5 0 1 0 -10 0 M50 20L50 6 M53.6 12.0L50 6L46.4 12.0\"/>"
+      },
+      {
+        "name": "Rolling Motion",
+        "svg": "<path d=\"M30 60a20 20 0 1 0 40 0a20 20 0 1 0 -40 0 M6 80L94 80 M50 60L50 40 M50 60L70 60 M30 60L12 60 M18.0 56.4L12 60L18.0 63.6\"/>"
+      },
+      {
+        "name": "Harmonic Oscillator",
+        "svg": "<path d=\"M14 20L14 80 M6 58L94 58 M14 47L19.8 53L25.5 41L31.2 53L37.0 41L42.8 53L48.5 41L54.2 53L60.0 41L60 47 M60 36H82V58H60Z\"/>"
+      },
+      {
+        "name": "Damped Oscillator",
+        "svg": "<path d=\"M14 20L14 80 M6 58L94 58 M14 47L19.8 53L25.5 41L31.2 53L37.0 41L42.8 53L48.5 41L54.2 53L60.0 41L60 47 M60 36H82V58H60Z M56 8H84V22H56Z M70 22L70 36\"/>"
+      }
+    ],
+    "Matter and Fluid Mechanics": [
+      {
+        "name": "Hydraulic Press",
+        "svg": "<path d=\"M14 30H38V80H14Z M62 20H86V80H62Z M14 80L86 80 M26 30L26 6 M74 20L74 6\"/>"
+      },
+      {
+        "name": "Hydraulic Lift",
+        "svg": "<path d=\"M30 40L70 40 M50 40L50 48 M44 48H56V80H44Z M8 80L92 80 M14 60H28V82H14Z M28 70L44 70\"/>"
+      },
+      {
+        "name": "Hydraulic Brake",
+        "svg": "<path d=\"M14 34H36V64H14Z M14 49L4 49 M36 49L58 49 M58 36H78V62H58Z M78 49a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M26 34L26 64\"/>"
+      },
+      {
+        "name": "Hydraulic Jack",
+        "svg": "<path d=\"M38 40H62V78H38Z M50 40L50 20 M38 14H62V20H38Z M16 78L84 78 M62 58L86 40 M30 78L30 82\"/>"
+      },
+      {
+        "name": "Pascal's Law Apparatus",
+        "svg": "<path d=\"M18 44H82V80H18Z M22 20H34V44H22Z M28 20L28 12 M56 14H84V44H56Z M56 20L84 20\"/>"
+      },
+      {
+        "name": "Archimedes' Principle Apparatus",
+        "svg": "<path d=\"M24 40L24 90 M24 90L76 90 M76 90L76 40 M24 40L76 40 M24 56L76 56 M30 10L70 10 M50 10L50 46 M42 46H58V62H42Z M30 10L30 40\"/>"
+      },
+      {
+        "name": "Floating Body",
+        "svg": "<path d=\"M8 60L92 60 M8 60V90H92V60 M34 36H66V60H34Z\"/>"
+      },
+      {
+        "name": "Submerged Body",
+        "svg": "<path d=\"M8 40V90H92V40 M8 40L92 40 M38 56H62V76H38Z M50 56L50 20 M30 20L70 20 M30 20L30 40\"/>"
+      },
+      {
+        "name": "U-Tube Manometer",
+        "svg": "<path d=\"M18 20V78Q18 86 26 86H74Q82 86 82 78V20 M18 56L82 56 M18 40L12 40 M82 62L88 62\"/>"
+      },
+      {
+        "name": "Barometer",
+        "svg": "<path d=\"M40 10H60V70H40Z M40 40L60 40 M24 70H76L70 88H30Z\"/>"
+      },
+      {
+        "name": "Pressure Gauge",
+        "svg": "<path d=\"M20 46a30 30 0 1 0 60 0a30 30 0 1 0 -60 0 M50 46L71 25 M50 76L50 92 M40 92L60 92\"/>"
+      },
+      {
+        "name": "Pitot Tube",
+        "svg": "<path d=\"M10 24H64V70 M6 70L94 70 M88.0 73.6L94 70L88.0 66.4\"/>"
+      },
+      {
+        "name": "Venturi Meter",
+        "svg": "<path d=\"M6 36H34L44 46H56L66 36H94V64H66L56 54H44L34 64H6Z M50 46L50 22 M44 22L56 22\"/>"
+      },
+      {
+        "name": "Orifice Meter",
+        "svg": "<path d=\"M6 40L94 40 M6 60L94 60 M50 40L50 46 M50 54L50 60 M30 40L30 14 M30 14L70 14 M70 14L70 40\"/>"
+      },
+      {
+        "name": "Bernoulli's Principle Apparatus",
+        "svg": "<path d=\"M6 40H30L40 52H60L70 40H94V64H70L60 52H40L30 64H6Z M20 40L20 16 M50 52L50 22 M80 40L80 16 M20 16L80 16\"/>"
+      },
+      {
+        "name": "Water Tank",
+        "svg": "<path d=\"M18 20V84H82V20 M12 20L88 20 M18 50L82 50 M82 70L94 70\"/>"
+      },
+      {
+        "name": "Flowing Liquid Pipe",
+        "svg": "<path d=\"M6 38H94V62H6Z M6 50L94 50 M88.0 53.6L94 50L88.0 46.4\"/>"
+      },
+      {
+        "name": "Laminar Flow",
+        "svg": "<path d=\"M6 34H94V66H6Z M6 42L94 42 M6 50L94 50 M6 58L94 58\"/>"
+      },
+      {
+        "name": "Turbulent Flow",
+        "svg": "<path d=\"M6 34H94V66H6Z M6 42q15-10 30 0t30 0t28 0 M6 50q15 10 30 0t30 0t28 0 M6 58q15-10 30 0t30 0t28 0\"/>"
+      },
+      {
+        "name": "Capillary Tube",
+        "svg": "<path d=\"M40 10L40 90 M60 10L60 90 M40 44L60 44 M24 90L76 90 M24 90L24 60 M76 90L76 60\"/>"
+      },
+      {
+        "name": "Surface Tension Apparatus",
+        "svg": "<path d=\"M16 30H84V70H16Z M16 50L84 50\"/>"
+      },
+      {
+        "name": "Viscosity Experiment Apparatus",
+        "svg": "<path d=\"M30 10V90H70V10 M26 10L74 10 M50 10L50 34 M44 40a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/>"
+      },
+      {
+        "name": "Hydrometer",
+        "svg": "<path d=\"M42 10H58V60A14 14 0 1 1 42 60Z M58 30L66 30 M58 44L66 44\"/>"
+      },
+      {
+        "name": "Density Measurement Apparatus",
+        "svg": "<path d=\"M12 30L88 30 M50 30L50 14 M36 14L64 14 M12 30L12 50 M2 50L22 50 M88 30L88 50 M78 50L98 50 M6 38H18V50H6Z\"/>"
+      },
+      {
+        "name": "Fluid Pressure Diagram",
+        "svg": "<path d=\"M20 10V90H80V10 M20 30L80 30 M20 90L80 90 M20 44L36 44 M30.0 47.6L36 44L30.0 40.4 M20 60L46 60 M40.0 63.6L46 60L40.0 56.4 M20 76L56 76 M50.0 79.6L56 76L50.0 72.4 M80 44L64 44 M70.0 40.4L64 44L70.0 47.6 M80 60L54 60 M60.0 56.4L54 60L60.0 63.6 M80 76L44 76 M50.0 72.4L44 76L50.0 79.6\"/>"
+      }
+    ],
+    "Heat and Thermodynamics": [
+      {
+        "name": "Heat Source",
+        "svg": "<path d=\"M20 84L80 84 M50 84Q34 74 38 58Q44 66 46 58Q48 42 50 30Q60 46 58 58Q66 52 64 42Q74 60 62 74Q56 80 50 84Z\"/>"
+      },
+      {
+        "name": "Bunsen Burner",
+        "svg": "<path d=\"M24 88L76 88 M44 40H56V88H44Z M50 40Q40 30 44 18Q48 26 50 22Q54 30 56 24Q60 32 50 40Z M44 70L56 70\"/>"
+      },
+      {
+        "name": "Electric Heater",
+        "svg": "<path d=\"M14 40H86V70H14Z M14 55L23.0 61L32.0 49L41.0 61L50.0 49L59.0 61L68.0 49L77.0 61L86.0 49L86 55 M30 70L30 84 M70 70L70 84\"/>"
+      },
+      {
+        "name": "Thermometer",
+        "svg": "<path d=\"M42 60V16A8 8 0 0 1 58 16V60A14 14 0 1 1 42 60Z M58 30L66 30 M58 44L66 44\"/>"
+      },
+      {
+        "name": "Temperature Sensor",
+        "svg": "<path d=\"M20 14H80V42H20Z M50 42L50 72 M42 80a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/>"
+      },
+      {
+        "name": "Heat Conduction Apparatus",
+        "svg": "<path d=\"M20 44H80V56H20Z M20 30L20 70 M80 36L80 64 M8 50L20 50 M80 50L92 50\"/>"
+      },
+      {
+        "name": "Convection Apparatus",
+        "svg": "<path d=\"M16 16H84V84H16Z M16 40C40 30 60 30 84 40 M78.0 43.6L84 40L78.0 36.4 M84 60C60 70 40 70 16 60 M22.0 56.4L16 60L22.0 63.6\"/>"
+      },
+      {
+        "name": "Radiation Apparatus",
+        "svg": "<path d=\"M14 50a14 14 0 1 0 28 0a14 14 0 1 0 -28 0 M42 50L72 50 M38.7 41L68 26 M38.7 59L68 74\"/>"
+      },
+      {
+        "name": "Calorimeter",
+        "svg": "<path d=\"M24 40V84Q24 90 30 90H70Q76 90 76 84V40 M18 40L82 40 M50 40L50 67 M45 72a5 5 0 1 0 10 0a5 5 0 1 0 -10 0\"/>"
+      },
+      {
+        "name": "Specific Heat Capacity Experiment",
+        "svg": "<path d=\"M24 36V90H76V36 M24 50L76 50 M40 74H60V90H40Z M24 36L76 36\"/>"
+      },
+      {
+        "name": "Latent Heat Experiment",
+        "svg": "<path d=\"M36 44H64V70H36Z M14 70L86 70 M30 70L30 88 M70 70L70 88 M20 88L80 88\"/>"
+      },
+      {
+        "name": "Thermal Expansion Apparatus",
+        "svg": "<path d=\"M14 30L14 70 M14 46H84V54H14Z M84 46L84 30 M84 30L94 22\"/>"
+      },
+      {
+        "name": "Linear Expansion Apparatus",
+        "svg": "<path d=\"M14 30L14 70 M86 30L86 70 M14 46H86V54H14Z M86 50L96 50 M90.0 53.6L96 50L90.0 46.4\"/>"
+      },
+      {
+        "name": "Bimetallic Strip",
+        "svg": "<path d=\"M14 60Q50 30 86 60Q50 38 14 68Z M86 60L86 68\"/>"
+      },
+      {
+        "name": "Heat Exchanger",
+        "svg": "<path d=\"M14 34H86V66H14Z M14 50L86 50 M14 42L4 42 M86 58L96 58\"/>"
+      },
+      {
+        "name": "Steam Engine",
+        "svg": "<path d=\"M10 44H40V84H10Z M22 44L22 22 M40 50L48 50 M48 40H78V64H48Z M78 52L88 52 M88 52L88 60 M78 70a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M6 84L94 84 M60 64L60 84\"/>"
+      },
+      {
+        "name": "Stirling Engine",
+        "svg": "<path d=\"M16 30H40V70H16Z M60 30H84V70H60Z M40 40H60V60H40 M8 70L92 70 M50 70L50 76 M42 84a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/>"
+      },
+      {
+        "name": "Internal Combustion Engine",
+        "svg": "<path d=\"M30 20H66V64H30Z M48 8L48 20 M30 46L66 46 M48 46L48 70 M38 80a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/>"
+      },
+      {
+        "name": "Refrigerator",
+        "svg": "<path d=\"M24 8H76V92H24Z M24 40L76 40 M68 40L68 30 M68 40L68 52\"/>"
+      },
+      {
+        "name": "Air Conditioner",
+        "svg": "<path d=\"M10 28H90V58H10Z M10 40L90 40 M30 58L30 82 M26.4 76.0L30 82L33.6 76.0 M50 58L50 82 M46.4 76.0L50 82L53.6 76.0 M70 58L70 82 M66.4 76.0L70 82L73.6 76.0\"/>"
+      },
+      {
+        "name": "Heat Pump",
+        "svg": "<path d=\"M30 30H70V70H30Z M4 50L30 50 M24.0 53.6L30 50L24.0 46.4 M70 50L96 50 M90.0 53.6L96 50L90.0 46.4 M50 30L50 14 M50 14L70 14 M70 14L70 30\"/>"
+      },
+      {
+        "name": "Thermodynamic Piston-Cylinder",
+        "svg": "<path d=\"M24 14V90H76V14 M24 50L76 50 M40 20L60 20 M50 50L50 20\"/>"
+      },
+      {
+        "name": "Gas Law Apparatus",
+        "svg": "<path d=\"M16 36H66V86H16Z M66 62L92 62 M74 50H88V62H74Z M66 36L66 62\"/>"
+      },
+      {
+        "name": "Pressure-Volume Experiment",
+        "svg": "<path d=\"M14 14V86H88 M14 30Q30 78 86 72\"/>"
+      },
+      {
+        "name": "Carnot Engine Diagram",
+        "svg": "<path d=\"M30 30C40 20 60 20 70 30C80 40 80 60 70 70C60 80 40 80 30 70C20 60 20 40 30 30Z M64.0 33.6L70 30L64.0 26.4\"/>"
+      },
+      {
+        "name": "Entropy Illustration",
+        "svg": "<path d=\"M54.0 50.0L54.3 50.8L54.5 51.6L54.5 52.6L54.2 53.6L53.8 54.5L53.2 55.5L52.3 56.3L51.2 57.0L50.0 57.5L48.6 57.7L47.2 57.7L45.7 57.5L44.2 56.9L42.8 56.0L41.5 54.9L40.5 53.5L39.6 51.8L39.1 50.0L38.9 48.0L39.0 46.0L39.6 44.0L40.5 42.0L41.8 40.2L43.4 38.6L45.3 37.2L47.6 36.2L50.0 35.6L52.6 35.5L55.2 35.8L57.8 36.6L60.2 37.8L62.5 39.5L64.4 41.7L66.0 44.2L67.2 47.0L67.8 50.0L67.9 53.2L67.5 56.4L66.4 59.5L64.8 62.4L62.7 65.1L60.1 67.4L57.0 69.3L53.6 70.6L50.0 71.3L46.2 71.3L42.5 70.7L38.8 69.4L35.3 67.5L32.2 64.9L29.6 61.8L27.5 58.2L26.0 54.2L25.3 50.0L25.3 45.6L26.0 41.3L27.6 37.1L29.9 33.1L32.9 29.6L36.5 26.6L40.6 24.2L45.2 22.6L50.0 21.8L55.0 21.9L59.9 22.8L64.7 24.6L69.1 27.2L73.1 30.6L76.4 34.8L79.0 39.4L80.8 44.6L81.6 50.0 M77.2 44.6L81.6 50.0L84.3 43.5\"/>"
+      },
+      {
+        "name": "Temperature Distribution Diagram",
+        "svg": "<path d=\"M10 44H90V56H10Z M26 44L26 56 M42 44L42 56 M58 44L58 56 M74 44L74 56 M16 30L16 44 M12.4 38.0L16 44L19.6 38.0\"/>"
+      },
+      {
+        "name": "Thermal Insulation",
+        "svg": "<path d=\"M14 20H86V80H14Z M30 20L30 80 M50 20L50 80 M70 20L70 80 M4 40L14 40 M8.0 43.6L14 40L8.0 36.4 M4 60L14 60 M8.0 63.6L14 60L8.0 56.4\"/>"
+      },
+      {
+        "name": "Cooling Tower",
+        "svg": "<path d=\"M26 10Q34 40 30 90H70Q66 40 74 10 M26 10L74 10 M6 60L30 60 M24.0 63.6L30 60L24.0 56.4 M94 60L70 60 M76.0 56.4L70 60L76.0 63.6\"/>"
+      },
+      {
+        "name": "Thermocouple",
+        "svg": "<path d=\"M30 12H70V26H30Z M34 26L50 85 M66 26L50 85 M47 88a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\"/>"
+      }
+    ],
+    "Waves Sound & Acoustics": [
+      {
+        "name": "Transverse Wave",
+        "svg": "<path d=\"M6 50Q18 18 30 50T54 50T78 50T94 50\"/>"
+      },
+      {
+        "name": "Longitudinal Wave",
+        "svg": "<path d=\"M6 86L94 86 M10 86L10 50 M22 86L22 38 M32 86L32 52 M44 86L44 30 M54 86L54 54 M64 86L64 36 M74 86L74 50 M86 86L86 40\"/>"
+      },
+      {
+        "name": "Sine Wave",
+        "svg": "<path d=\"M8 10L8 90 M8 50L94 50 M8 50C20 10 32 10 40 50S72 90 80 50\"/>"
+      },
+      {
+        "name": "Standing Wave",
+        "svg": "<path d=\"M10 30L10 70 M90 30L90 70 M10 50Q25 14 40 50Q55 86 70 50Q80 30 90 50\"/>"
+      },
+      {
+        "name": "Progressive Wave",
+        "svg": "<path d=\"M8 50Q20 22 32 50T56 50T80 50 M80 50L94 50 M88.0 53.6L94 50L88.0 46.4\"/>"
+      },
+      {
+        "name": "Wave Reflection",
+        "svg": "<path d=\"M70 8L70 92 M18 30L70 60 M70 60L18 90 M77.0 59.9L70 60L73.4 66.1 M21.4 83.9L18 90L25.0 90.1\"/>"
+      },
+      {
+        "name": "Wave Refraction",
+        "svg": "<path d=\"M6 50L94 50 M20 14L50 50 M50 50L70 88\"/>"
+      },
+      {
+        "name": "Wave Diffraction",
+        "svg": "<path d=\"M50 6L50 40 M50 60L50 94 M50 40A22 22 0 0 1 50 60 M50 40A40 40 0 0 1 50 60\"/>"
+      },
+      {
+        "name": "Wave Interference",
+        "svg": "<path d=\"M6 10L6 90 M6 35Q20 15 34 35T62 35T90 35 M6 65Q20 45 34 65T62 65T90 65\"/>"
+      },
+      {
+        "name": "Superposition of Waves",
+        "svg": "<path d=\"M6 50L94 50 M6 50Q14 26 22 50T38 50T54 50T70 50T86 50 M6 50Q14 74 22 50T38 50T54 50T70 50T86 50\"/>"
+      },
+      {
+        "name": "Wave Propagation",
+        "svg": "<path d=\"M6 50Q18 26 30 50T54 50T78 50 M78 50L94 50 M88.0 53.6L94 50L88.0 46.4\"/>"
+      },
+      {
+        "name": "Ripple Tank",
+        "svg": "<path d=\"M6 6H94V94H6Z M50 6L50 26 M50 26A16 16 0 0 0 34 42 M50 26A34 34 0 0 0 16 60 M50 26A16 16 0 0 1 66 42 M50 26A34 34 0 0 1 84 60\"/>"
+      },
+      {
+        "name": "Tuning Fork",
+        "svg": "<path d=\"M36 10V54A14 14 0 0 0 64 54V10 M50 68L50 90\"/>"
+      },
+      {
+        "name": "Resonance Tube",
+        "svg": "<path d=\"M38 40V90H62V40 M34 40L66 40 M38 66L62 66 M44 6V18A6 6 0 0 0 56 18V6 M50 24L50 40\"/>"
+      },
+      {
+        "name": "Sound Wave Generator",
+        "svg": "<path d=\"M14 40H30L56 20V80L30 60H14Z M56 34Q66 50 56 66 M56 26Q78 50 56 74 M56 22Q90 50 56 78\"/>"
+      },
+      {
+        "name": "Loudspeaker",
+        "svg": "<path d=\"M16 8H84V92H16Z M50 8L50 16 M44 16a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M16 58a34 34 0 1 0 68 0a34 34 0 1 0 -68 0\"/>"
+      },
+      {
+        "name": "Microphone",
+        "svg": "<path d=\"M40 14A10 10 0 0 1 60 14V46A10 10 0 0 1 40 46Z M30 40A20 20 0 0 0 70 40 M50 46L50 86 M34 86L66 86\"/>"
+      },
+      {
+        "name": "Ear Model",
+        "svg": "<path d=\"M40 84C20 84 14 68 16 50C18 24 36 14 54 16C76 18 84 40 80 56C78 66 70 70 66 74C62 80 56 84 40 84 M54 16C44 30 44 46 56 56\"/>"
+      },
+      {
+        "name": "Echo Illustration",
+        "svg": "<path d=\"M6 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M18 50L88 60 M88 60L18 70 M88 8L88 92\"/>"
+      },
+      {
+        "name": "Doppler Effect",
+        "svg": "<path d=\"M22 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M38 50L90 50 M84.0 53.6L90 50L84.0 46.4 M70 50Q78 34 70 18 M84 50Q92 34 84 18\"/>"
+      },
+      {
+        "name": "Sonar System",
+        "svg": "<path d=\"M14 70H86L76 82H24Z M50 70L50 56 M30 70A20 20 0 0 0 70 70 M18 70A32 32 0 0 0 82 70\"/>"
+      },
+      {
+        "name": "Ultrasound Transducer",
+        "svg": "<path d=\"M38 10H62V34H38Z M50 34L55 39.6L45 45.2L55 50.8L45 56.4L55 62.0L45 67.6L55 73.2L45 78.8L55 84.4L45 90.0L50 90\"/>"
+      },
+      {
+        "name": "Oscilloscope Waveform",
+        "svg": "<path d=\"M8 14H92V76H8Z M8 45Q20 20 32 45T56 45T80 45T92 45 M50 76L50 86 M34 86L66 86\"/>"
+      },
+      {
+        "name": "Musical String Vibration",
+        "svg": "<path d=\"M8 30L8 70 M92 30L92 70 M8 50Q26 14 50 50Q74 86 92 50\"/>"
+      },
+      {
+        "name": "Organ Pipe",
+        "svg": "<path d=\"M36 12H64V88H36Z M36 46L50 40L64 46\"/>"
+      },
+      {
+        "name": "Acoustic Resonance Apparatus",
+        "svg": "<path d=\"M38 40V90H62V40 M34 40L66 40 M38 66L62 66 M44 6V18A6 6 0 0 0 56 18V6 M50 24L50 40\"/>"
+      },
+      {
+        "name": "Decibel Meter",
+        "svg": "<path d=\"M14 14H86V86H14Z M30 86A20 20 0 0 1 70 86 M50 86L62 72\"/>"
+      },
+      {
+        "name": "Soundproof Chamber",
+        "svg": "<path d=\"M10 10H90V90H10Z M10 26L20 26 M10 46L20 46 M10 66L20 66 M80 26L90 26 M80 46L90 46 M80 66L90 66 M30 10L30 20 M50 10L50 20 M70 10L70 20 M2 50L10 50 M4.0 53.6L10 50L4.0 46.4\"/>"
+      },
+      {
+        "name": "Frequency Measurement Setup",
+        "svg": "<path d=\"M6 50Q16 22 26 50T46 50T66 50T86 50 M6 50L6 76 M6 76L94 76 M24 76L24 68 M42 76L42 68 M60 76L60 68 M78 76L78 68\"/>"
+      },
+      {
+        "name": "Wave Generator",
+        "svg": "<path d=\"M10 30H60V70H10Z M22 30L22 20 M16 14a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M60 50Q68 26 76 50T92 50\"/>"
+      }
+    ],
+    "Optics and Light": [
+      {
+        "name": "Convex Lens",
+        "svg": "<path d=\"M50 8C62 30 62 70 50 92C38 70 38 30 50 8Z M6 50L42 50 M58 50L94 50\"/>"
+      },
+      {
+        "name": "Concave Lens",
+        "svg": "<path d=\"M22 8H78Q62 50 78 92H22Q38 50 22 8Z M6 50L38 50 M62 50L94 50\"/>"
+      },
+      {
+        "name": "Convex Mirror",
+        "svg": "<path d=\"M40 10Q74 50 40 90 M50.9 26.0L38.9 26.0 M57.0 50.0L45.0 50.0 M50.9 74.0L38.9 74.0\"/>"
+      },
+      {
+        "name": "Concave Mirror",
+        "svg": "<path d=\"M60 10Q26 50 60 90 M49.1 26.0L61.1 26.0 M43.0 50.0L55.0 50.0 M49.1 74.0L61.1 74.0\"/>"
+      },
+      {
+        "name": "Plane Mirror",
+        "svg": "<path d=\"M50 8L50 92 M50 16L62 8 M50 30L62 22 M50 44L62 36 M50 58L62 50 M50 72L62 64 M50 86L62 78\"/>"
+      },
+      {
+        "name": "Prism",
+        "svg": "<path d=\"M50 14L84 82H16Z M6 60L27 60 M73 60L94 40 M73 60L94 52 M73 60L94 66 M73 60L94 78\"/>"
+      },
+      {
+        "name": "Glass Slab",
+        "svg": "<path d=\"M20 28H80V72H20Z M6 20L20 40 M20 40L80 58 M80 58L94 70\"/>"
+      },
+      {
+        "name": "Optical Bench",
+        "svg": "<path d=\"M6 60L94 60 M20 60L20 80 M70 60L70 80 M12 80L28 80 M62 80L78 80 M40 44H48V60H40Z\"/>"
+      },
+      {
+        "name": "Ray Box",
+        "svg": "<path d=\"M10 30H60V70H10Z M60 40L94 30 M60 50L94 50 M60 60L94 70\"/>"
+      },
+      {
+        "name": "Light Source",
+        "svg": "<path d=\"M28 38a22 22 0 1 0 44 0a22 22 0 1 0 -44 0 M40 58H60V72H40Z M28 38L10 38 M72 38L90 38 M34 22L22 10 M66 22L78 10\"/>"
+      },
+      {
+        "name": "Laser Source",
+        "svg": "<path d=\"M10 40H54V60H10Z M54 50L94 50 M28 60L32 72\"/>"
+      },
+      {
+        "name": "Optical Fiber",
+        "svg": "<path d=\"M6 80C30 80 30 20 60 20S90 50 94 50 M88.0 53.6L94 50L88.0 46.4\"/>"
+      },
+      {
+        "name": "Periscope",
+        "svg": "<path d=\"M34 20H66V80H34Z M34 20L54 8 M66 80L46 92 M54 8L66 4 M46 92L34 96\"/>"
+      },
+      {
+        "name": "Microscope",
+        "svg": "<path d=\"M42 10H58V54H42Z M50 54L50 64 M26 64L60 64 M30 64L30 88 M20 88L76 88 M58 30Q80 50 74 88\"/>"
+      },
+      {
+        "name": "Telescope",
+        "svg": "<path d=\"M16 40L70 22L76 36L22 54Z M22 54L12 62 M49 45L34 88 M49 45L64 88 M30 88L66 88\"/>"
+      },
+      {
+        "name": "Astronomical Telescope",
+        "svg": "<path d=\"M20 36H78V64H20Z M20 36Q32 50 20 64Q8 50 20 36Z M78 38Q86 50 78 62\"/>"
+      },
+      {
+        "name": "Camera Lens",
+        "svg": "<path d=\"M10 50a40 40 0 1 0 80 0a40 40 0 1 0 -80 0 M24 50a26 26 0 1 0 52 0a26 26 0 1 0 -52 0 M76 50L90 50 M50 24L50 10 M24 50L10 50 M50 76L50 90\"/>"
+      },
+      {
+        "name": "Magnifying Glass",
+        "svg": "<path d=\"M14 40a26 26 0 1 0 52 0a26 26 0 1 0 -52 0 M58.4 58.4L86 86\"/>"
+      },
+      {
+        "name": "Spectrometer",
+        "svg": "<path d=\"M24 74L40 40L56 74Z M6 60L31 60 M49 60L90 40 M49 60L90 60 M49 60L90 76\"/>"
+      },
+      {
+        "name": "Interference Apparatus",
+        "svg": "<path d=\"M40 8L40 42 M40 58L40 92 M40 42L80 30 M40 58L80 70 M80 8L80 92 M80 30L90 30 M80 70L90 70\"/>"
+      },
+      {
+        "name": "Diffraction Grating",
+        "svg": "<path d=\"M26 20L74 20 M26 80L74 80 M30 20L30 80 M40 20L40 80 M50 20L50 80 M60 20L60 80 M70 20L70 80 M6 50L30 50 M50 50L90 30 M50 50L90 70\"/>"
+      },
+      {
+        "name": "Young's Double-Slit Experiment",
+        "svg": "<path d=\"M40 8L40 42 M40 58L40 92 M6 50L40 42 M6 50L40 58 M40 42L80 30 M40 58L80 70 M80 8L80 92\"/>"
+      },
+      {
+        "name": "Newton's Rings Apparatus",
+        "svg": "<path d=\"M6 80L94 80 M30 80Q50 40 70 80 M34 80A16 16 0 0 1 66 80 M22 80A28 28 0 0 1 78 80\"/>"
+      },
+      {
+        "name": "Polarimeter",
+        "svg": "<path d=\"M6 50L20 50 M20 40H80V60H20Z M80 30H88V70H80Z M88 50L94 50 M32 60L32 80 M60 60L60 80 M22 80L70 80\"/>"
+      },
+      {
+        "name": "Polarization Apparatus",
+        "svg": "<path d=\"M20 20H34V80H20Z M66 20H80V80H66Z M24 20L24 80 M72 20L72 80 M6 50L20 50 M34 50L66 50 M80 50L94 50\"/>"
+      },
+      {
+        "name": "Refraction Diagram",
+        "svg": "<path d=\"M6 50L94 50 M24 16L50 50 M50 50L70 88 M50 10L50 50\"/>"
+      },
+      {
+        "name": "Reflection Diagram",
+        "svg": "<path d=\"M6 80L94 80 M24 20L50 80 M50 80L76 20 M50 80L50 22\"/>"
+      },
+      {
+        "name": "Total Internal Reflection",
+        "svg": "<path d=\"M6 50L94 50 M6 50L6 94 M94 50L94 94 M6 94L94 94 M30 88L50 50 M50 50L70 88\"/>"
+      },
+      {
+        "name": "Dispersion of Light",
+        "svg": "<path d=\"M50 14L84 82H16Z M6 60L27 60 M73 60L94 30 M73 60L94 42 M73 60L94 54 M73 60L94 66 M73 60L94 78\"/>"
+      },
+      {
+        "name": "Electromagnetic Spectrum",
+        "svg": "<path d=\"M6.0 50.0L7.5 55.4L8.9 59.1L10.4 59.8L11.9 56.6L13.3 50.4L14.8 43.7L16.3 40.1L17.7 42.4L19.2 50.1L20.7 58.1L22.1 59.3L23.6 51.5L25.1 41.7L26.5 41.7L28.0 52.8L29.5 60.0L30.9 51.2L32.4 40.2L33.9 48.0L35.3 59.9L36.8 49.6L38.3 40.4L39.7 55.9L41.2 54.9L42.7 40.0L44.1 55.9L45.6 52.2L47.1 41.7L48.5 60.0L50.0 41.9L51.5 54.7L52.9 48.5L54.4 49.1L55.9 52.2L57.3 47.6L58.8 51.5L60.3 50.5L61.7 46.4L63.2 57.2L64.7 40.2L66.1 58.9L67.6 47.0L69.1 44.2L70.5 60.0L72.0 46.9L73.5 41.7L74.9 56.7L76.4 57.3L77.9 44.0L79.3 40.8L80.8 50.1L82.3 58.7L83.7 59.2L85.2 53.7L86.7 47.4L88.1 43.1L89.6 41.0L91.1 40.3L92.5 40.1L94.0 40.3 M87.6 43.1L94.0 40.3L88.5 35.9\"/>"
+      }
+    ],
+    "Electricity and Magnetism": [
+      {
+        "name": "Positive and Negative Electric Charges",
+        "svg": "<path d=\"M12 50a14 14 0 1 0 28 0a14 14 0 1 0 -28 0 M12 50L40 50 M26 36L26 64 M60 50a14 14 0 1 0 28 0a14 14 0 1 0 -28 0 M60 50L88 50 M40 50L60 50\"/>"
+      },
+      {
+        "name": "Electric Field Lines",
+        "svg": "<path d=\"M14 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M66 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M31 43Q50 8 69 43 M31 57Q50 92 69 57 M34 50L66 50\"/>"
+      },
+      {
+        "name": "Electric Dipole",
+        "svg": "<path d=\"M20 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M60 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M30 40Q50 14 70 40 M30 60Q50 86 70 60 M20 50L40 50 M60 50L80 50\"/>"
+      },
+      {
+        "name": "Capacitor",
+        "svg": "<path d=\"M46 34H54A16 16 0 0 1 54 66H46A16 16 0 0 1 46 34Z M6 50L30 50 M70 50L94 50\"/>"
+      },
+      {
+        "name": "Parallel Plate Capacitor",
+        "svg": "<path d=\"M8 50L38 50 M62 50L92 50 M38 24L38 76 M62 24L62 76\"/>"
+      },
+      {
+        "name": "Charging and Discharging Capacitor",
+        "svg": "<path d=\"M8 50L36 50 M64 50L92 50 M36 28L36 72 M64 28L64 72 M8 50L8 88 M8 88L40 88 M40 88L40 72 M50 88L80 88 M74.0 91.6L80 88L74.0 84.4\"/>"
+      },
+      {
+        "name": "Resistor",
+        "svg": "<path d=\"M6 50L13.3 58L20.7 42L28.0 58L35.3 42L42.7 58L50.0 42L57.3 58L64.7 42L72.0 58L79.3 42L86.7 58L94.0 42L94 50\"/>"
+      },
+      {
+        "name": "Inductor",
+        "svg": "<path d=\"M20 38H80V62H20Z M28 38C28 18 40 18 40 38C40 18 52 18 52 38C52 18 64 18 64 38C64 18 76 18 76 38 M6 50L20 50 M80 50L94 50\"/>"
+      },
+      {
+        "name": "Solenoid",
+        "svg": "<path d=\"M20 30L84 30 M20 70L84 70 M20 30a6 20 0 0 0 0 40 M84 30a6 20 0 0 1 0 40 M28 30a6 20 0 0 0 0 40 M40 30a6 20 0 0 0 0 40 M6 50L14 50\"/>"
+      },
+      {
+        "name": "Electromagnet",
+        "svg": "<path d=\"M24 14V60Q24 84 50 84Q76 84 76 60V14 M14 14L24 14 M76 14L86 14 M24 30H14M76 30H86\"/>"
+      },
+      {
+        "name": "Bar Magnet",
+        "svg": "<path d=\"M10 38H90V62H10Z M50 38L50 62\"/>"
+      },
+      {
+        "name": "Horseshoe Magnet",
+        "svg": "<path d=\"M22 14V58Q22 86 50 86Q78 86 78 58V14H66V58Q66 72 50 72Q34 72 34 58V14Z\"/>"
+      },
+      {
+        "name": "Magnetic Field Lines",
+        "svg": "<path d=\"M38 40H62V60H38Z M38 50Q14 50 14 22Q14 6 40 12 M62 50Q86 50 86 22Q86 6 60 12 M38 50Q14 50 14 78Q14 94 40 88 M62 50Q86 50 86 78Q86 94 60 88\"/>"
+      },
+      {
+        "name": "Magnetic Compass",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0 M50 14L50 86\"/>"
+      },
+      {
+        "name": "Galvanometer",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0 M50 50L77.6 26.9 M42 50L58 50 M50 86L50 94 M30 94L70 94\"/>"
+      },
+      {
+        "name": "Ammeter",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0 M6 50L20 50 M80 50L94 50 M50 50L50 20\"/>"
+      },
+      {
+        "name": "Voltmeter",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0 M6 50L20 50 M80 50L94 50 M28.8 28.8L50 80L71.2 28.8\"/>"
+      },
+      {
+        "name": "Wheatstone Bridge",
+        "svg": "<path d=\"M50 10L86 50L50 90L14 50Z M50 10L50 90 M14 50L86 50 M44 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/>"
+      },
+      {
+        "name": "Potentiometer",
+        "svg": "<path d=\"M10 70L20.0 76L30.0 64L40.0 76L50.0 64L60.0 76L70.0 64L80.0 76L90.0 64L90 70 M50 64L50 40 M40 30L50 40L60 30\"/>"
+      },
+      {
+        "name": "Electric Circuit",
+        "svg": "<path d=\"M14 20H86V80H14Z M30 20L30 14 M50 80L50 62 M50 52L50 46 M50 20L50 40 M42 52L58 52 M42 46L58 46\"/>"
+      },
+      {
+        "name": "Battery and Cell",
+        "svg": "<path d=\"M6 50L40 50 M40 30L40 70 M52 40L52 60 M52 50L94 50 M40 30L52 30\"/>"
+      },
+      {
+        "name": "Electric Switch",
+        "svg": "<path d=\"M12 70a4 4 0 1 0 8 0a4 4 0 1 0 -8 0 M80 70a4 4 0 1 0 8 0a4 4 0 1 0 -8 0 M6 70L12 70 M20 70L80 70 M88 70L94 70\"/>"
+      },
+      {
+        "name": "Electric Bulb",
+        "svg": "<path d=\"M24 40a26 26 0 1 0 52 0a26 26 0 1 0 -52 0 M40 64H60V78H40Z M50 64L50 54 M50 54L42 46L58 38\"/>"
+      },
+      {
+        "name": "Electric Motor",
+        "svg": "<path d=\"M24 24H76V76H24Z M50 24L50 8 M50 76L50 92 M24 50L76 50\"/>"
+      },
+      {
+        "name": "Electric Generator",
+        "svg": "<path d=\"M16 50a34 34 0 1 0 68 0a34 34 0 1 0 -68 0 M50 16L50 50 M50 50L79.4 33 M50 84L50 94 M36 94L64 94\"/>"
+      },
+      {
+        "name": "Transformer",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0 M50 14Q30 50 50 86 M50 14Q70 50 50 86 M50 6L50 14 M50 86L50 94\"/>"
+      },
+      {
+        "name": "Electromagnetic Induction Apparatus",
+        "svg": "<path d=\"M24 30H76V80H24Z M24 50L76 50 M50 30L50 50 M50 80L50 92 M24 30L24 10 M24 10L44 10 M24 62L44 62 M38.0 65.6L44 62L38.0 58.4\"/>"
+      },
+      {
+        "name": "Faraday's Law Experiment",
+        "svg": "<path d=\"M30 50H70V86H30Z M44 30H56V54H44Z M30 60L14 60 M70 60L86 60\"/>"
+      },
+      {
+        "name": "Lenz's Law Experiment",
+        "svg": "<path d=\"M30 50H70V86H30Z M44 30H56V54H44Z M30 70L14 70 M14 70L30 70 M24.0 73.6L30 70L24.0 66.4 M70 70L86 70\"/>"
+      },
+      {
+        "name": "Magnetic Flux Illustration",
+        "svg": "<path d=\"M16 20H84V80H16Z M16 20L40 6 M40 6L94 6 M94 6L84 20 M4 40L16 40 M10.0 43.6L16 40L10.0 36.4 M4 58L16 58 M10.0 61.6L16 58L10.0 54.4 M4 76L16 76 M10.0 79.6L16 76L10.0 72.4\"/>"
+      },
+      {
+        "name": "Hall Effect Apparatus",
+        "svg": "<path d=\"M20 30H80V70H20Z M4 50L20 50 M80 50L96 50 M50 30L50 14 M46 14L54 14 M50 70L50 86 M46 86L54 86\"/>"
+      },
+      {
+        "name": "Cathode Ray Tube",
+        "svg": "<path d=\"M20 40L8 60H92L80 40Z M20 40L40 20 M80 40L60 20 M40 20L60 20 M50 20L50 60\"/>"
+      },
+      {
+        "name": "Van de Graaff Generator",
+        "svg": "<path d=\"M32 42Q32 14 50 14T68 42 M32 42L40 88 M68 42L60 88 M30 88L70 88 M35.1 60L64.9 60\"/>"
+      },
+      {
+        "name": "Electroscope",
+        "svg": "<path d=\"M30 70H70V82H30Z M30 70V30H70V70 M46 16a4 4 0 1 0 8 0a4 4 0 1 0 -8 0 M50 20L50 70 M50 40L40 62 M50 40L60 62\"/>"
+      },
+      {
+        "name": "Electrostatic Generator",
+        "svg": "<path d=\"M16 50a34 34 0 1 0 68 0a34 34 0 1 0 -68 0 M50 16L50 84 M16 50L84 50\"/>"
+      }
+    ],
+    "Atomic and Quantum Mechanics": [
+      {
+        "name": "Basic Atomic Model",
+        "svg": "<path d=\"M32 50a18 18 0 1 0 36 0a18 18 0 1 0 -36 0 M8 50A42 14 0 1 0 92 50A42 14 0 1 0 8 50 M88 50a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Bohr Atomic Model",
+        "svg": "<path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M26 50a24 24 0 1 0 48 0a24 24 0 1 0 -48 0 M10 50a40 40 0 1 0 80 0a40 40 0 1 0 -80 0 M58 50L90 50 M74 40L74 30 M26 46L26 36\"/>"
+      },
+      {
+        "name": "Rutherford Atomic Model",
+        "svg": "<path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M6 36Q44 40 42 50 M6 64Q44 60 42 50 M58 50Q80 40 94 20\"/>"
+      },
+      {
+        "name": "Electron Orbit Illustration",
+        "svg": "<path d=\"M28 50a22 22 0 1 0 44 0a22 22 0 1 0 -44 0 M50 14A36 36 0 0 1 86 50 M82.4 44.0L86 50L89.6 44.0 M58 50L86 50\"/>"
+      },
+      {
+        "name": "Proton",
+        "svg": "<path d=\"M41 24a9 9 0 1 0 18 0a9 9 0 1 0 -18 0 M19 64a9 9 0 1 0 18 0a9 9 0 1 0 -18 0 M63 64a9 9 0 1 0 18 0a9 9 0 1 0 -18 0 M45.7 31.9L32.3 56.1 M37.0 64.0L63.0 64.0 M67.7 56.1L54.3 31.9\"/>"
+      },
+      {
+        "name": "Neutron",
+        "svg": "<path d=\"M11 50a9 9 0 1 0 18 0a9 9 0 1 0 -18 0 M41 50a9 9 0 1 0 18 0a9 9 0 1 0 -18 0 M71 50a9 9 0 1 0 18 0a9 9 0 1 0 -18 0 M29 50L41 50 M59 50L71 50\"/>"
+      },
+      {
+        "name": "Electron",
+        "svg": "<path d=\"M20 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M40 50q5.0 -8 10 0q5.0 8 10 0q5.0 -8 10 0q5.0 8 10 0q5.0 -8 10 0q5.0 8 10 0\"/>"
+      },
+      {
+        "name": "Atomic Nucleus",
+        "svg": "<path d=\"M24 42a14 14 0 1 0 28 0a14 14 0 1 0 -28 0 M48 42a14 14 0 1 0 28 0a14 14 0 1 0 -28 0 M36 58a14 14 0 1 0 28 0a14 14 0 1 0 -28 0 M36 28a14 14 0 1 0 28 0a14 14 0 1 0 -28 0\"/>"
+      },
+      {
+        "name": "Hydrogen Atom",
+        "svg": "<path d=\"M44 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0 M56 50L86 50 M46 14a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Energy Level Diagram",
+        "svg": "<path d=\"M10 86L10 10 M10 20L90 20 M10 50L90 50 M10 80L90 80 M70 80L70 50 M73.6 56.0L70 50L66.4 56.0\"/>"
+      },
+      {
+        "name": "Electron Transition",
+        "svg": "<path d=\"M10 70L90 70 M10 20L90 20 M40 70Q60 45 40 20 M46.2 23.3L40 20L40.0 27.0\"/>"
+      },
+      {
+        "name": "Photon Emission",
+        "svg": "<path d=\"M16 50a12 12 0 1 0 24 0a12 12 0 1 0 -24 0 M40 50q8-10 16 0t16 0t16 0 M88 50L94 50\"/>"
+      },
+      {
+        "name": "Photon Absorption",
+        "svg": "<path d=\"M6 50q6.33-10 12.67 0t12.67 0t12.67 0 M44 50a16 16 0 1 0 32 0a16 16 0 1 0 -32 0\"/>"
+      },
+      {
+        "name": "Photoelectric Effect Apparatus",
+        "svg": "<path d=\"M60 16L60 84 M8 36L60 36 M54.0 39.6L60 36L54.0 32.4 M8 58L60 58 M54.0 61.6L60 58L54.0 54.4 M60 30L86 14 M82.8 20.2L86 14L79.0 14.1\"/>"
+      },
+      {
+        "name": "Compton Scattering Illustration",
+        "svg": "<path d=\"M38 50a12 12 0 1 0 24 0a12 12 0 1 0 -24 0 M6 50L38 50 M60.4 44L90 22 M56 60.4L80 84\"/>"
+      },
+      {
+        "name": "Wave-Particle Duality",
+        "svg": "<path d=\"M16 50a12 12 0 1 0 24 0a12 12 0 1 0 -24 0 M40 50q8-14 16 0t16 0t16 0\"/>"
+      },
+      {
+        "name": "de Broglie Wavelength Illustration",
+        "svg": "<path d=\"M6 50L6 22L26 22L26 50 M6 50q5-12 10 0t10 0t10 0t10 0t10 0\"/>"
+      },
+      {
+        "name": "Heisenberg Uncertainty Illustration",
+        "svg": "<path d=\"M8 90C30 90 36 20 50 20S70 90 92 90 M6 90L94 90\"/>"
+      },
+      {
+        "name": "Quantum Tunneling Illustration",
+        "svg": "<path d=\"M6 80L94 80 M40 40H60V80H40Z M6 50q5.67-10 11.33 0t11.33 0t11.33 0 M60 50q5.67-6 11.33 0t11.33 0t11.33 0\"/>"
+      },
+      {
+        "name": "Quantum Harmonic Oscillator",
+        "svg": "<path d=\"M10 20Q50 100 90 20 M10 30L90 30 M10 42L90 42 M10 52L90 52\"/>"
+      },
+      {
+        "name": "Electron Diffraction Apparatus",
+        "svg": "<path d=\"M6 50L50 50 M50 10L50 90 M82 10Q96 50 82 90 M50 50L86.5 26 M50 50L86.5 74\"/>"
+      },
+      {
+        "name": "Stern-Gerlach Experiment",
+        "svg": "<path d=\"M30 20L44 32V68L30 80Z M70 20L56 32V68L70 80Z M30 20L70 20 M30 50L50 50 M50 50L94 30 M50 50L94 70\"/>"
+      },
+      {
+        "name": "Franck-Hertz Experiment",
+        "svg": "<path d=\"M20 20H80V80H20Z M20 50L27.5 58L35.0 42L42.5 58L50.0 42L57.5 58L65.0 42L72.5 58L80.0 42L80 50 M40 20L40 80 M60 20L60 80\"/>"
+      },
+      {
+        "name": "X-ray Tube",
+        "svg": "<path d=\"M30 30H70L84 40V60L70 70H30Z M6 50L30 50 M30 50L34.0 54L38.0 46L42.0 54L46.0 46L46 50 M60 30L60 70 M84 50L96 50 M90.0 53.6L96 50L90.0 46.4\"/>"
+      },
+      {
+        "name": "X-ray Diffraction Apparatus",
+        "svg": "<path d=\"M20 30L90 30 M20 50L90 50 M20 70L90 70 M20 30L20 70 M6 6L50 50 M50 50L94 6\"/>"
+      },
+      {
+        "name": "Atomic Orbital Shapes",
+        "svg": "<path d=\"M50 50C40 30 22 30 22 50C22 70 40 70 50 50C60 30 78 30 78 50C78 70 60 70 50 50Z\"/>"
+      },
+      {
+        "name": "Probability Density Illustration",
+        "svg": "<path d=\"M6 84L94 84 M8 84C18 84 22 30 34 30S44 84 50 84S70 30 80 30S88 84 92 84\"/>"
+      },
+      {
+        "name": "Laser Energy Transition",
+        "svg": "<path d=\"M10 30L60 30 M10 70L60 70 M35 30L35 70 M31.4 64.0L35 70L38.6 64.0 M35 70q4.5 -6 9 0q4.5 6 9 0q4.5 -6 9 0q4.5 6 9 0q4.5 -6 9 0q4.5 6 9 0\"/>"
+      },
+      {
+        "name": "Spectral Emission Diagram",
+        "svg": "<path d=\"M6 80L94 80 M16 80L16 50 M28 80L28 30 M40 80L40 60 M52 80L52 20 M64 80L64 56 M76 80L76 40 M88 80L88 64\"/>"
+      },
+      {
+        "name": "Quantum Energy States",
+        "svg": "<path d=\"M10 20V80H90V20 M10 36L90 36 M10 52L90 52 M10 68L90 68\"/>"
+      }
+    ],
+    "Nuclear Physics and Radiation": [
+      {
+        "name": "Nuclear Fission",
+        "svg": "<path d=\"M14 50a14 14 0 1 0 28 0a14 14 0 1 0 -28 0 M64 28a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M64 72a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M40.6 44.0L65.0 32.3 M40.6 56.0L65.0 67.7\"/>"
+      },
+      {
+        "name": "Nuclear Fusion",
+        "svg": "<path d=\"M21 50a15 15 0 1 0 30 0a15 15 0 1 0 -30 0 M49 50a15 15 0 1 0 30 0a15 15 0 1 0 -30 0 M6 50L21 50 M15.0 53.6L21 50L15.0 46.4 M94 50L79 50 M85.0 46.4L79 50L85.0 53.6\"/>"
+      },
+      {
+        "name": "Nuclear Reactor",
+        "svg": "<path d=\"M24 88V44Q24 14 50 14Q76 14 76 44V88 M10 88L90 88 M38 58H62V88H38Z M50 14L50 4\"/>"
+      },
+      {
+        "name": "Nuclear Reactor Cross-Section",
+        "svg": "<path d=\"M20 10H80V90H20Z M35 10L35 90 M50 10L50 90 M65 10L65 90\"/>"
+      },
+      {
+        "name": "Nuclear Fuel Rod",
+        "svg": "<path d=\"M14 38H86V62H14Z M26 38L26 62 M38 38L38 62 M50 38L50 62 M62 38L62 62 M74 38L74 62 M14 50L6 50 M86 50L94 50\"/>"
+      },
+      {
+        "name": "Control Rod",
+        "svg": "<path d=\"M50 28L50 70 M42 70H58V90H42Z M34 28L66 28 M50 28L50 10 M38 10L62 10\"/>"
+      },
+      {
+        "name": "Moderator",
+        "svg": "<path d=\"M24 30H76V70H24Z M4 50L24 50 M18.0 53.6L24 50L18.0 46.4 M92 44L76 44 M82.0 40.4L76 44L82.0 47.6\"/>"
+      },
+      {
+        "name": "Coolant System",
+        "svg": "<path d=\"M14 20H86V80H14Z M24 20a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M60 80L40 80 M46.0 76.4L40 80L46.0 83.6 M50 20L50 34\"/>"
+      },
+      {
+        "name": "Radiation Detector",
+        "svg": "<path d=\"M30 30H70V70H30Z M6 50L30 50 M24.0 53.6L30 50L24.0 46.4 M70 50L76 40L82 60L88 50L94 50\"/>"
+      },
+      {
+        "name": "Geiger-Muller Counter",
+        "svg": "<path d=\"M20 40H80A10 10 0 0 1 80 60H20A10 10 0 0 1 20 40Z M6 50L94 50\"/>"
+      },
+      {
+        "name": "Scintillation Detector",
+        "svg": "<path d=\"M14 36H54V64H14Z M54 30H86V70H54Z M30 36L30 22 M20 22L40 22\"/>"
+      },
+      {
+        "name": "Cloud Chamber",
+        "svg": "<path d=\"M14 20H86V80H14Z M14 40Q50 36 86 50 M14 66L60 76\"/>"
+      },
+      {
+        "name": "Bubble Chamber",
+        "svg": "<path d=\"M14 20H86V80H14Z M14 50L86 50 M26 50a4 4 0 1 0 8 0a4 4 0 1 0 -8 0 M51 50a5 5 0 1 0 10 0a5 5 0 1 0 -10 0 M71 50a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\"/>"
+      },
+      {
+        "name": "Particle Accelerator",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0 M50 14A36 36 0 0 1 86 50 M82.4 44.0L86 50L89.6 44.0\"/>"
+      },
+      {
+        "name": "Cyclotron",
+        "svg": "<path d=\"M50 14A36 36 0 0 0 50 86Z M50 14A36 36 0 0 1 50 86Z M50 14L50 86\"/>"
+      },
+      {
+        "name": "Linear Accelerator",
+        "svg": "<path d=\"M18 36H34V64H18Z M42 36H58V64H42Z M66 36H82V64H66Z M6 50L94 50\"/>"
+      },
+      {
+        "name": "Radioactive Decay",
+        "svg": "<path d=\"M12 50a12 12 0 1 0 24 0a12 12 0 1 0 -24 0 M66 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M36.0 50.0L66.0 50.0 M60.0 53.6L66.0 50.0L60.0 46.4\"/>"
+      },
+      {
+        "name": "Alpha Radiation",
+        "svg": "<path d=\"M9 50a9 9 0 1 0 18 0a9 9 0 1 0 -18 0 M21 50a9 9 0 1 0 18 0a9 9 0 1 0 -18 0 M39 50L94 50 M88.0 53.6L94 50L88.0 46.4\"/>"
+      },
+      {
+        "name": "Beta Radiation",
+        "svg": "<path d=\"M7 50a11 11 0 1 0 22 0a11 11 0 1 0 -22 0 M29 50q3.08-6 6.17 0t6.17 0t6.17 0t6.17 0t6.17 0t6.17 0 M66 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/>"
+      },
+      {
+        "name": "Gamma Radiation",
+        "svg": "<path d=\"M7 50a11 11 0 1 0 22 0a11 11 0 1 0 -22 0 M29 50q2.5 -5 5 0q2.5 5 5 0q2.5 -5 5 0q2.5 5 5 0q2.5 -5 5 0q2.5 5 5 0q2.5 -5 5 0q2.5 5 5 0q2.5 -5 5 0q2.5 5 5 0q2.5 -5 5 0q2.5 5 5 0 M89 50L94 50 M88.0 53.6L94 50L88.0 46.4\"/>"
+      },
+      {
+        "name": "Half-Life Illustration",
+        "svg": "<path d=\"M10 14L10 90L94 90 M10.0 20.0L12.0 23.5L14.0 26.9L16.0 30.1L18.0 33.1L20.0 36.0L22.0 38.8L24.0 41.4L26.0 43.8L28.0 46.2L30.0 48.4L32.0 50.5L34.0 52.5L36.0 54.4L38.0 56.2L40.0 57.9L42.0 59.5L44.0 61.1L46.0 62.5L48.0 63.9L50.0 65.3L52.0 66.5L54.0 67.7L56.0 68.8L58.0 69.9L60.0 70.9L62.0 71.9L64.0 72.8L66.0 73.7L68.0 74.5L70.0 75.3L72.0 76.0L74.0 76.7L76.0 77.4L78.0 78.0L80.0 78.7L82.0 79.2L84.0 79.8L86.0 80.3L88.0 80.8L90.0 81.2 M36.7 55L36.7 90 M63.3 72.5L63.3 90\"/>"
+      },
+      {
+        "name": "Nuclear Chain Reaction",
+        "svg": "<path d=\"M6 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M42 26a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M42 74a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M78 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M20.7 45.6L43.3 30.4 M20.7 54.4L43.3 69.6 M56.7 30.4L79.3 45.6 M56.7 69.6L79.3 54.4\"/>"
+      },
+      {
+        "name": "Radiation Shielding",
+        "svg": "<path d=\"M62 10H78V90H62Z M6 30L62 30 M56.0 33.6L62 30L56.0 26.4 M6 50L62 50 M56.0 53.6L62 50L56.0 46.4 M6 70L62 70 M56.0 73.6L62 70L56.0 66.4\"/>"
+      },
+      {
+        "name": "Lead Shielding Container",
+        "svg": "<path d=\"M20 30H80V80H20Z M14 22H86V30H14Z M44 22L44 14 M44 14L56 14 M56 14L56 22\"/>"
+      },
+      {
+        "name": "Dosimeter",
+        "svg": "<path d=\"M16 40H76A10 10 0 0 1 76 60H16A10 10 0 0 1 16 40Z M30 40L30 20 M30 20L40 20 M50 40L50 60 M62 40L62 60\"/>"
+      },
+      {
+        "name": "X-ray Radiation",
+        "svg": "<path d=\"M14 14L86 86 M86 14L14 86 M46 50a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Neutron Source",
+        "svg": "<path d=\"M14 36H44V64H14Z M44 40L90 24 M85.5 29.4L90 24L83.2 22.6 M44 50L94 50 M88.0 53.6L94 50L88.0 46.4 M44 60L90 76 M83.2 77.4L90 76L85.5 70.6\"/>"
+      },
+      {
+        "name": "Neutron Detector",
+        "svg": "<path d=\"M40 20H70V80H40Z M6 50L40 50 M34.0 53.6L40 50L34.0 46.4 M70 50L76 40L82 60L88 50L94 50\"/>"
+      },
+      {
+        "name": "Mass Spectrometer",
+        "svg": "<path d=\"M6 30L30 30 M30 30A40 40 0 0 1 70 70 M70 70L94 70 M70 60L70 80\"/>"
+      }
+    ],
+    "Modern and Particle Physics": [
+      {
+        "name": "Standard Model Particle Chart",
+        "svg": "<path d=\"M10 10H90V90H10Z M10 36L90 36 M10 62L90 62 M36 10L36 90 M62 10L62 90\"/>"
+      },
+      {
+        "name": "Quark Structure",
+        "svg": "<path d=\"M12 20H88V46H12Z M12 54H88V80H12Z M50 20L50 80 M12 33L88 33 M12 67L88 67\"/>"
+      },
+      {
+        "name": "Proton Structure",
+        "svg": "<path d=\"M40 8H60V28H40Z M12 70H32V90H12Z M68 70H88V90H68Z M50 28L22 70 M28 70L68 70 M78 70L60 28\"/>"
+      },
+      {
+        "name": "Neutron Structure",
+        "svg": "<path d=\"M8 40H28V60H8Z M40 40H60V60H40Z M72 40H92V60H72Z M28 50L40 50 M60 50L72 50\"/>"
+      },
+      {
+        "name": "Electron Cloud",
+        "svg": "<path d=\"M24 72C10 72 8 52 20 46C16 30 32 22 42 30C48 16 70 16 74 30C88 26 94 44 84 54C94 60 90 74 78 72C74 80 58 82 52 76C44 82 30 80 24 72Z\"/>"
+      },
+      {
+        "name": "Particle Collision",
+        "svg": "<path d=\"M14 50a12 12 0 1 0 24 0a12 12 0 1 0 -24 0 M62 50a12 12 0 1 0 24 0a12 12 0 1 0 -24 0 M38 50L62 50 M50 50L50 16 M50 50L50 84 M50 50L84 24 M50 50L16 76\"/>"
+      },
+      {
+        "name": "Particle Detector",
+        "svg": "<path d=\"M14 14H86V86H14Z M30 30H70V70H30Z M14 14L30 30 M86 14L70 30 M14 86L30 70 M86 86L70 70 M6 50L94 50\"/>"
+      },
+      {
+        "name": "Bubble Chamber Particle Tracks",
+        "svg": "<path d=\"M10 50a40 40 0 1 0 80 0a40 40 0 1 0 -80 0 M52.0 50.0L52.3 50.4L52.5 50.8L52.6 51.3L52.6 51.9L52.5 52.5L52.3 53.2L51.9 53.8L51.4 54.3L50.8 54.8L50.0 55.2L49.1 55.4L48.2 55.5L47.2 55.4L46.2 55.2L45.2 54.8L44.3 54.2L43.4 53.4L42.7 52.4L42.1 51.3L41.7 50.0L41.5 48.6L41.5 47.2L41.7 45.8L42.2 44.4L43.0 43.0L44.0 41.7L45.2 40.6L46.6 39.7L48.3 39.0L50.0 38.5L51.8 38.3L53.7 38.5L55.7 38.9L57.5 39.7L59.3 40.7L60.8 42.1L62.2 43.8L63.3 45.7L64.2 47.8L64.7 50.0L64.8 52.3L64.6 54.7L63.9 57.1L62.9 59.4L61.5 61.5L59.7 63.4L57.7 65.0L55.3 66.4L52.7 67.3L50.0 67.8L47.2 67.9L44.3 67.6L41.5 66.7L38.8 65.5L36.3 63.7L34.0 61.6L32.1 59.1L30.6 56.3L29.6 53.2L29.0 50.0L28.9 46.7L29.4 43.3L30.4 40.0L32.0 36.9L34.0 34.0L36.5 31.5L39.5 29.3L42.7 27.6L46.3 26.4L50.0 25.8L53.8 25.8L57.7 26.4L61.4 27.6L64.9 29.4L68.2 31.8L71.1 34.7L73.5 38.0L75.4 41.7L76.7 45.8L77.3 50.0L77.3 54.3L76.6 58.6L75.2 62.8L73.1 66.8L70.4 70.4L67.2 73.7L63.4 76.3L59.2 78.4L54.7 79.8L50.0 80.5L45.2 80.4L40.4 79.6L35.7 78.0L31.3 75.7L27.3 72.7L23.8 69.0L20.8 64.9L18.6 60.2L17.1 55.2L16.3 50.0L16.4 44.7L17.4 39.4L19.2 34.3L21.7 29.5L25.1 25.1L29.1 21.2L33.7 18.0L38.8 15.6L44.3 13.9L50.0 13.2L55.8 13.3L61.6 14.4L67.2 16.3L72.4 19.2L77.2 22.8L81.3 27.2L84.8 32.3L87.4 37.8L89.2 43.8L90.0 50.0\"/>"
+      },
+      {
+        "name": "Feynman Diagram",
+        "svg": "<path d=\"M10 20L50 50 M50 50L10 80 M50 50q5.0 -5 10 0q5.0 5 10 0q5.0 -5 10 0q5.0 5 10 0 M90 50L94 40 M90 50L94 60\"/>"
+      },
+      {
+        "name": "Higgs Boson Illustration",
+        "svg": "<path d=\"M8 14C26 72 36 74 50 74C64 74 74 72 92 14 M44 74a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/>"
+      },
+      {
+        "name": "Antimatter Illustration",
+        "svg": "<path d=\"M12 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M68 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M32 50L68 50 M32 50L38.0 55L44.0 45L50.0 55L56.0 45L62.0 55L68.0 45L68 50\"/>"
+      },
+      {
+        "name": "Positron",
+        "svg": "<path d=\"M32 50a18 18 0 1 0 36 0a18 18 0 1 0 -36 0 M32 50L68 50 M50 32L50 68\"/>"
+      },
+      {
+        "name": "Muon",
+        "svg": "<path d=\"M6 70L50 50L94 66 M46 50a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Neutrino",
+        "svg": "<path d=\"M6 50c10-12 20 12 30 0s20 12 30 0s20-12 28 0 M88.0 53.6L94 50L88.0 46.4\"/>"
+      },
+      {
+        "name": "Particle Accelerator Tunnel",
+        "svg": "<path d=\"M26 30L74 30 M26 70L74 70 M74 30A20 20 0 0 1 74 70 M26 30A20 20 0 0 0 26 70 M6 50L26 50\"/>"
+      },
+      {
+        "name": "Synchrotron",
+        "svg": "<path d=\"M16 50a34 34 0 1 0 68 0a34 34 0 1 0 -68 0 M44 6H56V14H44Z M44 84H56V92H44Z M6 44H14V56H6Z M84 44H92V56H84Z\"/>"
+      },
+      {
+        "name": "Plasma Chamber",
+        "svg": "<path d=\"M14 24H86V76H14Z M14 50C30 20 50 80 86 50\"/>"
+      },
+      {
+        "name": "Superconducting Magnet",
+        "svg": "<path d=\"M14 14H86V86H14Z M32 32H68V68H32Z M14 14L32 32 M86 14L68 32 M14 86L32 68 M86 86L68 68\"/>"
+      },
+      {
+        "name": "Superconductivity Experiment",
+        "svg": "<path d=\"M30 70H70V84H30Z M14 84L86 84 M20 20L20 84 M80 20L80 84 M20 46L38 46 M62 46L80 46 M38 40H62V52H38Z\"/>"
+      },
+      {
+        "name": "Quantum Computing Concept",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0 M14 50A36 10 0 0 0 86 50A36 10 0 0 0 14 50 M50 14L50 86 M50 50L78 28 M75.9 33.4L78 28L72.2 28.7\"/>"
+      },
+      {
+        "name": "Magnetic Resonance Apparatus",
+        "svg": "<path d=\"M38 14H62V86H38Z M30 34L70 34 M30 52L70 52 M30 70L70 70\"/>"
+      },
+      {
+        "name": "Nuclear Magnetic Resonance (NMR)",
+        "svg": "<path d=\"M14 70A36 12 0 1 0 86 70A36 12 0 1 0 14 70 M50 70L50 22 M53.6 28.0L50 22L46.4 28.0\"/>"
+      },
+      {
+        "name": "Magnetic Resonance Imaging (MRI) Scanner",
+        "svg": "<path d=\"M14 20H86V80H14Z M50 20A20 30 0 0 0 50 80A20 30 0 0 0 50 20Z M6 70L94 70\"/>"
+      },
+      {
+        "name": "Scanning Electron Microscope",
+        "svg": "<path d=\"M40 6H60V38H40Z M20 50H80V86H20Z M50 38L50 50 M50 6L50 38\"/>"
+      },
+      {
+        "name": "Transmission Electron Microscope",
+        "svg": "<path d=\"M42 6H58V76H42Z M30 50L70 50 M50 76L50 88 M28 88L72 88\"/>"
+      },
+      {
+        "name": "Atomic Force Microscope",
+        "svg": "<path d=\"M6 8H26V30H6Z M26 20L70 20 M70 20L70 70 M6 70q8.0 -5 16 0q8.0 5 16 0q8.0 -5 16 0q8.0 5 16 0q8.0 -5 16 0 M86 70L94 70\"/>"
+      },
+      {
+        "name": "Nanotechnology Illustration",
+        "svg": "<path d=\"M14 36L86 36 M14 64L86 64 M86 36A4 14 0 0 1 86 64 M14 36A4 14 0 0 0 14 64 M30 36L30 64 M50 36L50 64 M70 36L70 64\"/>"
+      },
+      {
+        "name": "Semiconductor Band Diagram",
+        "svg": "<path d=\"M6 28L94 28 M6 72L94 72 M30 72L30 28 M33.6 34.0L30 28L26.4 34.0\"/>"
+      },
+      {
+        "name": "Energy Band Structure",
+        "svg": "<path d=\"M12 8L12 90L92 90 M12 80Q50 16 88 80 M12 40Q50 80 88 40\"/>"
+      },
+      {
+        "name": "Modern Physics Laboratory Setup",
+        "svg": "<path d=\"M6 80L94 80 M14 80L14 94 M86 80L86 94 M20 46H44V80H20Z M58 62H82V80H58Z M44 70L58 70\"/>"
+      }
+    ],
+    "Electronics and Semiconductor Physics": [
+      {
+        "name": "PN Junction Diode",
+        "svg": "<path d=\"M50 6L50 30 M34 30H66L50 56 M34 62L66 62 M50 56L50 94\"/>"
+      },
+      {
+        "name": "Zener Diode",
+        "svg": "<path d=\"M50 6L50 30 M34 30H66L50 56 M34 56V62H66V68 M50 56L50 94\"/>"
+      },
+      {
+        "name": "LED",
+        "svg": "<path d=\"M50 6L50 30 M34 30H66L50 56 M34 62L66 62 M50 56L50 94 M60 40L84 18 M82.0 24.7L84 18L77.1 19.4 M52.5 52L76 36 M73.1 42.4L76 36L69.0 36.4\"/>"
+      },
+      {
+        "name": "Photodiode",
+        "svg": "<path d=\"M50 6L50 30 M34 30H66L50 56 M34 62L66 62 M50 56L50 94 M86 24L62 36 M65.8 30.1L62 36L69.0 36.5 M86 44L56 46 M61.7 42.0L56 46L62.2 49.2\"/>"
+      },
+      {
+        "name": "Solar Cell",
+        "svg": "<path d=\"M20 30H80V70H20Z M35 30L35 70 M50 30L50 70 M65 30L65 70 M50 70L50 90 M84 8L70 30 M70.2 23.0L70 30L76.3 26.9\"/>"
+      },
+      {
+        "name": "Bipolar Junction Transistor",
+        "svg": "<path d=\"M40 20L40 80 M40 36L70 14 M40 64L70 86 M63.0 85.4L70 86L67.3 79.5 M6 50L40 50\"/>"
+      },
+      {
+        "name": "MOSFET",
+        "svg": "<path d=\"M26 24L26 76 M36 20L36 80 M36 24L70 24L70 8 M36 76L70 76L70 92 M6 50L26 50 M26 24L36 24\"/>"
+      },
+      {
+        "name": "JFET",
+        "svg": "<path d=\"M40 10L40 90 M6 50L40 50 M34.0 53.6L40 50L34.0 46.4 M40 20L70 20L70 6 M40 80L70 80L70 94\"/>"
+      },
+      {
+        "name": "Integrated Circuit",
+        "svg": "<path d=\"M20 20H80V80H20Z M44 20A6 6 0 0 0 56 20 M32 20L32 8 M50 20L50 8 M68 20L68 8 M32 80L32 92 M50 80L50 92 M68 80L68 92\"/>"
+      },
+      {
+        "name": "Operational Amplifier",
+        "svg": "<path d=\"M20 14L86 50L20 86Z M6 36L20 36 M6 64L20 64 M86 50L94 50\"/>"
+      },
+      {
+        "name": "Logic Gate Symbols",
+        "svg": "<path d=\"M20 20H44A30 30 0 0 1 44 80H20Z M6 36L20 36 M6 64L20 64 M74 50L94 50\"/>"
+      },
+      {
+        "name": "Rectifier Circuit",
+        "svg": "<path d=\"M14 20L40 20 M40 12V28L56 20 M56 12L56 28 M56 20L86 20 M86 20L86 44 M76 44L96 44 M76 56L96 56 M86 56L86 80 M86 80L14 80 M14 80L14 42 M6 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M14 58L14 80\"/>"
+      },
+      {
+        "name": "Half-Wave Rectifier",
+        "svg": "<path d=\"M14 20L40 20 M40 12V28L56 20 M56 12L56 28 M56 20L86 20 M86 20L86 40 M86 40L91 43.3L81 46.7L91 50.0L81 53.3L91 56.7L81 60.0L86 60 M86 60L86 80 M86 80L14 80 M14 80L14 42 M6 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M14 58L14 20\"/>"
+      },
+      {
+        "name": "Full-Wave Rectifier",
+        "svg": "<path d=\"M50 6L50 94 M34 40L50 30L66 40 M34 40L34 20 M66 40L66 20 M34 20L66 20 M34 60L34 80 M66 60L66 80 M34 80L66 80 M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/>"
+      },
+      {
+        "name": "Bridge Rectifier",
+        "svg": "<path d=\"M50 14L86 50L50 86L14 50Z M50 14L50 4 M50 86L50 96 M14 50L4 50 M86 50L96 50 M60 26L68 34 M32 26L40 34 M60 74L68 66 M32 74L40 66\"/>"
+      },
+      {
+        "name": "Oscillator Circuit",
+        "svg": "<path d=\"M14 20L86 20 M86 20L86 80 M86 80L14 80 M14 80L14 20 M44 8L44 32 M52 8L52 32 M30 80a6 6 0 0 1 12 0a6 6 0 0 1 12 0a6 6 0 0 1 12 0\"/>"
+      },
+      {
+        "name": "Amplifier Circuit",
+        "svg": "<path d=\"M30 20L80 50L30 80Z M6 50q4-6 8 0t8 0t8 0 M80 50q7-14 14 0\"/>"
+      },
+      {
+        "name": "RC Circuit",
+        "svg": "<path d=\"M14 20L86 20 M86 20L86 80 M86 80L14 80 M14 80L14 20 M30 20L35.0 25L40.0 15L45.0 25L50.0 15L55.0 25L60.0 15L60 20 M78 44L94 44 M78 56L94 56\"/>"
+      },
+      {
+        "name": "RL Circuit",
+        "svg": "<path d=\"M14 20L86 20 M86 20L86 80 M86 80L14 80 M14 80L14 20 M30 20L35.0 25L40.0 15L45.0 25L50.0 15L55.0 25L60.0 15L60 20 M86 30a6 6 0 0 0 0 12a6 6 0 0 0 0 12a6 6 0 0 0 0 12a6 6 0 0 0 0 12\"/>"
+      },
+      {
+        "name": "RLC Circuit",
+        "svg": "<path d=\"M14 20L86 20 M86 20L86 80 M86 80L14 80 M14 80L14 20 M30 20L35.0 25L40.0 15L45.0 25L50.0 15L55.0 25L60.0 15L60 20 M44 8L44 32 M52 8L52 32 M86 30a6 6 0 0 0 0 12a6 6 0 0 0 0 12\"/>"
+      },
+      {
+        "name": "Semiconductor Wafer",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0 M14 50L86 50 M50 14L50 86 M30 30L70 30 M30 70L70 70 M44 86L56 86\"/>"
+      },
+      {
+        "name": "Silicon Crystal Lattice",
+        "svg": "<path d=\"M14 14H86V86H14Z M14 38L86 38 M14 62L86 62 M38 14L38 86 M62 14L62 86\"/>"
+      },
+      {
+        "name": "PN Junction Depletion Region",
+        "svg": "<path d=\"M10 30H90V70H10Z M50 30L50 70 M38 30L38 70 M62 30L62 70 M18 30L18 40 M26 30L26 40 M34 30L34 40 M66 70L66 60 M74 70L74 60 M82 70L82 60\"/>"
+      },
+      {
+        "name": "Electron-Hole Pair",
+        "svg": "<path d=\"M6 28L94 28 M6 72L94 72 M34 22a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M54 78a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M46 22L54 22\"/>"
+      },
+      {
+        "name": "Hall Effect Sensor",
+        "svg": "<path d=\"M30 6V36H70V6 M30 36H70V66H30Z M38 66L38 94 M50 66L50 94 M62 66L62 94\"/>"
+      },
+      {
+        "name": "Thermistor",
+        "svg": "<path d=\"M30 36H70V64H30Z M6 50L30 50 M70 50L94 50 M22 74L78 26\"/>"
+      },
+      {
+        "name": "Photovoltaic Effect Apparatus",
+        "svg": "<path d=\"M14 50H64V78H14Z M30 8L30 50 M26.4 44.0L30 50L33.6 44.0 M50 6L50 50 M46.4 44.0L50 50L53.6 44.0 M64 64L78 64 M78 64L78 52 M66 40a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/>"
+      },
+      {
+        "name": "Solar Panel Cell Structure",
+        "svg": "<path d=\"M14 20L86 20 M14 80L86 80 M14 20L14 80 M86 20L86 80 M14 30L86 30 M14 44L86 44 M14 58L86 58 M14 72L86 72 M50 4L50 20 M46.4 14.0L50 20L53.6 14.0\"/>"
+      },
+      {
+        "name": "Oscilloscope",
+        "svg": "<path d=\"M14 14H86V74H14Z M30 14L30 4 M70 14L70 4 M24 74L24 94 M76 74L76 94 M14 44q6-16 12 0t12 0t12 0t12 0t12 0t12 0\"/>"
+      },
+      {
+        "name": "Function Generator",
+        "svg": "<path d=\"M14 50L28 50L28 40L44 40L44 60L60 60L60 40L76 40L76 50L86 50 M86 50L94 50 M14 30L86 30 M14 76L86 76 M14 30L14 76 M86 30L86 76 M30 30L30 22 M50 30L50 22 M70 30L70 22\"/>"
+      }
+    ],
+    "Astronomy, Space and Astrophysics": [
+      {
+        "name": "Solar System",
+        "svg": "<path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M26 50a24 24 0 1 0 48 0a24 24 0 1 0 -48 0 M8 50a42 42 0 1 0 84 0a42 42 0 1 0 -84 0 M58 50L92 50 M70 50a4 4 0 1 0 8 0a4 4 0 1 0 -8 0 M46 8a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Sun",
+        "svg": "<path d=\"M36 50a14 14 0 1 0 28 0a14 14 0 1 0 -28 0 M64.0 50.0L76.0 50.0 M59.9 59.9L68.4 68.4 M50.0 64.0L50.0 76.0 M40.1 59.9L31.6 68.4 M36.0 50.0L24.0 50.0 M40.1 40.1L31.6 31.6 M50.0 36.0L50.0 24.0 M59.9 40.1L68.4 31.6\"/>"
+      },
+      {
+        "name": "Earth",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0 M14 50L86 50 M50 14A18 36 0 0 1 50 86 M50 14A18 36 0 0 0 50 86\"/>"
+      },
+      {
+        "name": "Moon",
+        "svg": "<path d=\"M50 14A36 36 0 0 0 50 86A26 36 0 0 1 50 14Z\"/>"
+      },
+      {
+        "name": "Planets",
+        "svg": "<path d=\"M6 72L94 72 M10 62a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M36 58a14 14 0 1 0 28 0a14 14 0 1 0 -28 0 M70 62a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/>"
+      },
+      {
+        "name": "Solar Eclipse",
+        "svg": "<path d=\"M14 50a24 24 0 1 0 48 0a24 24 0 1 0 -48 0 M44 50a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/>"
+      },
+      {
+        "name": "Lunar Eclipse",
+        "svg": "<path d=\"M10 50a24 24 0 1 0 48 0a24 24 0 1 0 -48 0 M66 50a12 12 0 1 0 24 0a12 12 0 1 0 -24 0 M58 50L66 50\"/>"
+      },
+      {
+        "name": "Earth Rotation",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0 M50 6L50 94 M50 6A44 44 0 0 1 94 50 M90.4 44.0L94 50L97.6 44.0\"/>"
+      },
+      {
+        "name": "Earth Revolution",
+        "svg": "<path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M50 26A44 26 0 1 0 50 74A44 26 0 1 0 50 26 M58 50L94 50 M44 26a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/>"
+      },
+      {
+        "name": "Telescope",
+        "svg": "<path d=\"M16 30H84V46H16Z M84 38L94 38 M50 46L50 66 M50 66L30 92 M50 66L70 92\"/>"
+      },
+      {
+        "name": "Radio Telescope",
+        "svg": "<path d=\"M14 36Q50 96 86 36 M50 66L50 20 M42 20L58 20 M50 66L34 92 M50 66L66 92 M26 92L74 92\"/>"
+      },
+      {
+        "name": "Space Telescope",
+        "svg": "<path d=\"M40 20H60V70H40Z M40 20L30 8H70L60 20 M4 44L40 44 M60 44L96 44 M4 38H24V50H4Z M76 38H96V50H76Z M50 70L50 82\"/>"
+      },
+      {
+        "name": "Satellite",
+        "svg": "<path d=\"M38 38H62V62H38Z M6 44H32V56H6Z M32 50L38 50 M68 44H94V56H68Z M62 50L68 50 M50 38L50 22 M46 18a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Artificial Satellite Orbit",
+        "svg": "<path d=\"M24 50a26 26 0 1 0 52 0a26 26 0 1 0 -52 0 M6 50a44 26 0 1 0 88 0a44 26 0 1 0 -88 0 M90 50a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Space Station",
+        "svg": "<path d=\"M4 50L96 50 M4 36H22V64H4Z M78 36H96V64H78Z M40 38H60V62H40Z M50 20L50 38 M50 62L50 80\"/>"
+      },
+      {
+        "name": "Rocket",
+        "svg": "<path d=\"M50 6C60 18 62 40 62 62H38C38 40 40 18 50 6Z M38 56L26 76L38 72 M62 56L74 76L62 72 M44 62L50 88L56 62\"/>"
+      },
+      {
+        "name": "Space Probe",
+        "svg": "<path d=\"M40 40H60V60H40Z M40 40A10 10 0 0 1 60 40 M50 40L50 28 M6 38H14V62H6Z M40 50L14 50 M86 38H94V62H86Z M60 50L86 50\"/>"
+      },
+      {
+        "name": "Asteroid",
+        "svg": "<path d=\"M18 40L34 16L58 22L76 14L86 40L74 60L84 78L58 86L36 80L16 66Z\"/>"
+      },
+      {
+        "name": "Comet",
+        "svg": "<path d=\"M24 62a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M41 55L92 18 M44 62L94 44\"/>"
+      },
+      {
+        "name": "Meteor",
+        "svg": "<path d=\"M88 14L40 62 M28 66a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/>"
+      },
+      {
+        "name": "Meteorite",
+        "svg": "<path d=\"M22 74L26 52L44 42L62 46L76 58L72 74Z M6 74L94 74\"/>"
+      },
+      {
+        "name": "Galaxy",
+        "svg": "<path d=\"M10 50a40 18 0 1 0 80 0a40 18 0 1 0 -80 0 M30 50a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/>"
+      },
+      {
+        "name": "Spiral Galaxy",
+        "svg": "<path d=\"M50 50L52.5 50.6L52.8 51.5L52.8 52.6L52.4 53.7L51.6 54.7L50.4 55.6L48.9 56.1L47.2 56.2L45.4 55.8L43.6 54.8L42.1 53.3L40.9 51.3L40.3 48.9L40.3 46.4L41.0 43.7L42.4 41.2L44.6 39.1L47.3 37.5L50.5 36.6L54.0 36.6L57.5 37.5L60.8 39.3L63.6 42.0L65.7 45.4L67.0 49.4L67.2 53.8L66.3 58.2L64.2 62.4L61.0 66.0L56.9 68.8L52.1 70.5L46.9 71.0L41.6 70.1L36.5 67.9L32.0 64.4L28.5 59.7L26.2 54.2L25.3 48.1L25.9 41.9L28.2 35.9L32.0 30.5L37.1 26.1L43.2 23.0L50.1 21.6L57.3 21.9L64.3 24.1L70.7 28.0L76.0 33.5L79.8 40.2L81.9 47.9L82.1 56.0L80.1 63.9L76.2 71.3L70.5 77.7L63.2 82.4L54.9 85.3L45.9 86.0L36.9 84.4L28.5 80.6L21.1 74.7L15.4 67.1L11.6 58.1L10.2 48.3L11.3 38.4L14.9 28.8L20.8 20.4L28.7 13.6L38.2 8.9L48.8 6.6L59.7 7.1L70.2 10.3L79.8 16.1L87.8 24.2L93.6 34.1L96.8 45.3L97.1 57.1L94.4 68.8L88.8 79.6L80.7 88.7 M50 50L47.5 49.4L47.2 48.5L47.2 47.4L47.6 46.3L48.4 45.3L49.6 44.4L51.1 43.9L52.8 43.8L54.6 44.2L56.4 45.2L57.9 46.7L59.1 48.7L59.7 51.1L59.7 53.6L59.0 56.3L57.6 58.8L55.4 60.9L52.7 62.5L49.5 63.4L46.0 63.4L42.5 62.5L39.2 60.7L36.4 58.0L34.3 54.6L33.0 50.6L32.8 46.2L33.7 41.8L35.8 37.6L39.0 34.0L43.1 31.2L47.9 29.5L53.1 29.0L58.4 29.9L63.5 32.1L68.0 35.6L71.5 40.3L73.8 45.8L74.7 51.9L74.1 58.1L71.8 64.1L68.0 69.5L62.9 73.9L56.8 77.0L49.9 78.4L42.7 78.1L35.7 75.9L29.3 72.0L24.0 66.5L20.2 59.8L18.1 52.1L17.9 44.0L19.9 36.1L23.8 28.7L29.5 22.3L36.8 17.6L45.1 14.7L54.1 14.0L63.1 15.6L71.5 19.4L78.9 25.3L84.6 32.9L88.4 41.9L89.8 51.7L88.7 61.6L85.1 71.2L79.2 79.6L71.3 86.4L61.8 91.1L51.2 93.4L40.3 92.9L29.8 89.7L20.2 83.9L12.2 75.8L6.4 65.9L3.2 54.7L2.9 42.9L5.6 31.2L11.2 20.4L19.3 11.3\"/>"
+      },
+      {
+        "name": "Black Hole",
+        "svg": "<path d=\"M34 50a16 16 0 1 0 32 0a16 16 0 1 0 -32 0 M8 50a42 10 0 1 0 84 0a42 10 0 1 0 -84 0\"/>"
+      },
+      {
+        "name": "Neutron Star",
+        "svg": "<path d=\"M38 50a12 12 0 1 0 24 0a12 12 0 1 0 -24 0 M50 38L50 6 M50 62L50 94 M44 40L20 22 M56 60L80 78\"/>"
+      },
+      {
+        "name": "White Dwarf",
+        "svg": "<path d=\"M32 50a18 18 0 1 0 36 0a18 18 0 1 0 -36 0 M6 50L94 50 M50 6L50 94\"/>"
+      },
+      {
+        "name": "Supernova",
+        "svg": "<path d=\"M40 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M60.0 50.0L88.0 50.0 M57.7 56.4L79.1 74.4 M51.7 59.8L56.6 87.4 M45.0 58.7L31.0 82.9 M40.6 53.4L14.3 63.0 M40.6 46.6L14.3 37.0 M45.0 41.3L31.0 17.1 M51.7 40.2L56.6 12.6 M57.7 43.6L79.1 25.6\"/>"
+      },
+      {
+        "name": "Nebula",
+        "svg": "<path d=\"M20 60C4 60 6 36 22 36C24 20 46 14 54 28C64 14 88 24 84 42C98 46 94 70 80 68C78 84 52 86 48 74C40 86 20 82 20 60Z\"/>"
+      },
+      {
+        "name": "Hubble Telescope",
+        "svg": "<path d=\"M20 40H80A11 11 0 0 1 80 62H20A11 11 0 0 1 20 40Z M10 16H90V24H10Z M30 24L30 40 M70 24L70 40 M20 51L6 51\"/>"
+      },
+      {
+        "name": "Gravitational Lensing",
+        "svg": "<path d=\"M38 50a12 12 0 1 0 24 0a12 12 0 1 0 -24 0 M6 50Q30 38 50 38Q70 38 94 50 M6 50Q30 62 50 62Q70 62 94 50\"/>"
+      },
+      {
+        "name": "Gravitational Wave Illustration",
+        "svg": "<path d=\"M6 20L6 80 M94 20L94 80 M6 20Q50 38 94 20 M6 40Q50 58 94 40 M6 60Q50 78 94 60 M6 80Q50 98 94 80\"/>"
+      },
+      {
+        "name": "Cosmic Microwave Background",
+        "svg": "<path d=\"M6 6H94V94H6Z M6 24q5.5 -4 11 0q5.5 4 11 0q5.5 -4 11 0q5.5 4 11 0q5.5 -4 11 0q5.5 4 11 0q5.5 -4 11 0q5.5 4 11 0 M6 44q5.5 -4 11 0q5.5 4 11 0q5.5 -4 11 0q5.5 4 11 0q5.5 -4 11 0q5.5 4 11 0q5.5 -4 11 0q5.5 4 11 0 M6 64q5.5 -4 11 0q5.5 4 11 0q5.5 -4 11 0q5.5 4 11 0q5.5 -4 11 0q5.5 4 11 0q5.5 -4 11 0q5.5 4 11 0 M6 82q5.5 -4 11 0q5.5 4 11 0q5.5 -4 11 0q5.5 4 11 0q5.5 -4 11 0q5.5 4 11 0q5.5 -4 11 0q5.5 4 11 0\"/>"
+      },
+      {
+        "name": "Orbital Mechanics",
+        "svg": "<path d=\"M6 50a44 26 0 1 0 88 0a44 26 0 1 0 -88 0 M14 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M26 50L6 50 M90 50a4 4 0 1 0 8 0a4 4 0 1 0 -8 0 M50 24L72 24 M66.0 27.6L72 24L66.0 20.4\"/>"
+      },
+      {
+        "name": "Escape Velocity Illustration",
+        "svg": "<path d=\"M16 70a14 14 0 1 0 28 0a14 14 0 1 0 -28 0 M40 60Q70 40 94 14 M92.3 20.8L94 14L87.2 15.7\"/>"
+      },
+      {
+        "name": "Planetary Motion",
+        "svg": "<path d=\"M6 50a44 26 0 1 0 88 0a44 26 0 1 0 -88 0 M14 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M26 50L94 50 M68 27.5a4 4 0 1 0 8 0a4 4 0 1 0 -8 0 M26 50L72 27.5\"/>"
+      }
+    ],
+    "Experimental and Measurement Instruments": [
+      {
+        "name": "Oscilloscope",
+        "svg": "<path d=\"M14 14H86V86H14Z M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0\"/>"
+      },
+      {
+        "name": "Digital Storage Oscilloscope",
+        "svg": "<path d=\"M14 10H86V90H14Z M22 18H78V62H22Z M14 10L22 18 M86 10L78 18 M26 90L26 80 M40 90L40 80 M60 90L60 80 M74 90L74 80\"/>"
+      },
+      {
+        "name": "Signal Generator",
+        "svg": "<path d=\"M14 24H86V82H14Z M36 52a14 14 0 1 0 28 0a14 14 0 1 0 -28 0 M50 66L50 82 M86 52L94 52\"/>"
+      },
+      {
+        "name": "Function Generator",
+        "svg": "<path d=\"M14 22H86V78H14Z M30 22L30 10 M50 22L50 10 M70 22L70 10 M24 10L36 10 M44 10L56 10 M64 10L76 10 M50 78L50 64 M40 54a10 10 0 1 0 20 0a10 10 0 1 0 -20 0 M86 50L94 50\"/>"
+      },
+      {
+        "name": "Frequency Counter",
+        "svg": "<path d=\"M14 30H86V70H14Z M34 30L34 70 M54 30L54 70 M74 30L74 70 M86 50L94 50\"/>"
+      },
+      {
+        "name": "Spectrum Analyzer",
+        "svg": "<path d=\"M14 14H86V86H14Z M14 80L30 80L36 40L42 80L60 80L66 60L72 80L86 80\"/>"
+      },
+      {
+        "name": "Digital Multimeter",
+        "svg": "<path d=\"M26 14H74V86H26Z M34 14L34 4 M66 14L66 4 M50 14L50 4 M26 64L74 64 M40 86L40 96 M60 86L60 96\"/>"
+      },
+      {
+        "name": "LCR Meter",
+        "svg": "<path d=\"M14 20H86V70H14Z M30 70L30 88 M50 70L50 88 M70 70L70 88 M14 44L86 44\"/>"
+      },
+      {
+        "name": "Power Meter",
+        "svg": "<path d=\"M14 24H86V68H14Z M36 68L36 82 M64 68L64 82 M14 40L86 40\"/>"
+      },
+      {
+        "name": "Gauss Meter",
+        "svg": "<path d=\"M18 14H82V58H18Z M18 40L82 40 M50 58L50 72 M40 72H60V92H40Z\"/>"
+      },
+      {
+        "name": "Tesla Meter",
+        "svg": "<path d=\"M18 14H82V58H18Z M18 40L82 40 M50 58L50 72 M40 82a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/>"
+      },
+      {
+        "name": "Lux Meter",
+        "svg": "<path d=\"M20 62H80V88H20Z M30 62A20 20 0 0 1 70 62 M26 20L40 44.7 M33.9 41.3L40 44.7L40.2 37.7 M50 8L50 42 M46.4 36.0L50 42L53.6 36.0 M74 20L60 44.6 M59.8 37.6L60 44.6L66.1 41.2\"/>"
+      },
+      {
+        "name": "Light Meter",
+        "svg": "<path d=\"M14 34H70V66H14Z M14 50L70 50 M70 50L74 50 M74 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/>"
+      },
+      {
+        "name": "Radiation Survey Meter",
+        "svg": "<path d=\"M20 40H76V76H20Z M34 40L34 20 M26 20L42 20 M26 20L14 10 M42 20L54 10 M20 58L76 58\"/>"
+      },
+      {
+        "name": "Data Acquisition System",
+        "svg": "<path d=\"M20 30H80V70H20Z M20 40L8 40 M20 50L8 50 M20 60L8 60 M80 50L94 50\"/>"
+      },
+      {
+        "name": "Photogate Timer",
+        "svg": "<path d=\"M30 20V70H70V20 M30 40L70 40 M50 70L50 84 M36 84H64V94H36Z\"/>"
+      },
+      {
+        "name": "Optical Sensor",
+        "svg": "<path d=\"M30 30H70V70H30Z M6 40L30 40 M24.0 43.6L30 40L24.0 36.4 M6 60L30 60 M24.0 63.6L30 60L24.0 56.4 M40 70L40 86 M50 70L50 86 M60 70L60 86\"/>"
+      },
+      {
+        "name": "Force Sensor",
+        "svg": "<path d=\"M6 20H20V80H6Z M20 42H90V54H20Z M70 8L70 42 M66.4 36.0L70 42L73.6 36.0\"/>"
+      },
+      {
+        "name": "Motion Detector",
+        "svg": "<path d=\"M14 40H42V60H14Z M42 40A16 16 0 0 1 42 60 M42 40A26 26 0 0 1 42 60 M14 50L6 50\"/>"
+      },
+      {
+        "name": "Accelerometer",
+        "svg": "<path d=\"M14 14H86V86H14Z M38 38H62V62H38Z M14 50L20.0 55L26.0 45L32.0 55L38.0 45L38 50 M62 50L68.0 55L74.0 45L80.0 55L86.0 45L86 50\"/>"
+      },
+      {
+        "name": "Gyroscope",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0 M14 50A36 14 0 1 0 86 50A36 14 0 1 0 14 50 M50 14L50 86 M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/>"
+      },
+      {
+        "name": "Pressure Sensor",
+        "svg": "<path d=\"M20 40H80V80H20Z M20 40q7.5 -6 15 0q7.5 6 15 0q7.5 -6 15 0q7.5 6 15 0 M50 4L50 40 M46.4 34.0L50 40L53.6 34.0 M50 80L50 94\"/>"
+      },
+      {
+        "name": "Temperature Controller",
+        "svg": "<path d=\"M20 44H80V84H20Z M50 44L50 20 M44 14a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M20 64L8 64 M20 54L80 54\"/>"
+      },
+      {
+        "name": "Digital Balance",
+        "svg": "<path d=\"M22 14H78V84H22Z M22 40L78 40 M50 40L50 60 M36 60L64 60\"/>"
+      },
+      {
+        "name": "Laboratory Data Logger",
+        "svg": "<path d=\"M20 22H80V62H20Z M30 22L30 10 M50 22L50 10 M70 22L70 10 M20 50L34 36L48 50L62 36L80 50\"/>"
+      },
+      {
+        "name": "Experimental Circuit Board",
+        "svg": "<path d=\"M10 14H90V86H10Z M40 36H60V64H40Z M10 50L40 50 M60 40L90 40 M46 36L46 24 M66 64L66 76\"/>"
+      },
+      {
+        "name": "Optical Experiment Bench",
+        "svg": "<path d=\"M6 40H94V50H6Z M12 50L12 88 M88 50L88 88 M50 40Q56 25 50 10Q44 25 50 40Z M70 40L80 28 M6 25L50 25\"/>"
+      },
+      {
+        "name": "Magnetic Field Measurement Setup",
+        "svg": "<path d=\"M12 40H46V60H12Z M46 50L62 50 M62 44H70V56H62Z M70 50L74 50 M74 30H94V70H74Z M74 40L94 40\"/>"
+      },
+      {
+        "name": "Vibration Measurement Setup",
+        "svg": "<path d=\"M6 34H22V66H6Z M22 46Q46 30 70 46 M70 36H90V56H70Z M80 36L80 14 M83.6 20.0L80 14L76.4 20.0\"/>"
+      },
+      {
+        "name": "Physics Laboratory Workstation",
+        "svg": "<path d=\"M6 84L94 84 M30 18H70V48H30Z M50 48L50 84 M8 64H28V84H8Z M72 70H92V84H72Z\"/>"
+      }
+    ],
+    "Diagrams, Graphs and Scientific Symbols": [
+      {
+        "name": "Position-Time Graph",
+        "svg": "<path d=\"M12 10V88H92 M12 88Q40 88 86 14\"/>"
+      },
+      {
+        "name": "Velocity-Time Graph",
+        "svg": "<path d=\"M12 10V88H92 M12 86L86 22\"/>"
+      },
+      {
+        "name": "Acceleration-Time Graph",
+        "svg": "<path d=\"M12 10V88H92 M12 40L88 40\"/>"
+      },
+      {
+        "name": "Displacement-Time Graph",
+        "svg": "<path d=\"M12 10V88H92 M12 80C30 80 36 20 50 20S70 60 88 60\"/>"
+      },
+      {
+        "name": "Force-Time Graph",
+        "svg": "<path d=\"M12 10V88H92 M22 88L44 22L66 88\"/>"
+      },
+      {
+        "name": "Momentum-Time Graph",
+        "svg": "<path d=\"M12 10V88H92 M12 88Q30 20 88 30\"/>"
+      },
+      {
+        "name": "Energy-Time Graph",
+        "svg": "<path d=\"M12 10V88H92 M12 80H30V62H50V44H70V26H88\"/>"
+      },
+      {
+        "name": "Current-Voltage Graph",
+        "svg": "<path d=\"M12 10V88H92 M12 88Q60 88 88 14\"/>"
+      },
+      {
+        "name": "Resistance-Temperature Graph",
+        "svg": "<path d=\"M12 10V88H92 M12 68L88 28\"/>"
+      },
+      {
+        "name": "Pressure-Volume Graph",
+        "svg": "<path d=\"M12 10V88H92 M16 16C22 58 40 80 86 84\"/>"
+      },
+      {
+        "name": "Temperature-Entropy Graph",
+        "svg": "<path d=\"M12 10V88H92 M12 30H52V70H12\"/>"
+      },
+      {
+        "name": "Waveform Graph",
+        "svg": "<path d=\"M12 10V88H92 M12 50q9-30 18 0t18 0t18 0t18 0\"/>"
+      },
+      {
+        "name": "Frequency Spectrum",
+        "svg": "<path d=\"M12 10V88H92 M24 88L24 30 M46 88L46 46 M68 88L68 62\"/>"
+      },
+      {
+        "name": "Ray Diagram",
+        "svg": "<path d=\"M6 50L94 50 M20 50L20 30 M20 30L60 30 M20 30L60 50 M60 20L60 80 M60 30L90 62 M60 50L90 70\"/>"
+      },
+      {
+        "name": "Free-Body Diagram",
+        "svg": "<path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M50 42L50 12 M53.6 18.0L50 12L46.4 18.0 M58 54L82 78 M75.2 76.3L82 78L80.3 71.2 M42 54L18 78 M19.7 71.2L18 78L24.8 76.3\"/>"
+      },
+      {
+        "name": "Electric Field Diagram",
+        "svg": "<path d=\"M20 20L20 80 M80 20L80 80 M20 34L80 34 M74.0 37.6L80 34L74.0 30.4 M20 50L80 50 M74.0 53.6L80 50L74.0 46.4 M20 66L80 66 M74.0 69.6L80 66L74.0 62.4\"/>"
+      },
+      {
+        "name": "Magnetic Field Diagram",
+        "svg": "<path d=\"M50 6L50 94 M32 50a18 40 0 1 0 36 0a18 40 0 1 0 -36 0 M14 50a36 46 0 1 0 72 0a36 46 0 1 0 -72 0\"/>"
+      },
+      {
+        "name": "Circuit Diagram",
+        "svg": "<path d=\"M10 20L90 20 M10 80L90 80 M10 20L10 80 M90 20L90 80 M40 20L40 40 M40 60L40 80 M34 40H46V60H34Z M66 20L66 40 M66 60L66 80 M60 40H72V60H60Z\"/>"
+      },
+      {
+        "name": "Atomic Energy Level Diagram",
+        "svg": "<path d=\"M44 88a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M10 66A40 40 0 0 1 90 66 M18 52A32 32 0 0 1 82 52 M26 40A24 24 0 0 1 74 40 M50 82L50 16\"/>"
+      },
+      {
+        "name": "Nuclear Decay Graph",
+        "svg": "<path d=\"M12 10V88H92 M12 20H30V40H50V60H70V76H88\"/>"
+      },
+      {
+        "name": "Vector Diagram",
+        "svg": "<path d=\"M20 80L80 80 M80 80L80 30 M20 80L80 30 M77.7 36.6L80 30L73.1 31.1\"/>"
+      },
+      {
+        "name": "Coordinate Axes",
+        "svg": "<path d=\"M10 50L94 50 M88.0 53.6L94 50L88.0 46.4 M50 90L50 10 M53.6 16.0L50 10L46.4 16.0\"/>"
+      },
+      {
+        "name": "Cartesian Coordinate System",
+        "svg": "<path d=\"M10 10H90V90H10Z M10 50L90 50 M50 10L50 90\"/>"
+      },
+      {
+        "name": "Polar Coordinate System",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0 M50 50L86 50 M50 50L74 26 M64 50A14 14 0 0 0 60 40\"/>"
+      },
+      {
+        "name": "Three-Dimensional Coordinate System",
+        "svg": "<path d=\"M30 70L92 70 M86.0 73.6L92 70L86.0 66.4 M30 70L30 8 M33.6 14.0L30 8L26.4 14.0 M30 70L8 88 M10.4 81.4L8 88L14.9 87.0\"/>"
+      },
+      {
+        "name": "Vector Addition",
+        "svg": "<path d=\"M10 86L50 50 M47.9 56.7L50 50L43.1 51.3 M50 50L90 22 M87.1 28.4L90 22L83.0 22.5 M10 86L90 22\"/>"
+      },
+      {
+        "name": "Vector Resolution",
+        "svg": "<path d=\"M10 86L70 26 M68.3 32.8L70 26L63.2 27.7 M70 26L70 86 M10 86L70 86 M70 86L94 86\"/>"
+      },
+      {
+        "name": "Force Vectors",
+        "svg": "<path d=\"M50 50L20 20 M26.8 21.7L20 20L21.7 26.8 M50 50L84 30 M80.7 36.1L84 30L77.0 29.9 M50 50L50 88 M46.4 82.0L50 88L53.6 82.0\"/>"
+      },
+      {
+        "name": "Velocity Vectors",
+        "svg": "<path d=\"M16 50a34 34 0 1 0 68 0a34 34 0 1 0 -68 0 M50 16L70 16 M64.0 19.6L70 16L64.0 12.4 M84 50L84 70 M80.4 64.0L84 70L87.6 64.0\"/>"
+      },
+      {
+        "name": "Acceleration Vectors",
+        "svg": "<path d=\"M30 70L30 20 M33.6 26.0L30 20L26.4 26.0 M30 70L82 70 M76.0 73.6L82 70L76.0 66.4\"/>"
+      },
+      {
+        "name": "SI Unit Symbols",
+        "svg": "<path d=\"M70 30C70 18 30 18 30 34C30 50 70 46 70 64C70 80 30 80 30 68 M70 64L84 64 M84 20L84 80\"/>"
+      },
+      {
+        "name": "Measurement Uncertainty Illustration",
+        "svg": "<path d=\"M8 80C30 80 36 20 50 20S70 80 92 80 M6 80L94 80 M34 80L34 90 M34 90L66 90 M66 90L66 80\"/>"
+      },
+      {
+        "name": "Error Bar Diagram",
+        "svg": "<path d=\"M12 10V88H92 M30 88L30 30 M24 30L36 30 M50 88L50 46 M44 46L56 46 M70 88L70 20 M64 20L76 20\"/>"
+      },
+      {
+        "name": "Experimental Data Graph",
+        "svg": "<path d=\"M12 10V88H92 M12 75.3L86 26 M26 63.3a4 4 0 1 0 8 0a4 4 0 1 0 -8 0 M46 50a4 4 0 1 0 8 0a4 4 0 1 0 -8 0 M66 36.7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Scientific Notation Symbols",
+        "svg": "<path d=\"M18 34L42 58M42 34L18 58 M42 34L58 18 M56.3 24.8L58 18L51.2 19.7\"/>"
+      }
     ]
   }
 };
