@@ -6521,6 +6521,148 @@ window.PADA_ICONS = {
         "name": "Heat exchanger cross-section",
         "svg": "<path d=\"M10 50a40 40 0 1 0 80 0a40 40 0 1 0 -80 0\"/><path d=\"M12.5 36L87.5 36\"/><path d=\"M10.0 50L90.0 50\"/><path d=\"M12.5 64L87.5 64\"/><path d=\"M50 10L50 2\"/>"
       }
+    ],
+    "Fluid Mechanics & Hydraulic Systems": [
+      {
+        "name": "Hydraulic pump",
+        "svg": "<path d=\"M12 50a28 28 0 1 0 56 0a28 28 0 1 0 -56 0\"/><path d=\"M68 50L40 34L40 66Z\"/><path d=\"M6 50L12 50\"/><path d=\"M40 22L40 6\"/>"
+      },
+      {
+        "name": "Hydraulic motor",
+        "svg": "<path d=\"M32 50a28 28 0 1 0 56 0a28 28 0 1 0 -56 0\"/><path d=\"M32 50L60 34L60 66Z\"/><path d=\"M88 50L94 50\"/><path d=\"M60 22L60 6\"/>"
+      },
+      {
+        "name": "Hydraulic cylinder",
+        "svg": "<path d=\"M20 36H80V64H20Z\"/><path d=\"M80 50L94 50\"/><path d=\"M60 36L60 64\"/><path d=\"M20 50L6 50\"/>"
+      },
+      {
+        "name": "Hydraulic piston",
+        "svg": "<path d=\"M30 30H50V70H30Z\"/><path d=\"M50 50L94 50\"/><path d=\"M30 38L50 38\"/><path d=\"M30 62L50 62\"/>"
+      },
+      {
+        "name": "Hydraulic reservoir",
+        "svg": "<path d=\"M14 30H86V86H14Z\"/><path d=\"M14 50L86 50\"/><path d=\"M50 30L50 20\"/><path d=\"M40 20L60 20\"/>"
+      },
+      {
+        "name": "Hydraulic filter",
+        "svg": "<path d=\"M26 20H74V80H26Z\"/><path d=\"M6 50L26 50\"/><path d=\"M74 50L94 50\"/><path d=\"M38 20L38 80\"/><path d=\"M62 20L62 80\"/>"
+      },
+      {
+        "name": "Hydraulic accumulator",
+        "svg": "<path d=\"M30 30Q30 10 50 10Q70 10 70 30V70Q70 90 50 90Q30 90 30 70Z\"/><path d=\"M30 50Q50 40 70 50\"/><path d=\"M70 70L90 70\"/>"
+      },
+      {
+        "name": "Hydraulic directional control valve",
+        "svg": "<path d=\"M14 22H86V78H14Z\"/><path d=\"M50 22L50 8\"/><path d=\"M50 78L50 92\"/><path d=\"M14 50L4 50\"/><path d=\"M14 70L86 30\"/>"
+      },
+      {
+        "name": "Hydraulic pressure relief valve",
+        "svg": "<path d=\"M20 40H80V80H20Z\"/><path d=\"M50 16L56 20.0L44 24.0L56 28.0L44 32.0L56 36.0L44 40.0L50 40\"/><path d=\"M36 16L64 16\"/><path d=\"M4 60L20 60\"/><path d=\"M80 40L80 20\"/>"
+      },
+      {
+        "name": "Hydraulic flow control valve",
+        "svg": "<path d=\"M20 40H80V70H20Z\"/><path d=\"M4 55L20 55\"/><path d=\"M80 55L96 55\"/><path d=\"M40 40L70 14 M67.8 20.7L70 14L63.1 15.2\"/>"
+      },
+      {
+        "name": "Hydraulic check valve",
+        "svg": "<path d=\"M30 30L30 70L70 50Z\"/><path d=\"M70 30L70 70\"/><path d=\"M6 50L30 50\"/><path d=\"M70 50L94 50\"/>"
+      },
+      {
+        "name": "Hydraulic solenoid valve",
+        "svg": "<path d=\"M30 50H70V80H30Z\"/><path d=\"M36 20H64V50H36Z\"/><path d=\"M6 65L30 65\"/><path d=\"M70 65L94 65\"/>"
+      },
+      {
+        "name": "Hydraulic hose",
+        "svg": "<path d=\"M10 70C20 20 80 80 90 30\"/><path d=\"M10 70L4 70\"/><path d=\"M90 30L96 30\"/>"
+      },
+      {
+        "name": "Hydraulic pipe fittings",
+        "svg": "<path d=\"M20 90V40Q20 20 40 20H84\"/><path d=\"M76 12L76 28\"/>"
+      },
+      {
+        "name": "Hydraulic manifold",
+        "svg": "<path d=\"M14 34H86V66H14Z\"/><path d=\"M30 34L30 20\"/><path d=\"M50 34L50 20\"/><path d=\"M70 34L70 20\"/><path d=\"M30 66L30 80\"/><path d=\"M70 66L70 80\"/>"
+      },
+      {
+        "name": "Hydraulic power pack",
+        "svg": "<path d=\"M10 50H50V90H10Z\"/><path d=\"M56 30a14 14 0 1 0 28 0a14 14 0 1 0 -28 0\"/><path d=\"M58 70a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/><path d=\"M70 44L70 58\"/><path d=\"M58 70L50 70\"/>"
+      },
+      {
+        "name": "Hydraulic press",
+        "svg": "<path d=\"M30 30H70V86H30\"/><path d=\"M40 6H60V30H40Z\"/><path d=\"M50 30L50 50\"/><path d=\"M36 50L64 50\"/>"
+      },
+      {
+        "name": "Hydraulic lift",
+        "svg": "<path d=\"M10 88L90 88\"/><path d=\"M10 30L90 30\"/><path d=\"M20 88L80 30\"/><path d=\"M80 88L20 30\"/>"
+      },
+      {
+        "name": "Hydraulic jack",
+        "svg": "<path d=\"M28 40H56V48H28Z\"/><path d=\"M42 48L42 70\"/><path d=\"M20 70L90 70\"/><path d=\"M12 78a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/>"
+      },
+      {
+        "name": "Hydraulic circuit",
+        "svg": "<path d=\"M4 50a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/><path d=\"M28 50L38 50\"/><path d=\"M38 38H60V62H38Z\"/><path d=\"M60 50L70 50\"/><path d=\"M70 40H94V60H70Z\"/><path d=\"M49 38L49 20\"/><path d=\"M38 8H60V20H38Z\"/>"
+      },
+      {
+        "name": "Pneumatic cylinder",
+        "svg": "<path d=\"M20 36H80V64H20Z\"/><path d=\"M80 50L94 50\"/><path d=\"M30 36L30 22\"/><path d=\"M70 36L70 22\"/><path d=\"M24 22L36 22\"/><path d=\"M64 22L76 22\"/>"
+      },
+      {
+        "name": "Pneumatic compressor",
+        "svg": "<path d=\"M10 56H70V80H10Z\"/><path d=\"M20 30H50V56H20Z\"/><path d=\"M50 43L74 43\"/><path d=\"M20 40L8 40\"/>"
+      },
+      {
+        "name": "Pneumatic filter regulator lubricator (FRL)",
+        "svg": "<path d=\"M10 30H30V70H10Z\"/><path d=\"M40 30H60V70H40Z\"/><path d=\"M70 30H90V70H70Z\"/><path d=\"M30 50L40 50\"/><path d=\"M60 50L70 50\"/><path d=\"M4 50L10 50\"/><path d=\"M90 50L96 50\"/><path d=\"M50 30L50 18\"/><path d=\"M46 14a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Pneumatic control valve",
+        "svg": "<path d=\"M20 40H80V70H20Z\"/><path d=\"M50 40L70 18\"/><path d=\"M64 14L76 22\"/><path d=\"M20 55L6 55\"/><path d=\"M80 55L94 55\"/>"
+      },
+      {
+        "name": "Pneumatic solenoid valve",
+        "svg": "<path d=\"M34 50H66V80H34Z\"/><path d=\"M42 20H58V50H42Z\"/><path d=\"M34 65L20 65\"/><path d=\"M66 65L80 65\"/><path d=\"M50 80L50 94\"/>"
+      },
+      {
+        "name": "Pneumatic actuator",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0\"/><path d=\"M50 50L50 20\"/><path d=\"M50 20L50 6\"/><path d=\"M50 80L50 94\"/>"
+      },
+      {
+        "name": "Pneumatic air receiver",
+        "svg": "<path d=\"M36 34Q36 16 50 16Q64 16 64 34V80Q64 90 50 90Q36 90 36 80Z\"/><path d=\"M64 50L94 50\"/><path d=\"M36 70L20 70\"/>"
+      },
+      {
+        "name": "Pneumatic circuit",
+        "svg": "<path d=\"M6 40H24V60H6Z\"/><path d=\"M34 40H52V60H34Z\"/><path d=\"M62 40H92V60H62Z\"/><path d=\"M24 50L34 50\"/><path d=\"M52 50L62 50\"/><path d=\"M43 40L43 22\"/>"
+      },
+      {
+        "name": "Flow meter",
+        "svg": "<path d=\"M30 14L70 30L70 70L30 86Z\"/><path d=\"M4 50L30 50\"/><path d=\"M70 50L96 50\"/><path d=\"M42 46L58 46\"/>"
+      },
+      {
+        "name": "Orifice plate",
+        "svg": "<path d=\"M6 40L94 40\"/><path d=\"M6 60L94 60\"/><path d=\"M50 40L50 46\"/><path d=\"M50 54L50 60\"/>"
+      },
+      {
+        "name": "Venturi meter",
+        "svg": "<path d=\"M10 30L40 44L60 44L90 30L90 70L60 56L40 56L10 70Z\"/>"
+      },
+      {
+        "name": "Pitot tube",
+        "svg": "<path d=\"M6 62L94 62\"/><path d=\"M30 30L30 62\"/><path d=\"M24 30L36 30\"/><path d=\"M30 30L30 14\"/><path d=\"M30 14L56 14\"/><path d=\"M56 14a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/>"
+      },
+      {
+        "name": "Pressure gauge",
+        "svg": "<path d=\"M6 80L94 80\"/><path d=\"M50 62L50 80\"/><path d=\"M28 40a22 22 0 1 0 44 0a22 22 0 1 0 -44 0\"/><path d=\"M50 40L65.6 24.4\"/>"
+      },
+      {
+        "name": "Flow control damper",
+        "svg": "<path d=\"M6 40L94 40\"/><path d=\"M6 60L94 60\"/><path d=\"M44 50a6 24 0 1 0 12 0a6 24 0 1 0 -12 0\"/><path d=\"M50 26L50 10\"/>"
+      },
+      {
+        "name": "Hydraulic turbine governor",
+        "svg": "<path d=\"M50 6L50 70\"/><path d=\"M50 30L30 44\"/><path d=\"M50 30L70 44\"/><path d=\"M22 52a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M62 52a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M50 70L50 94\"/><path d=\"M30 94L70 94\"/>"
+      }
     ]
   }
 };
