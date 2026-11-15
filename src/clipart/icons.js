@@ -6987,6 +6987,128 @@ window.PADA_ICONS = {
         "name": "Digital torque tester",
         "svg": "<path d=\"M14 30H64V60H14Z\"/><path d=\"M64 45L86 45\"/><path d=\"M86 38H94V52H86Z\"/><path d=\"M14 45L4 45\"/>"
       }
+    ],
+    "Design CAD & Engineering Drawing": [
+      {
+        "name": "Mechanical drawing sheet",
+        "svg": "<path d=\"M8 8H92V92H8Z\"/><path d=\"M56 70H92V92H56Z\"/><path d=\"M20 20H70V56H20Z\"/><path d=\"M20 38L8 38\"/>"
+      },
+      {
+        "name": "Orthographic projection",
+        "svg": "<path d=\"M14 14H44V40H14Z\"/><path d=\"M14 40H44V70H14Z\"/><path d=\"M44 40H74V70H44Z\"/>"
+      },
+      {
+        "name": "Isometric projection",
+        "svg": "<path d=\"M50 10L84 30L84 70L50 90L16 70L16 30Z\"/><path d=\"M16 30L50 50L84 30\"/><path d=\"M50 50L50 90\"/>"
+      },
+      {
+        "name": "Sectional view",
+        "svg": "<path d=\"M14 40L44 40L44 30L86 30L86 70L44 70L44 60L14 60Z\"/><path d=\"M6 50L94 50\"/>"
+      },
+      {
+        "name": "Half-sectional view",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0\"/><path d=\"M50 10L50 90\"/><path d=\"M50 30L20.1 30\"/><path d=\"M50 50L14.0 50\"/><path d=\"M50 70L20.1 70\"/>"
+      },
+      {
+        "name": "Exploded view",
+        "svg": "<path d=\"M30 8H70V22H30Z\"/><path d=\"M30 40H70V60H30Z\"/><path d=\"M30 78H70V92H30Z\"/><path d=\"M50 22L50 40\"/><path d=\"M50 60L50 78\"/>"
+      },
+      {
+        "name": "Assembly drawing",
+        "svg": "<path d=\"M10 40H40V64H10Z\"/><path d=\"M60 40H90V64H60Z\"/><path d=\"M6 52L94 52\"/><path d=\"M4 46H12V58H4Z\"/><path d=\"M84 46H94V58H84Z\"/>"
+      },
+      {
+        "name": "Dimensioning symbols",
+        "svg": "<path d=\"M20 50L80 50\"/><path d=\"M26.0 46.4L20 50L26.0 53.6\"/><path d=\"M74.0 53.6L80 50L74.0 46.4\"/><path d=\"M20 50L20 36\"/><path d=\"M80 50L80 64\"/>"
+      },
+      {
+        "name": "Centre line",
+        "svg": "<path d=\"M26 50a24 24 0 1 0 48 0a24 24 0 1 0 -48 0\"/><path d=\"M6 50L94 50\"/><path d=\"M50 6L50 94\"/>"
+      },
+      {
+        "name": "Hidden line",
+        "svg": "<path d=\"M20 20H80V80H20Z\"/><path d=\"M34 20L34 50\"/><path d=\"M66 80L66 50\"/><path d=\"M34 50L66 50\"/>"
+      },
+      {
+        "name": "Cutting plane line",
+        "svg": "<path d=\"M6 50L94 50\"/><path d=\"M30 20H70V80H30Z\"/><path d=\"M20 50L20 72 M16.4 66.0L20 72L23.6 66.0\"/><path d=\"M80 50L80 72 M76.4 66.0L80 72L83.6 66.0\"/>"
+      },
+      {
+        "name": "Section hatching",
+        "svg": "<path d=\"M14 14H86V86H14Z\"/><path d=\"M14 40L40 14\"/><path d=\"M14 66L66 14\"/><path d=\"M40 86L86 40\"/><path d=\"M66 86L86 66\"/>"
+      },
+      {
+        "name": "Thread representation",
+        "svg": "<path d=\"M36 6H64V94H36Z\"/><path d=\"M36 20L64 28\"/><path d=\"M36 36L64 44\"/><path d=\"M36 52L64 60\"/><path d=\"M36 68L64 76\"/>"
+      },
+      {
+        "name": "Surface finish symbol",
+        "svg": "<path d=\"M14 46L40 74L86 22\"/><path d=\"M86 22L94 22\"/>"
+      },
+      {
+        "name": "Welding symbol",
+        "svg": "<path d=\"M10 70L90 70\"/><path d=\"M50 70L20 40\"/><path d=\"M26.8 41.7L20 40L21.7 46.8\"/><path d=\"M50 70L58 58L66 70Z\"/>"
+      },
+      {
+        "name": "Geometric dimensioning and tolerancing symbols",
+        "svg": "<path d=\"M10 38H90V62H10Z\"/><path d=\"M30 38L30 62\"/><path d=\"M56 38L56 62\"/><path d=\"M50 62L50 86\"/>"
+      },
+      {
+        "name": "Datum reference",
+        "svg": "<path d=\"M38 60H62V80H38Z\"/><path d=\"M50 60L50 40\"/><path d=\"M42 40L58 40L50 26Z\"/>"
+      },
+      {
+        "name": "Tolerance illustration",
+        "svg": "<path d=\"M10 40H90V60H10Z\"/><path d=\"M50 20L50 40 M46.4 34.0L50 40L53.6 34.0\"/><path d=\"M50 80L50 60 M53.6 66.0L50 60L46.4 66.0\"/>"
+      },
+      {
+        "name": "Fits and clearances",
+        "svg": "<path d=\"M24 50a26 26 0 1 0 52 0a26 26 0 1 0 -52 0\"/><path d=\"M30 50a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M50 24L50 30\"/>"
+      },
+      {
+        "name": "Shaft and bearing assembly",
+        "svg": "<path d=\"M30 30H70V70H30Z\"/><path d=\"M6 50L94 50\"/><path d=\"M30 40L70 40\"/><path d=\"M30 60L70 60\"/>"
+      },
+      {
+        "name": "Gear assembly",
+        "svg": "<path d=\"M10 50a24 24 0 1 0 48 0a24 24 0 1 0 -48 0\"/><path d=\"M42 50a24 24 0 1 0 48 0a24 24 0 1 0 -48 0\"/><path d=\"M6 50L94 50\"/>"
+      },
+      {
+        "name": "Piston-cylinder assembly",
+        "svg": "<path d=\"M30 14L30 86L70 86L70 14\"/><path d=\"M30 40L70 40\"/><path d=\"M50 40L50 6\"/>"
+      },
+      {
+        "name": "Valve assembly",
+        "svg": "<path d=\"M30 40H70V70H30Z\"/><path d=\"M6 55L30 55\"/><path d=\"M70 55L94 55\"/><path d=\"M50 40L50 14\"/><path d=\"M38 14L62 14\"/>"
+      },
+      {
+        "name": "Flange connection",
+        "svg": "<path d=\"M18 20H32V80H18Z\"/><path d=\"M68 20H82V80H68Z\"/><path d=\"M4 50L18 50\"/><path d=\"M82 50L96 50\"/><path d=\"M32 30L68 30\"/><path d=\"M32 70L68 70\"/>"
+      },
+      {
+        "name": "Pipe connection",
+        "svg": "<path d=\"M6 42H42V58H6Z\"/><path d=\"M58 42H94V58H58Z\"/><path d=\"M38 36H62V64H38Z\"/>"
+      },
+      {
+        "name": "Bolt and nut assembly",
+        "svg": "<path d=\"M14 36H86V64H14Z\"/><path d=\"M50 20L50 80\"/><path d=\"M40 10H60V20H40Z\"/><path d=\"M38 64H62V76H38Z\"/>"
+      },
+      {
+        "name": "Mechanical seal assembly",
+        "svg": "<path d=\"M10 20H90V80H10Z\"/><path d=\"M4 50L96 50\"/><path d=\"M40 36H48V64H40Z\"/><path d=\"M44 20L48 22.7L40 25.3L48 28.0L40 30.7L48 33.3L40 36.0L44 36\"/>"
+      },
+      {
+        "name": "CAD coordinate system",
+        "svg": "<path d=\"M20 80L20 14 M23.6 20.0L20 14L16.4 20.0\"/><path d=\"M20 80L88 80 M82.0 83.6L88 80L82.0 76.4\"/><path d=\"M20 60H40V80H20Z\"/>"
+      },
+      {
+        "name": "3D mechanical model icon",
+        "svg": "<path d=\"M50 10L84 30L84 70L50 90L16 70L16 30Z\"/><path d=\"M16 30L50 50L84 30\"/><path d=\"M50 50L50 90\"/><path d=\"M38 50a12 6 0 1 0 24 0a12 6 0 1 0 -24 0\"/>"
+      },
+      {
+        "name": "Finite element analysis illustration",
+        "svg": "<path d=\"M10 20H90V80H10Z\"/><path d=\"M30 20L30 80\"/><path d=\"M50 20L50 80\"/><path d=\"M70 20L70 80\"/><path d=\"M10 50L30 20\"/><path d=\"M30 80L50 50\"/><path d=\"M50 20L70 80\"/><path d=\"M50 4L50 20 M46.4 14.0L50 20L53.6 14.0\"/>"
+      }
     ]
   }
 };
