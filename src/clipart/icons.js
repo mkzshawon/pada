@@ -5791,6 +5791,168 @@ window.PADA_ICONS = {
         "name": "Connecting rod",
         "svg": "<path d=\"M40 22a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/><path d=\"M36 74a14 14 0 1 0 28 0a14 14 0 1 0 -28 0\"/><path d=\"M40 22L36 74\"/><path d=\"M60 22L64 74\"/>"
       }
+    ],
+    "Power Plant & Prime Mover Equipment": [
+      {
+        "name": "Gas turbine",
+        "svg": "<path d=\"M6 30H94V70H6Z\"/><path d=\"M6 50L94 50\"/><path d=\"M30 30L30 70\"/><path d=\"M50 30L50 70\"/><path d=\"M70 30L70 70\"/>"
+      },
+      {
+        "name": "Steam turbine",
+        "svg": "<path d=\"M6 34H94V66H6Z\"/><path d=\"M6 50L94 50\"/><path d=\"M26 34L26 66\"/><path d=\"M44 34L44 66\"/><path d=\"M62 34L62 66\"/><path d=\"M80 34L80 66\"/><path d=\"M10 16L20 34 M13.9 30.5L20 34L20.2 27.0\"/>"
+      },
+      {
+        "name": "Hydraulic turbine",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0\"/><path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M58.0 50.0L80.0 50.0 M50.0 58.0L50.0 80.0 M42.0 50.0L20.0 50.0 M50.0 42.0L50.0 20.0\"/><path d=\"M4 50L20 50 M14.0 53.6L20 50L14.0 46.4\"/>"
+      },
+      {
+        "name": "Francis turbine",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0\"/><path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M58.0 50.0Q67.6 53.7 73.6 68.5\"/><path d=\"M50.0 58.0Q46.3 67.6 31.5 73.6\"/><path d=\"M42.0 50.0Q32.4 46.3 26.4 31.5\"/><path d=\"M50.0 42.0Q53.7 32.4 68.5 26.4\"/>"
+      },
+      {
+        "name": "Kaplan turbine",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0\"/><path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M56.9 54.0L68.5 73.6 M56.9 54.0L79.7 54.2\"/><path d=\"M43.1 54.0L20.3 54.2 M43.1 54.0L31.5 73.6\"/><path d=\"M50.0 42.0L61.2 22.2 M50.0 42.0L38.8 22.2\"/>"
+      },
+      {
+        "name": "Pelton turbine",
+        "svg": "<path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0\"/><path d=\"M44 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M56.0 50.0L80.0 50.0 M50.0 56.0L50.0 80.0 M44.0 50.0L20.0 50.0 M50.0 44.0L50.0 20.0\"/><path d=\"M80.0 50.0L88.0 50.0 M76.0 65.0L82.9 69.0 M65.0 76.0L69.0 82.9 M50.0 80.0L50.0 88.0 M35.0 76.0L31.0 82.9 M24.0 65.0L17.1 69.0 M20.0 50.0L12.0 50.0 M24.0 35.0L17.1 31.0 M35.0 24.0L31.0 17.1 M50.0 20.0L50.0 12.0 M65.0 24.0L69.0 17.1 M76.0 35.0L82.9 31.0\"/><path d=\"M4 50L20 50 M14.0 53.6L20 50L14.0 46.4\"/>"
+      },
+      {
+        "name": "Gas turbine cross-section",
+        "svg": "<path d=\"M10 30L30 30L40 40L60 40L70 30L90 30L90 70L70 70L60 60L40 60L30 70L10 70Z\"/><path d=\"M10 50L90 50\"/>"
+      },
+      {
+        "name": "Steam turbine cross-section",
+        "svg": "<path d=\"M8 38L50 22L92 38L92 62L50 78L8 62Z\"/><path d=\"M8 50L92 50\"/><path d=\"M30 50L30 30\"/><path d=\"M50 50L50 26\"/><path d=\"M70 50L70 30\"/><path d=\"M30 50L30 70\"/><path d=\"M50 50L50 74\"/><path d=\"M70 50L70 70\"/>"
+      },
+      {
+        "name": "Turbine rotor",
+        "svg": "<path d=\"M6 50L94 50\"/><path d=\"M24 18H32V82H24Z\"/><path d=\"M46 18H54V82H46Z\"/><path d=\"M68 18H76V82H68Z\"/>"
+      },
+      {
+        "name": "Turbine stator",
+        "svg": "<path d=\"M10 50a40 40 0 1 0 80 0a40 40 0 1 0 -80 0\"/><path d=\"M90.0 50.0L74.4 58.9\"/><path d=\"M78.3 78.3L61.0 73.6\"/><path d=\"M50.0 90.0L41.1 74.4\"/><path d=\"M21.7 78.3L26.4 61.0\"/><path d=\"M10.0 50.0L25.6 41.1\"/><path d=\"M21.7 21.7L39.0 26.4\"/><path d=\"M50.0 10.0L58.9 25.6\"/><path d=\"M78.3 21.7L73.6 39.0\"/>"
+      },
+      {
+        "name": "Turbine blade",
+        "svg": "<path d=\"M20 80L30 30L80 18L56 44L38 80Z\"/><path d=\"M20 80L20 92\"/><path d=\"M12 92L28 92\"/>"
+      },
+      {
+        "name": "Turbine nozzle",
+        "svg": "<path d=\"M8 28L50 40L92 46L92 54L50 60L8 72Z\"/><path d=\"M8 50H20\"/>"
+      },
+      {
+        "name": "Compressor",
+        "svg": "<path d=\"M14 24L86 40L86 60L14 76Z\"/><path d=\"M6 50L94 50\"/><path d=\"M34 50L34 38\"/><path d=\"M54 50L54 40\"/><path d=\"M74 50L74 44\"/>"
+      },
+      {
+        "name": "Axial compressor",
+        "svg": "<path d=\"M14 22L86 22\"/><path d=\"M14 78L86 78\"/><path d=\"M6 50L94 50\"/><path d=\"M22 50L22 30\"/><path d=\"M38 50L38 70\"/><path d=\"M54 50L54 30\"/><path d=\"M70 50L70 70\"/>"
+      },
+      {
+        "name": "Centrifugal compressor",
+        "svg": "<path d=\"M18 50a22 22 0 1 0 44 0a22 22 0 1 0 -44 0\"/><path d=\"M32 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M48.0 50.0L62.0 50.0 M44.0 56.9L51.0 69.1 M36.0 56.9L29.0 69.1 M32.0 50.0L18.0 50.0 M36.0 43.1L29.0 30.9 M44.0 43.1L51.0 30.9\"/><path d=\"M62 50Q80 16 94 40\"/>"
+      },
+      {
+        "name": "Gas turbine combustion chamber",
+        "svg": "<path d=\"M24 30L76 30L86 50L76 70L24 70L14 50Z\"/><path d=\"M4 50L14 50\"/><path d=\"M86 50L96 50\"/><path d=\"M50 70Q42 56 50 40Q58 56 50 70Z\"/>"
+      },
+      {
+        "name": "Combustion liner",
+        "svg": "<path d=\"M14 30H86V70H14Z\"/><path d=\"M30 30L30 38\"/><path d=\"M50 30L50 38\"/><path d=\"M70 30L70 38\"/><path d=\"M30 70L30 62\"/><path d=\"M50 70L50 62\"/><path d=\"M70 70L70 62\"/>"
+      },
+      {
+        "name": "Fuel nozzle",
+        "svg": "<path d=\"M40 6H60V46H40Z\"/><path d=\"M50 46L50 56\"/><path d=\"M50 56L30 80\"/><path d=\"M50 56L50 88\"/><path d=\"M50 56L70 80\"/>"
+      },
+      {
+        "name": "Exhaust diffuser",
+        "svg": "<path d=\"M14 36L36 36L86 16L86 84L36 64L14 64Z\"/>"
+      },
+      {
+        "name": "Heat recovery steam generator (HRSG)",
+        "svg": "<path d=\"M14 20H86V80H14Z\"/><path d=\"M14 35L86 35\"/><path d=\"M14 50L86 50\"/><path d=\"M14 65L86 65\"/><path d=\"M4 40L14 40 M8.0 43.6L14 40L8.0 36.4\"/><path d=\"M50 20L50 6\"/>"
+      },
+      {
+        "name": "Steam drum",
+        "svg": "<path d=\"M18 40H82A12 12 0 0 1 82 64H18A12 12 0 0 1 18 40Z\"/><path d=\"M10 52L90 52\"/><path d=\"M50 40L50 20\"/><path d=\"M50 64L50 80\"/>"
+      },
+      {
+        "name": "Economizer",
+        "svg": "<path d=\"M16 16H84V84H16Z\"/><path d=\"M16 26L84 26\"/><path d=\"M84 26L84 36\"/><path d=\"M84 36L16 36\"/><path d=\"M16 36L16 46\"/><path d=\"M16 46L84 46\"/><path d=\"M84 46L84 56\"/><path d=\"M84 56L16 56\"/><path d=\"M16 56L16 66\"/><path d=\"M16 66L84 66\"/>"
+      },
+      {
+        "name": "Superheater",
+        "svg": "<path d=\"M16 16H84V84H16Z\"/><path d=\"M30 16L30 84\"/><path d=\"M50 16L50 84\"/><path d=\"M70 16L70 84\"/><path d=\"M8 50L16 50\"/>"
+      },
+      {
+        "name": "Reheater",
+        "svg": "<path d=\"M10 20H18V80H10Z\"/><path d=\"M82 20H90V80H82Z\"/><path d=\"M18 30L82 30\"/><path d=\"M18 50L82 50\"/><path d=\"M18 70L82 70\"/>"
+      },
+      {
+        "name": "Evaporator",
+        "svg": "<path d=\"M14 14H86V28H14Z\"/><path d=\"M30 28L30 86\"/><path d=\"M50 28L50 86\"/><path d=\"M70 28L70 86\"/><path d=\"M14 86L86 86\"/>"
+      },
+      {
+        "name": "Boiler",
+        "svg": "<path d=\"M10 36H90V72H10Z\"/><path d=\"M72 8H84V36H72Z\"/><path d=\"M20 72L20 82\"/><path d=\"M80 72L80 82\"/><path d=\"M4 82L96 82\"/>"
+      },
+      {
+        "name": "Boiler furnace",
+        "svg": "<path d=\"M20 20H80V80H20Z\"/><path d=\"M32 20L32 80\"/><path d=\"M68 20L68 80\"/><path d=\"M50 80Q40 60 50 42Q60 60 50 80Z\"/><path d=\"M50 80L50 94\"/>"
+      },
+      {
+        "name": "Condenser",
+        "svg": "<path d=\"M10 30H90V70H10Z\"/><path d=\"M10 40L90 40\"/><path d=\"M10 50L90 50\"/><path d=\"M10 60L90 60\"/><path d=\"M50 30L50 14\"/><path d=\"M34 70H66V84H34Z\"/>"
+      },
+      {
+        "name": "Cooling tower",
+        "svg": "<path d=\"M28 26Q50 8 72 26\"/><path d=\"M28 26L28 40\"/><path d=\"M72 26L72 40\"/><path d=\"M14 40H86V90H14Z\"/><path d=\"M50 40L50 26\"/>"
+      },
+      {
+        "name": "Cooling water system",
+        "svg": "<path d=\"M14 20H86V80H14Z\"/><path d=\"M44 20a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M40 80L60 80 M54.0 83.6L60 80L54.0 76.4\"/>"
+      },
+      {
+        "name": "Feedwater pump",
+        "svg": "<path d=\"M16 50a24 24 0 1 0 48 0a24 24 0 1 0 -48 0\"/><path d=\"M6 50L16 50\"/><path d=\"M64 50L94 50\"/><path d=\"M40 74L40 86\"/><path d=\"M16 86L86 86\"/>"
+      },
+      {
+        "name": "Boiler feed pump",
+        "svg": "<path d=\"M6 40H30V80H6Z\"/><path d=\"M50 60a16 16 0 1 0 32 0a16 16 0 1 0 -32 0\"/><path d=\"M30 60L50 60\"/><path d=\"M30 60H50\"/>"
+      },
+      {
+        "name": "Deaerator",
+        "svg": "<path d=\"M30 40Q30 14 50 14Q70 14 70 40V86H30Z\"/><path d=\"M50 14L50 4\"/><path d=\"M6 50L30 50\"/><path d=\"M50 40L50 56\"/>"
+      },
+      {
+        "name": "Air preheater",
+        "svg": "<path d=\"M18 50a32 32 0 1 0 64 0a32 32 0 1 0 -64 0\"/><path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M58.0 50.0L82.0 50.0 M55.7 55.7L72.6 72.6 M50.0 58.0L50.0 82.0 M44.3 55.7L27.4 72.6 M42.0 50.0L18.0 50.0 M44.3 44.3L27.4 27.4 M50.0 42.0L50.0 18.0 M55.7 44.3L72.6 27.4\"/><path d=\"M18 50L4 50\"/><path d=\"M82 50L96 50\"/>"
+      },
+      {
+        "name": "Generator coupling",
+        "svg": "<path d=\"M6 42H40V58H6Z\"/><path d=\"M40 30H60V70H40Z\"/><path d=\"M60 42H94V58H60Z\"/>"
+      },
+      {
+        "name": "Gas turbine package",
+        "svg": "<path d=\"M10 18H90V82H10Z\"/><path d=\"M18 50L82 50\"/><path d=\"M10 30H2\"/><path d=\"M10 70H2\"/><path d=\"M16 82L16 92\"/><path d=\"M84 82L84 92\"/><path d=\"M4 92L96 92\"/>"
+      },
+      {
+        "name": "Steam turbine package",
+        "svg": "<path d=\"M10 22H90V82H10Z\"/><path d=\"M18 52L72 52\"/><path d=\"M78 52a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/><path d=\"M30 22L30 6\"/><path d=\"M30 6L50 6\"/>"
+      },
+      {
+        "name": "Combined cycle power plant layout",
+        "svg": "<path d=\"M4 30H26V70H4Z\"/><path d=\"M38 30H60V70H38Z\"/><path d=\"M72 30H94V70H72Z\"/><path d=\"M26 50L38 50\"/><path d=\"M60 50L72 50\"/><path d=\"M49 30L49 12\"/>"
+      },
+      {
+        "name": "Waste heat recovery system",
+        "svg": "<path d=\"M30 30H70V70H30Z\"/><path d=\"M4 50L30 50 M24.0 53.6L30 50L24.0 46.4\"/><path d=\"M70 50L94 50\"/><path d=\"M50 30L50 8\"/><path d=\"M22 20q6-6 0-12\"/><path d=\"M80 14q4-6 0-12\"/>"
+      },
+      {
+        "name": "Power plant mechanical auxiliary system",
+        "svg": "<path d=\"M8 40H32V80H8Z\"/><path d=\"M50 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/><path d=\"M32 50L50 50\"/><path d=\"M70 50L74 50\"/><path d=\"M74 42L84 50L74 58Z\"/><path d=\"M94 42L84 50L94 58Z\"/>"
+      }
     ]
   }
 };
