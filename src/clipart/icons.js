@@ -6115,6 +6115,148 @@ window.PADA_ICONS = {
         "name": "Automotive engine cross-section",
         "svg": "<path d=\"M12 30H88V80H12Z\"/><path d=\"M34 30L34 56\"/><path d=\"M66 30L66 56\"/><path d=\"M12 70L88 70\"/><path d=\"M50 30L50 56\"/>"
       }
+    ],
+    "Pumps Fans Blowers & Compressors": [
+      {
+        "name": "Centrifugal pump",
+        "svg": "<path d=\"M20 54a30 30 0 1 0 60 0a30 30 0 1 0 -60 0\"/><path d=\"M42 54a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M6 54L20 54\"/><path d=\"M73 35L94 35\"/>"
+      },
+      {
+        "name": "Horizontal centrifugal pump",
+        "svg": "<path d=\"M16 50a24 24 0 1 0 48 0a24 24 0 1 0 -48 0\"/><path d=\"M6 50L16 50\"/><path d=\"M40 26L40 14\"/><path d=\"M64 50L66 50\"/><path d=\"M66 38H92V62H66Z\"/><path d=\"M6 80L94 80\"/><path d=\"M40 74L40 80\"/>"
+      },
+      {
+        "name": "Vertical centrifugal pump",
+        "svg": "<path d=\"M36 6H64V34H36Z\"/><path d=\"M50 34L50 54\"/><path d=\"M32 72a18 18 0 1 0 36 0a18 18 0 1 0 -36 0\"/><path d=\"M68 72L94 72\"/>"
+      },
+      {
+        "name": "Multistage centrifugal pump",
+        "svg": "<path d=\"M10 34H90V66H10Z\"/><path d=\"M30 34L30 66\"/><path d=\"M50 34L50 66\"/><path d=\"M70 34L70 66\"/><path d=\"M4 50L96 50\"/>"
+      },
+      {
+        "name": "Submersible pump",
+        "svg": "<path d=\"M6 30L94 30\"/><path d=\"M38 40H62V84H38Z\"/><path d=\"M50 30L50 40\"/><path d=\"M62 48L80 48L80 30\"/>"
+      },
+      {
+        "name": "Reciprocating pump",
+        "svg": "<path d=\"M20 14H60V54H20Z\"/><path d=\"M20 34L60 34\"/><path d=\"M40 34L40 76\"/><path d=\"M32 84a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M10 14L20 14\"/><path d=\"M60 14L90 14\"/>"
+      },
+      {
+        "name": "Gear pump",
+        "svg": "<path d=\"M20 20H80V80H20Z\"/><path d=\"M20 50a15 15 0 1 0 30 0a15 15 0 1 0 -30 0\"/><path d=\"M50 50a15 15 0 1 0 30 0a15 15 0 1 0 -30 0\"/><path d=\"M20 35L6 35\"/><path d=\"M80 65L94 65\"/>"
+      },
+      {
+        "name": "Screw pump",
+        "svg": "<path d=\"M14 30H86V70H14Z\"/><path d=\"M24 30L30 70\"/><path d=\"M36 30L42 70\"/><path d=\"M48 30L54 70\"/><path d=\"M60 30L66 70\"/><path d=\"M72 30L78 70\"/>"
+      },
+      {
+        "name": "Diaphragm pump",
+        "svg": "<path d=\"M20 30H80V70H20Z\"/><path d=\"M20 50q7.5 -8 15 0q7.5 8 15 0q7.5 -8 15 0q7.5 8 15 0\"/><path d=\"M6 40L20 40\"/><path d=\"M80 40L94 40\"/>"
+      },
+      {
+        "name": "Vacuum pump",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0\"/><path d=\"M28 64a22 22 0 1 0 44 0a22 22 0 1 0 -44 0\"/><path d=\"M50 64L50 14\"/><path d=\"M86 50L94 50\"/>"
+      },
+      {
+        "name": "Axial flow pump",
+        "svg": "<path d=\"M6 36H94V64H6Z\"/><path d=\"M44 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M50 50L40 36\"/><path d=\"M50 50L60 64\"/><path d=\"M50 50L60 36\"/><path d=\"M50 50L40 64\"/>"
+      },
+      {
+        "name": "Mixed flow pump",
+        "svg": "<path d=\"M6 36L94 36\"/><path d=\"M6 64L94 64\"/><path d=\"M30 50L70 36L70 64Z\"/>"
+      },
+      {
+        "name": "Pump impeller",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0\"/><path d=\"M40 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/><path d=\"M60.0 50.0Q72.3 55.6 81.2 68.0\"/><path d=\"M53.1 59.5Q51.6 72.9 42.5 85.2\"/><path d=\"M41.9 55.9Q28.7 58.6 14.2 53.8\"/><path d=\"M41.9 44.1Q35.2 32.4 35.4 17.1\"/><path d=\"M53.1 40.5Q62.2 30.5 76.8 25.9\"/>"
+      },
+      {
+        "name": "Pump casing",
+        "svg": "<path d=\"M50 14A36 36 0 1 0 14 50\"/><path d=\"M50 14L50 4\"/><path d=\"M14 50L4 50\"/>"
+      },
+      {
+        "name": "Pump shaft",
+        "svg": "<path d=\"M6 50L94 50\"/><path d=\"M20 40H32V60H20Z\"/><path d=\"M68 40H80V60H68Z\"/>"
+      },
+      {
+        "name": "Pump mechanical seal",
+        "svg": "<path d=\"M40 20H60V80H40Z\"/><path d=\"M6 50L94 50\"/><path d=\"M36 6L64 6\"/><path d=\"M50 6L54 8.3L46 10.7L54 13.0L46 15.3L54 17.7L46 20.0L50 20\"/>"
+      },
+      {
+        "name": "Pump bearing housing",
+        "svg": "<path d=\"M14 20H86V80H14Z\"/><path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0\"/><path d=\"M4 50L96 50\"/><path d=\"M38 50a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/>"
+      },
+      {
+        "name": "Pump cross-section",
+        "svg": "<path d=\"M18 30L50 14L82 30L82 70L50 86L18 70Z\"/><path d=\"M4 50L96 50\"/><path d=\"M32 50a18 18 0 1 0 36 0a18 18 0 1 0 -36 0\"/><path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M58.0 50.0L68.0 50.0 M54.0 56.9L59.0 65.6 M46.0 56.9L41.0 65.6 M42.0 50.0L32.0 50.0 M46.0 43.1L41.0 34.4 M54.0 43.1L59.0 34.4\"/>"
+      },
+      {
+        "name": "Pump suction and discharge arrangement",
+        "svg": "<path d=\"M30 50a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M4 50L30 50\"/><path d=\"M12 40L12 60\"/><path d=\"M50 30L50 4\"/><path d=\"M42 4L58 4\"/>"
+      },
+      {
+        "name": "Pump performance curve",
+        "svg": "<path d=\"M12 88L12 8 M15.6 14.0L12 8L8.4 14.0\"/><path d=\"M12 88L96 88 M90.0 91.6L96 88L90.0 84.4\"/><path d=\"M12 20C40 22 60 40 90 80\"/>"
+      },
+      {
+        "name": "Axial fan",
+        "svg": "<path d=\"M10 50a40 40 0 1 0 80 0a40 40 0 1 0 -80 0\"/><path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M50.0 58.0L40.3 88.8L59.7 88.8Z\"/><path d=\"M43.1 46.0L21.2 22.2L11.5 39.0Z\"/><path d=\"M56.9 46.0L88.5 39.0L78.8 22.2Z\"/>"
+      },
+      {
+        "name": "Centrifugal fan",
+        "svg": "<path d=\"M20 50a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M34 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M46.0 50.0L60.0 50.0 M43.0 55.2L50.0 67.3 M37.0 55.2L30.0 67.3 M34.0 50.0L20.0 50.0 M37.0 44.8L30.0 32.7 M43.0 44.8L50.0 32.7\"/><path d=\"M40 30Q70 14 90 50Q70 86 40 70\"/><path d=\"M90 50L96 50\"/>"
+      },
+      {
+        "name": "Cooling fan",
+        "svg": "<path d=\"M10 50a40 40 0 1 0 80 0a40 40 0 1 0 -80 0\"/><path d=\"M42 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M55.7 55.7L78.3 78.3 M44.3 55.7L21.7 78.3 M44.3 44.3L21.7 21.7 M55.7 44.3L78.3 21.7\"/>"
+      },
+      {
+        "name": "Industrial blower",
+        "svg": "<path d=\"M14 22H70V78H14Z\"/><path d=\"M14 50a28 28 0 1 0 56 0a28 28 0 1 0 -56 0\"/><path d=\"M70 50L94 50\"/>"
+      },
+      {
+        "name": "Roots blower",
+        "svg": "<path d=\"M16 26H84V74H16Z\"/><path d=\"M12 50a24 24 0 1 0 48 0a24 24 0 1 0 -48 0\"/><path d=\"M40 50a24 24 0 1 0 48 0a24 24 0 1 0 -48 0\"/><path d=\"M4 30L16 30\"/><path d=\"M84 70L96 70\"/>"
+      },
+      {
+        "name": "Air compressor",
+        "svg": "<path d=\"M14 50H86V76H14Z\"/><path d=\"M14 30H44V50H14Z\"/><path d=\"M86 63L94 63\"/><path d=\"M44 30L44 20\"/><path d=\"M30 20L60 20\"/>"
+      },
+      {
+        "name": "Reciprocating compressor",
+        "svg": "<path d=\"M30 10H70V50H30Z\"/><path d=\"M30 20L22 20\"/><path d=\"M30 30L22 30\"/><path d=\"M70 20L78 20\"/><path d=\"M70 30L78 30\"/><path d=\"M30 40L70 40\"/><path d=\"M50 40L50 70\"/><path d=\"M42 80a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/>"
+      },
+      {
+        "name": "Screw compressor",
+        "svg": "<path d=\"M20 50a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M40 50a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M4 50L20 50\"/><path d=\"M80 50L96 50\"/><path d=\"M30 36L36 64\"/><path d=\"M50 36L56 64\"/><path d=\"M70 36L64 64\"/>"
+      },
+      {
+        "name": "Centrifugal compressor",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0\"/><path d=\"M34 50a16 16 0 1 0 32 0a16 16 0 1 0 -32 0\"/><path d=\"M66.0 50.0L86.0 50.0\"/><path d=\"M58.0 63.9L68.0 81.2\"/><path d=\"M42.0 63.9L32.0 81.2\"/><path d=\"M34.0 50.0L14.0 50.0\"/><path d=\"M42.0 36.1L32.0 18.8\"/><path d=\"M58.0 36.1L68.0 18.8\"/><path d=\"M50 14L50 4\"/>"
+      },
+      {
+        "name": "Compressor impeller",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0\"/><path d=\"M28 50a22 22 0 1 0 44 0a22 22 0 1 0 -44 0\"/><path d=\"M69.1 61.0L81.2 68.0 M50.0 72.0L50.0 86.0 M30.9 61.0L18.8 68.0 M30.9 39.0L18.8 32.0 M50.0 28.0L50.0 14.0 M69.1 39.0L81.2 32.0\"/>"
+      },
+      {
+        "name": "Compressor intercooler",
+        "svg": "<path d=\"M20 20H80V80H20Z\"/><path d=\"M32 20L32 80\"/><path d=\"M44 20L44 80\"/><path d=\"M56 20L56 80\"/><path d=\"M68 20L68 80\"/><path d=\"M4 40L20 40\"/><path d=\"M80 60L96 60\"/>"
+      },
+      {
+        "name": "Air receiver tank",
+        "svg": "<path d=\"M16 40H84A10 10 0 0 1 84 60H16A10 10 0 0 1 16 40Z\"/><path d=\"M50 40L50 22\"/><path d=\"M44 22L56 22\"/><path d=\"M84 50L94 50\"/>"
+      },
+      {
+        "name": "Air dryer",
+        "svg": "<path d=\"M20 20H42V80H20Z\"/><path d=\"M58 20H80V80H58Z\"/><path d=\"M42 50L58 50\"/><path d=\"M6 30L20 30\"/><path d=\"M80 30L94 30\"/><path d=\"M31 80L31 94\"/>"
+      },
+      {
+        "name": "Vacuum ejector",
+        "svg": "<path d=\"M6 36L40 46L40 54L6 64Z\"/><path d=\"M40 40H70V60H40Z\"/><path d=\"M70 40L94 30L94 70L70 60Z\"/><path d=\"M55 60L55 90\"/>"
+      },
+      {
+        "name": "Compressor lubrication system",
+        "svg": "<path d=\"M20 20H80V60H20Z\"/><path d=\"M20 60H80V80H20Z\"/><path d=\"M80 70L82 70\"/><path d=\"M82 70a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M90 62L90 50\"/>"
+      }
     ]
   }
 };
