@@ -5953,6 +5953,168 @@ window.PADA_ICONS = {
         "name": "Power plant mechanical auxiliary system",
         "svg": "<path d=\"M8 40H32V80H8Z\"/><path d=\"M50 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/><path d=\"M32 50L50 50\"/><path d=\"M70 50L74 50\"/><path d=\"M74 42L84 50L74 58Z\"/><path d=\"M94 42L84 50L94 58Z\"/>"
       }
+    ],
+    "IC Engines & Automotive Engineering": [
+      {
+        "name": "Petrol engine",
+        "svg": "<path d=\"M14 40H86V80H14Z\"/><path d=\"M46 20H54V40H46Z\"/><path d=\"M50 20L50 12\"/><path d=\"M30 80L30 88\"/><path d=\"M70 80L70 88\"/>"
+      },
+      {
+        "name": "Diesel engine",
+        "svg": "<path d=\"M14 40H86V80H14Z\"/><path d=\"M44 40L56 40L50 26Z\"/><path d=\"M30 80L30 88\"/><path d=\"M70 80L70 88\"/>"
+      },
+      {
+        "name": "Four-stroke engine",
+        "svg": "<path d=\"M12 30H88V80H12Z\"/><path d=\"M31 30L31 80\"/><path d=\"M50 30L50 80\"/><path d=\"M69 30L69 80\"/><path d=\"M12 50L88 50\"/>"
+      },
+      {
+        "name": "Two-stroke engine",
+        "svg": "<path d=\"M12 30H88V80H12Z\"/><path d=\"M12 44L28 44\"/><path d=\"M72 44L88 44\"/><path d=\"M40 30L40 22\"/><path d=\"M60 30L60 22\"/><path d=\"M40 80L40 88\"/><path d=\"M60 80L60 88\"/>"
+      },
+      {
+        "name": "Engine cylinder",
+        "svg": "<path d=\"M30 10H70V80H30Z\"/><path d=\"M30 40L70 40\"/><path d=\"M50 40L50 82\"/>"
+      },
+      {
+        "name": "Cylinder head",
+        "svg": "<path d=\"M12 30H88V60H12Z\"/><path d=\"M46 14H54V30H46Z\"/><path d=\"M34 60L34 72\"/><path d=\"M66 60L66 72\"/>"
+      },
+      {
+        "name": "Piston",
+        "svg": "<path d=\"M24 22H76V42H24Z\"/><path d=\"M30 42L30 82\"/><path d=\"M70 42L70 82\"/><path d=\"M24 30L76 30\"/>"
+      },
+      {
+        "name": "Piston rings",
+        "svg": "<path d=\"M24 20H76V80H24Z\"/><path d=\"M24 36L76 36\"/><path d=\"M24 46L76 46\"/><path d=\"M24 56L76 56\"/>"
+      },
+      {
+        "name": "Connecting rod",
+        "svg": "<path d=\"M30 6H70V20H30Z\"/><path d=\"M50 20L50 66\"/><path d=\"M42 30L58 30\"/><path d=\"M42 58L58 58\"/><path d=\"M38 78a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/>"
+      },
+      {
+        "name": "Crankshaft",
+        "svg": "<path d=\"M6 50L94 50\"/><path d=\"M36 50L36 44\"/><path d=\"M28 36a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M64 50L64 56\"/><path d=\"M56 64a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/>"
+      },
+      {
+        "name": "Camshaft",
+        "svg": "<path d=\"M6 50L94 50\"/><path d=\"M18 38a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/><path d=\"M48 62a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/><path d=\"M70 38a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/>"
+      },
+      {
+        "name": "Valve mechanism",
+        "svg": "<path d=\"M16 50a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M56 6L56 70\"/><path d=\"M46 70L66 70\"/><path d=\"M46 70L66 70L56 82Z\"/>"
+      },
+      {
+        "name": "Inlet valve",
+        "svg": "<path d=\"M30 58L70 58L50 74Z\"/><path d=\"M50 58L50 20\"/><path d=\"M20 58L30 58\"/><path d=\"M70 58L80 58\"/><path d=\"M50 4L50 20 M46.4 14.0L50 20L53.6 14.0\"/>"
+      },
+      {
+        "name": "Exhaust valve",
+        "svg": "<path d=\"M30 58L70 58L50 74Z\"/><path d=\"M50 58L50 20\"/><path d=\"M20 58L30 58\"/><path d=\"M70 58L80 58\"/><path d=\"M80 58L96 58 M90.0 61.6L96 58L90.0 54.4\"/>"
+      },
+      {
+        "name": "Fuel injector",
+        "svg": "<path d=\"M40 6H60V46H40Z\"/><path d=\"M44 46L56 46L50 56Z\"/><path d=\"M50 56L50 88\"/><path d=\"M6 20L40 20\"/>"
+      },
+      {
+        "name": "Fuel pump",
+        "svg": "<path d=\"M30 30H70V70H30Z\"/><path d=\"M6 50L30 50\"/><path d=\"M70 50L94 50\"/><path d=\"M50 30L50 10\"/><path d=\"M40 10L60 10\"/>"
+      },
+      {
+        "name": "Carburetor",
+        "svg": "<path d=\"M20 10H80V40H20Z\"/><path d=\"M20 25L80 25\"/><path d=\"M36 40H64V70H36Z\"/><path d=\"M50 40L50 60\"/>"
+      },
+      {
+        "name": "Turbocharger",
+        "svg": "<path d=\"M30 36H70V64H30Z\"/><path d=\"M14 30L30 50L14 70Z\"/><path d=\"M86 30L70 50L86 70Z\"/><path d=\"M50 36L50 20\"/><path d=\"M50 64L50 80\"/>"
+      },
+      {
+        "name": "Intercooler",
+        "svg": "<path d=\"M20 20H80V80H20Z\"/><path d=\"M20 35L80 35\"/><path d=\"M20 50L80 50\"/><path d=\"M20 65L80 65\"/><path d=\"M4 40L20 40 M14.0 43.6L20 40L14.0 36.4\"/><path d=\"M80 60L96 60 M90.0 63.6L96 60L90.0 56.4\"/>"
+      },
+      {
+        "name": "Supercharger",
+        "svg": "<path d=\"M12 24H88V76H12Z\"/><path d=\"M24 50a16 16 0 1 0 32 0a16 16 0 1 0 -32 0\"/><path d=\"M44 50a16 16 0 1 0 32 0a16 16 0 1 0 -32 0\"/>"
+      },
+      {
+        "name": "Radiator",
+        "svg": "<path d=\"M10 20H30V80H10Z\"/><path d=\"M70 20H90V80H70Z\"/><path d=\"M30 30H70V70H30Z\"/><path d=\"M30 40L70 40\"/><path d=\"M30 50L70 50\"/><path d=\"M30 60L70 60\"/>"
+      },
+      {
+        "name": "Water pump",
+        "svg": "<path d=\"M12 50a28 28 0 1 0 56 0a28 28 0 1 0 -56 0\"/><path d=\"M46.0 50.0L68.0 50.0 M43.0 55.2L54.0 74.2 M37.0 55.2L26.0 74.2 M34.0 50.0L12.0 50.0 M37.0 44.8L26.0 25.8 M43.0 44.8L54.0 25.8\"/><path d=\"M68 50L94 50\"/><path d=\"M6 50L12 50\"/>"
+      },
+      {
+        "name": "Oil pump",
+        "svg": "<path d=\"M20 50a18 18 0 1 0 36 0a18 18 0 1 0 -36 0\"/><path d=\"M44 50a18 18 0 1 0 36 0a18 18 0 1 0 -36 0\"/><path d=\"M38 68L38 88\"/><path d=\"M62 68L62 88\"/>"
+      },
+      {
+        "name": "Lubrication system",
+        "svg": "<path d=\"M10 64H90V90H10Z\"/><path d=\"M50 64L50 40\"/><path d=\"M50 40L82 40\"/><path d=\"M82 28H94V52H82Z\"/><path d=\"M82 40H94\"/>"
+      },
+      {
+        "name": "Cooling system",
+        "svg": "<path d=\"M20 20H80V50H20Z\"/><path d=\"M50 50L50 64\"/><path d=\"M20 64H80V86H20Z\"/><path d=\"M20 70L10 70\"/><path d=\"M80 70L90 70\"/>"
+      },
+      {
+        "name": "Air intake system",
+        "svg": "<path d=\"M8 30H38V70H8Z\"/><path d=\"M38 50L62 50\"/><path d=\"M62 40H92V60H62Z\"/><path d=\"M2 50L8 50\"/>"
+      },
+      {
+        "name": "Exhaust system",
+        "svg": "<path d=\"M10 30L40 30L40 70L70 70\"/><path d=\"M70 56H90V84H70Z\"/><path d=\"M90 70L96 70\"/>"
+      },
+      {
+        "name": "Silencer",
+        "svg": "<path d=\"M20 30H80V70H20Z\"/><path d=\"M4 50L20 50\"/><path d=\"M80 50L96 50\"/><path d=\"M40 30L40 70\"/><path d=\"M60 30L60 70\"/>"
+      },
+      {
+        "name": "Flywheel",
+        "svg": "<path d=\"M10 50a40 40 0 1 0 80 0a40 40 0 1 0 -80 0\"/><path d=\"M40 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/><path d=\"M60.0 50.0L84.0 50.0 M45.0 58.7L33.0 79.4 M45.0 41.3L33.0 20.6\"/><path d=\"M84.0 50.0L90.0 50.0 M82.8 58.8L88.6 60.4 M79.4 67.0L84.6 70.0 M74.0 74.0L78.3 78.3 M67.0 79.4L70.0 84.6 M58.8 82.8L60.4 88.6 M50.0 84.0L50.0 90.0 M41.2 82.8L39.6 88.6 M33.0 79.4L30.0 84.6 M26.0 74.0L21.7 78.3 M20.6 67.0L15.4 70.0 M17.2 58.8L11.4 60.4 M16.0 50.0L10.0 50.0 M17.2 41.2L11.4 39.6 M20.6 33.0L15.4 30.0 M26.0 26.0L21.7 21.7 M33.0 20.6L30.0 15.4 M41.2 17.2L39.6 11.4 M50.0 16.0L50.0 10.0 M58.8 17.2L60.4 11.4 M67.0 20.6L70.0 15.4 M74.0 26.0L78.3 21.7 M79.4 33.0L84.6 30.0 M82.8 41.2L88.6 39.6\"/>"
+      },
+      {
+        "name": "Clutch assembly",
+        "svg": "<path d=\"M14 20H22V80H14Z\"/><path d=\"M22 32H30V68H22Z\"/><path d=\"M30 24H38V76H30Z\"/><path d=\"M38 24L60 24L60 76L38 76\"/><path d=\"M60 50L94 50\"/>"
+      },
+      {
+        "name": "Manual gearbox",
+        "svg": "<path d=\"M6 30L94 30\"/><path d=\"M6 70L94 70\"/><path d=\"M22 30a14 14 0 1 0 28 0a14 14 0 1 0 -28 0\"/><path d=\"M50 30a14 14 0 1 0 28 0a14 14 0 1 0 -28 0\"/><path d=\"M50 30L50 70\"/><path d=\"M42 70a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/>"
+      },
+      {
+        "name": "Automatic transmission",
+        "svg": "<path d=\"M8 50a22 22 0 1 0 44 0a22 22 0 1 0 -44 0\"/><path d=\"M22 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M38.0 50.0L52.0 50.0 M30.0 58.0L30.0 72.0 M22.0 50.0L8.0 50.0 M30.0 42.0L30.0 28.0\"/><path d=\"M52 50a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M52 50H72\"/>"
+      },
+      {
+        "name": "Differential",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0\"/><path d=\"M6 50L94 50\"/><path d=\"M40 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/><path d=\"M50 40L50 30\"/><path d=\"M50 60L50 70\"/>"
+      },
+      {
+        "name": "Drive shaft",
+        "svg": "<path d=\"M20 44H80V56H20Z\"/><path d=\"M12 30L12 70\"/><path d=\"M12 50L20 50\"/><path d=\"M88 30L88 70\"/><path d=\"M80 50L88 50\"/>"
+      },
+      {
+        "name": "Wheel hub",
+        "svg": "<path d=\"M10 50a40 40 0 1 0 80 0a40 40 0 1 0 -80 0\"/><path d=\"M38 50a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/><path d=\"M62.0 50.0L90.0 50.0 M53.7 61.4L62.4 88.0 M40.3 57.1L17.6 73.5 M40.3 42.9L17.6 26.5 M53.7 38.6L62.4 12.0\"/>"
+      },
+      {
+        "name": "Disc brake assembly",
+        "svg": "<path d=\"M8 50a32 32 0 1 0 64 0a32 32 0 1 0 -64 0\"/><path d=\"M32 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M60 34H88V66H60Z\"/><path d=\"M88 50L94 50\"/>"
+      },
+      {
+        "name": "Drum brake assembly",
+        "svg": "<path d=\"M10 50a40 40 0 1 0 80 0a40 40 0 1 0 -80 0\"/><path d=\"M12.4 36.3A40 40 0 0 1 36.3 12.4\"/><path d=\"M63.7 12.4A40 40 0 0 1 87.6 36.3\"/><path d=\"M21.7 21.7L78.3 21.7\"/>"
+      },
+      {
+        "name": "Suspension system",
+        "svg": "<path d=\"M10 14L90 14\"/><path d=\"M30 14L36 20.0L24 26.0L36 32.0L24 38.0L36 44.0L24 50.0L36 56.0L24 62.0L30 62\"/><path d=\"M10 62L70 62\"/><path d=\"M56 76a14 14 0 1 0 28 0a14 14 0 1 0 -28 0\"/>"
+      },
+      {
+        "name": "Shock absorber",
+        "svg": "<path d=\"M34 30H66V80H34Z\"/><path d=\"M34 44L66 44\"/><path d=\"M50 44L50 8\"/><path d=\"M50 80L50 82\"/><path d=\"M44 88a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/>"
+      },
+      {
+        "name": "Automotive engine cross-section",
+        "svg": "<path d=\"M12 30H88V80H12Z\"/><path d=\"M34 30L34 56\"/><path d=\"M66 30L66 56\"/><path d=\"M12 70L88 70\"/><path d=\"M50 30L50 56\"/>"
+      }
     ]
   }
 };
