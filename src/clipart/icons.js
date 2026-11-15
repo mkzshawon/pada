@@ -7109,6 +7109,148 @@ window.PADA_ICONS = {
         "name": "Finite element analysis illustration",
         "svg": "<path d=\"M10 20H90V80H10Z\"/><path d=\"M30 20L30 80\"/><path d=\"M50 20L50 80\"/><path d=\"M70 20L70 80\"/><path d=\"M10 50L30 20\"/><path d=\"M30 80L50 50\"/><path d=\"M50 20L70 80\"/><path d=\"M50 4L50 20 M46.4 14.0L50 20L53.6 14.0\"/>"
       }
+    ],
+    "Materials Science & Metallurgy": [
+      {
+        "name": "Metal ingot",
+        "svg": "<path d=\"M14 70L24 36L76 36L86 70Z\"/><path d=\"M14 70L86 70\"/>"
+      },
+      {
+        "name": "Steel bar",
+        "svg": "<path d=\"M6 40H86V60H6Z\"/><path d=\"M82 50a4 10 0 1 0 8 0a4 10 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Steel plate",
+        "svg": "<path d=\"M14 40L70 40L90 60L34 60Z\"/><path d=\"M34 60L90 60L90 68L34 68Z\"/>"
+      },
+      {
+        "name": "Stainless steel sheet",
+        "svg": "<path d=\"M14 24H86V76H14Z\"/><path d=\"M22 70L40 24\"/><path d=\"M40 70L58 24\"/><path d=\"M58 70L76 24\"/>"
+      },
+      {
+        "name": "Aluminium billet",
+        "svg": "<path d=\"M14 36L76 36\"/><path d=\"M14 64L76 64\"/><path d=\"M14 36L14 64\"/><path d=\"M68 50a8 14 0 1 0 16 0a8 14 0 1 0 -16 0\"/>"
+      },
+      {
+        "name": "Copper rod",
+        "svg": "<path d=\"M10 42H90V58H10Z\"/><path d=\"M86 50a4 8 0 1 0 8 0a4 8 0 1 0 -8 0\"/>"
+      },
+      {
+        "name": "Cast iron component",
+        "svg": "<path d=\"M10 70L10 40L40 40L40 24L70 24L70 40L90 40L90 70Z\"/><path d=\"M50 40L50 70\"/>"
+      },
+      {
+        "name": "Metal casting mould",
+        "svg": "<path d=\"M14 20H86V82H14Z\"/><path d=\"M14 50L86 50\"/><path d=\"M50 20L50 6\"/>"
+      },
+      {
+        "name": "Sand casting process",
+        "svg": "<path d=\"M14 22H86V50H14Z\"/><path d=\"M14 50H86V78H14Z\"/><path d=\"M38 50a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/><path d=\"M50 22L50 6\"/>"
+      },
+      {
+        "name": "Die casting process",
+        "svg": "<path d=\"M14 30H44V70H14Z\"/><path d=\"M56 30H86V70H56Z\"/><path d=\"M6 50L14 50\"/><path d=\"M56 50L74 50\"/><path d=\"M74 50L74 30\"/>"
+      },
+      {
+        "name": "Investment casting process",
+        "svg": "<path d=\"M10 50a40 40 0 1 0 80 0a40 40 0 1 0 -80 0\"/><path d=\"M50 6L50 70\"/><path d=\"M50 30L30 46\"/><path d=\"M50 30L70 46\"/><path d=\"M50 50L34 62\"/><path d=\"M50 50L66 62\"/>"
+      },
+      {
+        "name": "Forging hammer",
+        "svg": "<path d=\"M20 6L20 76\"/><path d=\"M80 6L80 76\"/><path d=\"M20 6L80 6\"/><path d=\"M30 20H70V38H30Z\"/><path d=\"M20 30L30 30\"/><path d=\"M70 30L80 30\"/><path d=\"M50 38L50 64\"/><path d=\"M44 64H56V76H44Z\"/><path d=\"M30 76H70V88H30Z\"/>"
+      },
+      {
+        "name": "Open-die forging",
+        "svg": "<path d=\"M20 18H80V30H20Z\"/><path d=\"M20 72H80V82H20Z\"/><path d=\"M38 30H62V72H38Z\"/>"
+      },
+      {
+        "name": "Closed-die forging",
+        "svg": "<path d=\"M20 18H80V32H20Z\"/><path d=\"M40 32H60V40H40Z\"/><path d=\"M20 62L36 62L40 70L60 70L64 62L80 62L80 76L20 76Z\"/>"
+      },
+      {
+        "name": "Rolling mill",
+        "svg": "<path d=\"M20 30a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M20 70a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M6 50L94 50\"/>"
+      },
+      {
+        "name": "Hot rolling",
+        "svg": "<path d=\"M20 30a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M20 70a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M6 50L94 50\"/><path d=\"M8 30L8 50 M4.4 44.0L8 50L11.6 44.0\"/><path d=\"M92 30L92 50 M88.4 44.0L92 50L95.6 44.0\"/>"
+      },
+      {
+        "name": "Cold rolling",
+        "svg": "<path d=\"M20 30a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M20 70a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M6 50L94 50\"/><path d=\"M40 4L40 10 M36.4 4.0L40 10L43.6 4.0\"/>"
+      },
+      {
+        "name": "Extrusion press",
+        "svg": "<path d=\"M14 30H54V70H14Z\"/><path d=\"M6 36L6 64\"/><path d=\"M6 50L14 50\"/><path d=\"M54 40H62V60H54Z\"/><path d=\"M62 44L94 44\"/><path d=\"M62 56L94 56\"/>"
+      },
+      {
+        "name": "Wire drawing",
+        "svg": "<path d=\"M40 30H60V70H40Z\"/><path d=\"M6 50L76 50\"/><path d=\"M76 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/>"
+      },
+      {
+        "name": "Heat treatment furnace",
+        "svg": "<path d=\"M14 30H86V80H14Z\"/><path d=\"M30 50H54V80H30Z\"/><path d=\"M14 40L23.0 44L32.0 36L41.0 44L50.0 36L59.0 44L68.0 36L77.0 44L86.0 36L86 40\"/><path d=\"M70 30L70 14\"/>"
+      },
+      {
+        "name": "Annealing process",
+        "svg": "<path d=\"M12 88L12 8 M15.6 14.0L12 8L8.4 14.0\"/><path d=\"M12 88L94 88 M88.0 91.6L94 88L88.0 84.4\"/><path d=\"M12 84L34 24L50 24Q70 60 90 64\"/>"
+      },
+      {
+        "name": "Normalizing process",
+        "svg": "<path d=\"M12 88L12 8 M15.6 14.0L12 8L8.4 14.0\"/><path d=\"M12 88L94 88 M88.0 91.6L94 88L88.0 84.4\"/><path d=\"M12 84L34 24L50 24L90 40\"/>"
+      },
+      {
+        "name": "Hardening process",
+        "svg": "<path d=\"M12 88L12 8 M15.6 14.0L12 8L8.4 14.0\"/><path d=\"M12 88L94 88 M88.0 91.6L94 88L88.0 84.4\"/><path d=\"M12 84L34 24L50 24L60 84\"/>"
+      },
+      {
+        "name": "Tempering process",
+        "svg": "<path d=\"M12 88L12 8 M15.6 14.0L12 8L8.4 14.0\"/><path d=\"M12 88L94 88 M88.0 91.6L94 88L88.0 84.4\"/><path d=\"M12 84L34 50L56 50L90 40\"/>"
+      },
+      {
+        "name": "Quenching tank",
+        "svg": "<path d=\"M14 50H86V86H14Z\"/><path d=\"M14 64L86 64\"/><path d=\"M40 36H60V66H40Z\"/><path d=\"M50 36L50 14\"/>"
+      },
+      {
+        "name": "Metallurgical microscope",
+        "svg": "<path d=\"M14 76H86V86H14Z\"/><path d=\"M20 50H80V58H20Z\"/><path d=\"M44 58H56V76H44Z\"/><path d=\"M44 20H56V50H44Z\"/>"
+      },
+      {
+        "name": "Metal grain structure",
+        "svg": "<path d=\"M6 6H94V94H6Z\"/><path d=\"M6 6L50 30L94 6\"/><path d=\"M50 30L40 70\"/><path d=\"M40 70L6 94\"/><path d=\"M40 70L94 94\"/><path d=\"M50 30L94 50\"/><path d=\"M94 50L94 94\"/>"
+      },
+      {
+        "name": "Crystal lattice",
+        "svg": "<path d=\"M14 34H64V84H14Z\"/><path d=\"M34 14H84V64H34Z\"/><path d=\"M14 34L34 14\"/><path d=\"M64 34L84 14\"/><path d=\"M14 84L34 64\"/><path d=\"M64 84L84 64\"/>"
+      },
+      {
+        "name": "Tensile testing machine",
+        "svg": "<path d=\"M14 84H86V92H14Z\"/><path d=\"M22 14H78V22H22Z\"/><path d=\"M22 22L22 84\"/><path d=\"M78 22L78 84\"/><path d=\"M42 22H58V30H42Z\"/><path d=\"M46 30H54V70H46Z\"/><path d=\"M42 70H58V78H42Z\"/>"
+      },
+      {
+        "name": "Hardness testing machine",
+        "svg": "<path d=\"M30 80L30 16L70 16L70 80\"/><path d=\"M20 80L80 80\"/><path d=\"M50 16L50 50\"/><path d=\"M44 50L56 50L50 60Z\"/><path d=\"M38 60H62V80H38Z\"/>"
+      },
+      {
+        "name": "Impact testing machine",
+        "svg": "<path d=\"M14 84H86V90H14Z\"/><path d=\"M30 16L30 84\"/><path d=\"M22 16L38 16\"/><path d=\"M30 16L70 44\"/><path d=\"M66 48a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M40 70H60V84H40Z\"/>"
+      },
+      {
+        "name": "Fatigue testing machine",
+        "svg": "<path d=\"M36 20H64V30H36Z\"/><path d=\"M36 70H64V80H36Z\"/><path d=\"M46 30H54V70H46Z\"/><path d=\"M36 25L20 25 M26.0 21.4L20 25L26.0 28.6\"/><path d=\"M64 75L80 75 M74.0 78.6L80 75L74.0 71.4\"/>"
+      },
+      {
+        "name": "Creep testing apparatus",
+        "svg": "<path d=\"M40 10H60V22H40Z\"/><path d=\"M46 22H54V72H46Z\"/><path d=\"M30 36H70V64H30Z\"/><path d=\"M50 72L50 80\"/><path d=\"M40 80H60V94H40Z\"/>"
+      },
+      {
+        "name": "Corrosion testing setup",
+        "svg": "<path d=\"M22 30L22 80L78 80L78 30\"/><path d=\"M22 46L78 46\"/><path d=\"M44 36H56V76H44Z\"/><path d=\"M50 36L50 20\"/><path d=\"M40 20L60 20\"/>"
+      },
+      {
+        "name": "Welding joint specimens",
+        "svg": "<path d=\"M10 40H46V66H10Z\"/><path d=\"M54 40H90V66H54Z\"/><path d=\"M46 40Q50 24 54 40\"/><path d=\"M46 66Q50 82 54 66\"/>"
+      }
     ]
   }
 };
