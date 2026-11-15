@@ -6825,6 +6825,168 @@ window.PADA_ICONS = {
         "name": "Tapping tool",
         "svg": "<path d=\"M40 6H60V28H40Z\"/><path d=\"M40 28H60V78H40Z\"/><path d=\"M40 78L60 78L50 92Z\"/><path d=\"M40 40L60 46\"/><path d=\"M40 52L60 58\"/><path d=\"M40 64L60 70\"/>"
       }
+    ],
+    "Workshop Tools & Measuring Instruments": [
+      {
+        "name": "Spanner",
+        "svg": "<path d=\"M8 50a16 16 0 1 0 32 0a16 16 0 1 0 -32 0\"/><path d=\"M30 44H92V56H30Z\"/>"
+      },
+      {
+        "name": "Open-end wrench",
+        "svg": "<path d=\"M40 50L94 50\"/><path d=\"M40 30L14 30L14 70L40 70Z\"/>"
+      },
+      {
+        "name": "Ring spanner",
+        "svg": "<path d=\"M50.0 50.0L40.0 67.3L20.0 67.3L10.0 50.0L20.0 32.7L40.0 32.7Z\"/><path d=\"M50 50L94 50\"/>"
+      },
+      {
+        "name": "Combination wrench",
+        "svg": "<path d=\"M10 50a14 14 0 1 0 28 0a14 14 0 1 0 -28 0\"/><path d=\"M38 50L56 50\"/><path d=\"M56 36H72M56 64H72M56 36V64\"/>"
+      },
+      {
+        "name": "Adjustable wrench",
+        "svg": "<path d=\"M10 45H66V55H10Z\"/><path d=\"M66 30H84V70H66Z\"/><path d=\"M84 30L84 40\"/><path d=\"M84 60L84 70\"/>"
+      },
+      {
+        "name": "Socket wrench",
+        "svg": "<path d=\"M48.0 50.0L39.0 65.6L21.0 65.6L12.0 50.0L21.0 34.4L39.0 34.4Z\"/><path d=\"M48 50L94 50\"/><path d=\"M70 42H82V58H70Z\"/>"
+      },
+      {
+        "name": "Torque wrench",
+        "svg": "<path d=\"M10 44H20V56H10Z\"/><path d=\"M20 50L74 50\"/><path d=\"M74 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/><path d=\"M84 50L91 43\"/>"
+      },
+      {
+        "name": "Allen key",
+        "svg": "<path d=\"M20 20L20 70L78 70\"/><path d=\"M20.0 20.0L14.8 17.0L14.8 11.0L20.0 8.0L25.2 11.0L25.2 17.0Z\"/>"
+      },
+      {
+        "name": "Screwdriver",
+        "svg": "<path d=\"M12 30H48V70H12Z\"/><path d=\"M48 50L90 50\"/><path d=\"M90 50L94 46\"/>"
+      },
+      {
+        "name": "Phillips screwdriver",
+        "svg": "<path d=\"M12 30H48V70H12Z\"/><path d=\"M48 50L88 50\"/><path d=\"M82 44L94 56\"/><path d=\"M94 44L82 56\"/>"
+      },
+      {
+        "name": "Flat-head screwdriver",
+        "svg": "<path d=\"M12 30H48V70H12Z\"/><path d=\"M48 50L82 50\"/><path d=\"M82 44L94 50L82 56Z\"/>"
+      },
+      {
+        "name": "Pliers",
+        "svg": "<path d=\"M44 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M44 50L14 38\"/><path d=\"M44 50L14 62\"/><path d=\"M56 50L90 28\"/><path d=\"M56 50L90 72\"/>"
+      },
+      {
+        "name": "Long-nose pliers",
+        "svg": "<path d=\"M44 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M44 50L6 46\"/><path d=\"M44 50L6 54\"/><path d=\"M56 50L94 28\"/><path d=\"M56 50L94 72\"/>"
+      },
+      {
+        "name": "Cutting pliers",
+        "svg": "<path d=\"M44 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M44 50L16 40\"/><path d=\"M44 50L16 60\"/><path d=\"M16 40L16 60\"/><path d=\"M56 50L90 28\"/><path d=\"M56 50L90 72\"/>"
+      },
+      {
+        "name": "Pipe wrench",
+        "svg": "<path d=\"M8 50L60 50\"/><path d=\"M60 34H86V66H60Z\"/><path d=\"M60 44L70 44\"/><path d=\"M60 56L70 56\"/><path d=\"M60 68L70 68\"/>"
+      },
+      {
+        "name": "Hammer",
+        "svg": "<path d=\"M50 24H80V38H50Z\"/><path d=\"M60 38H70V88H60Z\"/><path d=\"M50 24L38 16\"/>"
+      },
+      {
+        "name": "Ball-peen hammer",
+        "svg": "<path d=\"M30 24H70V38H30Z\"/><path d=\"M16 31a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M50 38H60V88H50Z\"/>"
+      },
+      {
+        "name": "Mallet",
+        "svg": "<path d=\"M24 33A11 11 0 0 1 24 55H76A11 11 0 0 1 76 33H24Z\"/><path d=\"M44 55H56V91H44Z\"/>"
+      },
+      {
+        "name": "Chisel",
+        "svg": "<path d=\"M12 42H70V58H12Z\"/><path d=\"M70 42L92 50L70 58Z\"/><path d=\"M12 42L12 58\"/>"
+      },
+      {
+        "name": "Hacksaw",
+        "svg": "<path d=\"M10 30H30V70H10Z\"/><path d=\"M30 36L88 36\"/><path d=\"M30 50L88 50\"/><path d=\"M88 36L88 50\"/>"
+      },
+      {
+        "name": "File",
+        "svg": "<path d=\"M10 44H74V56H10Z\"/><path d=\"M74 50L86 50\"/><path d=\"M86 50a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M20 44L20 56\"/><path d=\"M34 44L34 56\"/><path d=\"M48 44L48 56\"/><path d=\"M62 44L62 56\"/>"
+      },
+      {
+        "name": "Hand drill",
+        "svg": "<path d=\"M36 40a14 14 0 1 0 28 0a14 14 0 1 0 -28 0\"/><path d=\"M50 54L50 88\"/><path d=\"M50 40L82 20\"/><path d=\"M82 20L82 4\"/>"
+      },
+      {
+        "name": "Power drill",
+        "svg": "<path d=\"M20 30H70V52H20Z\"/><path d=\"M44 52H58V82H44Z\"/><path d=\"M70 41L84 41\"/><path d=\"M84 36H92V46H84Z\"/><path d=\"M88 41L94 41\"/>"
+      },
+      {
+        "name": "Vernier caliper",
+        "svg": "<path d=\"M6 46H94V54H6Z\"/><path d=\"M4 30H12V68H4Z\"/><path d=\"M40 30H50V68H40Z\"/><path d=\"M50 30L50 20\"/><path d=\"M50 20L70 20\"/>"
+      },
+      {
+        "name": "Micrometer",
+        "svg": "<path d=\"M60 50a16 16 0 1 0 32 0a16 16 0 1 0 -32 0\"/><path d=\"M40 38H60V62H40Z\"/><path d=\"M40 38L20 38L20 62L40 62\"/><path d=\"M20 50L8 50\"/>"
+      },
+      {
+        "name": "Dial indicator",
+        "svg": "<path d=\"M24 40a26 26 0 1 0 52 0a26 26 0 1 0 -52 0\"/><path d=\"M50 66L50 90\"/><path d=\"M44 90L56 90\"/><path d=\"M50 40L70 23\"/><path d=\"M50 14L50 6\"/>"
+      },
+      {
+        "name": "Dial bore gauge",
+        "svg": "<path d=\"M20 30a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M40 50L40 70\"/><path d=\"M30 70L50 70\"/><path d=\"M30 70L30 86\"/><path d=\"M50 70L50 86\"/>"
+      },
+      {
+        "name": "Feeler gauge",
+        "svg": "<path d=\"M42 30a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M54.0 36.9L70.0 64.6\"/><path d=\"M51.4 37.9L56.9 69.4\"/><path d=\"M48.6 37.9L43.1 69.4\"/><path d=\"M46.0 36.9L30.0 64.6\"/>"
+      },
+      {
+        "name": "Thread pitch gauge",
+        "svg": "<path d=\"M10 40L16 30L22 40L28 30L34 40L40 30L46 40L52 30L58 40L64 30L70 40L76 30L82 40L88 30L94 40L94 52L10 52Z\"/>"
+      },
+      {
+        "name": "Height gauge",
+        "svg": "<path d=\"M10 80H90V90H10Z\"/><path d=\"M30 80L30 10\"/><path d=\"M24 30H44V44H24Z\"/><path d=\"M44 37L70 37\"/><path d=\"M70 37L74 44\"/>"
+      },
+      {
+        "name": "Depth gauge",
+        "svg": "<path d=\"M10 30H90V42H10Z\"/><path d=\"M50 42L50 88\"/>"
+      },
+      {
+        "name": "Surface plate",
+        "svg": "<path d=\"M8 36H92V50H8Z\"/><path d=\"M20 50L20 86\"/><path d=\"M80 50L80 86\"/><path d=\"M30 36L40 50\"/><path d=\"M50 36L60 50\"/><path d=\"M70 36L80 50\"/>"
+      },
+      {
+        "name": "Spirit level",
+        "svg": "<path d=\"M6 40H94V62H6Z\"/><path d=\"M38 36H62V46H38Z\"/>"
+      },
+      {
+        "name": "Laser alignment tool",
+        "svg": "<path d=\"M14 36H40V54H14Z\"/><path d=\"M40 45L94 45\"/><path d=\"M82 30H94V66H82Z\"/>"
+      },
+      {
+        "name": "Tachometer",
+        "svg": "<path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0\"/><path d=\"M50 50L75.5 24.5\"/><path d=\"M50.0 14.0L50.0 21.0\"/><path d=\"M86.0 50.0L79.0 50.0\"/><path d=\"M14.0 50.0L21.0 50.0\"/>"
+      },
+      {
+        "name": "Vibration meter",
+        "svg": "<path d=\"M14 24H86V60H14Z\"/><path d=\"M50 60L50 86\"/><path d=\"M38 86H62V94H38Z\"/><path d=\"M4 42L14 42\"/><path d=\"M86 42L96 42\"/>"
+      },
+      {
+        "name": "Infrared thermometer",
+        "svg": "<path d=\"M10 40H60V60H10Z\"/><path d=\"M6 50a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M44 60H58V86H44Z\"/><path d=\"M60 40L70 32\"/>"
+      },
+      {
+        "name": "Thermal imaging camera",
+        "svg": "<path d=\"M20 30H70V70H20Z\"/><path d=\"M70 40H90V60H70Z\"/><path d=\"M34 70H52V90H34Z\"/>"
+      },
+      {
+        "name": "Ultrasonic thickness gauge",
+        "svg": "<path d=\"M10 70H90V86H10Z\"/><path d=\"M36 40H64V60H36Z\"/><path d=\"M50 60L50 70\"/><path d=\"M50 70L54 74.0L46 78.0L54 82.0L46 86.0L50 86\"/>"
+      },
+      {
+        "name": "Digital torque tester",
+        "svg": "<path d=\"M14 30H64V60H14Z\"/><path d=\"M64 45L86 45\"/><path d=\"M86 38H94V52H86Z\"/><path d=\"M14 45L4 45\"/>"
+      }
     ]
   }
 };
