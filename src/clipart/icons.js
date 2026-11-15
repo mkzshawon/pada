@@ -6399,6 +6399,128 @@ window.PADA_ICONS = {
         "name": "HVAC duct accessories",
         "svg": "<path d=\"M14 40H86V60H14Z\"/><path d=\"M50 40L50 14\"/><path d=\"M44 6H56V14H44Z\"/><path d=\"M30 60L30 80\"/><path d=\"M6 80L94 80\"/>"
       }
+    ],
+    "Heat Transfer & Thermal Engineering": [
+      {
+        "name": "Shell and tube heat exchanger",
+        "svg": "<path d=\"M18 30H82V70H18Z\"/><path d=\"M18 30Q4 50 18 70\"/><path d=\"M82 30Q96 50 82 70\"/><path d=\"M18 40L82 40\"/><path d=\"M18 50L82 50\"/><path d=\"M18 60L82 60\"/>"
+      },
+      {
+        "name": "Plate heat exchanger",
+        "svg": "<path d=\"M30 20L34 30.0L26 40.0L34 50.0L26 60.0L34 70.0L26 80.0L30 80\"/><path d=\"M44 20L48 30.0L40 40.0L48 50.0L40 60.0L48 70.0L40 80.0L44 80\"/><path d=\"M58 20L62 30.0L54 40.0L62 50.0L54 60.0L62 70.0L54 80.0L58 80\"/><path d=\"M72 20L76 30.0L68 40.0L76 50.0L68 60.0L76 70.0L68 80.0L72 80\"/><path d=\"M30 20L72 20\"/><path d=\"M30 80L72 80\"/><path d=\"M72 20L92 20\"/>"
+      },
+      {
+        "name": "Double pipe heat exchanger",
+        "svg": "<path d=\"M10 36H90V64H10Z\"/><path d=\"M10 50L90 50\"/><path d=\"M4 44L10 44 M4.0 47.6L10 44L4.0 40.4\"/><path d=\"M96 56L90 56 M96.0 52.4L90 56L96.0 59.6\"/>"
+      },
+      {
+        "name": "Air-cooled heat exchanger",
+        "svg": "<path d=\"M14 40H86V80H14Z\"/><path d=\"M24 40Q50 4 76 40\"/><path d=\"M14 50L86 50\"/><path d=\"M14 66L86 66\"/><path d=\"M30 40L30 80\"/><path d=\"M50 40L50 80\"/><path d=\"M70 40L70 80\"/>"
+      },
+      {
+        "name": "Finned tube heat exchanger",
+        "svg": "<path d=\"M6 44L94 44\"/><path d=\"M6 56L94 56\"/><path d=\"M16 44L16 30\"/><path d=\"M30 44L30 30\"/><path d=\"M44 44L44 30\"/><path d=\"M58 44L58 30\"/><path d=\"M72 44L72 30\"/><path d=\"M86 44L86 30\"/><path d=\"M16 56L16 70\"/><path d=\"M30 56L30 70\"/><path d=\"M44 56L44 70\"/><path d=\"M58 56L58 70\"/><path d=\"M72 56L72 70\"/><path d=\"M86 56L86 70\"/>"
+      },
+      {
+        "name": "Radiator",
+        "svg": "<path d=\"M24 14H76V86H24Z\"/><path d=\"M24 24L76 24\"/><path d=\"M24 36L76 36\"/><path d=\"M24 48L76 48\"/><path d=\"M24 60L76 60\"/><path d=\"M24 72L76 72\"/><path d=\"M24 80L24 94\"/><path d=\"M76 80L76 94\"/>"
+      },
+      {
+        "name": "Condenser",
+        "svg": "<path d=\"M30 20H70V80H30Z\"/><path d=\"M40 20L40 80\"/><path d=\"M50 20L50 80\"/><path d=\"M60 20L60 80\"/><path d=\"M50 20L50 6\"/><path d=\"M50 80L50 94\"/>"
+      },
+      {
+        "name": "Evaporator",
+        "svg": "<path d=\"M30 20H70V80H30Z\"/><path d=\"M30 60L70 60\"/><path d=\"M6 70L30 70\"/><path d=\"M50 20L50 6\"/>"
+      },
+      {
+        "name": "Economizer",
+        "svg": "<path d=\"M14 26H72A10 10 0 0 1 72 46H14A10 10 0 0 0 14 66H72A10 10 0 0 1 72 86H14\"/>"
+      },
+      {
+        "name": "Superheater",
+        "svg": "<path d=\"M14 20H22V80H14Z\"/><path d=\"M78 20H86V80H78Z\"/><path d=\"M22 24L78 36L22 48L78 60L22 72\"/>"
+      },
+      {
+        "name": "Reheater",
+        "svg": "<path d=\"M14 20L86 20\"/><path d=\"M14 80L86 80\"/><path d=\"M26 20L26 80\"/><path d=\"M42 20L42 80\"/><path d=\"M58 20L58 80\"/><path d=\"M74 20L74 80\"/><path d=\"M50 4L50 20 M46.4 14.0L50 20L53.6 14.0\"/><path d=\"M50 80L50 96 M46.4 90.0L50 96L53.6 90.0\"/>"
+      },
+      {
+        "name": "Boiler",
+        "svg": "<path d=\"M30 14H70V26H30Z\"/><path d=\"M30 26H70V86H30Z\"/><path d=\"M50 86L50 96\"/><path d=\"M30 40L20 40\"/>"
+      },
+      {
+        "name": "Steam generator",
+        "svg": "<path d=\"M20 30H80V74H20Z\"/><path d=\"M20 52L30.0 58L40.0 46L50.0 58L60.0 46L70.0 58L80.0 46L80 52\"/><path d=\"M50 30L50 14\"/><path d=\"M20 40L8 40\"/>"
+      },
+      {
+        "name": "Thermal oil heater",
+        "svg": "<path d=\"M20 30H80V76H20Z\"/><path d=\"M6 40L20 40\"/><path d=\"M80 64L94 64\"/><path d=\"M50 76q-6-10 0-18q6 8 0 18\"/>"
+      },
+      {
+        "name": "Electric heater",
+        "svg": "<path d=\"M14 20H86V60H14Z\"/><path d=\"M30 20L30 60\"/><path d=\"M46 20L46 60\"/><path d=\"M62 20L62 60\"/><path d=\"M86 40L94 40\"/><path d=\"M26 60L26 72\"/>"
+      },
+      {
+        "name": "Immersion heater",
+        "svg": "<path d=\"M10 40H90V86H10Z\"/><path d=\"M30 10H70V22H30Z\"/><path d=\"M40 22V60Q40 74 50 74Q60 74 60 60V22\"/>"
+      },
+      {
+        "name": "Heat pipe",
+        "svg": "<path d=\"M16 42H84A8 8 0 0 1 84 58H16A8 8 0 0 1 16 42Z\"/><path d=\"M26 42L26 58\"/><path d=\"M74 42L74 58\"/><path d=\"M4 50L16 50 M10.0 53.6L16 50L10.0 46.4\"/><path d=\"M84 50L96 50 M90.0 53.6L96 50L90.0 46.4\"/>"
+      },
+      {
+        "name": "Cooling coil",
+        "svg": "<path d=\"M6 50L94 50\"/><path d=\"M18 50a6 14 0 1 0 12 0a6 14 0 1 0 -12 0\"/><path d=\"M34 50a6 14 0 1 0 12 0a6 14 0 1 0 -12 0\"/><path d=\"M50 50a6 14 0 1 0 12 0a6 14 0 1 0 -12 0\"/><path d=\"M66 50a6 14 0 1 0 12 0a6 14 0 1 0 -12 0\"/>"
+      },
+      {
+        "name": "Heating coil",
+        "svg": "<path d=\"M6 50L94 50\"/><path d=\"M18 50a6 14 0 1 0 12 0a6 14 0 1 0 -12 0\"/><path d=\"M34 50a6 14 0 1 0 12 0a6 14 0 1 0 -12 0\"/><path d=\"M50 50a6 14 0 1 0 12 0a6 14 0 1 0 -12 0\"/><path d=\"M66 50a6 14 0 1 0 12 0a6 14 0 1 0 -12 0\"/><path d=\"M24 20L24 36 M20.4 30.0L24 36L27.6 30.0\"/><path d=\"M56 20L56 36 M52.4 30.0L56 36L59.6 30.0\"/><path d=\"M72 20L72 36 M68.4 30.0L72 36L75.6 30.0\"/>"
+      },
+      {
+        "name": "Cooling jacket",
+        "svg": "<path d=\"M30 30H70V70H30Z\"/><path d=\"M18 18H82V82H18Z\"/><path d=\"M30 30L18 18\"/><path d=\"M70 30L82 18\"/><path d=\"M30 70L18 82\"/><path d=\"M70 70L82 82\"/><path d=\"M18 50L6 50\"/>"
+      },
+      {
+        "name": "Thermal insulation",
+        "svg": "<path d=\"M10 30H90V70H10Z\"/><path d=\"M6 50L94 50\"/><path d=\"M20 30L30 40\"/><path d=\"M40 30L50 40\"/><path d=\"M60 30L70 40\"/><path d=\"M80 30L90 40\"/>"
+      },
+      {
+        "name": "Insulated pipeline",
+        "svg": "<path d=\"M6 50L94 50\"/><path d=\"M24 36H76A14 14 0 0 1 76 64H24A14 14 0 0 1 24 36Z\"/>"
+      },
+      {
+        "name": "Steam trap",
+        "svg": "<path d=\"M30 50a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M6 50L30 50\"/><path d=\"M70 50L94 50\"/><path d=\"M50 70L50 90\"/>"
+      },
+      {
+        "name": "Thermowell",
+        "svg": "<path d=\"M6 20H94V34H6Z\"/><path d=\"M42 34V80Q42 88 50 88Q58 88 58 80V34\"/>"
+      },
+      {
+        "name": "Thermocouple",
+        "svg": "<path d=\"M6 40H66V60H6Z\"/><path d=\"M66 30H94V70H66Z\"/><path d=\"M84 36L96 36\"/><path d=\"M84 64L96 64\"/>"
+      },
+      {
+        "name": "RTD sensor",
+        "svg": "<path d=\"M10 38H80V62H10Z\"/><path d=\"M10 50L18.8 56L27.5 44L36.2 56L45.0 44L53.8 56L62.5 44L71.2 56L80.0 44L80 50\"/><path d=\"M80 50L94 50\"/>"
+      },
+      {
+        "name": "Temperature transmitter",
+        "svg": "<path d=\"M30 20H70V50H30Z\"/><path d=\"M30 35L70 35\"/><path d=\"M50 50L50 88\"/><path d=\"M70 30L94 30\"/>"
+      },
+      {
+        "name": "Thermal expansion joint",
+        "svg": "<path d=\"M6 50L30 50\"/><path d=\"M70 50L94 50\"/><path d=\"M30 50L35.0 60L40.0 40L45.0 60L50.0 40L55.0 60L60.0 40L65.0 60L70.0 40L70 50\"/>"
+      },
+      {
+        "name": "Expansion bellows",
+        "svg": "<path d=\"M14 30H20V70H14Z\"/><path d=\"M80 30H86V70H80Z\"/><path d=\"M20 50L30.0 62L40.0 38L50.0 62L60.0 38L70.0 62L80.0 38L80 50\"/>"
+      },
+      {
+        "name": "Heat exchanger cross-section",
+        "svg": "<path d=\"M10 50a40 40 0 1 0 80 0a40 40 0 1 0 -80 0\"/><path d=\"M12.5 36L87.5 36\"/><path d=\"M10.0 50L90.0 50\"/><path d=\"M12.5 64L87.5 64\"/><path d=\"M50 10L50 2\"/>"
+      }
     ]
   }
 };
