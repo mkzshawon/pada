@@ -5627,8 +5627,10 @@ window.PADA_ICONS = {
         "name": "Scientific Notation Symbols",
         "svg": "<path d=\"M18 34L42 58M42 34L18 58 M42 34L58 18 M56.3 24.8L58 18L51.2 19.7\"/>"
       }
-    ],
-    "Basic Components & Machine Elements": [
+    ]
+  },
+  "mechanical": {
+    "Basic Components and Machine Elements": [
       {
         "name": "Nut",
         "svg": "<path d=\"M50 10L84 30L84 70L50 90L16 70L16 30Z\"/><path d=\"M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0\"/>"
