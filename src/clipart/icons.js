@@ -6663,6 +6663,168 @@ window.PADA_ICONS = {
         "name": "Hydraulic turbine governor",
         "svg": "<path d=\"M50 6L50 70\"/><path d=\"M50 30L30 44\"/><path d=\"M50 30L70 44\"/><path d=\"M22 52a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M62 52a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M50 70L50 94\"/><path d=\"M30 94L70 94\"/>"
       }
+    ],
+    "Manufacturing Machining & Workshop Equipment": [
+      {
+        "name": "Centre lathe",
+        "svg": "<path d=\"M6 70H94V82H6Z\"/><path d=\"M10 40H30V70H10Z\"/><path d=\"M72 44H90V70H72Z\"/><path d=\"M30 55L72 55\"/><path d=\"M46 70L46 50\"/>"
+      },
+      {
+        "name": "CNC lathe",
+        "svg": "<path d=\"M6 70H94V82H6Z\"/><path d=\"M10 40H30V70H10Z\"/><path d=\"M72 44H90V70H72Z\"/><path d=\"M30 55L72 55\"/><path d=\"M12 28H28V40H12Z\"/><path d=\"M46 70L46 50\"/>"
+      },
+      {
+        "name": "Milling machine",
+        "svg": "<path d=\"M10 80H90V90H10Z\"/><path d=\"M66 10H80V80H66Z\"/><path d=\"M20 56H60V64H20Z\"/><path d=\"M66 30L56 30\"/><path d=\"M56 30L56 56\"/>"
+      },
+      {
+        "name": "CNC milling machine",
+        "svg": "<path d=\"M10 80H90V90H10Z\"/><path d=\"M66 10H80V80H66Z\"/><path d=\"M20 56H60V64H20Z\"/><path d=\"M66 30L56 30\"/><path d=\"M56 30L56 56\"/><path d=\"M82 20H94V34H82Z\"/><path d=\"M80 27L82 27\"/>"
+      },
+      {
+        "name": "Drilling machine",
+        "svg": "<path d=\"M14 84H86V92H14Z\"/><path d=\"M40 20H54V84H40Z\"/><path d=\"M30 8H64V20H30Z\"/><path d=\"M54 30L74 30\"/><path d=\"M18 62H44V70H18Z\"/><path d=\"M47 62L47 84\"/>"
+      },
+      {
+        "name": "Radial drilling machine",
+        "svg": "<path d=\"M8 84H92V92H8Z\"/><path d=\"M18 14H32V84H18Z\"/><path d=\"M32 20L80 20\"/><path d=\"M60 14H80V26H60Z\"/><path d=\"M70 26L70 44\"/>"
+      },
+      {
+        "name": "Grinding machine",
+        "svg": "<path d=\"M12 50a28 28 0 1 0 56 0a28 28 0 1 0 -56 0\"/><path d=\"M68 50L94 50\"/><path d=\"M14 40Q40 4 66 40\"/>"
+      },
+      {
+        "name": "Surface grinding machine",
+        "svg": "<path d=\"M10 60H90V70H10Z\"/><path d=\"M28 38a22 22 0 1 0 44 0a22 22 0 1 0 -44 0\"/><path d=\"M14 70L14 80\"/><path d=\"M86 70L86 80\"/><path d=\"M6 80L94 80\"/>"
+      },
+      {
+        "name": "Cylindrical grinding machine",
+        "svg": "<path d=\"M6 50L94 50\"/><path d=\"M30 38H70V62H30Z\"/><path d=\"M44 22a16 16 0 1 0 32 0a16 16 0 1 0 -32 0\"/>"
+      },
+      {
+        "name": "Shaper machine",
+        "svg": "<path d=\"M10 78H90V90H10Z\"/><path d=\"M70 20H86V78H70Z\"/><path d=\"M30 22H70V34H30Z\"/><path d=\"M40 34L40 60\"/><path d=\"M14 60H54V68H14Z\"/><path d=\"M30 68L30 78\"/>"
+      },
+      {
+        "name": "Planer machine",
+        "svg": "<path d=\"M8 70H92V84H8Z\"/><path d=\"M30 58H70V70H30Z\"/><path d=\"M8 14H92V24H8Z\"/><path d=\"M8 14H16V70H8Z\"/><path d=\"M84 14H92V70H84Z\"/><path d=\"M50 24L50 58\"/>"
+      },
+      {
+        "name": "Slotting machine",
+        "svg": "<path d=\"M30 10H54V82H30Z\"/><path d=\"M54 30L66 30\"/><path d=\"M66 30L66 64\"/><path d=\"M40 74H90V82H40Z\"/><path d=\"M10 82H90V92H10Z\"/>"
+      },
+      {
+        "name": "Broaching machine",
+        "svg": "<path d=\"M4 76H96V86H4Z\"/><path d=\"M6 50H14V44H20V50H26V42H32V50H38V40H44V50H94\"/><path d=\"M6 50L6 76\"/><path d=\"M54 40H74V60H54Z\"/>"
+      },
+      {
+        "name": "Boring machine",
+        "svg": "<path d=\"M14 70H86V80H14Z\"/><path d=\"M30 50H70V70H30Z\"/><path d=\"M42 14H58V24H42Z\"/><path d=\"M50 24L50 50\"/>"
+      },
+      {
+        "name": "Gear cutting machine",
+        "svg": "<path d=\"M16 56a22 22 0 1 0 44 0a22 22 0 1 0 -44 0\"/><path d=\"M60.0 56.0L66.0 56.0 M58.3 64.4L63.9 66.7 M53.6 71.6L57.8 75.8 M46.4 76.3L48.7 81.9 M38.0 78.0L38.0 84.0 M29.6 76.3L27.3 81.9 M22.4 71.6L18.2 75.8 M17.7 64.4L12.1 66.7 M16.0 56.0L10.0 56.0 M17.7 47.6L12.1 45.3 M22.4 40.4L18.2 36.2 M29.6 35.7L27.3 30.1 M38.0 34.0L38.0 28.0 M46.4 35.7L48.7 30.1 M53.6 40.4L57.8 36.2 M58.3 47.6L63.9 45.3\"/><path d=\"M50 33a11 11 0 1 0 22 0a11 11 0 1 0 -22 0\"/>"
+      },
+      {
+        "name": "Power hacksaw",
+        "svg": "<path d=\"M14 20a6 6 0 1 0 12 0a6 6 0 1 0 -12 0\"/><path d=\"M26 20L60 20\"/><path d=\"M60 20L60 58\"/><path d=\"M40 58H80V70H40Z\"/><path d=\"M30 70H90V86H30Z\"/>"
+      },
+      {
+        "name": "Band saw",
+        "svg": "<path d=\"M8 50a16 16 0 1 0 32 0a16 16 0 1 0 -32 0\"/><path d=\"M60 50a16 16 0 1 0 32 0a16 16 0 1 0 -32 0\"/><path d=\"M24 34L76 34\"/><path d=\"M24 66L76 66\"/><path d=\"M50 66L50 90\"/><path d=\"M40 90L60 90\"/>"
+      },
+      {
+        "name": "Bench grinder",
+        "svg": "<path d=\"M14 50L86 50\"/><path d=\"M14 50a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M46 50a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M50 50L50 88\"/><path d=\"M30 88L70 88\"/>"
+      },
+      {
+        "name": "CNC machining centre",
+        "svg": "<path d=\"M10 82H90V92H10Z\"/><path d=\"M60 12H82V82H60Z\"/><path d=\"M14 60H54V68H14Z\"/><path d=\"M60 40L42 40\"/><path d=\"M30 30H42V44H30Z\"/><path d=\"M36 44L36 60\"/>"
+      },
+      {
+        "name": "3D printer",
+        "svg": "<path d=\"M14 14H86V86H14Z\"/><path d=\"M14 36L86 36\"/><path d=\"M50 36L50 66\"/><path d=\"M30 66H70V72H30Z\"/>"
+      },
+      {
+        "name": "Laser cutting machine",
+        "svg": "<path d=\"M6 20L94 20\"/><path d=\"M40 20H60V34H40Z\"/><path d=\"M50 34L50 64\"/><path d=\"M10 64H90V72H10Z\"/>"
+      },
+      {
+        "name": "Plasma cutting machine",
+        "svg": "<path d=\"M6 20L94 20\"/><path d=\"M42 20H58V34H42Z\"/><path d=\"M44 34L56 34L50 50Z\"/><path d=\"M50 50L54 53.5L46 57.0L54 60.5L46 64.0L50 64\"/><path d=\"M10 64H90V72H10Z\"/>"
+      },
+      {
+        "name": "Water jet cutting machine",
+        "svg": "<path d=\"M6 20L94 20\"/><path d=\"M42 20H58V34H42Z\"/><path d=\"M44 34L56 34L50 44Z\"/><path d=\"M50 44L44 64\"/><path d=\"M50 44L56 64\"/><path d=\"M10 64H90V72H10Z\"/>"
+      },
+      {
+        "name": "Sheet metal bending machine",
+        "svg": "<path d=\"M20 14H80V24H20Z\"/><path d=\"M44 24L56 24L50 44Z\"/><path d=\"M6 52L42 52L50 44L94 52\"/><path d=\"M40 58H60V70H40Z\"/><path d=\"M14 70H86V84H14Z\"/>"
+      },
+      {
+        "name": "Hydraulic press machine",
+        "svg": "<path d=\"M14 14H86V22H14Z\"/><path d=\"M14 78H86V86H14Z\"/><path d=\"M24 22L24 78\"/><path d=\"M40 22L40 78\"/><path d=\"M60 22L60 78\"/><path d=\"M76 22L76 78\"/><path d=\"M42 4H58V14H42Z\"/><path d=\"M50 22L50 40\"/><path d=\"M34 40H66V46H34Z\"/>"
+      },
+      {
+        "name": "Mechanical press",
+        "svg": "<path d=\"M22 10L78 10\"/><path d=\"M22 10L22 84L78 84L78 10\"/><path d=\"M26 22a12 12 0 1 0 24 0a12 12 0 1 0 -24 0\"/><path d=\"M38 34L38 50\"/><path d=\"M30 50H46V58H30Z\"/><path d=\"M34 78H66V84H34Z\"/>"
+      },
+      {
+        "name": "Welding machine",
+        "svg": "<path d=\"M8 24H58V74H8Z\"/><path d=\"M58 40L74 40\"/><path d=\"M74 36H92V44H74Z\"/><path d=\"M90 44L90 70\"/><path d=\"M80 70H100V78H80Z\"/>"
+      },
+      {
+        "name": "Gas welding torch",
+        "svg": "<path d=\"M30 46H70V56H30Z\"/><path d=\"M30 50L14 50\"/><path d=\"M14 46L4 40\"/><path d=\"M14 54L4 60\"/><path d=\"M70 50L90 50\"/><path d=\"M90 50q10-12 4-20q2 14-6 20\"/>"
+      },
+      {
+        "name": "Arc welding electrode holder",
+        "svg": "<path d=\"M30 40H54V54H30Z\"/><path d=\"M30 47L6 47\"/><path d=\"M54 47L84 47\"/><path d=\"M84 47L90 53\"/>"
+      },
+      {
+        "name": "MIG welding gun",
+        "svg": "<path d=\"M40 30H70V60H40Z\"/><path d=\"M55 60L55 72\"/><path d=\"M55 72L55 82\"/><path d=\"M55 30L55 14\"/><path d=\"M70 40L78 40\"/>"
+      },
+      {
+        "name": "TIG welding torch",
+        "svg": "<path d=\"M44 20H56V50H44Z\"/><path d=\"M40 50L60 50L54 58L46 58Z\"/><path d=\"M50 58L50 74\"/><path d=\"M50 74L74 66\"/>"
+      },
+      {
+        "name": "Welding workbench",
+        "svg": "<path d=\"M8 40H92V50H8Z\"/><path d=\"M14 50L14 90\"/><path d=\"M86 50L86 90\"/><path d=\"M14 74L86 74\"/>"
+      },
+      {
+        "name": "Anvil",
+        "svg": "<path d=\"M12 40H72L88 32V48L76 50H66L64 64H74V82H26V64H36L34 50H12Z\"/>"
+      },
+      {
+        "name": "Bench vice",
+        "svg": "<path d=\"M28 30H38V66H28Z\"/><path d=\"M62 30H72V66H62Z\"/><path d=\"M38 48L62 48\"/><path d=\"M72 48L90 48\"/><path d=\"M20 66L80 66\"/><path d=\"M50 66L50 86\"/>"
+      },
+      {
+        "name": "Drill chuck",
+        "svg": "<path d=\"M30 20L70 20L60 50L40 50Z\"/><path d=\"M50 50L50 90\"/><path d=\"M40 50L46 60\"/><path d=\"M60 50L54 60\"/>"
+      },
+      {
+        "name": "Milling cutter",
+        "svg": "<path d=\"M16 50a34 34 0 1 0 68 0a34 34 0 1 0 -68 0\"/><path d=\"M84.0 50.0L90.0 50.0 M79.4 67.0L84.6 70.0 M67.0 79.4L70.0 84.6 M50.0 84.0L50.0 90.0 M33.0 79.4L30.0 84.6 M20.6 67.0L15.4 70.0 M16.0 50.0L10.0 50.0 M20.6 33.0L15.4 30.0 M33.0 20.6L30.0 15.4 M50.0 16.0L50.0 10.0 M67.0 20.6L70.0 15.4 M79.4 33.0L84.6 30.0\"/><path d=\"M40 50a10 10 0 1 0 20 0a10 10 0 1 0 -20 0\"/><path d=\"M60.0 50.0L84.0 50.0 M45.0 58.7L33.0 79.4 M45.0 41.3L33.0 20.6\"/>"
+      },
+      {
+        "name": "Lathe cutting tool",
+        "svg": "<path d=\"M10 58H60V82H10Z\"/><path d=\"M60 58L90 30L90 58Z\"/>"
+      },
+      {
+        "name": "End mill",
+        "svg": "<path d=\"M40 6H60V34H40Z\"/><path d=\"M40 34H60V78H40Z\"/><path d=\"M46 34L46 78\"/><path d=\"M54 34L54 78\"/><path d=\"M40 78L60 78L50 92Z\"/>"
+      },
+      {
+        "name": "Reamer",
+        "svg": "<path d=\"M44 8H56V30H44Z\"/><path d=\"M42 30H58V80H42Z\"/><path d=\"M42 80L58 80L50 94Z\"/><path d=\"M46 30L50 80\"/><path d=\"M54 30L56 80\"/>"
+      },
+      {
+        "name": "Tapping tool",
+        "svg": "<path d=\"M40 6H60V28H40Z\"/><path d=\"M40 28H60V78H40Z\"/><path d=\"M40 78L60 78L50 92Z\"/><path d=\"M40 40L60 46\"/><path d=\"M40 52L60 58\"/><path d=\"M40 64L60 70\"/>"
+      }
     ]
   }
 };
