@@ -6257,6 +6257,148 @@ window.PADA_ICONS = {
         "name": "Compressor lubrication system",
         "svg": "<path d=\"M20 20H80V60H20Z\"/><path d=\"M20 60H80V80H20Z\"/><path d=\"M80 70L82 70\"/><path d=\"M82 70a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/><path d=\"M90 62L90 50\"/>"
       }
+    ],
+    "HVAC Refrigeration & Air Conditioning": [
+      {
+        "name": "Air conditioning unit",
+        "svg": "<path d=\"M14 24H86V76H14Z\"/><path d=\"M14 36L86 36\"/><path d=\"M14 48L86 48\"/><path d=\"M14 60L86 60\"/><path d=\"M24 76L24 88\"/><path d=\"M76 76L76 88\"/>"
+      },
+      {
+        "name": "Split air conditioner",
+        "svg": "<path d=\"M10 18H90V40H10Z\"/><path d=\"M10 30L90 30\"/><path d=\"M50 40L50 58\"/><path d=\"M50 58L66 58\"/><path d=\"M66 58H94V88H66Z\"/>"
+      },
+      {
+        "name": "Window air conditioner",
+        "svg": "<path d=\"M10 10H90V90H10Z\"/><path d=\"M10 40H70V70H10Z\"/><path d=\"M30 40L30 70\"/><path d=\"M50 40L50 70\"/>"
+      },
+      {
+        "name": "Central air conditioning system",
+        "svg": "<path d=\"M14 30H86V60H14Z\"/><path d=\"M30 60L30 94\"/><path d=\"M70 60L70 94\"/><path d=\"M50 30L50 20\"/>"
+      },
+      {
+        "name": "Chiller",
+        "svg": "<path d=\"M10 20H90V46H10Z\"/><path d=\"M10 56H90V82H10Z\"/><path d=\"M50 46L50 56\"/>"
+      },
+      {
+        "name": "Air-cooled chiller",
+        "svg": "<path d=\"M14 46H86V86H14Z\"/><path d=\"M36 32a14 14 0 1 0 28 0a14 14 0 1 0 -28 0\"/><path d=\"M36 32L64 32\"/>"
+      },
+      {
+        "name": "Water-cooled chiller",
+        "svg": "<path d=\"M10 40H70V80H10Z\"/><path d=\"M78 28H94V88H78Z\"/><path d=\"M70 50L78 50\"/><path d=\"M70 70L78 70\"/>"
+      },
+      {
+        "name": "Cooling tower",
+        "svg": "<path d=\"M30 20H70V90H30Z\"/><path d=\"M30 36L44 36\"/><path d=\"M30 52L44 52\"/><path d=\"M56 36L70 36\"/><path d=\"M56 52L70 52\"/><path d=\"M50 20L50 8\"/>"
+      },
+      {
+        "name": "Air handling unit (AHU)",
+        "svg": "<path d=\"M12 14H88V86H12Z\"/><path d=\"M14 50a36 36 0 1 0 72 0a36 36 0 1 0 -72 0\"/><path d=\"M4 50L12 50\"/><path d=\"M88 50L96 50\"/>"
+      },
+      {
+        "name": "Fan coil unit (FCU)",
+        "svg": "<path d=\"M20 30H80V70H20Z\"/><path d=\"M30 40L70 40\"/><path d=\"M30 50L70 50\"/><path d=\"M30 60L70 60\"/><path d=\"M4 50L20 50\"/><path d=\"M80 50L96 50\"/>"
+      },
+      {
+        "name": "Ventilation fan",
+        "svg": "<path d=\"M6 6H94V94H6Z\"/><path d=\"M6 50a44 44 0 1 0 88 0a44 44 0 1 0 -88 0\"/><path d=\"M50 50L50 6\"/><path d=\"M50 50L88 72\"/><path d=\"M50 50L12 72\"/>"
+      },
+      {
+        "name": "Exhaust fan",
+        "svg": "<path d=\"M6 20H94V94H6Z\"/><path d=\"M13 57a37 37 0 1 0 74 0a37 37 0 1 0 -74 0\"/><path d=\"M50 57L50 20\"/><path d=\"M50 57L82 75\"/><path d=\"M50 57L18 75\"/><path d=\"M50 20L50 6 M53.6 12.0L50 6L46.4 12.0\"/>"
+      },
+      {
+        "name": "Fresh air system",
+        "svg": "<path d=\"M20 30L50 12L80 30\"/><path d=\"M20 30L30 30\"/><path d=\"M70 30L80 30\"/><path d=\"M30 30H70V70H30Z\"/><path d=\"M20 70H80V90H20Z\"/>"
+      },
+      {
+        "name": "Ductwork",
+        "svg": "<path d=\"M10 30L60 30L60 90\"/><path d=\"M10 70L40 70L40 90\"/><path d=\"M40 90L60 90\"/>"
+      },
+      {
+        "name": "Air filter",
+        "svg": "<path d=\"M10 20H90V80H10Z\"/><path d=\"M26 20L26 80\"/><path d=\"M42 20L42 80\"/><path d=\"M58 20L58 80\"/><path d=\"M74 20L74 80\"/>"
+      },
+      {
+        "name": "HEPA filter",
+        "svg": "<path d=\"M10 20H90V80H10Z\"/><path d=\"M10 50L16.7 62L23.3 38L30.0 62L36.7 38L43.3 62L50.0 38L56.7 62L63.3 38L70.0 62L76.7 38L83.3 62L90.0 38L90 50\"/>"
+      },
+      {
+        "name": "Cooling coil",
+        "svg": "<path d=\"M10 30H90V70H10Z\"/><path d=\"M10 40H90V50H10V60H90\"/><path d=\"M30 30L30 70\"/><path d=\"M50 30L50 70\"/><path d=\"M70 30L70 70\"/>"
+      },
+      {
+        "name": "Heating coil",
+        "svg": "<path d=\"M10 34H90V70H10Z\"/><path d=\"M10 44H90V54H10V64H90\"/><path d=\"M30 34L30 16 M33.6 22.0L30 16L26.4 22.0\"/><path d=\"M50 34L50 16 M53.6 22.0L50 16L46.4 22.0\"/><path d=\"M70 34L70 16 M73.6 22.0L70 16L66.4 22.0\"/>"
+      },
+      {
+        "name": "Refrigerant compressor",
+        "svg": "<path d=\"M18 70V40Q18 14 50 14Q82 14 82 40V70\"/><path d=\"M10 70L90 70\"/><path d=\"M82 34L94 34\"/><path d=\"M50 14L50 4\"/>"
+      },
+      {
+        "name": "Condenser coil",
+        "svg": "<path d=\"M14 30H86V70H14Z\"/><path d=\"M26 30L26 70\"/><path d=\"M38 30L38 70\"/><path d=\"M50 30L50 70\"/><path d=\"M62 30L62 70\"/><path d=\"M74 30L74 70\"/><path d=\"M50 4L50 30 M46.4 24.0L50 30L53.6 24.0\"/>"
+      },
+      {
+        "name": "Evaporator coil",
+        "svg": "<path d=\"M20 30H90V70H20Z\"/><path d=\"M34 30L34 70\"/><path d=\"M48 30L48 70\"/><path d=\"M62 30L62 70\"/><path d=\"M4 50L20 50 M14.0 53.6L20 50L14.0 46.4\"/><path d=\"M90 40L96 40\"/>"
+      },
+      {
+        "name": "Expansion valve",
+        "svg": "<path d=\"M6 50L40 50\"/><path d=\"M60 50L94 50\"/><path d=\"M40 36H60V64H40Z\"/><path d=\"M50 36L50 16\"/><path d=\"M44 16L56 16\"/>"
+      },
+      {
+        "name": "Refrigeration cycle diagram",
+        "svg": "<path d=\"M14 14H86V86H14Z\"/><path d=\"M40 8H60V20H40Z\"/><path d=\"M78 40H90V60H78Z\"/><path d=\"M40 80H60V92H40Z\"/><path d=\"M8 40H20V60H8Z\"/><path d=\"M50 14L62 14 M56.0 17.6L62 14L56.0 10.4\"/><path d=\"M86 50L86 62 M82.4 56.0L86 62L89.6 56.0\"/>"
+      },
+      {
+        "name": "Refrigerant receiver",
+        "svg": "<path d=\"M32 36Q32 14 50 14Q68 14 68 36V86H32Z\"/><path d=\"M68 50L94 50\"/><path d=\"M32 70L6 70\"/>"
+      },
+      {
+        "name": "Refrigerant accumulator",
+        "svg": "<path d=\"M34 14H66V86H34Z\"/><path d=\"M50 14L50 4\"/><path d=\"M50 14V66Q50 76 42 76\"/><path d=\"M34 50L20 50\"/>"
+      },
+      {
+        "name": "Thermostatic expansion valve",
+        "svg": "<path d=\"M6 50L40 50\"/><path d=\"M60 50L94 50\"/><path d=\"M40 36H60V64H40Z\"/><path d=\"M50 36L50 16\"/><path d=\"M44 16L56 16\"/><path d=\"M50 64L50 76\"/><path d=\"M42 84a8 8 0 1 0 16 0a8 8 0 1 0 -16 0\"/>"
+      },
+      {
+        "name": "Refrigerant piping",
+        "svg": "<path d=\"M10 20H60V50H90\"/><path d=\"M54 14L54 26\"/><path d=\"M84 44L84 56\"/>"
+      },
+      {
+        "name": "Thermostat",
+        "svg": "<path d=\"M20 14H80V86H20Z\"/><path d=\"M34 50a16 16 0 1 0 32 0a16 16 0 1 0 -32 0\"/><path d=\"M50 14L50 34\"/><path d=\"M50 50L62 38\"/>"
+      },
+      {
+        "name": "Humidifier",
+        "svg": "<path d=\"M20 50H80V86H20Z\"/><path d=\"M24 50q4.0 -4 8 0q4.0 4 8 0q4.0 -4 8 0\"/><path d=\"M52 50q4.0 -4 8 0q4.0 4 8 0q4.0 -4 8 0\"/>"
+      },
+      {
+        "name": "Dehumidifier",
+        "svg": "<path d=\"M20 20H80V70H20Z\"/><path d=\"M50 70L50 82\"/><path d=\"M30 82L70 82\"/>"
+      },
+      {
+        "name": "Air diffuser",
+        "svg": "<path d=\"M30 50a20 20 0 1 0 40 0a20 20 0 1 0 -40 0\"/><path d=\"M70.0 50.0L84.0 50.0\"/><path d=\"M64.1 64.1L74.0 74.0\"/><path d=\"M50.0 70.0L50.0 84.0\"/><path d=\"M35.9 64.1L26.0 74.0\"/><path d=\"M30.0 50.0L16.0 50.0\"/><path d=\"M35.9 35.9L26.0 26.0\"/><path d=\"M50.0 30.0L50.0 16.0\"/><path d=\"M64.1 35.9L74.0 26.0\"/>"
+      },
+      {
+        "name": "Air grille",
+        "svg": "<path d=\"M10 30H90V70H10Z\"/><path d=\"M10 70L26 30\"/><path d=\"M26 70L42 30\"/><path d=\"M42 70L58 30\"/><path d=\"M58 70L74 30\"/><path d=\"M74 70L90 30\"/>"
+      },
+      {
+        "name": "Fire damper",
+        "svg": "<path d=\"M10 30H90V70H10Z\"/><path d=\"M30 30L30 70\"/><path d=\"M50 30L55 34.5L45 39.0L55 43.5L45 48.0L50 48\"/>"
+      },
+      {
+        "name": "Volume control damper",
+        "svg": "<path d=\"M10 30H90V70H10Z\"/><path d=\"M30 30L70 70\"/><path d=\"M90 50L96 50\"/>"
+      },
+      {
+        "name": "HVAC duct accessories",
+        "svg": "<path d=\"M14 40H86V60H14Z\"/><path d=\"M50 40L50 14\"/><path d=\"M44 6H56V14H44Z\"/><path d=\"M30 60L30 80\"/><path d=\"M6 80L94 80\"/>"
+      }
     ]
   }
 };
