@@ -980,8 +980,6 @@
   /* ---------- Camera ---------- */
 
   let camMenuOpen = false;
-  let shotMenuOpen = false; // Screen Shot menu (toolbar)
-  let shotMenuEl = null;
   let shotMode = null; // "image" or "text" while an area is being chosen
   let shotDrag = null; // world point where the current drag started
   let shotArea = null; // chosen rectangle { x1, y1, x2, y2 } in world units
@@ -1109,8 +1107,6 @@
     laserMenuOpen = false;
     camMenuOpen = false;
     calcMenuOpen = false;
-    shotMenuOpen = false;
-    renderShotMenu();
     renderEraserMenu();
     renderLaserMenu();
     renderCamMenu();
@@ -1126,10 +1122,6 @@
   }
 
   /* ---------- Screen Shot: copy an area of the board as an image or as plain text ---------- */
-
-  function renderShotMenu() {
-    if (shotMenuEl) shotMenuEl.style.display = shotMenuOpen ? "flex" : "none";
-  }
 
   function setShotBar(show) {
     if (!shotBarEl) {
@@ -2169,8 +2161,6 @@
     renderLaserMenu();
     calcMenuOpen = false;
     renderCalcMenu();
-    shotMenuOpen = false;
-    renderShotMenu();
 
     // Pan
     if (tool === "hand" || spaceHeld || e.button === 1) {
@@ -2942,49 +2932,22 @@
       '<button data-cam="hexagon">Hexagon</button>' +
       '<hr />' +
       '<button data-cam="off">Camera Off</button>' +
-      "</div></div>";
+      '</div></div>' +
+      '<div class="tm-item"><div class="tm-label">Screen Shot &#9656;</div>' +
+      '<div class="tm-sub">' +
+      '<button data-shot-type="image">As Image</button>' +
+      '<button data-shot-type="text">As Plain Text</button>' +
+      '</div></div>';
     camMenuEl.addEventListener("click", (e) => {
       const b = e.target.closest("button");
       if (!b) return;
       camMenuOpen = false;
       renderCamMenu();
-      runCamAction(b.dataset.cam);
+      if (b.dataset.shotType) startShot(b.dataset.shotType);
+      else runCamAction(b.dataset.cam);
     });
     attachMenu(camBtn, camMenuEl);
 
-    // Screen Shot button: As Image / As Plain Text
-    const shotBtn = document.createElement("button");
-    shotBtn.className = "tool";
-    shotBtn.title = "Screen Shot";
-    shotBtn.setAttribute("aria-label", "Screen Shot");
-    shotBtn.innerHTML =
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
-      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg>';
-    shotBtn.addEventListener("click", () => {
-      const wasOpen = shotMenuOpen;
-      closeToolPopups();
-      styleOpen = false;
-      renderStyle();
-      shotMenuOpen = !wasOpen;
-      renderShotMenu();
-    });
-    toolbarEl.appendChild(shotBtn);
-
-    shotMenuEl = document.createElement("div");
-    shotMenuEl.id = "shot-menu";
-    shotMenuEl.innerHTML =
-      '<div class="tm-label">Screen Shot</div>' +
-      '<button data-shot-type="image">As Image</button>' +
-      '<button data-shot-type="text">As Plain Text</button>';
-    shotMenuEl.addEventListener("click", (e) => {
-      const b = e.target.closest("button");
-      if (!b) return;
-      shotMenuOpen = false;
-      renderShotMenu();
-      startShot(b.dataset.shotType);
-    });
-    attachMenu(shotBtn, shotMenuEl);
 
     // Calculator button and its menu: Standard or Scientific
     const calcBtn = document.createElement("button");
