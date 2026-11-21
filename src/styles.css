@@ -1662,3 +1662,81 @@ body {
   font-size: 11px;
   white-space: nowrap;
 }
+
+/* Screen Shot menu (toolbar): As Image / As Plain Text */
+#shot-menu {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  background: var(--chrome);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+}
+
+#shot-menu .tm-label {
+  padding: 4px 12px 6px;
+  font-size: 12px;
+  color: #6b6880;
+}
+
+#shot-menu button {
+  height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+#shot-menu button:hover {
+  background: #f3f1fb;
+}
+
+/* OK / Cancel bar shown after an area is chosen for a screen shot */
+#shot-bar {
+  position: fixed;
+  bottom: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 14;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--chrome);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  font-size: 13px;
+  color: var(--ink);
+}
+
+#shot-bar .sb-hint {
+  margin-right: 4px;
+  color: #6b6880;
+}
+
+#shot-bar button {
+  height: 28px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  background: #ece9fb;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+#shot-bar button:hover {
+  background: #ddd8f7;
+}
