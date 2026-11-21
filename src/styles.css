@@ -1740,3 +1740,42 @@ body {
 #shot-bar button:hover {
   background: #ddd8f7;
 }
+
+/* Toolbar on one line: the icon size follows the window width, so every icon fits on a 14-inch screen */
+:root {
+  --tb: min(42px, calc((100vw - 60px) / 23));
+}
+
+#toolbar {
+  flex-wrap: nowrap;
+  max-width: calc(100vw - 16px);
+}
+
+#toolbar .tool {
+  width: var(--tb);
+  height: var(--tb);
+}
+
+#toolbar .tool svg {
+  width: calc(var(--tb) * 0.52);
+  height: calc(var(--tb) * 0.52);
+}
+
+#toolbar .tool kbd {
+  font-size: max(5px, calc(var(--tb) * 0.2));
+  right: max(1px, calc(var(--tb) * 0.08));
+  bottom: max(0px, calc(var(--tb) * 0.04));
+}
+
+/* Phones and tablets (also in landscape): the toolbar shows on two rows */
+@media (pointer: coarse), (max-width: 900px) {
+  :root {
+    --tb: min(42px, calc((100vw - 30px) / 12.5));
+  }
+
+  #toolbar {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 2px;
+  }
+}
