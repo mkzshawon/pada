@@ -889,6 +889,7 @@
   function copySelection() {
     const list = shapesOf().filter((s) => selected.has(s.id));
     if (!list.length) return;
+    shotClip = null; // copying shapes replaces the screen shot
     clipboard = JSON.parse(JSON.stringify(list));
     pasteCount = 0;
   }
@@ -979,6 +980,14 @@
   /* ---------- Camera ---------- */
 
   let camMenuOpen = false;
+  let shotMenuOpen = false; // Screen Shot menu (toolbar)
+  let shotMenuEl = null;
+  let shotMode = null; // "image" or "text" while an area is being chosen
+  let shotDrag = null; // world point where the current drag started
+  let shotArea = null; // chosen rectangle { x1, y1, x2, y2 } in world units
+  let shotBarEl = null; // OK / Cancel bar shown after an area is chosen
+  let shotClip = null; // last screen shot: { kind: "image", ref, w, h } or { kind: "text", text, fontSize, stroke, family }
+  let lastWorld = { x: 0, y: 0 }; // last mouse position on the board, where a paste lands
   let calcMenuOpen = false;
   let calcMenuEl = null;
   let camMenuEl = null;
@@ -1090,12 +1099,6 @@
     } else if (action === "off") {
       stopStream(camCam);
       camCam = null;
-    } else if (action === "vstart") {
-      // The board's canvas as a live video stream (shown here; other apps need a virtual camera driver)
-      if (!camVirt) camVirt = canvas.captureStream(30);
-    } else if (action === "voff") {
-      stopStream(camVirt);
-      camVirt = null;
     }
     refreshPreview();
   }
@@ -1106,6 +1109,8 @@
     laserMenuOpen = false;
     camMenuOpen = false;
     calcMenuOpen = false;
+    shotMenuOpen = false;
+    renderShotMenu();
     renderEraserMenu();
     renderLaserMenu();
     renderCamMenu();
@@ -1118,6 +1123,236 @@
 
   function renderCamMenu() {
     if (camMenuEl) camMenuEl.style.display = camMenuOpen ? "flex" : "none";
+  }
+
+  /* ---------- Screen Shot: copy an area of the board as an image or as plain text ---------- */
+
+  function renderShotMenu() {
+    if (shotMenuEl) shotMenuEl.style.display = shotMenuOpen ? "flex" : "none";
+  }
+
+  function setShotBar(show) {
+    if (!shotBarEl) {
+      shotBarEl = document.createElement("div");
+      shotBarEl.id = "shot-bar";
+      shotBarEl.innerHTML =
+        '<span class="sb-hint"></span><button data-shot="ok">OK</button><button data-shot="cancel">Cancel</button>';
+      shotBarEl.addEventListener("pointerdown", (e) => e.stopPropagation());
+      shotBarEl.addEventListener("click", (e) => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        if (b.dataset.shot === "ok") confirmShot();
+        else cancelShot();
+      });
+      document.body.appendChild(shotBarEl);
+    }
+    shotBarEl.querySelector(".sb-hint").textContent =
+      (shotMode === "text" ? "Plain text" : "Image") + " - press OK or Ctrl+C";
+    shotBarEl.style.display = show ? "flex" : "none";
+  }
+
+  // Starts choosing an area; the next drag on the board selects it
+  function startShot(kind) {
+    shotMode = kind;
+    shotDrag = null;
+    shotArea = null;
+    canvas.style.cursor = "crosshair";
+    setShotBar(false);
+    render();
+  }
+
+  function cancelShot() {
+    shotMode = null;
+    shotDrag = null;
+    shotArea = null;
+    canvas.style.cursor = "";
+    setShotBar(false);
+    render();
+  }
+
+  // Draws the chosen area as a dashed box (world space, drawn in render)
+  function drawShotArea(z) {
+    if (!shotArea) return;
+    const a = shotArea;
+    const x = Math.min(a.x1, a.x2);
+    const y = Math.min(a.y1, a.y2);
+    const w = Math.abs(a.x2 - a.x1);
+    const h = Math.abs(a.y2 - a.y1);
+    ctx.save();
+    ctx.lineWidth = 1.5 / z;
+    ctx.setLineDash([6 / z, 4 / z]);
+    ctx.strokeStyle = "#6d5bd0";
+    ctx.fillStyle = "rgba(109,91,208,0.08)";
+    ctx.fillRect(x, y, w, h);
+    ctx.strokeRect(x, y, w, h);
+    ctx.restore();
+  }
+
+  // Image: the board pixels inside the area, as a PNG
+  function imageClipFrom(a) {
+    const dpr = window.devicePixelRatio || 1;
+    const cam = board().camera;
+    const w = Math.abs(a.x2 - a.x1);
+    const h = Math.abs(a.y2 - a.y1);
+    const x1 = Math.min(a.x1, a.x2);
+    const y1 = Math.min(a.y1, a.y2);
+    const out = document.createElement("canvas");
+    out.width = Math.max(1, Math.round(w * cam.zoom * dpr));
+    out.height = Math.max(1, Math.round(h * cam.zoom * dpr));
+    out.getContext("2d").drawImage(
+      canvas,
+      (x1 * cam.zoom + cam.x) * dpr,
+      (y1 * cam.zoom + cam.y) * dpr,
+      w * cam.zoom * dpr,
+      h * cam.zoom * dpr,
+      0,
+      0,
+      out.width,
+      out.height
+    );
+    const ref = newId();
+    IMAGE_STORE.set(ref, out.toDataURL("image/png"));
+    return { kind: "image", ref, w, h };
+  }
+
+  // Plain text: the text of the text and note boxes inside the area, top to bottom
+  function textClipFrom(a) {
+    const x1 = Math.min(a.x1, a.x2), x2 = Math.max(a.x1, a.x2);
+    const y1 = Math.min(a.y1, a.y2), y2 = Math.max(a.y1, a.y2);
+    const inside = shapesOf().filter((s) => {
+      if (s.type !== "text" && s.type !== "note") return false;
+      const b = bounds(s);
+      return b.x2 >= x1 && b.x1 <= x2 && b.y2 >= y1 && b.y1 <= y2 && (s.text || "").trim() !== "";
+    });
+    if (!inside.length) return null;
+    inside.sort((p, q) => bounds(p).y1 - bounds(q).y1 || bounds(p).x1 - bounds(q).x1);
+    const first = inside[0];
+    return {
+      kind: "text",
+      text: inside.map((s) => s.text).join("\n"),
+      fontSize: first.fontSize || currentStyle.fontSize,
+      stroke: first.stroke || currentStyle.stroke,
+      family: first.family || currentStyle.family,
+    };
+  }
+
+  // Text shapes and pictures are needed to decide how "As Plain Text" reads the area
+  const TESSERACT_URL = "https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.4/tesseract.min.js";
+  const PICTURE_TYPES = ["image", "video", "deck", "clip", "table"];
+
+  function inArea(s, a) {
+    const x1 = Math.min(a.x1, a.x2), x2 = Math.max(a.x1, a.x2);
+    const y1 = Math.min(a.y1, a.y2), y2 = Math.max(a.y1, a.y2);
+    const b = bounds(s);
+    return b.x2 >= x1 && b.x1 <= x2 && b.y2 >= y1 && b.y1 <= y2;
+  }
+
+  // Copies what is drawn on the board inside the area (pictures, videos, PDF pages, text) onto white
+  function boardPicture(a) {
+    const dpr = window.devicePixelRatio || 1;
+    const cam = board().camera;
+    const x1 = Math.min(a.x1, a.x2), y1 = Math.min(a.y1, a.y2);
+    const sw = Math.abs(a.x2 - a.x1) * cam.zoom * dpr;
+    const sh = Math.abs(a.y2 - a.y1) * cam.zoom * dpr;
+    const k = Math.min(4, Math.max(2, 1400 / Math.max(sw, sh, 1))); // bigger picture reads better
+    const out = document.createElement("canvas");
+    out.width = Math.max(1, Math.round(sw * k));
+    out.height = Math.max(1, Math.round(sh * k));
+    const g = out.getContext("2d");
+    g.fillStyle = "#ffffff";
+    g.fillRect(0, 0, out.width, out.height);
+    g.drawImage(canvas, (x1 * cam.zoom + cam.x) * dpr, (y1 * cam.zoom + cam.y) * dpr, sw, sh, 0, 0, out.width, out.height);
+    return out;
+  }
+
+  // Reads the text in the picture with OCR (English and Bangla)
+  async function ocrText(a) {
+    const pic = boardPicture(a);
+    await loadScript(TESSERACT_URL, () => window.Tesseract);
+    const pr = progressStart("Reading text");
+    try {
+      const res = await window.Tesseract.recognize(pic, "eng+ben", {
+        logger: (m) => {
+          if (m.status === "recognizing text") pr.set(Math.round(m.progress * 100), 100);
+        },
+      });
+      return res.data.text.replace(/\n{3,}/g, "\n\n").trim();
+    } finally {
+      pr.end();
+    }
+  }
+
+  // OK / Ctrl+C: keep the chosen area as a screen shot and leave the mode
+  async function confirmShot() {
+    const a = shotArea;
+    const mode = shotMode;
+    if (!a) return;
+    cancelShot(); // clears the dashed box, so it is not part of the picture
+    try {
+      let clip;
+      if (mode === "text") {
+        // Pictures, videos, PDF pages and tables are read with OCR; plain typed text is copied as it is
+        const hasPicture = shapesOf().some((s) => PICTURE_TYPES.includes(s.type) && inArea(s, a));
+        if (hasPicture) {
+          const text = await ocrText(a);
+          clip = text
+            ? { kind: "text", text, fontSize: currentStyle.fontSize, stroke: currentStyle.stroke, family: currentStyle.family }
+            : null;
+        } else clip = textClipFrom(a);
+        if (!clip) {
+          alert("No text found in the selected area.");
+          return;
+        }
+      } else {
+        clip = imageClipFrom(a);
+      }
+      shotClip = clip;
+    } catch (err) {
+      alert("Could not read the text: " + err.message);
+    }
+  }
+
+  // Ctrl+V after a screen shot: pastes at the mouse position; the new piece can then be moved and resized
+  function pasteShot() {
+    const c = shotClip;
+    if (!c) return;
+    finishEditing();
+    const before = snapshot();
+    const at = lastWorld;
+    let s;
+    if (c.kind === "image") {
+      s = {
+        id: newId(),
+        type: "image",
+        ref: c.ref,
+        x0: at.x - c.w / 2,
+        y0: at.y - c.h / 2,
+        x1: at.x + c.w / 2,
+        y1: at.y + c.h / 2,
+        transparency: 0,
+        blur: 0,
+      };
+    } else {
+      s = {
+        id: newId(),
+        type: "text",
+        text: c.text,
+        x0: at.x,
+        y0: at.y,
+        x1: at.x,
+        y1: at.y + lineHeightOf(c.fontSize),
+        fontSize: c.fontSize,
+        stroke: c.stroke,
+        family: c.family,
+        transparency: currentStyle.transparency,
+        blur: currentStyle.blur,
+      };
+      fitTextBox(s);
+    }
+    shapesOf().push(s);
+    selected = new Set([s.id]);
+    commit(before);
+    render();
   }
 
   /* ---------- Undo history ---------- */
@@ -1573,6 +1808,7 @@
     drawSnapGuides(z);
     drawLaser(z);
     drawMarquee(z);
+    drawShotArea(z);
     drawBindHint(z);
     drawRotateButton(z);
     if (editor) positionEditor();
@@ -1905,6 +2141,16 @@
 
   canvas.addEventListener("pointerdown", (e) => {
     canvas.setPointerCapture(e.pointerId);
+    if (shotMode) {
+      // Screen Shot: a drag chooses the area
+      if (e.button === 0) {
+        const q = eventToWorld(e);
+        shotDrag = q;
+        shotArea = { x1: q.x, y1: q.y, x2: q.x, y2: q.y };
+        render();
+      }
+      return;
+    }
     finishEditing();
     finishCellEdit();
     const p = eventToWorld(e);
@@ -1923,6 +2169,8 @@
     renderLaserMenu();
     calcMenuOpen = false;
     renderCalcMenu();
+    shotMenuOpen = false;
+    renderShotMenu();
 
     // Pan
     if (tool === "hand" || spaceHeld || e.button === 1) {
@@ -2058,6 +2306,12 @@
 
   canvas.addEventListener("pointermove", (e) => {
     const p = eventToWorld(e);
+    lastWorld = p;
+    if (shotDrag) {
+      shotArea = { x1: shotDrag.x, y1: shotDrag.y, x2: p.x, y2: p.y };
+      render();
+      return;
+    }
     if (polyDraft) {
       polyCursor = p;
       render();
@@ -2262,6 +2516,15 @@
   }
   canvas.addEventListener("pointerup", endGesture);
   canvas.addEventListener("pointercancel", endGesture);
+  // Screen Shot: when the drag ends, a large enough area shows the OK / Cancel bar
+  canvas.addEventListener("pointerup", () => {
+    if (!shotDrag) return;
+    shotDrag = null;
+    const a = shotArea;
+    if (a && Math.abs(a.x2 - a.x1) > 4 && Math.abs(a.y2 - a.y1) > 4) setShotBar(true);
+    else shotArea = null;
+    render();
+  });
 
   // Double-click a text or note with the Select tool to edit it
   canvas.addEventListener("dblclick", (e) => {
@@ -2313,6 +2576,16 @@
 
   window.addEventListener("keydown", (e) => {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+    if ((shotMode || shotArea) && e.key === "Escape") {
+      e.preventDefault();
+      cancelShot();
+      return;
+    }
+    if (shotArea && (e.key === "Enter" || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "c"))) {
+      e.preventDefault();
+      confirmShot();
+      return;
+    }
     if (calcEl && calcFocus && calcKey(e)) return;
     if (cellEdit && !e.ctrlKey && !e.metaKey && !e.altKey) {
       e.preventDefault();
@@ -2401,7 +2674,8 @@
     }
     if ((e.ctrlKey || e.metaKey) && k === "v") {
       e.preventDefault();
-      pasteClipboard();
+      if (shotClip) pasteShot();
+      else pasteClipboard();
       return;
     }
     if (!e.ctrlKey && !e.metaKey && selected.size && e.key.startsWith("Arrow")) {
@@ -2668,9 +2942,7 @@
       '<button data-cam="hexagon">Hexagon</button>' +
       '<hr />' +
       '<button data-cam="off">Camera Off</button>' +
-      "</div></div>" +
-      '<button data-cam="vstart">Start Virtual Camera</button>' +
-      '<button data-cam="voff">Off Virtual Camera</button>';
+      "</div></div>";
     camMenuEl.addEventListener("click", (e) => {
       const b = e.target.closest("button");
       if (!b) return;
@@ -2679,6 +2951,40 @@
       runCamAction(b.dataset.cam);
     });
     attachMenu(camBtn, camMenuEl);
+
+    // Screen Shot button: As Image / As Plain Text
+    const shotBtn = document.createElement("button");
+    shotBtn.className = "tool";
+    shotBtn.title = "Screen Shot";
+    shotBtn.setAttribute("aria-label", "Screen Shot");
+    shotBtn.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg>';
+    shotBtn.addEventListener("click", () => {
+      const wasOpen = shotMenuOpen;
+      closeToolPopups();
+      styleOpen = false;
+      renderStyle();
+      shotMenuOpen = !wasOpen;
+      renderShotMenu();
+    });
+    toolbarEl.appendChild(shotBtn);
+
+    shotMenuEl = document.createElement("div");
+    shotMenuEl.id = "shot-menu";
+    shotMenuEl.innerHTML =
+      '<div class="tm-label">Screen Shot</div>' +
+      '<button data-shot-type="image">As Image</button>' +
+      '<button data-shot-type="text">As Plain Text</button>';
+    shotMenuEl.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      shotMenuOpen = false;
+      renderShotMenu();
+      startShot(b.dataset.shotType);
+    });
+    attachMenu(shotBtn, shotMenuEl);
 
     // Calculator button and its menu: Standard or Scientific
     const calcBtn = document.createElement("button");
