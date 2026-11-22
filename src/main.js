@@ -1930,10 +1930,10 @@
       if (!src) return;
       const img = imageFor(src);
       if (img.complete && img.naturalWidth) {
-        if (s.doc && s.pg === 0) drawDocShadow(s.doc);
+        if (s.doc && s.pg === 0) drawDocShadow(s.doc, docColors(s.dk).shadow);
         ctx.drawImage(img, b.x1, b.y1, b.x2 - b.x1, b.y2 - b.y1);
         if (s.doc) {
-          ctx.strokeStyle = "#000000";
+          ctx.strokeStyle = docColors(s.dk).border;
           ctx.lineWidth = 1 / board().camera.zoom;
           ctx.strokeRect(b.x1, b.y1, b.x2 - b.x1, b.y2 - b.y1);
         }
@@ -3347,13 +3347,20 @@
   }
 
   // Page border (black) and the document's light shadow (right and bottom)
-  function drawDocShadow(docId) {
+  // Colours of the page border and the shadow: Word documents green, PDF documents blue
+  function docColors(kind) {
+    if (kind === "word") return { border: "#1a8f3c", shadow: "rgba(26,143,60,0.22)" };
+    if (kind === "pdf") return { border: "#1f5fd6", shadow: "rgba(31,95,214,0.20)" };
+    return { border: "#000000", shadow: "rgba(0,0,0,0.18)" };
+  }
+
+  function drawDocShadow(docId, shadow) {
     const pages = docPages(docId);
     const z = board().camera.zoom;
     const x1 = Math.min(...pages.map((s) => s.x0)), y1 = Math.min(...pages.map((s) => s.y0));
     const x2 = Math.max(...pages.map((s) => s.x1)), y2 = Math.max(...pages.map((s) => s.y1));
     const off = 8 / z;
-    ctx.fillStyle = "rgba(0,0,0,0.18)";
+    ctx.fillStyle = shadow;
     ctx.fillRect(x1 + off, y1 + off, x2 - x1, y2 - y1);
   }
 
@@ -3366,7 +3373,7 @@
   }
 
   // Places pictures one below another, starting at the centre of the view
-  function insertImages(list, docId) {
+  function insertImages(list, docId, docKind) {
     const c = screenToWorld(window.innerWidth / 2, window.innerHeight / 2);
     const before = snapshot();
     const created = [];
@@ -3378,7 +3385,7 @@
       const ref = newId();
       IMAGE_STORE.set(ref, src);
       const s = { id: newId(), type: "image", ref, x0: x, y0: y, x1: x + w, y1: y + h, transparency: 0, blur: 0 };
-      if (docId) Object.assign(s, { doc: docId, pg: created.length, w0, h0 }); // a page of a Word/PDF document
+      if (docId) Object.assign(s, { doc: docId, pg: created.length, w0, h0, dk: docKind }); // a page of a Word/PDF document
       shapesOf().push(s);
       created.push(s.id);
       y += h + (docId ? DOC_GAP : 20);
@@ -3425,13 +3432,13 @@
         return;
       }
       if (kind === "image") insertImages([await pictureFromFile(file)]);
-      else if (kind === "pdf") insertImages(await pagesFromPdf(file), newId());
+      else if (kind === "pdf") insertImages(await pagesFromPdf(file), newId(), "pdf");
       else if (kind === "word") {
         if (!file.name.toLowerCase().endsWith(".docx")) {
           alert("Only .docx files can be opened. Old .doc files are not supported.");
           return;
         }
-        insertImages(await pagesFromWord(file), newId());
+        insertImages(await pagesFromWord(file), newId(), "word");
       }
     } catch (err) {
       alert("Could not open the file: " + err.message);
