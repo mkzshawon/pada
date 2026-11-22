@@ -1779,3 +1779,97 @@ body {
     row-gap: 2px;
   }
 }
+
+/* ---------- Toolbar handle: minimise / expand, and docking to a side ---------- */
+
+.tb-handle {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+}
+
+.tb-handle:hover {
+  background: #f1efe9;
+}
+
+.tb-handle img {
+  width: 26px;
+  height: 26px;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Folding: the tools slide into the handle, from the far end towards the handle */
+#toolbar .tool,
+#toolbar .sep {
+  max-width: 80px;
+  max-height: 80px;
+  transition: max-width 0.25s ease, max-height 0.25s ease, opacity 0.2s ease, padding 0.25s ease, margin 0.25s ease;
+}
+
+#toolbar.collapsed > .tool,
+#toolbar.collapsed > .sep,
+#toolbar.collapsed > .tool-group {
+  max-width: 0;
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+  border-width: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#toolbar.dragging {
+  opacity: 0.85;
+  transition: none;
+  cursor: grabbing;
+}
+
+/* Docked to the left or right edge: a row at the bottom, the handle at the outer end */
+#toolbar[data-dock="l"] {
+  left: 16px;
+  bottom: 16px;
+  transform: none;
+}
+
+#toolbar[data-dock="r"] {
+  left: auto;
+  right: 16px;
+  bottom: 16px;
+  transform: none;
+  flex-direction: row-reverse;
+}
+
+/* Docked to the top edge: a column; the handle at the top, the tools below it */
+#toolbar[data-dock="t"] {
+  left: 16px;
+  top: 16px;
+  bottom: auto;
+  transform: none;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+/* Docked to the bottom edge: a column; the handle at the bottom, the tools above it */
+#toolbar[data-dock="b"] {
+  left: 16px;
+  bottom: 16px;
+  transform: none;
+  flex-direction: column-reverse;
+  flex-wrap: nowrap;
+}
+
+/* The row or column keeps every item on one line, as on the desktop */
+#toolbar[data-dock="t"] > *,
+#toolbar[data-dock="b"] > * {
+  flex-shrink: 0;
+}

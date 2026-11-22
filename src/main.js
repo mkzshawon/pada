@@ -2900,8 +2900,74 @@
     btn.appendChild(menu);
   }
 
+  /* ---------- Toolbar: minimise / expand, and move it to any side ---------- */
+
+  let tbMinimised = false; // the tools are folded into the handle
+  let tbDock = "home"; // home = bottom centre; l / r = bottom-left / bottom-right row; t / b = a column at the top / bottom edge
+
+  function applyToolbarState() {
+    toolbarEl.classList.toggle("collapsed", tbMinimised);
+    toolbarEl.dataset.dock = tbDock;
+    const img = toolbarEl.querySelector(".tb-handle img");
+    if (img) img.src = tbMinimised ? "src/icons/to-expand.svg" : "src/icons/to-minimise.svg";
+    placePanels();
+  }
+
+  // Released in a corner area of the window, the toolbar docks to the nearest edge
+  function dockAt(x, y) {
+    const dl = x, dr = window.innerWidth - x, dt = y, db = window.innerHeight - y;
+    const m = Math.min(dl, dr, dt, db);
+    tbDock = m === dl ? "l" : m === dr ? "r" : m === dt ? "t" : "b";
+    toolbarEl.style.left = "";
+    toolbarEl.style.top = "";
+    toolbarEl.style.bottom = "";
+    toolbarEl.style.transform = "";
+    applyToolbarState();
+  }
+
+  function buildDockHandle() {
+    const h = document.createElement("button");
+    h.className = "tb-handle";
+    h.title = "Click: minimise / expand. Drag: move the toolbar";
+    h.setAttribute("aria-label", "Minimise or expand the toolbar");
+    h.innerHTML = '<img alt="" draggable="false" />';
+    toolbarEl.appendChild(h);
+    let drag = null;
+    h.addEventListener("pointerdown", (e) => {
+      if (e.button !== 0) return;
+      h.setPointerCapture(e.pointerId);
+      const r = toolbarEl.getBoundingClientRect();
+      drag = { x0: e.clientX, y0: e.clientY, dx: e.clientX - r.left, dy: e.clientY - r.top, moved: false };
+    });
+    h.addEventListener("pointermove", (e) => {
+      if (!drag) return;
+      if (!drag.moved && Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) < 5) return;
+      drag.moved = true;
+      toolbarEl.classList.add("dragging");
+      toolbarEl.style.left = e.clientX - drag.dx + "px";
+      toolbarEl.style.top = e.clientY - drag.dy + "px";
+      toolbarEl.style.bottom = "auto";
+      toolbarEl.style.transform = "none";
+    });
+    const end = (e, cancel) => {
+      if (!drag) return;
+      const moved = drag.moved;
+      drag = null;
+      toolbarEl.classList.remove("dragging");
+      if (cancel) return applyToolbarState();
+      if (!moved) {
+        tbMinimised = !tbMinimised;
+        applyToolbarState();
+      } else dockAt(e.clientX, e.clientY);
+    };
+    h.addEventListener("pointerup", (e) => end(e, false));
+    h.addEventListener("pointercancel", (e) => end(e, true));
+    applyToolbarState();
+  }
+
   function renderToolbar() {
     toolbarEl.innerHTML = "";
+    buildDockHandle();
     TOOLS.forEach((t, i) => {
       if (t.id === "rect" || t.id === "note") {
         const sep = document.createElement("span");
