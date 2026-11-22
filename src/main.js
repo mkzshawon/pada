@@ -3235,9 +3235,14 @@
 
   // Step 2: each PDF page becomes a picture (up to 30 pages)
   async function pagesFromPdf(file) {
+    return pagesFromPdfBytes(await readFile(file, false));
+  }
+
+  // The pages of a PDF (given as bytes) as pictures: the same path for PDF files and converted Word files
+  async function pagesFromPdfBytes(bytes) {
     await loadScript(PDFJS_URL, () => window.pdfjsLib);
     window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_URL.replace("pdf.min.js", "pdf.worker.min.js");
-    const pdf = await window.pdfjsLib.getDocument({ data: await readFile(file, false) }).promise;
+    const pdf = await window.pdfjsLib.getDocument({ data: bytes }).promise;
     const spec = await askPages(pdf.numPages);
     if (spec === null) return [];
     const pages = parsePages(spec, pdf.numPages);
@@ -3268,6 +3273,22 @@
   const JSZIP_URL = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
   const DOCX_PREVIEW_URL = "https://cdn.jsdelivr.net/npm/docx-preview@0.3.2/dist/docx-preview.min.js";
   const HTML2CANVAS_URL = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+
+  // A .docx: in the desktop app it is converted to PDF and shown like a PDF file
+  async function pagesFromWord(file) {
+    if (window.padaDesktop && window.padaDesktop.convertDocx && file.path) {
+      const pr = progressStart("Word pages");
+      try {
+        const pdfBytes = await window.padaDesktop.convertDocx(file.path);
+        pr.end();
+        return await pagesFromPdfBytes(pdfBytes);
+      } catch (err) {
+        pr.end();
+        throw err;
+      }
+    }
+    return pagesFromDocx(file);
+  }
 
   // A .docx becomes one picture per page, laid out as the Word file would print it
   async function pagesFromDocx(file) {
@@ -3410,7 +3431,7 @@
           alert("Only .docx files can be opened. Old .doc files are not supported.");
           return;
         }
-        insertImages(await pagesFromDocx(file), newId());
+        insertImages(await pagesFromWord(file), newId());
       }
     } catch (err) {
       alert("Could not open the file: " + err.message);

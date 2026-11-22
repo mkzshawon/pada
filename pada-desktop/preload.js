@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld("padaDesktop", {
   moveWindow: (dx, dy) => ipcRenderer.send("pada:move", dx, dy),
   transcodeVideo: (srcPath) => ipcRenderer.invoke("pada:transcode", srcPath),
   convertPptx: (srcPath) => ipcRenderer.invoke("pada:pptx", srcPath),
+  convertDocx: (srcPath) => ipcRenderer.invoke("pada:docx", srcPath),
   spellCheck: (words) => ipcRenderer.invoke("pada:spell", words),
   saveBoard: (json, name) => ipcRenderer.invoke("pada:saveBoard", json, name),
   openBoard: () => ipcRenderer.invoke("pada:openBoard"),

@@ -415,6 +415,30 @@ ipcMain.handle("pada:pptx", async (_event, srcPath) => {
   };
 });
 
+// Converts a .docx to PDF (one page per Word page), so it is shown exactly like a PDF file
+ipcMain.handle("pada:docx", async (_event, srcPath) => {
+  let soffice = findSoffice();
+  if (!soffice) soffice = await askSoffice();
+  if (!soffice) throw new Error("LibreOffice was not found. Install it from libreoffice.org.");
+
+  const work = path.join(app.getPath("temp"), `pada-docx-${Date.now()}`);
+  fs.mkdirSync(work, { recursive: true });
+  const copyPath = path.join(work, "document.docx");
+  fs.copyFileSync(srcPath, copyPath);
+  const outDir = path.join(work, "pdf");
+  fs.mkdirSync(outDir, { recursive: true });
+  const { code, log } = await new Promise((resolve, reject) => {
+    const proc = spawn(soffice, ["--headless", "--convert-to", "pdf", "--outdir", outDir, copyPath]);
+    let log = "";
+    proc.stderr.on("data", (d) => (log += d));
+    proc.on("error", reject);
+    proc.on("close", (code) => resolve({ code, log }));
+  });
+  const pdf = path.join(outDir, "document.pdf");
+  if (code !== 0 || !fs.existsSync(pdf)) throw new Error(`Conversion failed (code ${code}) ${log.slice(-200)}`);
+  return fs.readFileSync(pdf);
+});
+
 // English spelling: a dictionary is loaded once, then words are checked and suggestions made
 let spellPromise = null;
 function spellChecker() {
