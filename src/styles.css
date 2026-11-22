@@ -1916,3 +1916,36 @@ body {
 #toolbar[data-dock="b"] > * {
   margin: 0;
 }
+
+/* Menus of the toolbar scale with the icons: --ms is set from the icon size in main.js */
+#toolbar .tool > [id$="-menu"] {
+  zoom: var(--ms, 1);
+}
+
+/* Column toolbar on the left side: menus open to the right of the column */
+#toolbar[data-dock="b"] .tool > [id$="-menu"] {
+  left: calc(100% + 10px);
+  right: auto;
+  top: auto;
+  bottom: 0;
+  transform: none;
+}
+
+/* Column toolbar on the right side: menus open to the left of the column */
+#toolbar[data-dock="t"] .tool > [id$="-menu"] {
+  left: auto;
+  right: calc(100% + 10px);
+  top: 0;
+  bottom: auto;
+  transform: none;
+}
+
+#toolbar[data-dock="b"] .tool > [id$="-menu"] {
+  top: auto;
+}
+
+/* Sub-menus of a column menu open towards the middle of the screen, so they stay on screen */
+#toolbar[data-dock="t"] .tool > [id$="-menu"] .tm-sub {
+  left: auto;
+  right: 100%;
+}

@@ -1801,6 +1801,7 @@
   }
 
   function resize() {
+    scaleToolbarMenus();
     placePanels();
     const dpr = window.devicePixelRatio || 1;
     canvas.width = Math.round(window.innerWidth * dpr);
@@ -2935,6 +2936,12 @@
   let tbMinimised = false; // the tools are folded into the handle
   let tbDock = "home"; // home = bottom centre; l / r = bottom-left / bottom-right row; t / b = a column at the top / bottom edge
 
+  // Menus of the toolbar use the same scale as its icons (a 42px icon = scale 1)
+  function scaleToolbarMenus() {
+    const b = toolbarEl.querySelector(".tool");
+    if (b && !tbMinimised && b.offsetWidth) toolbarEl.style.setProperty("--ms", (b.offsetWidth / 42).toFixed(3));
+  }
+
   function applyToolbarState() {
     toolbarEl.classList.toggle("collapsed", tbMinimised);
     toolbarEl.dataset.dock = tbDock;
@@ -2943,8 +2950,12 @@
     toolbarEl.style.top = tbDock === "t" && tabsEl ? tabsEl.getBoundingClientRect().bottom + 12 + "px" : "";
     const img = toolbarEl.querySelector(".tb-handle img");
     if (img) img.src = tbMinimised ? "src/icons/to-expand.svg" : "src/icons/to-minimise.svg";
+    scaleToolbarMenus();
     placePanels();
-    setTimeout(placePanels, 280); // after the fold / expand animation
+    setTimeout(() => {
+      scaleToolbarMenus();
+      placePanels();
+    }, 280); // after the fold / expand animation
   }
 
   // Released in a corner area of the window, the toolbar docks to the nearest edge
