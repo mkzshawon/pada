@@ -2939,7 +2939,7 @@
   // Menus of the toolbar use the same scale as its icons (a 42px icon = scale 1)
   function scaleToolbarMenus() {
     const b = toolbarEl.querySelector(".tool");
-    if (b && !tbMinimised && b.offsetWidth) toolbarEl.style.setProperty("--ms", (b.offsetWidth / 42).toFixed(3));
+    if (b && !tbMinimised && b.offsetWidth) document.documentElement.style.setProperty("--ms", (b.offsetWidth / 42).toFixed(3));
   }
 
   function applyToolbarState() {

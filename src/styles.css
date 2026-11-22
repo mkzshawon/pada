@@ -1949,3 +1949,8 @@ body {
   left: auto;
   right: 100%;
 }
+
+/* The style panel scales with the icons too */
+#style {
+  zoom: var(--ms, 1);
+}
