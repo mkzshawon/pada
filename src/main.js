@@ -406,6 +406,9 @@
   /* ---------- Connecting lines & arrows to shapes ---------- */
 
   const BIND_DIST = 16; // screen px: how close a line end must be to a shape to connect to it
+  // Off: a line or arrow ends exactly where the mouse is released, and starts exactly where it is pressed,
+  // even on an image, shape, page or PDF. Set to true to bring back snapping to the shape's sides.
+  const BIND_ENABLED = false;
 
   // The midpoint of one side of a box: n (top), e (right), s (bottom), w (left)
   function sidePoint(b, side) {
@@ -419,6 +422,7 @@
 
   // The shape a line end would connect to, if the point is on it or close enough
   function bindTarget(p) {
+    if (!BIND_ENABLED) return null;
     const d = BIND_DIST / board().camera.zoom;
     const arr = shapesOf();
     for (let i = arr.length - 1; i >= 0; i--) {
@@ -448,6 +452,7 @@
 
   // Keeps connected line ends on their shapes, so moving or resizing a shape drags its arrows along
   function syncBindings() {
+    if (!BIND_ENABLED) return;
     const byId = new Map(shapesOf().map((s) => [s.id, s]));
     for (const s of shapesOf()) {
       if (s.bindStart && byId.has(s.bindStart)) {
