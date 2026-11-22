@@ -1873,3 +1873,29 @@ body {
 #toolbar[data-dock="b"] > * {
   flex-shrink: 0;
 }
+
+/* Column toolbars: the top one sits at the right, below the tab bar; both shrink to fit the height */
+#toolbar[data-dock="t"] {
+  left: auto;
+  right: 16px;
+  bottom: auto;
+  transform: none;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+#toolbar[data-dock="t"],
+#toolbar[data-dock="b"] {
+  --tb: min(32px, calc((100vh - 130px) / 23));
+}
+
+/* The fold / expand icon is 125% of its former size */
+.tb-handle {
+  width: 42.5px;
+  height: 42.5px;
+}
+
+.tb-handle img {
+  width: 32.5px;
+  height: 32.5px;
+}

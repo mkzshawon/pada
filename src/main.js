@@ -119,6 +119,7 @@
   }
   let styleEl = null;
   let styleOpen = true; // the style panel belongs to the shape and select tools; other toolbar icons close it
+  let styleHidden = false; // hidden by a click on the toolbar handle or on empty canvas (select tool)
 
   // Applies a style change to the selection (and to the next shape)
   // record=false is used while a slider is dragged; the whole drag is recorded once when it ends
@@ -158,7 +159,7 @@
     // Pictures, videos, slide decks and notes made from Word files have no style options of their own
     const isMedia = (s) =>
       s.type === "image" || s.type === "clip" || s.type === "video" || s.type === "deck" || s.type === "table" || (s.type === "note" && s.fromFile);
-    const visible = styleOpen && !sel.some(isMedia) && (sel.length > 0 || SHAPE_TOOLS.has(tool));
+    const visible = styleOpen && !styleHidden && !sel.some(isMedia) && (sel.length > 0 || SHAPE_TOOLS.has(tool));
     styleEl.style.display = visible ? "flex" : "none";
     if (!visible) return;
 
@@ -1773,7 +1774,30 @@
 
   // In a narrow window the toolbar wraps onto several rows; the style panel is placed above it
   function placePanels() {
-    if (styleEl) styleEl.style.bottom = toolbarEl.offsetHeight + 16 + 10 + "px";
+    if (!styleEl) return;
+    const dock = toolbarEl.dataset.dock;
+    if (dock === "t" || dock === "b") {
+      // a column toolbar: the style panel stands beside it, as a column
+      const r = toolbarEl.getBoundingClientRect();
+      styleEl.style.bottom = "auto";
+      styleEl.style.transform = "none";
+      styleEl.style.flexDirection = "column";
+      styleEl.style.top = Math.max(8, Math.min(r.top, window.innerHeight - styleEl.offsetHeight - 8)) + "px";
+      if (dock === "t") {
+        styleEl.style.left = "auto";
+        styleEl.style.right = window.innerWidth - r.left + 12 + "px";
+      } else {
+        styleEl.style.right = "auto";
+        styleEl.style.left = r.right + 12 + "px";
+      }
+    } else {
+      styleEl.style.left = "";
+      styleEl.style.right = "";
+      styleEl.style.top = "";
+      styleEl.style.transform = "";
+      styleEl.style.flexDirection = "";
+      styleEl.style.bottom = toolbarEl.offsetHeight + 16 + 10 + "px";
+    }
   }
 
   function resize() {
@@ -2063,6 +2087,7 @@
     if (polyDraft) finishPoly(false);
     tool = id;
     styleOpen = id === "select" || SHAPE_TOOLS.has(id);
+    styleHidden = false;
     closeToolPopups();
     for (const btn of toolbarEl.querySelectorAll(".tool")) {
       btn.setAttribute("aria-pressed", String(btn.dataset.tool === id));
@@ -2169,6 +2194,10 @@
       }
       return;
     }
+    if (tool === "select" && !topmostAt(eventToWorld(e))) {
+      styleHidden = true; // a click on empty canvas hides the style panel
+      renderStyle();
+    }
     finishEditing();
     finishCellEdit();
     const p = eventToWorld(e);
@@ -2250,6 +2279,7 @@
           tableCell = cc ? { id: hit.id, r: cc.r, c: cc.c } : null;
           hideCellMenu();
         }
+        styleHidden = false; // a shape was chosen: its style panel shows
         if (hit.doc && !e.shiftKey) {
           // A document moves as one: all its pages are selected; the clicked page is remembered for Delete
           pageFocus = hit.id;
@@ -2908,9 +2938,13 @@
   function applyToolbarState() {
     toolbarEl.classList.toggle("collapsed", tbMinimised);
     toolbarEl.dataset.dock = tbDock;
+    // a top column starts below the tab bar, so it never covers the tabs or their menu
+    const tabsEl = document.getElementById("tabs");
+    toolbarEl.style.top = tbDock === "t" && tabsEl ? tabsEl.getBoundingClientRect().bottom + 12 + "px" : "";
     const img = toolbarEl.querySelector(".tb-handle img");
     if (img) img.src = tbMinimised ? "src/icons/to-expand.svg" : "src/icons/to-minimise.svg";
     placePanels();
+    setTimeout(placePanels, 280); // after the fold / expand animation
   }
 
   // Released in a corner area of the window, the toolbar docks to the nearest edge
@@ -2957,6 +2991,8 @@
       if (cancel) return applyToolbarState();
       if (!moved) {
         tbMinimised = !tbMinimised;
+        styleHidden = true;
+        renderStyle();
         applyToolbarState();
       } else dockAt(e.clientX, e.clientY);
     };
