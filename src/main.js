@@ -72,6 +72,7 @@
   let selected = new Set(); // ids of selected shapes on the active board
   let drawing = null; // shape being dragged out
   let gesture = null; // current pointer action: pan | move | resize | marquee | erase | draw
+  let pageFocus = null; // the page of a Word/PDF document the user clicked last
   let spaceHeld = false;
 
   const board = () => boards[active];
@@ -908,6 +909,7 @@
     pasteCount++;
     const off = 20 * pasteCount;
     const copies = cloneWithNewIds(clipboard, off, off);
+    for (const c of copies) if (c.doc) { delete c.doc; delete c.pg; } // a pasted page starts its own picture
     for (const c of copies) shapesOf().push(c);
     selected = new Set(copies.map((c) => c.id));
     commit(before);
@@ -1385,6 +1387,19 @@
   function deleteSelected() {
     if (!selected.size) return;
     const before = snapshot();
+    const focus = pageFocus ? shapesOf().find((s) => s.id === pageFocus) : null;
+    if (focus && focus.doc && [...selected].every((id) => shapesOf().some((s) => s.id === id && s.doc === focus.doc))) {
+      // one page of a document: the other pages close the gap
+      const docId = focus.doc;
+      board().shapes = shapesOf().filter((s) => s.id !== focus.id);
+      const rest = docPages(docId);
+      selected.clear();
+      pageFocus = null;
+      if (rest.length) layoutDoc(docId, rest[0].x1 - rest[0].x0);
+      commit(before);
+      render();
+      return;
+    }
     board().shapes = shapesOf().filter((s) => !selected.has(s.id));
     selected.clear();
     commit(before);
@@ -1915,7 +1930,13 @@
       if (!src) return;
       const img = imageFor(src);
       if (img.complete && img.naturalWidth) {
+        if (s.doc && s.pg === 0) drawDocShadow(s.doc);
         ctx.drawImage(img, b.x1, b.y1, b.x2 - b.x1, b.y2 - b.y1);
+        if (s.doc) {
+          ctx.strokeStyle = "#000000";
+          ctx.lineWidth = 1 / board().camera.zoom;
+          ctx.strokeRect(b.x1, b.y1, b.x2 - b.x1, b.y2 - b.y1);
+        }
       } else {
         ctx.strokeRect(b.x1, b.y1, b.x2 - b.x1, b.y2 - b.y1); // placeholder until the picture has loaded
       }
@@ -2224,6 +2245,12 @@
           tableCell = cc ? { id: hit.id, r: cc.r, c: cc.c } : null;
           hideCellMenu();
         }
+        if (hit.doc && !e.shiftKey) {
+          // A document moves as one: all its pages are selected; the clicked page is remembered for Delete
+          pageFocus = hit.id;
+          const pages = docPages(hit.doc);
+          if (!pages.every((s) => selected.has(s.id))) selected = new Set(pages.map((s) => s.id));
+        } else if (!e.shiftKey) pageFocus = null;
         if (e.shiftKey) {
           if (selected.has(hit.id)) selected.delete(hit.id);
           else selected.add(hit.id);
@@ -2239,7 +2266,10 @@
       }
       // Empty space: start a rubber-band selection
       const base = e.shiftKey ? new Set(selected) : new Set();
-      if (!e.shiftKey) selected.clear();
+      if (!e.shiftKey) {
+        selected.clear();
+        pageFocus = null;
+      }
       gesture = { type: "marquee", rect: { x1: p.x, y1: p.y, x2: p.x, y2: p.y }, base };
       render();
       return;
@@ -2458,6 +2488,7 @@
   });
 
   function endGesture() {
+    if (gesture && gesture.type === "resize") syncDocsAfterResize(); // document pages keep one width and their gaps
     let created = null;
     if (drawing) {
       let big = Math.hypot(drawing.x1 - drawing.x0, drawing.y1 - drawing.y0) > 2;
@@ -3232,6 +3263,78 @@
     return out;
   }
 
+  // Space between the pages of one document
+  const DOC_GAP = 24;
+  const DOCX_PREVIEW_URL = "https://cdn.jsdelivr.net/npm/docx-preview@0.3.2/dist/docx-preview.min.js";
+  const HTML2CANVAS_URL = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+
+  // A .docx becomes one picture per page, laid out as the Word file would print it
+  async function pagesFromDocx(file) {
+    await loadScript(DOCX_PREVIEW_URL, () => window.docx);
+    await loadScript(HTML2CANVAS_URL, () => window.html2canvas);
+    const host = document.createElement("div");
+    host.style.cssText = "position:fixed;left:-30000px;top:0;background:#ffffff;";
+    document.body.appendChild(host);
+    const out = [];
+    const pr = progressStart("Word pages");
+    try {
+      const buf = await readFile(file, false);
+      await window.docx.renderAsync(new Blob([buf]), host);
+      const pages = host.querySelectorAll("section.docx, .docx-wrapper > section");
+      for (let k = 0; k < pages.length; k++) {
+        pr.set(k, pages.length);
+        const c = await window.html2canvas(pages[k], { scale: 2, backgroundColor: "#ffffff", useCORS: true });
+        out.push({ src: c.toDataURL("image/jpeg", 0.9), w0: c.width, h0: c.height });
+      }
+    } finally {
+      pr.end();
+      host.remove();
+    }
+    if (!out.length) throw new Error("no pages found in the Word file");
+    return out;
+  }
+
+  // The pages of one document, in order
+  function docPages(docId) {
+    return shapesOf().filter((s) => s.doc === docId).sort((a, b) => a.pg - b.pg);
+  }
+
+  // Stacks the pages of a document one below another, all with the same width; keeps the top-left corner
+  function layoutDoc(docId, width) {
+    const pages = docPages(docId);
+    if (!pages.length) return;
+    const left = Math.min(...pages.map((s) => s.x0));
+    let y = Math.min(...pages.map((s) => s.y0));
+    pages.forEach((s, i) => {
+      const h = (width * s.h0) / s.w0;
+      s.pg = i;
+      s.x0 = left;
+      s.x1 = left + width;
+      s.y0 = y;
+      s.y1 = y + h;
+      y += h + DOC_GAP;
+    });
+  }
+
+  // After a page is resized, the other pages of its document follow the same width
+  function syncDocsAfterResize() {
+    const docs = new Map();
+    for (const s of shapesOf()) if (selected.has(s.id) && s.doc) docs.set(s.doc, bounds(s).x2 - bounds(s).x1);
+    for (const [docId, width] of docs) layoutDoc(docId, width);
+  }
+
+  // Page border (black) and the document's light shadow (right and bottom)
+  function drawDocShadow(docId) {
+    const pages = docPages(docId);
+    const z = board().camera.zoom;
+    const x1 = Math.min(...pages.map((s) => s.x0)), y1 = Math.min(...pages.map((s) => s.y0));
+    const x2 = Math.max(...pages.map((s) => s.x1)), y2 = Math.max(...pages.map((s) => s.y1));
+    const off = 8 / z;
+    ctx.fillStyle = "rgba(0,0,0,0.18)";
+    ctx.fillRect(x1 + off, y1 + off, x2 - x1, y2 - y1);
+  }
+
+
   // Step 3: the text of a .docx becomes a note (old .doc files are not supported)
   async function textFromWord(file) {
     await loadScript(MAMMOTH_URL, () => window.mammoth);
@@ -3240,7 +3343,7 @@
   }
 
   // Places pictures one below another, starting at the centre of the view
-  function insertImages(list) {
+  function insertImages(list, docId) {
     const c = screenToWorld(window.innerWidth / 2, window.innerHeight / 2);
     const before = snapshot();
     const created = [];
@@ -3252,9 +3355,10 @@
       const ref = newId();
       IMAGE_STORE.set(ref, src);
       const s = { id: newId(), type: "image", ref, x0: x, y0: y, x1: x + w, y1: y + h, transparency: 0, blur: 0 };
+      if (docId) Object.assign(s, { doc: docId, pg: created.length, w0, h0 }); // a page of a Word/PDF document
       shapesOf().push(s);
       created.push(s.id);
-      y += h + 20;
+      y += h + (docId ? DOC_GAP : 20);
     }
     selected = new Set(created);
     commit(before);
@@ -3298,13 +3402,13 @@
         return;
       }
       if (kind === "image") insertImages([await pictureFromFile(file)]);
-      else if (kind === "pdf") insertImages(await pagesFromPdf(file));
+      else if (kind === "pdf") insertImages(await pagesFromPdf(file), newId());
       else if (kind === "word") {
         if (!file.name.toLowerCase().endsWith(".docx")) {
           alert("Only .docx files can be opened. Old .doc files are not supported.");
           return;
         }
-        insertNote(await textFromWord(file));
+        insertImages(await pagesFromDocx(file), newId());
       }
     } catch (err) {
       alert("Could not open the file: " + err.message);
