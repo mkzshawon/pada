@@ -1899,3 +1899,20 @@ body {
   width: 32.5px;
   height: 32.5px;
 }
+
+/* Column toolbars: no divider lines between the icons, and the same gap between every pair of icons */
+#toolbar[data-dock="t"] .sep,
+#toolbar[data-dock="b"] .sep {
+  display: none;
+}
+
+#toolbar[data-dock="t"],
+#toolbar[data-dock="b"] {
+  gap: 4px;
+  row-gap: 4px;
+}
+
+#toolbar[data-dock="t"] > *,
+#toolbar[data-dock="b"] > * {
+  margin: 0;
+}
