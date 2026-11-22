@@ -3265,11 +3265,13 @@
 
   // Space between the pages of one document
   const DOC_GAP = 24;
+  const JSZIP_URL = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
   const DOCX_PREVIEW_URL = "https://cdn.jsdelivr.net/npm/docx-preview@0.3.2/dist/docx-preview.min.js";
   const HTML2CANVAS_URL = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
 
   // A .docx becomes one picture per page, laid out as the Word file would print it
   async function pagesFromDocx(file) {
+    await loadScript(JSZIP_URL, () => window.JSZip); // docx-preview reads the .docx (zip) with JSZip
     await loadScript(DOCX_PREVIEW_URL, () => window.docx);
     await loadScript(HTML2CANVAS_URL, () => window.html2canvas);
     const host = document.createElement("div");
