@@ -2243,3 +2243,29 @@ body {
 #tabs {
   left: 71px; /* grip (28px) + logo (37px) + 6px */
 }
+
+/* Tab close (x): always visible on the active tab; on the other tabs it appears under the mouse */
+#tabs .tab-wrap .tab-x {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+#tabs .tab-wrap.active .tab-x,
+#tabs .tab-wrap:hover .tab-x {
+  opacity: 1;
+}
+
+#tabs .tab-wrap .tab {
+  padding-right: 18px; /* room for the (x), so the name never runs under it */
+}
+
+#tabs .tab-wrap .tab-x {
+  right: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+  font-size: 9px;
+  line-height: 12px;
+}
