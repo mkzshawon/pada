@@ -2210,3 +2210,36 @@ body {
   height: 16px;
   pointer-events: none;
 }
+
+/* The logo is as tall as the ribbon, placed after the grip; the File menu and the tabs start right after it */
+.rb-logo {
+  position: fixed;
+  top: 0;
+  left: 28px;
+  z-index: 3;
+  width: auto;
+  min-width: 37px;
+  height: 37px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  pointer-events: none;
+}
+
+.rb-logo img {
+  height: 37px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.rb-logo-txt {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 0 4px;
+}
+
+#tabs {
+  left: 71px; /* grip (28px) + logo (37px) + 6px */
+}

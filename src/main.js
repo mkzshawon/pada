@@ -2846,23 +2846,26 @@
     document.body.appendChild(ribbon);
 
     // Drag the empty part of the ribbon to move the window (desktop app)
+    // Drag an empty part of the ribbon or of the tab bar to move the window (desktop app)
     if (window.padaDesktop && window.padaDesktop.moveWindow) {
-      let last = null;
-      ribbon.addEventListener("pointerdown", (e) => {
-        if (e.target.closest("button, input, .tab-wrap, .rb-menus, #winctl, .rb-drop")) return; // not an empty part
-        last = { x: e.screenX, y: e.screenY };
-        ribbon.setPointerCapture(e.pointerId);
-      });
-      ribbon.addEventListener("pointermove", (e) => {
-        if (!last) return;
-        window.padaDesktop.moveWindow(e.screenX - last.x, e.screenY - last.y);
-        last = { x: e.screenX, y: e.screenY };
-      });
-      const end = () => {
-        last = null;
-      };
-      ribbon.addEventListener("pointerup", end);
-      ribbon.addEventListener("pointercancel", end);
+      for (const area of [ribbon, tabsEl]) {
+        let last = null;
+        area.addEventListener("pointerdown", (ev) => {
+          if (ev.target.closest("button, input, .tab-wrap, .rb-menus, #winctl, .rb-drop")) return; // not an empty part
+          last = { x: ev.screenX, y: ev.screenY };
+          area.setPointerCapture(ev.pointerId);
+        });
+        area.addEventListener("pointermove", (ev) => {
+          if (!last) return;
+          window.padaDesktop.moveWindow(ev.screenX - last.x, ev.screenY - last.y);
+          last = { x: ev.screenX, y: ev.screenY };
+        });
+        const endDrag = () => {
+          last = null;
+        };
+        area.addEventListener("pointerup", endDrag);
+        area.addEventListener("pointercancel", endDrag);
+      }
     }
 
     const ctl = document.createElement("div");
@@ -3043,12 +3046,10 @@
       b.textContent = name;
       menus.appendChild(b);
     }
-    top.append(logo, menus);
+    top.append(menus);
     tabsEl.prepend(top);
-    // the tab row starts exactly under the File button (the spacer is as wide as the logo and its gap)
-    const indent = document.createElement("div");
-    indent.className = "rb-indent";
-    top.after(indent);
+    // the logo is a fixed picture as tall as the ribbon, to the left of the File menu
+    document.body.appendChild(logo);
 
     menus.addEventListener("click", (e) => {
       const b = e.target.closest(".rb-menu-btn");
