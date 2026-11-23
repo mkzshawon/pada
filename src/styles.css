@@ -2109,3 +2109,92 @@ body {
 #ribbon.rb-folded .rb-menus {
   display: none;
 }
+
+/* ---------- Ribbon at half height (37px): every element is resized to match ---------- */
+
+#ribbon {
+  height: 37px;
+}
+
+#ribbon.rb-folded {
+  height: 37px;
+}
+
+#grip {
+  height: 37px;
+  font-size: 12px;
+}
+
+#tabs {
+  top: 2px;
+  left: 30px;
+  right: 104px;
+  row-gap: 3px;
+  gap: 3px;
+}
+
+.rb-top {
+  height: 16px;
+  gap: 6px;
+}
+
+.rb-logo {
+  gap: 4px;
+  min-width: 16px;
+}
+
+.rb-logo img {
+  width: 16px;
+  height: 16px;
+}
+
+.rb-logo-txt {
+  font-size: 9px;
+  letter-spacing: 0.05em;
+}
+
+.rb-menu-btn {
+  height: 16px;
+  padding: 0 6px;
+  font-size: 10px;
+  border-radius: 4px;
+}
+
+#tabs .tab {
+  height: 16px;
+  padding: 0 7px;
+  font-size: 10px;
+  border-radius: 4px 4px 0 0;
+}
+
+#tabs .tab-x,
+#tabs .tab-menu-btn,
+#tabs .tab-add {
+  height: 16px;
+  min-width: 16px;
+  width: 16px;
+  font-size: 10px;
+  line-height: 16px;
+  padding: 0;
+}
+
+#tabs .tab-rename {
+  height: 16px;
+  font-size: 10px;
+  padding: 0 4px;
+}
+
+#winctl {
+  top: 0;
+}
+
+#winctl button {
+  width: 30px;
+  height: 37px;
+  font-size: 12px;
+  border-radius: 0;
+}
+
+.rb-drop {
+  font-size: 12px;
+}

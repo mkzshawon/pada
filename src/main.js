@@ -2874,9 +2874,7 @@
       const b = e.target.closest("button");
       if (!b || !window.padaDesktop) return;
       if (b.dataset.win === "close") closeAppFlow();
-      else if (b.dataset.win === "minimize") toggleRibbonFold(b);
-      else if (b.dataset.win === "resize") fitBoardToScreen();
-      else window.padaDesktop.windowControl(b.dataset.win);
+      else window.padaDesktop.windowControl(b.dataset.win); // minimize: to the taskbar; resize: window size toggle
     });
     if (!window.padaDesktop) ctl.style.display = "none";
     document.body.appendChild(ctl);
