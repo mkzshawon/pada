@@ -2873,7 +2873,9 @@
     ctl.addEventListener("click", (e) => {
       const b = e.target.closest("button");
       if (!b || !window.padaDesktop) return;
-      if (b.dataset.win === "close") showCloseBox();
+      if (b.dataset.win === "close") closeAppFlow();
+      else if (b.dataset.win === "minimize") toggleRibbonFold(b);
+      else if (b.dataset.win === "resize") fitBoardToScreen();
       else window.padaDesktop.windowControl(b.dataset.win);
     });
     if (!window.padaDesktop) ctl.style.display = "none";
@@ -2887,10 +2889,256 @@
     if (!window.padaDesktop) grip.style.display = "none";
     document.body.appendChild(grip);
 
+    buildRibbonTop();
+
     // Ctrl+Alt+1..8 from the desktop app pick a palette colour, even while Zoom has focus
     if (window.padaDesktop && window.padaDesktop.onColor) {
       window.padaDesktop.onColor((i) => applyColorIndex(i));
     }
+  }
+
+
+  /* ---------- Ribbon: first row (logo, File / Edit / Insert), second row (tabs) ---------- */
+
+  function toggleRibbonFold(btn) {
+    const rb = document.getElementById("ribbon");
+    rb.classList.toggle("rb-folded");
+    const folded = rb.classList.contains("rb-folded");
+    btn.title = folded ? "Expand the ribbon" : "Minimize the ribbon";
+    btn.setAttribute("aria-label", btn.title);
+  }
+
+  // Makes the board fit the window (zoom to fit)
+  function fitBoardToScreen() {
+    finishEditing();
+    const b = board();
+    const arr = shapesOf();
+    if (!arr.length) {
+      b.camera = { x: 0, y: 0, zoom: 1 };
+      render();
+      return;
+    }
+    let x1 = Infinity, y1 = Infinity, x2 = -Infinity, y2 = -Infinity;
+    for (const s of arr) {
+      const r = bounds(s);
+      x1 = Math.min(x1, r.x1); y1 = Math.min(y1, r.y1);
+      x2 = Math.max(x2, r.x2); y2 = Math.max(y2, r.y2);
+    }
+    const pad = 60;
+    const W = window.innerWidth, H = window.innerHeight - 80;
+    const z = Math.min((W - 2 * pad) / Math.max(1, x2 - x1), (H - 2 * pad) / Math.max(1, y2 - y1), 4);
+    b.camera = {
+      zoom: z,
+      x: (W - (x2 - x1) * z) / 2 - x1 * z,
+      y: (H - (y2 - y1) * z) / 2 - y1 * z + 40,
+    };
+    render();
+  }
+
+  // One dialog per tab: save it (.pada / PDF / Image), rename it, do not save it, or cancel
+  function askTabClose(i) {
+    return new Promise((resolve) => {
+      const box = document.createElement("div");
+      box.id = "pagebox";
+      const card = document.createElement("div");
+      card.className = "pb-card";
+      card.style.minWidth = "320px";
+      const title = document.createElement("div");
+      title.innerHTML = "<b></b>";
+      title.querySelector("b").textContent = "Close \"" + boards[i].name + "\"?";
+      const hint = document.createElement("div");
+      hint.style.cssText = "font-size:12px;color:#8d8aa6";
+      hint.textContent = "Save this board, rename it, or close it without saving.";
+      const input = document.createElement("input");
+      input.className = "tab-rename";
+      input.maxLength = 20;
+      input.value = boards[i].name;
+      input.style.cssText = "margin:8px 0;width:100%";
+      const row = document.createElement("div");
+      row.className = "pb-row pb-grid";
+      const items = [
+        ["pada", "Save as .pada"],
+        ["pdf", "Save as PDF"],
+        ["image", "Save as Image"],
+        ["rename", "Rename"],
+        ["nosave", "Don't save"],
+        ["cancel", "Cancel"],
+      ];
+      for (const [key, label] of items) {
+        const b = document.createElement("button");
+        b.dataset.r = key;
+        b.textContent = label;
+        row.appendChild(b);
+      }
+      card.append(title, hint, input, row);
+      box.appendChild(card);
+      document.body.appendChild(box);
+      const done = (r) => {
+        box.remove();
+        resolve({ type: r, name: input.value.trim() || boards[i].name });
+      };
+      box.addEventListener("click", (e) => {
+        const r = e.target.dataset && e.target.dataset.r;
+        if (r) done(r);
+      });
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") done("pada");
+        else if (e.key === "Escape") done("cancel");
+      });
+      input.focus();
+      input.select();
+    });
+  }
+
+  // Asks about one tab (index) or about every tab (index undefined). Returns false when the user cancels.
+  async function closeTabsAsk(only) {
+    finishEditing();
+    const list = only === undefined ? boards.map((_, k) => k) : [only];
+    for (const i of list) {
+      if (!boards[i]) continue;
+      if (i !== active) switchBoard(i);
+      let action;
+      do {
+        action = await askTabClose(i);
+        if (action.type === "rename") {
+          boards[i].name = action.name;
+          renderTabs();
+        }
+      } while (action.type === "rename");
+      if (action.type === "cancel") return false;
+      if (action.type === "pada") await saveBoardFile();
+      else if (action.type === "pdf" || action.type === "image") await saveTabAs(action.type);
+    }
+    return true;
+  }
+
+  // Close (ribbon): every tab is asked about, then PADA closes
+  async function closeAppFlow() {
+    if (await closeTabsAsk()) window.padaDesktop.windowControl("close");
+  }
+
+  // The first ribbon row: logo, File / Edit / Insert. The menus act on the selected tab.
+  function buildRibbonTop() {
+    const rb = document.getElementById("ribbon");
+    const top = document.createElement("div");
+    top.className = "rb-top";
+
+    const logo = document.createElement("span");
+    logo.className = "rb-logo";
+    const img = document.createElement("img");
+    img.alt = "PADA";
+    img.src = "src/logo/logo.png";
+    const txt = document.createElement("span");
+    txt.className = "rb-logo-txt";
+    txt.textContent = "PADA";
+    img.addEventListener("load", () => (txt.style.display = "none"));
+    img.addEventListener("error", () => img.remove()); // no logo.png: the text stays
+    logo.append(img, txt);
+
+    const menus = document.createElement("div");
+    menus.className = "rb-menus";
+    for (const name of ["File", "Edit", "Insert"]) {
+      const b = document.createElement("button");
+      b.className = "rb-menu-btn";
+      b.dataset.rb = name;
+      b.textContent = name;
+      menus.appendChild(b);
+    }
+    top.append(logo, menus);
+    tabsEl.prepend(top);
+
+    menus.addEventListener("click", (e) => {
+      const b = e.target.closest(".rb-menu-btn");
+      if (!b) return;
+      openRibbonMenu(b.dataset.rb, b);
+    });
+    document.addEventListener("pointerdown", (e) => {
+      if (rbDropEl && !rbDropEl.contains(e.target) && !e.target.closest(".rb-menu-btn")) closeRibbonMenu();
+    });
+  }
+
+  let rbDropEl = null;
+
+  function closeRibbonMenu() {
+    if (rbDropEl) rbDropEl.remove();
+    rbDropEl = null;
+  }
+
+  function ribbonMenuHtml(name) {
+    const item = (label, sub) => '<div class="tm-item"><div class="tm-label">' + label + ' &#9656;</div><div class="tm-sub">' + sub + "</div></div>";
+    const btn = (act, label, extra) => '<button data-act="' + act + '"' + (extra || "") + ">" + label + "</button>";
+    if (name === "File") {
+      return (
+        item("Open File",
+          btn("board-open", "Open board (.pada)") + "<hr />" +
+          btn("file", "PDF", ' data-kind="pdf"') + btn("file", "Image", ' data-kind="image"') +
+          btn("file", "Word", ' data-kind="word"') + btn("file", "Video", ' data-kind="video"') +
+          btn("file", "PowerPoint", ' data-kind="pptx"')) +
+        item("Save As",
+          btn("save-pdf", "PDF") + btn("save-image", "Image") + "<hr />" + btn("board-save", "Save board (.pada)")) +
+        "<hr />" + btn("rename", "Rename") + btn("duplicate", "Duplicate") + btn("close", "Close")
+      );
+    }
+    if (name === "Edit") {
+      const bgs = [["transparent", "Transparent", "transparent"], ["#ffffff", "White", "#ffffff"], ["#ffe3e3", "Rose", "#ffe3e3"],
+        ["#fff3bf", "Lemon", "#fff3bf"], ["#d3f9d8", "Mint", "#d3f9d8"], ["#d0ebff", "Sky", "#d0ebff"],
+        ["#eebefa", "Lilac", "#eebefa"], ["#000000", "Black", "#000000"]];
+      const bgHtml = bgs.map(([v, l, c]) =>
+        '<button data-act="bg" data-bg="' + v + '" style="border-left:10px solid ' + c + '">' + l + "</button>").join("");
+      return (
+        item("Tab BG", bgHtml) +
+        item("Grid",
+          btn("grid", "Corner dots", ' data-grid="corner"') + btn("grid", "Dots grid", ' data-grid="dots"') +
+          btn("grid", "Line grid", ' data-grid="lines"') + btn("grid", "No grid", ' data-grid="none"'))
+      );
+    }
+    // Insert
+    return btn("insert-table", "Table") + item("Clip Art", clipArtMenuHtml());
+  }
+
+  function openRibbonMenu(name, anchor) {
+    if (rbDropEl && rbDropEl.dataset.name === name) return closeRibbonMenu();
+    closeRibbonMenu();
+    const r = anchor.getBoundingClientRect();
+    const drop = document.createElement("div");
+    drop.className = "rb-drop";
+    drop.dataset.name = name;
+    drop.style.left = r.left + "px";
+    drop.style.top = r.bottom + 4 + "px";
+    drop.innerHTML = ribbonMenuHtml(name);
+    drop.addEventListener("click", (e) => {
+      // a label opens its sub-menu (for touch screens, a click is enough)
+      const label = e.target.closest(".tm-label");
+      if (label) {
+        const item = label.parentElement;
+        const wasOpen = item.classList.contains("open");
+        drop.querySelectorAll(".tm-item.open").forEach((x) => x.classList.remove("open"));
+        if (!wasOpen) item.classList.add("open");
+        return;
+      }
+      const b = e.target.closest("button");
+      if (!b) return;
+      closeRibbonMenu();
+      runRibbonAction(b.dataset.act, b);
+    });
+    drop.addEventListener("pointerover", fitSub);
+    document.body.appendChild(drop);
+    rbDropEl = drop;
+  }
+
+  function runRibbonAction(act, b) {
+    const i = active;
+    if (act === "file") openFilePicker(b.dataset.kind);
+    else if (act === "board-open") openBoardFile();
+    else if (act === "save-pdf" || act === "save-image") saveTabAs(act === "save-image" ? "image" : "pdf");
+    else if (act === "board-save") saveBoardFile();
+    else if (act === "rename") renameBoard(i);
+    else if (act === "duplicate") duplicateBoard(i);
+    else if (act === "close") closeTabsAsk(i).then((ok) => { if (ok) removeBoard(i); });
+    else if (act === "bg") setBoardBg(i, b.dataset.bg);
+    else if (act === "grid") setBoardGrid(i, b.dataset.grid);
+    else if (act === "insert-table") openTableDialog();
+    else if (act === "clip") insertClipPath(b.dataset.path);
   }
 
   /* ---------- Toolbar visibility & eraser menu ---------- */
@@ -5931,7 +6179,8 @@
 
   // Renames a tab in place. (window.prompt is not available in the desktop app.)
   function renameBoard(index) {
-    const btn = tabsEl.children[index] && tabsEl.children[index].querySelector(".tab");
+    const wrapEl = tabsEl.querySelectorAll(".tab-wrap")[index];
+    const btn = wrapEl && wrapEl.querySelector(".tab");
     if (!btn) return;
     const input = document.createElement("input");
     input.className = "tab-rename";
@@ -5997,7 +6246,7 @@
   }
 
   function renderTabs() {
-    tabsEl.innerHTML = "";
+    tabsEl.querySelectorAll(":scope > .tab-wrap, :scope > .tab-add").forEach((n) => n.remove());
     boards.forEach((b, i) => {
       const wrap = document.createElement("div");
       wrap.className = "tab-wrap" + (i === active ? " active" : "");
