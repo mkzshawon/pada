@@ -2198,3 +2198,15 @@ body {
 .rb-drop {
   font-size: 12px;
 }
+
+/* The logo has a fixed width, so the File button and the first tab sit on the same left line */
+.rb-logo {
+  width: 56px;
+}
+
+/* First item of the tab row: as wide as the logo and its gap, so the tabs start under File */
+.rb-indent {
+  flex: 0 0 59px; /* 62px minus the 3px gap that follows it */
+  height: 16px;
+  pointer-events: none;
+}

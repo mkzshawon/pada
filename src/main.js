@@ -2849,6 +2849,7 @@
     if (window.padaDesktop && window.padaDesktop.moveWindow) {
       let last = null;
       ribbon.addEventListener("pointerdown", (e) => {
+        if (e.target.closest("button, input, .tab-wrap, .rb-menus, #winctl, .rb-drop")) return; // not an empty part
         last = { x: e.screenX, y: e.screenY };
         ribbon.setPointerCapture(e.pointerId);
       });
@@ -3044,6 +3045,10 @@
     }
     top.append(logo, menus);
     tabsEl.prepend(top);
+    // the tab row starts exactly under the File button (the spacer is as wide as the logo and its gap)
+    const indent = document.createElement("div");
+    indent.className = "rb-indent";
+    top.after(indent);
 
     menus.addEventListener("click", (e) => {
       const b = e.target.closest(".rb-menu-btn");
