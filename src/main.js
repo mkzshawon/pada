@@ -6277,17 +6277,7 @@
         removeBoard(i);
       });
 
-      const menu = document.createElement("button");
-      menu.className = "tab-menu-btn";
-      menu.title = "Tab options";
-      menu.setAttribute("aria-label", `Options for ${b.name}`);
-      menu.textContent = "▾";
-      menu.addEventListener("click", (e) => {
-        e.stopPropagation();
-        openTabMenu(i, menu);
-      });
-
-      wrap.append(btn, x, menu);
+      wrap.append(btn, x);
       tabsEl.appendChild(wrap);
     });
     const add = document.createElement("button");
