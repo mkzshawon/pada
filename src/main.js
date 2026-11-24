@@ -2681,6 +2681,16 @@
 
   window.addEventListener("keydown", (e) => {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+    if (e.key === "Escape" && (tool === "reveal" || tool === "spotlight")) {
+      // Esc leaves Reveal / Spot Light and returns to the Select tool
+      e.preventDefault();
+      spotRect = null;
+      zDrag = null;
+      zArea = null;
+      setTool("select");
+      render();
+      return;
+    }
     if (e.key === "Escape" && spotRect) {
       e.preventDefault();
       spotRect = null;
