@@ -3265,17 +3265,25 @@
     render();
   }
 
-  /* ---------- Help: a searchable guide to PADA ---------- */
+  /* ---------- Help: a searchable guide to PADA (Bangla / English) ---------- */
+
+  let helpLang = "bn"; // the language chosen in the Help window (bn or en)
 
   function openHelp() {
     if (document.getElementById("help-panel")) return;
     const topics = window.PADA_HELP || [];
+    const UI = {
+      bn: { search: "Help খুঁজুন (যেমন: laser, reveal, pdf)", none: "এই শব্দে কোনো বিষয় পাওয়া যায়নি। অন্য শব্দ লিখুন।", title: "PADA সহায়িকা", close: "বন্ধ করুন (Esc)" },
+      en: { search: "Search help (e.g. laser, reveal, pdf)", none: "No topic matches this word. Try another word.", title: "PADA Help", close: "Close (Esc)" },
+    };
     const panel = document.createElement("div");
     panel.id = "help-panel";
     panel.innerHTML =
       '<div class="hp-card">' +
-      '<div class="hp-head"><b>PADA Help</b><button class="hp-close" title="Close (Esc)">&times;</button></div>' +
-      '<input class="hp-search" type="search" placeholder="Search help (e.g. laser, reveal, pdf)" />' +
+      '<div class="hp-head"><b class="hp-title"></b>' +
+      '<span class="hp-langs"><button data-lang="bn">বাংলা</button><button data-lang="en">English</button></span>' +
+      '<button class="hp-close">&times;</button></div>' +
+      '<input class="hp-search" type="search" />' +
       '<div class="hp-body"><ul class="hp-list"></ul><div class="hp-text"></div></div>' +
       "</div>";
     document.body.appendChild(panel);
@@ -3283,14 +3291,16 @@
     const text = panel.querySelector(".hp-text");
     const search = panel.querySelector(".hp-search");
     let shown = topics;
+    let current = null;
 
     const show = (topic) => {
+      current = topic;
       text.innerHTML = "";
       const h = document.createElement("h3");
-      h.textContent = topic.title;
+      h.textContent = topic.title[helpLang] || topic.title.en;
       const p = document.createElement("div");
       p.className = "hp-para";
-      p.textContent = topic.body;
+      p.textContent = topic.body[helpLang] || topic.body.en;
       text.append(h, p);
       list.querySelectorAll("li").forEach((li) => {
         li.classList.toggle("on", li.dataset.i === String(topics.indexOf(topic)));
@@ -3301,18 +3311,28 @@
       shown.forEach((topic) => {
         const li = document.createElement("li");
         li.dataset.i = String(topics.indexOf(topic));
-        li.textContent = topic.title;
+        li.textContent = topic.title[helpLang] || topic.title.en;
         list.appendChild(li);
       });
       if (shown.length) {
-        show(shown[0]);
+        show(current && shown.includes(current) ? current : shown[0]);
       } else {
+        current = null;
         text.innerHTML = "";
         const none = document.createElement("div");
         none.className = "hp-para";
-        none.textContent = "No topic matches this word. Try another word.";
+        none.textContent = UI[helpLang].none;
         text.appendChild(none);
       }
+    };
+    // every label of the window follows the chosen language
+    const applyLang = () => {
+      const u = UI[helpLang];
+      panel.querySelector(".hp-title").textContent = u.title;
+      panel.querySelector(".hp-close").title = u.close;
+      search.placeholder = u.search;
+      panel.querySelectorAll(".hp-langs button").forEach((b) => b.classList.toggle("on", b.dataset.lang === helpLang));
+      fill();
     };
     const onKey = (e) => {
       if (e.key === "Escape") {
@@ -3325,6 +3345,13 @@
       panel.remove();
       document.removeEventListener("keydown", onKey, true);
     };
+    panel.querySelector(".hp-langs").addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      helpLang = b.dataset.lang;
+      search.dispatchEvent(new Event("input"));
+      applyLang();
+    });
     list.addEventListener("click", (e) => {
       const li = e.target.closest("li");
       if (li) show(topics[Number(li.dataset.i)]);
@@ -3332,7 +3359,10 @@
     search.addEventListener("input", () => {
       const q = search.value.trim().toLowerCase();
       shown = q
-        ? topics.filter((tp) => (tp.title + " " + tp.body + " " + (tp.keywords || "")).toLowerCase().includes(q))
+        ? topics.filter((tp) => {
+            const all = tp.title.bn + " " + tp.title.en + " " + tp.body.bn + " " + tp.body.en + " " + (tp.keywords || "");
+            return all.toLowerCase().includes(q);
+          })
         : topics;
       fill();
     });
@@ -3341,7 +3371,7 @@
       if (e.target === panel) close();
     });
     document.addEventListener("keydown", onKey, true);
-    fill();
+    applyLang();
     search.focus();
   }
 
