@@ -941,6 +941,9 @@
   let laserColor = "#e03131"; // Red, Blue or Green (chosen from the laser menu)
   let laserMenuOpen = false;
   let laserMenuEl = null;
+  let zDrag = null; // a drag with the Spot Light or Reveal tool: { tool, x, y }
+  let zArea = null; // the box being dragged: { x1, y1, x2, y2 }
+  let spotRect = null; // the Spot Light area that stays on the board until dismissed
 
   function renderLaserMenu() {
     if (laserMenuEl) laserMenuEl.style.display = laserMenuOpen ? "flex" : "none";
@@ -1846,6 +1849,8 @@
     drawLaser(z);
     drawMarquee(z);
     drawShotArea(z);
+    drawZArea(z);
+    drawSpotlight(z);
     drawBindHint(z);
     drawRotateButton(z);
     if (editor) positionEditor();
@@ -1927,6 +1932,13 @@
   }
 
   function drawShape(s) {
+    if (s.cover) {
+      // a cover hides what is under it, until it is revealed
+      if (s.revealed) return;
+      const cb = bounds(s);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(cb.x1, cb.y1, cb.x2 - cb.x1, cb.y2 - cb.y1);
+    }
     if (s.type === "clip") {
       drawClip(s);
       return;
@@ -2185,6 +2197,16 @@
 
   canvas.addEventListener("pointerdown", (e) => {
     canvas.setPointerCapture(e.pointerId);
+    if (tool === "spotlight" || tool === "reveal") {
+      // Spot Light / Reveal: a drag draws the box
+      if (e.button === 0) {
+        const q = eventToWorld(e);
+        zDrag = { tool, x: q.x, y: q.y };
+        zArea = { x1: q.x, y1: q.y, x2: q.x, y2: q.y };
+        render();
+      }
+      return;
+    }
     if (shotMode) {
       // Screen Shot: a drag chooses the area
       if (e.button === 0) {
@@ -2363,6 +2385,11 @@
   canvas.addEventListener("pointermove", (e) => {
     const p = eventToWorld(e);
     lastWorld = p;
+    if (zDrag) {
+      zArea = { x1: zDrag.x, y1: zDrag.y, x2: p.x, y2: p.y };
+      render();
+      return;
+    }
     if (shotDrag) {
       shotArea = { x1: shotDrag.x, y1: shotDrag.y, x2: p.x, y2: p.y };
       render();
@@ -2574,6 +2601,27 @@
   canvas.addEventListener("pointerup", endGesture);
   canvas.addEventListener("pointercancel", endGesture);
   // Screen Shot: when the drag ends, a large enough area shows the OK / Cancel bar
+  // Spot Light / Reveal: releasing the drag keeps the spot, or adds a cover
+  canvas.addEventListener("pointerup", () => {
+    if (!zDrag) return;
+    const d = zDrag;
+    const a = zArea;
+    zDrag = null;
+    zArea = null;
+    const big = a && Math.abs(a.x2 - a.x1) > 4 && Math.abs(a.y2 - a.y1) > 4;
+    if (d.tool === "spotlight") {
+      spotRect = big ? { x1: Math.min(a.x1, a.x2), y1: Math.min(a.y1, a.y2), x2: Math.max(a.x1, a.x2), y2: Math.max(a.y1, a.y2) } : null;
+    } else if (big) {
+      const before = snapshot();
+      shapesOf().push({
+        id: newId(), type: "rect", cover: true, revealed: false,
+        x0: Math.min(a.x1, a.x2), y0: Math.min(a.y1, a.y2), x1: Math.max(a.x1, a.x2), y1: Math.max(a.y1, a.y2),
+        transparency: 0, blur: 0,
+      });
+      commit(before);
+    }
+    render();
+  });
   canvas.addEventListener("pointerup", () => {
     if (!shotDrag) return;
     shotDrag = null;
@@ -2633,6 +2681,23 @@
 
   window.addEventListener("keydown", (e) => {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+    if (e.key === "Escape" && spotRect) {
+      e.preventDefault();
+      spotRect = null;
+      render();
+      return;
+    }
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "r") {
+      e.preventDefault();
+      shapesOf().forEach((s) => { if (s.cover) s.revealed = false; });
+      render();
+      return;
+    }
+    if (!e.ctrlKey && !e.metaKey && !e.altKey && (e.key === "ArrowRight" || e.key === "ArrowLeft") && selected.size === 0 && shapesOf().some((s) => s.cover)) {
+      e.preventDefault();
+      revealStep(e.key === "ArrowRight" ? 1 : -1);
+      return;
+    }
     if ((shotMode || shotArea) && e.key === "Escape") {
       e.preventDefault();
       cancelShot();
@@ -3145,6 +3210,49 @@
     else if (act === "clip") insertClipPath(b.dataset.path);
   }
 
+  /* ---------- Spot Light and Reveal ---------- */
+
+  // A dark veil over the whole visible board, with the spot left clear
+  function drawSpotlight(z) {
+    if (!spotRect) return;
+    const cam = board().camera;
+    const vx = -cam.x / cam.zoom, vy = -cam.y / cam.zoom;
+    const vw = window.innerWidth / cam.zoom, vh = window.innerHeight / cam.zoom;
+    const r = spotRect;
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(vx, vy, vw, vh);
+    ctx.rect(r.x1, r.y1, r.x2 - r.x1, r.y2 - r.y1);
+    ctx.fillStyle = "rgba(15, 15, 25, 0.55)";
+    ctx.fill("evenodd");
+    ctx.restore();
+  }
+
+  // The box while it is being dragged (Spot Light or Reveal)
+  function drawZArea(z) {
+    if (!zArea) return;
+    const a = zArea;
+    ctx.save();
+    ctx.lineWidth = 1.5 / z;
+    ctx.setLineDash([6 / z, 4 / z]);
+    ctx.strokeStyle = zDrag && zDrag.tool === "reveal" ? "#555555" : "#e8590c";
+    ctx.strokeRect(Math.min(a.x1, a.x2), Math.min(a.y1, a.y2), Math.abs(a.x2 - a.x1), Math.abs(a.y2 - a.y1));
+    ctx.restore();
+  }
+
+  // Right arrow shows the next cover, left arrow covers the last one again (in the order they were drawn)
+  function revealStep(dir) {
+    const covers = shapesOf().filter((s) => s.cover);
+    if (dir > 0) {
+      const next = covers.find((s) => !s.revealed);
+      if (next) next.revealed = true;
+    } else {
+      const last = covers.filter((s) => s.revealed).pop();
+      if (last) last.revealed = false;
+    }
+    render();
+  }
+
   /* ---------- Toolbar visibility & eraser menu ---------- */
 
   let eraserMenuEl = null;
@@ -3417,13 +3525,22 @@
     laserMenuEl = document.createElement("div");
     laserMenuEl.id = "laser-menu";
     laserMenuEl.innerHTML =
+      '<div class="tm-item"><div class="tm-label">Laser &#9656;</div><div class="tm-sub">' +
       '<button data-lcolor="#e03131"><i style="background:#e03131"></i>Red</button>' +
       '<button data-lcolor="#1971c2"><i style="background:#1971c2"></i>Blue</button>' +
-      '<button data-lcolor="#2f9e44"><i style="background:#2f9e44"></i>Green</button>';
+      '<button data-lcolor="#2f9e44"><i style="background:#2f9e44"></i>Green</button>' +
+      '</div></div>' +
+      '<button data-ztool="spotlight">Spot Light</button>' +
+      '<button data-ztool="reveal">Reveal</button>';
     laserMenuEl.addEventListener("click", (e) => {
       const b = e.target.closest("button");
       if (!b) return;
-      laserColor = b.dataset.lcolor;
+      if (b.dataset.lcolor) {
+        laserColor = b.dataset.lcolor;
+        setTool("laser");
+      } else if (b.dataset.ztool) {
+        setTool(b.dataset.ztool);
+      }
       laserMenuOpen = false;
       renderLaserMenu();
     });

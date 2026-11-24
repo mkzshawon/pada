@@ -2269,3 +2269,42 @@ body {
   font-size: 9px;
   line-height: 12px;
 }
+
+/* Z menu: Laser (with its colour sub-menu), Spot Light and Reveal */
+#laser-menu .tm-item {
+  position: relative;
+}
+
+#laser-menu .tm-label {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--ink);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+#laser-menu .tm-label:hover {
+  background: #f3f1fb;
+}
+
+#laser-menu .tm-sub {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  background: var(--chrome);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+#laser-menu .tm-item:hover > .tm-sub,
+#laser-menu .tm-item.open > .tm-sub {
+  display: flex;
+}
