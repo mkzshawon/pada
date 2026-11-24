@@ -941,6 +941,8 @@
   let laserColor = "#e03131"; // Red, Blue or Green (chosen from the laser menu)
   let laserMenuOpen = false;
   let laserMenuEl = null;
+  const COVER_MS = 1500; // a cover moves in or out in 1.5 seconds
+  let coverAnim = null; // the cover that is moving now: { id, dir: out | in, t0 }
   let zDrag = null; // a drag with the Spot Light or Reveal tool: { tool, x, y }
   let zArea = null; // the box being dragged: { x1, y1, x2, y2 }
   let spotRect = null; // the Spot Light area that stays on the board until dismissed
@@ -1933,11 +1935,27 @@
 
   function drawShape(s) {
     if (s.cover) {
-      // a cover hides what is under it, until it is revealed
-      if (s.revealed) return;
+      // a cover hides what is under it; while it moves, only the part still covering is drawn
       const cb = bounds(s);
+      const w = cb.x2 - cb.x1;
+      let vx1 = cb.x1;
+      const an = coverAnim && coverAnim.id === s.id ? coverAnim : null;
+      if (an) {
+        const p = Math.min(1, (performance.now() - an.t0) / COVER_MS);
+        if (an.dir === "out") {
+          // revealed: the cover is wiped away from left to right
+          if (p >= 1) return;
+          vx1 = cb.x1 + p * w;
+        } else {
+          // covered again: the cover comes back from right to left
+          vx1 = cb.x2 - p * w;
+        }
+      } else if (s.revealed) {
+        return;
+      }
       ctx.fillStyle = "#ffffff";
-      ctx.fillRect(cb.x1, cb.y1, cb.x2 - cb.x1, cb.y2 - cb.y1);
+      ctx.fillRect(vx1, cb.y1, cb.x2 - vx1, cb.y2 - cb.y1);
+      return;
     }
     if (s.type === "clip") {
       drawClip(s);
@@ -3252,17 +3270,27 @@
     ctx.restore();
   }
 
-  // Right arrow shows the next cover, left arrow covers the last one again (in the order they were drawn)
+  // Right arrow reveals the next cover (wiped away left to right); left arrow covers the last one again (right to left)
   function revealStep(dir) {
     const covers = shapesOf().filter((s) => s.cover);
+    let target = null;
     if (dir > 0) {
-      const next = covers.find((s) => !s.revealed);
-      if (next) next.revealed = true;
+      target = covers.find((s) => !s.revealed) || null;
+      if (target) target.revealed = true;
     } else {
-      const last = covers.filter((s) => s.revealed).pop();
-      if (last) last.revealed = false;
+      target = covers.filter((s) => s.revealed).pop() || null;
+      if (target) target.revealed = false;
     }
+    if (!target) return;
+    coverAnim = { id: target.id, dir: dir > 0 ? "out" : "in", t0: performance.now() };
+    animateCovers();
+  }
+
+  // Redraws while a cover is moving, then stops
+  function animateCovers() {
     render();
+    if (coverAnim && performance.now() - coverAnim.t0 < COVER_MS + 100) requestAnimationFrame(animateCovers);
+    else coverAnim = null;
   }
 
   /* ---------- Help: a searchable guide to PADA (Bangla / English) ---------- */
