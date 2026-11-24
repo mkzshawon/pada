@@ -3114,7 +3114,7 @@
 
     const menus = document.createElement("div");
     menus.className = "rb-menus";
-    for (const name of ["File", "Edit", "Insert"]) {
+    for (const name of ["File", "Edit", "Insert", "Help"]) {
       const b = document.createElement("button");
       b.className = "rb-menu-btn";
       b.dataset.rb = name;
@@ -3171,6 +3171,7 @@
           btn("grid", "Line grid", ' data-grid="lines"') + btn("grid", "No grid", ' data-grid="none"'))
       );
     }
+    if (name === "Help") return btn("help", "Open Help");
     // Insert
     return btn("insert-table", "Table") + item("Clip Art", clipArtMenuHtml());
   }
@@ -3217,6 +3218,7 @@
     else if (act === "bg") setBoardBg(i, b.dataset.bg);
     else if (act === "grid") setBoardGrid(i, b.dataset.grid);
     else if (act === "insert-table") openTableDialog();
+    else if (act === "help") openHelp();
     else if (act === "clip") insertClipPath(b.dataset.path);
   }
 
@@ -3261,6 +3263,86 @@
       if (last) last.revealed = false;
     }
     render();
+  }
+
+  /* ---------- Help: a searchable guide to PADA ---------- */
+
+  function openHelp() {
+    if (document.getElementById("help-panel")) return;
+    const topics = window.PADA_HELP || [];
+    const panel = document.createElement("div");
+    panel.id = "help-panel";
+    panel.innerHTML =
+      '<div class="hp-card">' +
+      '<div class="hp-head"><b>PADA Help</b><button class="hp-close" title="Close (Esc)">&times;</button></div>' +
+      '<input class="hp-search" type="search" placeholder="Search help (e.g. laser, reveal, pdf)" />' +
+      '<div class="hp-body"><ul class="hp-list"></ul><div class="hp-text"></div></div>' +
+      "</div>";
+    document.body.appendChild(panel);
+    const list = panel.querySelector(".hp-list");
+    const text = panel.querySelector(".hp-text");
+    const search = panel.querySelector(".hp-search");
+    let shown = topics;
+
+    const show = (topic) => {
+      text.innerHTML = "";
+      const h = document.createElement("h3");
+      h.textContent = topic.title;
+      const p = document.createElement("div");
+      p.className = "hp-para";
+      p.textContent = topic.body;
+      text.append(h, p);
+      list.querySelectorAll("li").forEach((li) => {
+        li.classList.toggle("on", li.dataset.i === String(topics.indexOf(topic)));
+      });
+    };
+    const fill = () => {
+      list.innerHTML = "";
+      shown.forEach((topic) => {
+        const li = document.createElement("li");
+        li.dataset.i = String(topics.indexOf(topic));
+        li.textContent = topic.title;
+        list.appendChild(li);
+      });
+      if (shown.length) {
+        show(shown[0]);
+      } else {
+        text.innerHTML = "";
+        const none = document.createElement("div");
+        none.className = "hp-para";
+        none.textContent = "No topic matches this word. Try another word.";
+        text.appendChild(none);
+      }
+    };
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
+        close();
+      }
+    };
+    const close = () => {
+      panel.remove();
+      document.removeEventListener("keydown", onKey, true);
+    };
+    list.addEventListener("click", (e) => {
+      const li = e.target.closest("li");
+      if (li) show(topics[Number(li.dataset.i)]);
+    });
+    search.addEventListener("input", () => {
+      const q = search.value.trim().toLowerCase();
+      shown = q
+        ? topics.filter((tp) => (tp.title + " " + tp.body + " " + (tp.keywords || "")).toLowerCase().includes(q))
+        : topics;
+      fill();
+    });
+    panel.querySelector(".hp-close").addEventListener("click", close);
+    panel.addEventListener("pointerdown", (e) => {
+      if (e.target === panel) close();
+    });
+    document.addEventListener("keydown", onKey, true);
+    fill();
+    search.focus();
   }
 
   /* ---------- Toolbar visibility & eraser menu ---------- */
