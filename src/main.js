@@ -3191,7 +3191,9 @@
     }
     if (name === "Help") return btn("help", "Open Help");
     // Insert
-    return btn("insert-table", "Table") + item("Clip Art", clipArtMenuHtml());
+    const convHtml = (window.PADA_UNITS || []).map((c, i) => btn("conv", c.name, ' data-idx="' + i + '"')).join("");
+    const constHtml = (window.PADA_CONSTANTS || []).map((c, i) => btn("const", c.name, ' data-idx="' + i + '"')).join("");
+    return btn("insert-table", "Table") + item("Clip Art", clipArtMenuHtml()) + item("Conversion", convHtml) + item("Constants", constHtml);
   }
 
   function openRibbonMenu(name, anchor) {
@@ -3237,6 +3239,8 @@
     else if (act === "grid") setBoardGrid(i, b.dataset.grid);
     else if (act === "insert-table") openTableDialog();
     else if (act === "help") openHelp();
+    else if (act === "conv") openConversion(Number(b.dataset.idx));
+    else if (act === "const") openConstants(Number(b.dataset.idx));
     else if (act === "clip") insertClipPath(b.dataset.path);
   }
 
@@ -3401,6 +3405,145 @@
     document.addEventListener("keydown", onKey, true);
     applyLang();
     search.focus();
+  }
+
+  /* ---------- Conversion and Scientific Constants windows (Insert menu) ---------- */
+
+  // A window in the same style as Help: a banner with the title, a close (x), Esc closes it
+  function openToolWindow(title, build) {
+    const old = document.getElementById("tool-panel");
+    if (old) old.remove();
+    const panel = document.createElement("div");
+    panel.id = "tool-panel";
+    panel.innerHTML =
+      '<div class="tp-card"><div class="tp-banner"><span class="tp-title"></span>' +
+      '<button class="tp-close" title="Close (Esc)">&times;</button></div><div class="tp-body"></div></div>';
+    panel.querySelector(".tp-title").textContent = title;
+    document.body.appendChild(panel);
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
+        close();
+      }
+    };
+    const close = () => {
+      panel.remove();
+      document.removeEventListener("keydown", onKey, true);
+    };
+    panel.querySelector(".tp-close").addEventListener("click", close);
+    panel.addEventListener("pointerdown", (e) => {
+      if (e.target === panel) close();
+    });
+    document.addEventListener("keydown", onKey, true);
+    const body = panel.querySelector(".tp-body");
+    build(body, (t) => (panel.querySelector(".tp-title").textContent = t));
+    return panel;
+  }
+
+  // Copies text to the system clipboard and makes it ready for Ctrl+V on the canvas (as a text shape)
+  function copyTextForCanvas(text, note) {
+    shotClip = { kind: "text", text, fontSize: currentStyle.fontSize, stroke: currentStyle.stroke, family: currentStyle.family };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).catch(() => {});
+    if (note) note.textContent = "Copied: " + text + "  (press Ctrl+V on the canvas to place it as text)";
+  }
+
+  function fmtNumber(x) {
+    if (!isFinite(x)) return "—";
+    if (x === 0) return "0";
+    const a = Math.abs(x);
+    if (a >= 1e9 || a < 1e-4) return x.toExponential(6).replace("e+", " × 10^").replace("e-", " × 10^-");
+    return String(Number(x.toPrecision(8)));
+  }
+
+  // Temperature goes through kelvin; other units go through the category's base unit
+  function convertValue(cat, fromU, toU, v) {
+    if (cat.temp) {
+      const toK = {
+        c: (x) => x + 273.15, f: (x) => (x + 459.67) * 5 / 9, k: (x) => x,
+        r: (x) => x * 5 / 9, re: (x) => x * 5 / 4 + 273.15,
+      };
+      const fromK = {
+        c: (k) => k - 273.15, f: (k) => k * 9 / 5 - 459.67, k: (k) => k,
+        r: (k) => k * 9 / 5, re: (k) => (k - 273.15) * 4 / 5,
+      };
+      return fromK[toU[2]](toK[fromU[2]](v));
+    }
+    return (v * fromU[2]) / toU[2];
+  }
+
+  function openConversion(catIndex) {
+    const cats = window.PADA_UNITS || [];
+    openToolWindow("Conversion", (body, setTitle) => {
+      const cat = cats[catIndex];
+      setTitle("Conversion of " + cat.name);
+      const opts = (sel) => cat.units.map((u, i) => '<option value="' + i + '"' + (i === sel ? " selected" : "") + ">" + u[0] + " (" + u[1] + ")</option>").join("");
+      body.innerHTML =
+        '<div class="tp-row"><label>Conversion from<select class="tp-select" data-k="from">' + opts(0) + '</select></label>' +
+        '<label>Conversion to<select class="tp-select" data-k="to">' + opts(1) + '</select></label></div>' +
+        '<div class="tp-row"><label>Insert value<input class="tp-input" data-k="val" type="number" step="any" placeholder="e.g. 10" /></label>' +
+        '<div class="tp-result" data-k="res" title="Click to copy">—</div></div>' +
+        '<div class="tp-row tp-end"><button class="tp-ok" data-k="ok">OK</button></div>' +
+        '<div class="tp-note" data-k="note">Click the result to copy it. Then press Ctrl+V on the canvas.</div>';
+      const q = (k) => body.querySelector('[data-k="' + k + '"]');
+      const run = () => {
+        const raw = q("val").value;
+        if (raw === "") {
+          q("res").textContent = "Enter a value";
+          return;
+        }
+        const from = cat.units[Number(q("from").value)];
+        const to = cat.units[Number(q("to").value)];
+        const out = convertValue(cat, from, to, Number(raw));
+        q("res").textContent = fmtNumber(out) + " " + to[1];
+      };
+      q("ok").addEventListener("click", run);
+      q("val").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") run();
+      });
+      q("res").addEventListener("click", () => {
+        const t = q("res").textContent;
+        if (t && t !== "—" && t !== "Enter a value") copyTextForCanvas(t, q("note"));
+      });
+      q("val").focus();
+    });
+  }
+
+  function openConstants(catIndex) {
+    const groups = window.PADA_CONSTANTS || [];
+    openToolWindow("Scientific Constants", (body) => {
+      body.innerHTML =
+        '<div class="tp-cols"><ul class="tp-list"></ul><div class="tp-table-wrap"><table class="tp-table">' +
+        "<thead><tr><th>Constant Name</th><th>Symbol</th><th>Value</th></tr></thead><tbody></tbody></table></div></div>" +
+        '<div class="tp-note" data-k="note">Click a row to copy it. Then press Ctrl+V on the canvas.</div>';
+      const list = body.querySelector(".tp-list");
+      const tbody = body.querySelector("tbody");
+      const note = body.querySelector('[data-k="note"]');
+      const showGroup = (i) => {
+        list.querySelectorAll("li").forEach((li) => li.classList.toggle("on", Number(li.dataset.i) === i));
+        tbody.innerHTML = "";
+        groups[i].rows.forEach((row) => {
+          const [name, sym, val] = row.split("|");
+          const tr = document.createElement("tr");
+          tr.innerHTML = "<td></td><td></td><td></td>";
+          tr.children[0].textContent = name;
+          tr.children[1].textContent = sym;
+          tr.children[2].textContent = val;
+          tr.addEventListener("click", () => {
+            copyTextForCanvas(name + " (" + sym + ") = " + val, note);
+          });
+          tbody.appendChild(tr);
+        });
+      };
+      groups.forEach((g, i) => {
+        const li = document.createElement("li");
+        li.dataset.i = String(i);
+        li.textContent = g.name;
+        li.addEventListener("click", () => showGroup(i));
+        list.appendChild(li);
+      });
+      showGroup(catIndex);
+    });
   }
 
   /* ---------- Toolbar visibility & eraser menu ---------- */
