@@ -3399,15 +3399,36 @@
       fill();
     });
     panel.querySelector(".hp-close").addEventListener("click", close);
-    panel.addEventListener("pointerdown", (e) => {
-      if (e.target === panel) close();
-    });
     document.addEventListener("keydown", onKey, true);
+    makeFloating(panel.querySelector(".hp-card"), panel.querySelector(".hp-head"));
     applyLang();
     search.focus();
   }
 
   /* ---------- Conversion and Scientific Constants windows (Insert menu) ---------- */
+
+  // A floating window: it stays on screen, moves by its top bar, and is resized from its bottom-right corner
+  function makeFloating(card, bar) {
+    card.style.left = Math.max(8, Math.round((window.innerWidth - card.offsetWidth) / 2)) + "px";
+    card.style.top = Math.max(8, Math.round((window.innerHeight - card.offsetHeight) / 3)) + "px";
+    bar.addEventListener("pointerdown", (e) => {
+      if (e.target.closest("button, input, select")) return;
+      e.preventDefault();
+      const sx = e.clientX, sy = e.clientY;
+      const x0 = card.offsetLeft, y0 = card.offsetTop;
+      const move = (ev) => {
+        const nx = x0 + ev.clientX - sx, ny = y0 + ev.clientY - sy;
+        card.style.left = Math.min(window.innerWidth - 80, Math.max(80 - card.offsetWidth, nx)) + "px";
+        card.style.top = Math.min(window.innerHeight - 40, Math.max(0, ny)) + "px";
+      };
+      const up = () => {
+        window.removeEventListener("pointermove", move);
+        window.removeEventListener("pointerup", up);
+      };
+      window.addEventListener("pointermove", move);
+      window.addEventListener("pointerup", up);
+    });
+  }
 
   // A window in the same style as Help: a banner with the title, a close (x), Esc closes it
   function openToolWindow(title, build) {
@@ -3432,10 +3453,8 @@
       document.removeEventListener("keydown", onKey, true);
     };
     panel.querySelector(".tp-close").addEventListener("click", close);
-    panel.addEventListener("pointerdown", (e) => {
-      if (e.target === panel) close();
-    });
     document.addEventListener("keydown", onKey, true);
+    makeFloating(panel.querySelector(".tp-card"), panel.querySelector(".tp-banner"));
     const body = panel.querySelector(".tp-body");
     build(body, (t) => (panel.querySelector(".tp-title").textContent = t));
     return panel;

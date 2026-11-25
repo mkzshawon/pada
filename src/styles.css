@@ -2648,3 +2648,62 @@ body {
 .tp-table td:last-child {
   white-space: nowrap;
 }
+
+/* ---------- Floating windows: Help, Conversion, Constants ---------- */
+/* The window does not dim or block the canvas; only the window itself takes the mouse */
+#help-panel,
+#tool-panel {
+  display: block;
+  background: none;
+  pointer-events: none;
+}
+
+.hp-card,
+.tp-card {
+  position: absolute;
+  pointer-events: auto;
+  max-width: none;
+  max-height: none;
+  min-width: 420px;
+  min-height: 300px;
+  resize: both;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.hp-card {
+  width: 900px;
+  height: 600px;
+}
+
+.tp-card {
+  width: 860px;
+  height: 580px;
+}
+
+.tp-banner,
+.hp-head {
+  cursor: move;
+  user-select: none;
+}
+
+.tp-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.tp-cols {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+
+.tp-list,
+.tp-table-wrap {
+  max-height: none;
+  height: 100%;
+}
