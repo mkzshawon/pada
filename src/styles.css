@@ -2308,3 +2308,147 @@ body {
 #laser-menu .tm-item.open > .tm-sub {
   display: flex;
 }
+
+/* ---------- Help window ---------- */
+#help-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 20, 30, 0.25);
+}
+
+.hp-card {
+  width: min(900px, calc(100vw - 40px));
+  height: min(600px, calc(100vh - 60px));
+  display: flex;
+  flex-direction: column;
+  background: var(--chrome);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 14px;
+  box-sizing: border-box;
+}
+
+.hp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.hp-close {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.hp-close:hover {
+  background: #f3f1fb;
+}
+
+.hp-search {
+  margin: 10px 0;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid #d9d6e8;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.hp-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: 14px;
+}
+
+.hp-list {
+  width: 240px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: auto;
+  border-right: 1px solid #ece9f7;
+  padding-right: 8px;
+}
+
+.hp-list li {
+  padding: 7px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.hp-list li:hover {
+  background: #f3f1fb;
+}
+
+.hp-list li.on {
+  background: #ebe8fb;
+  font-weight: 600;
+}
+
+.hp-text {
+  flex: 1;
+  overflow: auto;
+  padding-right: 6px;
+}
+
+.hp-text h3 {
+  margin: 4px 0 10px;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.hp-para {
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+/* Language choice in the Help window */
+.hp-head {
+  gap: 10px;
+}
+
+.hp-title {
+  flex: 1;
+}
+
+.hp-langs {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  background: #ece9f7;
+  border-radius: 8px;
+}
+
+.hp-langs button {
+  height: 24px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.hp-langs button.on {
+  background: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}

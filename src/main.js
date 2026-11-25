@@ -941,6 +941,8 @@
   let laserColor = "#e03131"; // Red, Blue or Green (chosen from the laser menu)
   let laserMenuOpen = false;
   let laserMenuEl = null;
+  const COVER_MS = 1500; // a cover moves in or out in 1.5 seconds
+  let coverAnim = null; // the cover that is moving now: { id, dir: out | in, t0 }
   let zDrag = null; // a drag with the Spot Light or Reveal tool: { tool, x, y }
   let zArea = null; // the box being dragged: { x1, y1, x2, y2 }
   let spotRect = null; // the Spot Light area that stays on the board until dismissed
@@ -1933,11 +1935,27 @@
 
   function drawShape(s) {
     if (s.cover) {
-      // a cover hides what is under it, until it is revealed
-      if (s.revealed) return;
+      // a cover hides what is under it; while it moves, only the part still covering is drawn
       const cb = bounds(s);
+      const w = cb.x2 - cb.x1;
+      let vx1 = cb.x1;
+      const an = coverAnim && coverAnim.id === s.id ? coverAnim : null;
+      if (an) {
+        const p = Math.min(1, (performance.now() - an.t0) / COVER_MS);
+        if (an.dir === "out") {
+          // revealed: the cover is wiped away from left to right
+          if (p >= 1) return;
+          vx1 = cb.x1 + p * w;
+        } else {
+          // covered again: the cover comes back from right to left
+          vx1 = cb.x2 - p * w;
+        }
+      } else if (s.revealed) {
+        return;
+      }
       ctx.fillStyle = "#ffffff";
-      ctx.fillRect(cb.x1, cb.y1, cb.x2 - cb.x1, cb.y2 - cb.y1);
+      ctx.fillRect(vx1, cb.y1, cb.x2 - vx1, cb.y2 - cb.y1);
+      return;
     }
     if (s.type === "clip") {
       drawClip(s);
@@ -3114,7 +3132,7 @@
 
     const menus = document.createElement("div");
     menus.className = "rb-menus";
-    for (const name of ["File", "Edit", "Insert"]) {
+    for (const name of ["File", "Edit", "Insert", "Help"]) {
       const b = document.createElement("button");
       b.className = "rb-menu-btn";
       b.dataset.rb = name;
@@ -3171,6 +3189,7 @@
           btn("grid", "Line grid", ' data-grid="lines"') + btn("grid", "No grid", ' data-grid="none"'))
       );
     }
+    if (name === "Help") return btn("help", "Open Help");
     // Insert
     return btn("insert-table", "Table") + item("Clip Art", clipArtMenuHtml());
   }
@@ -3217,6 +3236,7 @@
     else if (act === "bg") setBoardBg(i, b.dataset.bg);
     else if (act === "grid") setBoardGrid(i, b.dataset.grid);
     else if (act === "insert-table") openTableDialog();
+    else if (act === "help") openHelp();
     else if (act === "clip") insertClipPath(b.dataset.path);
   }
 
@@ -3250,17 +3270,137 @@
     ctx.restore();
   }
 
-  // Right arrow shows the next cover, left arrow covers the last one again (in the order they were drawn)
+  // Right arrow reveals the next cover (wiped away left to right); left arrow covers the last one again (right to left)
   function revealStep(dir) {
     const covers = shapesOf().filter((s) => s.cover);
+    let target = null;
     if (dir > 0) {
-      const next = covers.find((s) => !s.revealed);
-      if (next) next.revealed = true;
+      target = covers.find((s) => !s.revealed) || null;
+      if (target) target.revealed = true;
     } else {
-      const last = covers.filter((s) => s.revealed).pop();
-      if (last) last.revealed = false;
+      target = covers.filter((s) => s.revealed).pop() || null;
+      if (target) target.revealed = false;
     }
+    if (!target) return;
+    coverAnim = { id: target.id, dir: dir > 0 ? "out" : "in", t0: performance.now() };
+    animateCovers();
+  }
+
+  // Redraws while a cover is moving, then stops
+  function animateCovers() {
     render();
+    if (coverAnim && performance.now() - coverAnim.t0 < COVER_MS + 100) requestAnimationFrame(animateCovers);
+    else coverAnim = null;
+  }
+
+  /* ---------- Help: a searchable guide to PADA (Bangla / English) ---------- */
+
+  let helpLang = "bn"; // the language chosen in the Help window (bn or en)
+
+  function openHelp() {
+    if (document.getElementById("help-panel")) return;
+    const topics = window.PADA_HELP || [];
+    const UI = {
+      bn: { search: "Help খুঁজুন (যেমন: laser, reveal, pdf)", none: "এই শব্দে কোনো বিষয় পাওয়া যায়নি। অন্য শব্দ লিখুন।", title: "PADA সহায়িকা", close: "বন্ধ করুন (Esc)" },
+      en: { search: "Search help (e.g. laser, reveal, pdf)", none: "No topic matches this word. Try another word.", title: "PADA Help", close: "Close (Esc)" },
+    };
+    const panel = document.createElement("div");
+    panel.id = "help-panel";
+    panel.innerHTML =
+      '<div class="hp-card">' +
+      '<div class="hp-head"><b class="hp-title"></b>' +
+      '<span class="hp-langs"><button data-lang="bn">বাংলা</button><button data-lang="en">English</button></span>' +
+      '<button class="hp-close">&times;</button></div>' +
+      '<input class="hp-search" type="search" />' +
+      '<div class="hp-body"><ul class="hp-list"></ul><div class="hp-text"></div></div>' +
+      "</div>";
+    document.body.appendChild(panel);
+    const list = panel.querySelector(".hp-list");
+    const text = panel.querySelector(".hp-text");
+    const search = panel.querySelector(".hp-search");
+    let shown = topics;
+    let current = null;
+
+    const show = (topic) => {
+      current = topic;
+      text.innerHTML = "";
+      const h = document.createElement("h3");
+      h.textContent = topic.title[helpLang] || topic.title.en;
+      const p = document.createElement("div");
+      p.className = "hp-para";
+      p.textContent = topic.body[helpLang] || topic.body.en;
+      text.append(h, p);
+      list.querySelectorAll("li").forEach((li) => {
+        li.classList.toggle("on", li.dataset.i === String(topics.indexOf(topic)));
+      });
+    };
+    const fill = () => {
+      list.innerHTML = "";
+      shown.forEach((topic) => {
+        const li = document.createElement("li");
+        li.dataset.i = String(topics.indexOf(topic));
+        li.textContent = topic.title[helpLang] || topic.title.en;
+        list.appendChild(li);
+      });
+      if (shown.length) {
+        show(current && shown.includes(current) ? current : shown[0]);
+      } else {
+        current = null;
+        text.innerHTML = "";
+        const none = document.createElement("div");
+        none.className = "hp-para";
+        none.textContent = UI[helpLang].none;
+        text.appendChild(none);
+      }
+    };
+    // every label of the window follows the chosen language
+    const applyLang = () => {
+      const u = UI[helpLang];
+      panel.querySelector(".hp-title").textContent = u.title;
+      panel.querySelector(".hp-close").title = u.close;
+      search.placeholder = u.search;
+      panel.querySelectorAll(".hp-langs button").forEach((b) => b.classList.toggle("on", b.dataset.lang === helpLang));
+      fill();
+    };
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
+        close();
+      }
+    };
+    const close = () => {
+      panel.remove();
+      document.removeEventListener("keydown", onKey, true);
+    };
+    panel.querySelector(".hp-langs").addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      helpLang = b.dataset.lang;
+      search.dispatchEvent(new Event("input"));
+      applyLang();
+    });
+    list.addEventListener("click", (e) => {
+      const li = e.target.closest("li");
+      if (li) show(topics[Number(li.dataset.i)]);
+    });
+    search.addEventListener("input", () => {
+      const q = search.value.trim().toLowerCase();
+      shown = q
+        ? topics.filter((tp) => {
+            const all = tp.title.bn + " " + tp.title.en + " " + tp.body.bn + " " + tp.body.en + " " + (tp.keywords || "");
+            return all.toLowerCase().includes(q);
+          })
+        : topics;
+      fill();
+    });
+    panel.querySelector(".hp-close").addEventListener("click", close);
+    panel.addEventListener("pointerdown", (e) => {
+      if (e.target === panel) close();
+    });
+    document.addEventListener("keydown", onKey, true);
+    applyLang();
+    search.focus();
   }
 
   /* ---------- Toolbar visibility & eraser menu ---------- */
